@@ -13,7 +13,7 @@
           system = "x86_64-linux";
           modules = traceVal [
             ./configuration.nix
-            ./hosts/pozon
+            (import config)
             ({ ... }: { networking.hostName = name; })
           ];
         });
