@@ -7,7 +7,7 @@
   inputs.neovim-nightly-overlay.url =
     "github:nix-community/neovim-nightly-overlay";
 
-  outputs = { self, nixpkgs, home-manager }:
+  outputs = { self, nixpkgs, home-manager, ... }@inputs:
     with nixpkgs.lib;
     let
 
@@ -17,15 +17,25 @@
         { config ? ./hosts + "/${name}" }:
         nameValuePair name (nixosSystem {
           system = "x86_64-linux";
-	  overlays = overlays;
-          modules = traceVal [
+          modules = [
             ./configuration.nix
             (import config)
             ({ ... }: { networking.hostName = name; })
+            { nixpkgs.overlays = overlays; }
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.g = import ./home/g;
+            }
           ];
         });
 
     in {
-      nixosConfigurations = mapAttrs' mkNixosConfiguration { pozon = { }; };
+      nixosConfigurations = mapAttrs' mkNixosConfiguration {
+        pozon = { };
+        pdesktop = { };
+        pasus = { };
+      };
     };
 }
