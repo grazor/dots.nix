@@ -1,10 +1,7 @@
 { pkgs, lib, ... }:
 
 {
-  imports = [
-    ./nixos
-    ./packages
-  ];
+  imports = [ ./nixos ./packages ];
 
   time.timeZone = "Europe/Moscow";
   nixpkgs.config.allowUnfree = true;
