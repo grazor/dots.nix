@@ -4,21 +4,21 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager }: {
-    nixosConfigurations = {
-      hostname = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
-          ./configuration.nix
-	  home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.g = import ./home/g;
-          }
-        ];
-      };
-    };
-  };
+  outputs = { self, nixpkgs, home-manager }:
+    with nixpkgs.lib;
+    let
+      mkNixosConfiguration = name:
+        { config ? ./hosts + "/${name}" }:
+        nameValuePair name (nixosSystem {
+          system = "x86_64-linux";
+          modules = traceVal [
+            ./configuration.nix
+            ./hosts/pozon
+            #({ ... }: { networking.hostName = name; })
+          ];
+        });
 
+    in {
+      nixosConfigurations = mapAttrs' mkNixosConfiguration { pozon = { }; };
+    };
 }
