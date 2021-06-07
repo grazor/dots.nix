@@ -1,17 +1,7 @@
 { pkgs, lib, ... }:
 
-with lib;
-
-let
-  device = strings.fileContents ./installation;
-  hardware = ./. + "/hardware/${device}.nix";
-  installation = ./. + "/installations/${device}";
-
-in {
+{
   imports = [
-    hardware
-    installation
-
     ./nixos
     ./packages
   ];
