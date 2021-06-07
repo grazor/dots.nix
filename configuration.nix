@@ -2,8 +2,9 @@
 
 {
   imports = [
-    ./nixos
-    ./packages
+    ./nixos/system.nix
+    #./nixos
+    #./packages
   ];
 
   time.timeZone = "Europe/Moscow";
