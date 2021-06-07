@@ -2,8 +2,8 @@
 
 {
   imports = [
-    ./nixos/system.nix
-    #./nixos
+    #./nixos/system.nix
+    ./nixos
     #./packages
   ];
 
