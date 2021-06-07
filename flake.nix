@@ -14,7 +14,7 @@
           modules = traceVal [
             ./configuration.nix
             ./hosts/pozon
-            #({ ... }: { networking.hostName = name; })
+            ({ ... }: { networking.hostName = name; })
           ];
         });
 
