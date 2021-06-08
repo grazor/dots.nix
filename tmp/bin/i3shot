@@ -1,0 +1,94 @@
+#!/bin/sh
+
+ACTION=${1:-usage}
+SUBJECT=${2:-screen}
+FILE=${3:-$(xdg-user-dir PICTURES)/$(date +'i3shot %Y-%m-%d %H-%M-%S.png')}
+if [ "$ACTION" = "usage" ] ; then
+  echo "Usage:"
+  echo "  i3shot copy|save|search screen|area [FILE]"
+  echo "Troubleshoot:"
+  echo "  i3shot check"
+  exit
+fi
+
+notify() {
+  notify-send -t 3000 -a i3shot "$@"
+}
+notifyOk() {
+  TITLE=${2:-"Screenshot"}
+  MESSAGE=${1:-"OK"}
+  notify "$TITLE" "$MESSAGE"
+}
+notifyError() {
+  TITLE=${2:-"Screenshot"}
+  MESSAGE=${1:-"Error taking screenshot with scrot"}
+  notify -u critical "$TITLE" "$MESSAGE"
+}
+
+die() {
+  MSG=${1:-Bye}
+  notifyError "Error: $MSG"
+  exit 2
+}
+
+check() {
+  COMMAND=$1
+  if command -v "$COMMAND" > /dev/null 2>&1; then
+    RESULT="OK"
+  else
+    RESULT="NOT FOUND"
+  fi
+  echo "   $COMMAND: $RESULT"
+}
+
+takeScreenshot() {
+  FILE=$1
+  WHAT=$2
+
+  case $WHAT in
+    "Area")
+      scrot -s -e "mv \$f '$FILE'"
+      ;;
+    "Screen")
+      scrot -s -e "mv \$f '$FILE'"
+      ;;
+  esac
+}
+
+if [ "$ACTION" = "check" ] ; then
+  echo "Checking if required tools are installed. If something is missing, install it to your system and make it available in PATH..."
+  check scrot
+  check xclip
+  check notify-send
+  check mktemp
+  exit
+elif [ "$SUBJECT" = "area" ] ; then
+  WHAT="Area"
+elif [ "$SUBJECT" = "screen" ] ; then
+  WHAT="Screen"
+else
+  die "Unknown subject to take a screen shot from" "$SUBJECT"
+fi
+
+case "$ACTION" in
+"copy")
+	TMP=$(mktemp /tmp/i3shot.XXXXXX.png) || die "Unable to create temp file: is mktemp installed?"
+	takeScreenshot "$TMP" "$WHAT"
+	xclip -selection clipboard -t image/png < "$TMP"  || die "Clipboard error"
+	rm "$TMP"
+	notifyOk "$WHAT copied to buffer"
+	  ;;
+"save")
+	takeScreenshot "$FILE" "$WHAT"
+	TITLE="Screenshot of $SUBJECT"
+	MESSAGE=$(basename "$FILE")
+	notifyOk "$MESSAGE" "$TITLE"
+	;;
+"search")
+	TMP=$(mktemp /tmp/i3shot.XXXXXX.png) || die "Unable to create temp file: is mktemp installed?"
+	takeScreenshot "$TMP" "$WHAT"
+	URL=$(curl -s -i -F sch=sch -F encoded_image=@$TMP https://www.google.com/searchbyimage/upload | grep location: | cut -d' ' -f2)
+	rm "$TMP"
+	xdg-open $URL
+	;;
+esac
