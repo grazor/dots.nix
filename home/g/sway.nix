@@ -37,7 +37,7 @@ with lib;
 
     config = rec {
       terminal = "termite";
-      menu = "wofi --show run";
+      menu = "wofi --show drun";
       modifier = "Mod4";
 
       output = {
@@ -76,9 +76,10 @@ with lib;
         "--release F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ on";
         "${modifier}+F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ off";
         "${modifier}+Shift+F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ on";
+        "Ctrl+space" = "exec makoctl dismiss";
 
         "${modifier}+F2" = "exec ${menu}";
-        "${modifier}+F3" = "exec --no-startup-id clipman pick -t rofi";
+        "${modifier}+F3" = "exec --no-startup-id clipman pick -t wofi";
 
         # Display slack on top of all apps
         "${modifier}+o [class=\"Slack\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
