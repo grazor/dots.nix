@@ -17,7 +17,6 @@
 
   services.xserver.windowManager.i3 = {
     enable = false;
-    #extraPackages = with pkgs; [ i3blocks i3lock i3status rofi ];
   };
 
   programs.sway = {
