@@ -1,0 +1,47 @@
+{
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.warningSign": "",
+  "diagnostic.errorSign": "",
+  "diagnostic.infoSign": "",
+  "diagnostic.hintSign": "",
+  "diagnostic.refreshOnInsertMode": true,
+  "suggest.enablePreview": false,
+
+  "python.jediEnabled": false,
+  "python.linting.enabled": true,
+  "python.linting.flake8Enabled": false,
+  "python.linting.pylintEnabled": false,
+  "python.terminal.activateEnvironment": false,
+
+  "git.addGBlameToVirtualText": true,
+  "coc.source.issues.enable": false,
+  "coc.preferences.rootPatterns": [".git", ".env"],
+  "yank.highlight.enable": true,
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "json",
+    "javascriptreact",
+    "golang",
+    "go",
+    "sql"
+  ],
+  "eslint.filetypes": [
+    "javascript",
+    "typescript",
+    "typescriptreact",
+    "javascriptreact"
+  ],
+
+  "go.goplsOptions": {
+    "completeUnimported": true,
+    "staticcheck": true,
+    "analyses": {
+      "ST1003": false
+    }
+  },
+  "go.disable": {
+    "workspaceFolders": false
+  }
+}

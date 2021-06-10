@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-    services.home-assistant = {
+  services.home-assistant = {
     enable = true;
     port = 8123;
     config = {

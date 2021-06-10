@@ -7,8 +7,7 @@ stdenv.mkDerivation rec {
     paths = buildInputs;
   };
 
-  buildInputs =
-    [ gcc go_1_15 golangci-lint protobuf kafkacat delve grpcurl mockgen vault ];
+  buildInputs = [ gcc go_1_15 golangci-lint protobuf kafkacat delve grpcurl mockgen vault ];
 
   GOPATH = "/home/g/go:/home/g/Ozon:/home/g/Projects";
   GONOPROXY = "";

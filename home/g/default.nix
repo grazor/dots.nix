@@ -1,10 +1,8 @@
 { ... }:
 
 {
-	imports = [
-	./sway.nix
-	];
+  imports = [ ./sway.nix ./nvim.nix ];
 
-	programs.mako.enable = true;
-	programs.mako.anchor = "top-right";
+  programs.mako.enable = true;
+  programs.mako.anchor = "top-right";
 }
