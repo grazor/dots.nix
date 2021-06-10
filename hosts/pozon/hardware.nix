@@ -1,6 +1,8 @@
 { pkgs, lib, ... }:
 
 {
+  hardware.enableRedistributableFirmware = lib.mkDefault true;
+
   boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
