@@ -23,16 +23,6 @@
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
-    extraPackages = with pkgs; [
-      grim
-      mako
-      rofi
-      slurp
-      swayidle
-      swaylock
-      waybar
-      wl-clipboard
-    ];
   };
 
   #xdg.portal.enable = true;
