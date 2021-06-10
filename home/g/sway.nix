@@ -37,7 +37,7 @@ with lib;
 
     config = rec {
       terminal = "termite";
-      menu = "wofi -show run";
+      menu = "wofi --show run";
       modifier = "Mod4";
 
       output = {
