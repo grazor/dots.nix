@@ -4,8 +4,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  inputs.neovim-nightly-overlay.url =
-    "github:nix-community/neovim-nightly-overlay";
+  inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     with nixpkgs.lib;
