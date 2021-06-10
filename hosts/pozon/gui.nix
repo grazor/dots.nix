@@ -15,9 +15,7 @@
     };
   };
 
-  services.xserver.windowManager.i3 = {
-    enable = false;
-  };
+  services.xserver.windowManager.i3 = { enable = false; };
 
   programs.sway = {
     enable = true;
