@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  users.defaultUserShell = "${pkgs.zsh}";
+  users.defaultUserShell = ${pkgs.zsh};
   users.users.g = {
     uid = 1000;
     isNormalUser = true;
