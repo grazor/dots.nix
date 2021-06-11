@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  imports = [ ./sway.nix ./nvim.nix ];
+  imports = [ ./sway.nix ./nvim.nix ./bin.nix ];
 }
