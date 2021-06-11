@@ -19,13 +19,13 @@ with lib;
     slurp # screen area selection
     grim # image grabber
 
-    flashfocus # window focus animation
     autotiling # smart tiling
   ];
 
   wayland.windowManager.sway = let
     wallpaperCommand = "find ~/.wallpapers/* | shuf -n 1";
     lockCommand = "swaylock -i `${wallpaperCommand}`";
+    grimshot = "$HOME/.bin/grimshot";
   in {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -71,6 +71,9 @@ with lib;
 
       bindkeysToCode = true;
       keybindings = mkOptionDefault {
+        "${modifier}+0" = "workspace number 10";
+        "${modifier}+Shift+0" = "move container to workspace number 10";
+
         # Push-to-talk
         "F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ off";
         "--release F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ on";
@@ -78,11 +81,18 @@ with lib;
         "${modifier}+Shift+F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ on";
         "Ctrl+space" = "exec makoctl dismiss";
 
+        "Print" = "exec ${grimshot} save screen";
+        "Ctrl+Print" = "exec ${grimshot} copy screen";
+        "Shift+Print" = "exec ${grimshot} save area";
+        "Ctrl+Shift+Print" = "exec ${grimshot} copy area";
+        "${modifier}+Shift+Print" = "exec ${grimshot} search area";
+
         "${modifier}+F2" = "exec ${menu}";
         "${modifier}+F3" = "exec --no-startup-id clipman pick -t wofi";
 
         # Display slack on top of all apps
         "${modifier}+o [class=\"Slack\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
+        "$mod+minus" = "scratchpad show";
       };
 
       startup = [
@@ -101,10 +111,6 @@ with lib;
         {
           command = "wl-paste -t text --watch clipman store";
           always = false;
-        }
-        {
-          command = "flashfocus";
-          always = true;
         }
         {
           command = "autotiling";
