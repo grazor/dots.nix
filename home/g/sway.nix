@@ -2,6 +2,9 @@
 
 with lib;
 
+let
+  binPath = "/home/g" + "/.bin";
+in
 {
   imports = [ ./mako.nix ./waybar.nix ];
 
@@ -25,7 +28,7 @@ with lib;
   wayland.windowManager.sway = let
     wallpaperCommand = "find ~/.wallpapers/* | shuf -n 1";
     lockCommand = "swaylock -i `${wallpaperCommand}`";
-    grimshot = "$HOME/.bin/grimshot";
+    grimshot = "${binPath}/grimshot";
   in {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -92,7 +95,7 @@ with lib;
 
         # Display slack on top of all apps
         "${modifier}+o [class=\"Slack\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
-        "$mod+minus" = "scratchpad show";
+        "${modifier}+minus" = "scratchpad show";
       };
 
       startup = [
