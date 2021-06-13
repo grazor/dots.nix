@@ -117,10 +117,6 @@ in {
           command = "autotiling";
           always = true;
         }
-        {
-          command = "exec dbus-update-activation-environment --systemd --all";
-          always = true;
-        }
       ];
 
       bars = [ ];
