@@ -2,10 +2,8 @@
 
 with lib;
 
-let
-  binPath = "/home/g" + "/.bin";
-in
-{
+let binPath = "/home/g" + "/.bin";
+in {
   imports = [ ./mako.nix ./waybar.nix ];
 
   home.packages = with pkgs; [
@@ -117,6 +115,10 @@ in
         }
         {
           command = "autotiling";
+          always = true;
+        }
+        {
+          command = "exec dbus-update-activation-environment --systemd --all";
           always = true;
         }
       ];
