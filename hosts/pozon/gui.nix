@@ -22,6 +22,7 @@
     wrapperFeatures.gtk = true;
   };
 
+  /*
   xdg.portal.enable = true;
   xdg.portal.extraPortals = with pkgs; [ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
   xdg.portal.gtkUsePortal = true;
@@ -32,4 +33,5 @@
     XDG_CURRENT_DESKTOP = "sway"; # https://github.com/emersion/xdg-desktop-portal-wlr/issues/20
     XDG_SESSION_TYPE = "wayland"; # https://github.com/emersion/xdg-desktop-portal-wlr/pull/11
   };
+  */
 }
