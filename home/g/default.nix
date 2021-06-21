@@ -1,5 +1,9 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
-  imports = [ ./sway.nix ./nvim.nix ./bin.nix ];
+  imports = [ ./sway.nix ./termite.nix ./nvim.nix ./bin.nix ];
+
+  home.packages = with pkgs; [
+    watson # time tracker
+  ];
 }
