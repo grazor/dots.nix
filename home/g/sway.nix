@@ -92,7 +92,8 @@ in {
         "${modifier}+F3" = "exec --no-startup-id clipman pick -t wofi";
 
         # Display slack on top of all apps
-	"${modifier}+grave [title=\"scratchterm\"]" = "scratchpad show, resize set 90 ppt 20 ppt, move position 5 ppt 80 ppt";
+        "${modifier}+grave [title=\"scratchterm\"]" =
+          "scratchpad show, resize set 90 ppt 20 ppt, move position 5 ppt 80 ppt";
         "${modifier}+o [class=\"Slack\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
         "${modifier}+minus" = "scratchpad show";
       };
@@ -118,10 +119,10 @@ in {
           command = "autotiling";
           always = true;
         }
-	{
-	  command = "termite -t scratchterm";
-	  always = false;
-	}
+        {
+          command = "SCRATCHTERM=1 termite -t scratchterm";
+          always = false;
+        }
       ];
 
       bars = [ ];
