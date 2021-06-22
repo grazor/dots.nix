@@ -19,5 +19,7 @@
     tdesktop
     teams
     zoom-us
+
+    watson
   ];
 }

@@ -21,10 +21,10 @@ export GITLAB_URL=""
 export GITLAB_TOKEN=""
 
 dbg() {
-	cmd=$1
-	shift
-	echo CGO_ENABLED=0 dlv debug $cmd -- $@
-	CGO_ENABLED=0 dlv debug $cmd -- $@
+    cmd=$1
+    shift
+    echo CGO_ENABLED=0 dlv debug $cmd -- $@
+    CGO_ENABLED=0 dlv debug $cmd -- $@
 }
 
 function jjq {
@@ -33,3 +33,16 @@ function jjq {
 
 alias nvim=nvim
 alias vim=nvim
+
+
+compdef _watson watson
+
+watsonpropmt() {
+    RPROMPT="$(watson status)"
+}
+
+if [ ! -z "$SCRATCHTERM" ]; then
+    precmd() {
+        watsonpropmt;
+    }
+fi
