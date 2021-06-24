@@ -14,7 +14,7 @@
 
   nixpkgs.config.packageOverrides = pkgs: {
     steam = pkgs.steam.override {
-      extraPkgs = pkgs: [ pkgs.mono pkgs.libgdiplus pipewire.lib ];
+      extraPkgs = pkgs: [ pkgs.mono pkgs.libgdiplus pkgs.pipewire.lib ];
       extraLibraries = pkgs: [ pkgs.pipewire ];
     };
   };
