@@ -11,7 +11,10 @@
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
-    steam = pkgs.steam.override { extraPkgs = pkgs: [ pkgs.mono pkgs.libgdiplus ]; };
+    steam = pkgs.steam.override {
+      extraPkgs = pkgs: [ pkgs.mono pkgs.libgdiplus ];
+      extraLibraries = pkgs: [ pkgs.pipewire ];
+    };
   };
 
   programs.steam.enable = true;
