@@ -56,8 +56,8 @@ augroup Coding
     " check if buffer was changed outside of vim
     autocmd FocusGained,BufEnter * checktime
 
-	command! -nargs=0 OIMPORTS :call CocAction('runCommand', 'editor.action.organizeImport')
-	autocmd BufWritePre *.go :OIMPORTS
+	"command! -nargs=0 OIMPORTS :call CocAction('runCommand', 'editor.action.organizeImport')
+	"autocmd BufWritePre *.go :OIMPORTS
 augroup END
 
 augroup TerminalSettings
@@ -90,3 +90,32 @@ tnoremap <silent> <C-z> <C-\><C-n>:ToggleTerminal<Enter>
 tnoremap <expr> <Esc> (&filetype == "fzf") ? "<Esc>" : "<c-\><c-n>"
 set autowriteall
 
+" Golang
+" disable all linters as that is taken care of by coc.nvim
+let g:go_diagnostics_enabled = 0
+let g:go_metalinter_enabled = []
+
+" don't jump to errors after metalinter is invoked
+let g:go_jump_to_error = 0
+
+" run go imports on file save
+let g:go_fmt_command = "goimports"
+
+" automatically highlight variable your cursor is on
+let g:go_auto_sameids = 0
+
+" highlight
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+
+autocmd BufEnter *.go nmap gi  <Plug>(go-info)
+autocmd BufEnter *.go nmap ge  <Plug>(go-implements)
+autocmd BufEnter *.go nmap gb  <Plug>(go-describe)
+autocmd BufEnter *.go nmap gc  <Plug>(go-callers)
+autocmd BufEnter *.go nmap <leader>r <Plug>(coc-rename)
