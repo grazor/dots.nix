@@ -114,7 +114,6 @@ let g:go_highlight_extra_types = 1
 let g:go_highlight_build_constraints = 1
 let g:go_highlight_generate_tags = 1
 
-autocmd BufEnter *.go nmap gi  <Plug>(go-info)
 autocmd BufEnter *.go nmap ge  <Plug>(go-implements)
 autocmd BufEnter *.go nmap gb  <Plug>(go-describe)
 autocmd BufEnter *.go nmap gc  <Plug>(go-callers)
