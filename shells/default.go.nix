@@ -8,6 +8,7 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [ gcc go_1_15 golangci-lint protobuf kafkacat delve grpcurl mockgen vault ];
+  hardeningDisable = [ "fortify" ];
 
   GOPATH = "/home/g/go:/home/g/Ozon:/home/g/Projects";
   GONOPROXY = "";
