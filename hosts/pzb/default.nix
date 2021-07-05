@@ -3,5 +3,5 @@
 {
   imports = [ ./hardware.nix ./gui.nix ./psql.nix ./arduino.nix ./steam.nix ];
 
-  nix.maxJobs = lib.mkDefault 8;
+  nix.maxJobs = lib.mkDefault 4;
 }
