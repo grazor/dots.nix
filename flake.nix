@@ -34,8 +34,8 @@
 
     in {
       nixosConfigurations = mapAttrs' mkNixosConfiguration {
-        pozon = { };
 	pzb = { };
+        pozon = { };
         pdesktop = { };
       };
     };
