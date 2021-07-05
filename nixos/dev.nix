@@ -20,6 +20,6 @@
     teams
     zoom-us
 
-    watson
+    #watson
   ];
 }
