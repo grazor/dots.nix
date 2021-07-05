@@ -5,6 +5,6 @@
 
   home.packages = with pkgs;
     [
-      watson # time tracker
+      #watson # time tracker
     ];
 }
