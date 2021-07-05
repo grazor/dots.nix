@@ -58,14 +58,7 @@ in {
         "*" = {
           xkb_layout = "us,ru";
           xkb_options = "grp:shift_caps_switch,grp_led:caps,compose:ralt";
-        };
-
-        "1739:52632:CUST0001:00_06CB:CD98_Touchpad" = { natural_scroll = "enabled"; };
-
-        "1739:52632:CUST0001:00_06CB:CD98_Mouse" = {
-          dwt = "enabled";
-          tap = "enabled";
-          natural_scroll = "enabled";
+	  natural_scroll = "enabled"; 
           middle_emulation = "disabled";
         };
       };
