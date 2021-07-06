@@ -58,7 +58,7 @@ in {
         "*" = {
           xkb_layout = "us,ru";
           xkb_options = "grp:shift_caps_switch,grp_led:caps,compose:ralt";
-	  natural_scroll = "enabled"; 
+          natural_scroll = "enabled";
           middle_emulation = "disabled";
         };
       };
