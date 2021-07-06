@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  imports = [ ./sway.nix ./termite.nix ./nvim.nix ./bin.nix ];
+  imports = [ ./sway.nix ./termite.nix ./nvim.nix ./bin.nix ./zsh.nix ];
 
   home.packages = with pkgs;
     [

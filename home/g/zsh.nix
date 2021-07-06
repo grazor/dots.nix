@@ -8,13 +8,17 @@
 
   programs.zsh = {
     cdpath = "/home/g/Projects";
-    theme = "agnoster";
 
     enableAutosuggestions = true;
     enableSyntaxHighlighting = true;
 
     sessionVariables = {
       NIX_REMOTE = "daemon";
+    };
+
+    ohMyZshModule = {
+      enable = true;
+      theme = "agnoster";
     };
   };
 }
