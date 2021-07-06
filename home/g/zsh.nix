@@ -7,8 +7,9 @@
   };
 
   programs.zsh = {
-    cdpath = "/home/g/Projects";
+    enable = true;
 
+    cdpath = "/home/g/Projects";
     history = {
       ignoreDups = true;
       ignoreSpace = true;
