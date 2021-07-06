@@ -1,6 +1,8 @@
 { ... }:
 
 {
+  programs.direnv.enableZshIntegration = true;
+
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
@@ -8,8 +10,9 @@
 
   programs.zsh = {
     enable = true;
+    completionInit = ""; # re-evaluating completions adds 2.5 sec to startup time
 
-    cdpath = "/home/g/Projects";
+    cdpath = [ "/home/g/Projects" ];
     history = {
       ignoreDups = true;
       ignoreSpace = true;
