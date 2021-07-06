@@ -1,8 +1,6 @@
 { ... }:
 
 {
-  programs.direnv.enableZshIntegration = true;
-
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
@@ -38,6 +36,7 @@
     };
 
     initExtra = ''
+      eval "$(direnv hook zsh)"
       compdef _watson watson
 
       watsonpropmt() {
