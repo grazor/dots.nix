@@ -34,13 +34,6 @@
       vim = "nvim";
     };
 
-    plugins = {
-      ohMyZshModule = {
-        enable = true;
-        theme = "agnoster";
-      };
-    };
-
     initExtra = ''
       compdef _watson watson
 
