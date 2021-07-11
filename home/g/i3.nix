@@ -72,7 +72,7 @@ in {
         }
       ];
 
-      bars = [ {status_command = "i3status";} ];
+      bars = [ {command = "i3status";} ];
     };
   };
 }
