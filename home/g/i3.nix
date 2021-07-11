@@ -6,13 +6,7 @@ let binPath = "/home/g" + "/.bin";
 in {
   imports = [ ./mako.nix ./waybar.nix ];
 
-  home.packages = with pkgs; [
-    rofi
-    scrot
-    xclip
-    dunst
-    autotiling
-  ];
+  home.packages = with pkgs; [ rofi scrot xclip dunst autotiling ];
 
   xsession.windowManager.i3 = let
     wallpaperCommand = "find ~/.wallpapers/* | shuf -n 1";
@@ -55,24 +49,24 @@ in {
 
       startup = [
         {
-          command = "systemctl --user restart dunst";
-          always = true;
-        }
-       {
-          command = "autotiling";
+          command = "--no-startup-id systemctl --user restart dunst";
           always = true;
         }
         {
-          command = "SCRATCHTERM=1 termite -t scratchterm";
+          command = "--no-startup-id autotiling";
+          always = true;
+        }
+        {
+          command = "--no-startup-id SCRATCHTERM=1 termite -t scratchterm";
           always = false;
         }
-       {
-          command = "/home/g/.bin/dsk";
+        {
+          command = "--no-startup-id /home/g/.bin/dsk";
           always = true;
         }
       ];
 
-      bars = [ {command = "i3status";} ];
+      bars = [ ];
     };
   };
 }
