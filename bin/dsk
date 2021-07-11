@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+xrandr --output HDMI-0 --left-of DVI-D-0
+#xrandr --output HDMI-0 
+setxkbmap -layout us,ru -option grp:shift_caps_switch
+
+mouse=$(xinput list | grep 'G502  ' | sed 's/.*id=\([0-9]\+\).*/\1/')
+prop=$(xinput list-props $mouse | grep 'Constant Deceleration' | sed 's/.*(\([0-9]\+\)).*/\1/')
+xinput set-prop $mouse $prop 4.8
