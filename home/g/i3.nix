@@ -32,7 +32,6 @@ in {
       menu = "rofi --show drun";
       modifier = "Mod4";
 
-      bindkeysToCode = true;
       keybindings = mkOptionDefault {
         "${modifier}+0" = "workspace number 10";
         "${modifier}+Shift+0" = "move container to workspace number 10";
