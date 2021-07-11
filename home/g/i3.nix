@@ -23,7 +23,7 @@ in {
 
     config = rec {
       terminal = "termite";
-      menu = "rofi --show drun";
+      menu = "rofi -show run";
       modifier = "Mod4";
 
       keybindings = mkOptionDefault {
