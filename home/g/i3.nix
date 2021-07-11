@@ -14,7 +14,7 @@ in {
     autotiling
   ];
 
-  wayland.windowManager.i3 = let
+  xsession.windowManager.i3.config = let
     wallpaperCommand = "find ~/.wallpapers/* | shuf -n 1";
     lockCommand = "i3lock -i `${wallpaperCommand}`";
     grimshot = "${binPath}/i3shot";
