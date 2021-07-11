@@ -14,12 +14,13 @@ in {
     autotiling
   ];
 
+  xsession.windowManager.i3.enable = true;
+
   xsession.windowManager.i3.config = let
     wallpaperCommand = "find ~/.wallpapers/* | shuf -n 1";
     lockCommand = "i3lock -i `${wallpaperCommand}`";
     grimshot = "${binPath}/i3shot";
   in {
-    enable = true;
     wrapperFeatures.gtk = true;
 
     extraConfig = ''
