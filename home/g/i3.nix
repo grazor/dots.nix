@@ -20,7 +20,6 @@ in {
     grimshot = "${binPath}/i3shot";
   in {
     enable = true;
-    wrapperFeatures.gtk = true;
 
     extraConfig = ''
       for_window [class="Slack"] move to scratchpad
