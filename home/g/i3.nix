@@ -59,24 +59,67 @@ in {
 
       startup = [
         {
-          command = "--no-startup-id systemctl --user restart dunst";
+          command = "systemctl --user restart dunst";
           always = true;
+          notification = false;
         }
         {
-          command = "--no-startup-id autotiling";
+          command = "autotiling";
           always = true;
+          notification = false;
         }
         {
-          command = "--no-startup-id SCRATCHTERM=1 termite -t scratchterm";
+          command = "SCRATCHTERM=1 termite -t scratchterm";
           always = false;
+          notification = false;
         }
         {
-          command = "--no-startup-id /home/g/.bin/dsk";
+          command = "/home/g/.bin/dsk";
           always = true;
+          notification = false;
+        }
+        {
+          command = "systemctl --user restart polybar";
+          always = true;
+          notification = false;
         }
       ];
 
       bars = [ ];
+    };
+  };
+
+  services.polybar.enable = true;
+  services.polybar.script = "polybar top &";
+  services.polybar.config = {
+    "bar/top" = {
+      monitor = "\${env:MONITOR:DVI-D-0}";
+
+      background = "\${color.background}";
+      foreground = "\${color.foreground}";
+
+      width = "100%";
+      height = "2%";
+      radius = 0;
+      modules-center = "date";
+    };
+
+    "color" = {
+      background = "#1F1F1F";
+      foreground = "#FFFFFF";
+      foreground-alt = "#8F8F8F";
+      module-fg = "#FFFFFF";
+      primary = "#e53935";
+      secondary = "#E53935";
+      alternate = "#7cb342";
+    };
+
+    "module/date" = {
+      type = "internal/date";
+      internal = 5;
+      date = "%d.%m.%y";
+      time = "%H:%M";
+      label = "%time%  %date%";
     };
   };
 }
