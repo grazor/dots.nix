@@ -2,5 +2,5 @@
 
 {
   home.packages = with pkgs; [ tmux ];
-  xdg.configFile.".tmux.xonf".source = ./. + /config/tmux;
-};
+  home.file.".tmux.conf".source = ./. + /config/tmux;
+}

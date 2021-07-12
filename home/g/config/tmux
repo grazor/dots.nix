@@ -39,10 +39,10 @@ unbind "\$" # rename-session
 unbind ,    # rename-window
 unbind %    # split-window -h
 unbind '"'  # split-window
-unbind }    # swap-pane -D
-unbind {    # swap-pane -U
-unbind [    # paste-buffer
-unbind ]    
+unbind "}"  # swap-pane -D
+unbind "{"    # swap-pane -U
+unbind "["    # paste-buffer
+unbind "]"    
 unbind "'"  # select-window
 unbind n    # next-window
 unbind p    # previous-window
@@ -54,10 +54,10 @@ unbind &    # kill-window
 unbind "#"  # list-buffer 
 unbind =    # choose-buffer
 unbind z    # zoom-pane
-unbind M-Up  # resize 5 rows up
-unbind M-Down # resize 5 rows down
-unbind M-Right # resize 5 rows right
-unbind M-Left # resize 5 rows left
+bind M-Up  # resize 5 rows up
+bind M-Down # resize 5 rows down
+bind M-Right # resize 5 rows right
+bind M-Left # resize 5 rows left
 
 
 # Edit configuration and reload
