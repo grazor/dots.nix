@@ -15,5 +15,9 @@
 
     environment.systemPackages = with pkgs; [
 	git-lfs jq curl 
+	glibc.out
     ];
+
+    virtualisation.lxc.enable = true;
+    #boot.kernelParams = [ "cgroup_enable=devices" "cgroup_enable=freezer"];
 }
