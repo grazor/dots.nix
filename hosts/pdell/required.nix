@@ -13,7 +13,7 @@
     users.users.g.extraGroups = ["libvirtd"];
     #boot.extraModprobeConfig = "options kvm_intel nested=1"; # enable nested virtualization
 
-    environment.packages = with pkgs; [
+    environment.systemPackages = with pkgs; [
 	git-lfs jq curl 
     ];
 }
