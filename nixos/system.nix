@@ -8,7 +8,7 @@
       efi.canTouchEfiVariables = true;
     };
 
-    kernel.sysctl = { "fs.inotify.max_user_watches" = 100000; };
+    #kernel.sysctl = { "fs.inotify.max_user_watches" = 100000; };
     cleanTmpDir = true;
   };
 
