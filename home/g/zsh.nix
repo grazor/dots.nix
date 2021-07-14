@@ -26,7 +26,7 @@
       NIXPKGS_ALLOW_INSECURE = 1;
 
       GOPATH = "/home/g/go:/home/g/Projects";
-      PATH = "$PATH:/home/g/go/bin";
+      PATH = "$PATH:/home/g/.bin:/home/g/go/bin";
     };
 
     shellAliases = {
