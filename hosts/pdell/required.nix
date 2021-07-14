@@ -19,5 +19,9 @@
     ];
 
     virtualisation.lxc.enable = true;
+    virtualisation.lxd.enable = true;
+    virtualisation.lxd.recommendedSysctlSettings = true;
     #boot.kernelParams = [ "cgroup_enable=devices" "cgroup_enable=freezer"];
+
+    environment.etc.hosts.mode = "0644";
 }
