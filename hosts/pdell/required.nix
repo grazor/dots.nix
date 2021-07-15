@@ -5,8 +5,8 @@
 
     services.nfs.server.enable = true;
     services.nfs.server.exports = ''
-        /home/g/Avito/src 192.168.39.0/24(rw,async,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
-        /home/g/Avito/src 192.168.122.0/24(rw,async,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
+        /home 192.168.39.0/24(rw,async,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
+        /home 192.168.122.0/24(rw,async,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
     '';
 
     virtualisation.libvirtd.enable = true;
