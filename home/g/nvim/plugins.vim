@@ -1,5 +1,7 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 " Coding general
 "Plug 'neoclide/coc.nvim', {'do': './install.sh nightly'}
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
