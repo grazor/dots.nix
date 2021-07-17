@@ -41,10 +41,4 @@ completion['mattn/vim-sonictemplate'] = {
   config = conf.vim_sonictemplate,
 }
 
-completion['mattn/emmet-vim'] = {
-  event = 'InsertEnter',
-  ft = {'html','css','javascript','javascriptreact','vue','typescript','typescriptreact'},
-  config = conf.emmet,
-}
-
 return completion

@@ -34,4 +34,10 @@ tools['iamcco/markdown-preview.nvim'] = {
   end
 }
 
+tools['f-person/git-blame.nvim'] = {
+  config = function()
+    vim.g.gitblame_message_template = '        <author> • <date> • <summary>'
+  end
+}
+
 return tools

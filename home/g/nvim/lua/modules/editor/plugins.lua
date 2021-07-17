@@ -44,4 +44,21 @@ editor['kana/vim-niceblock']  = {
   opt = true
 }
 
+editor['karb94/neoscroll.nvim'] = {
+  config = function()
+    require('neoscroll').setup()
+  end
+}
+
+editor['phaazon/hop.nvim'] = {
+  as = 'hop',
+  config = function()
+    require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+  end
+}
+
+editor['mfussenegger/nvim-dap'] = {
+  config = conf.dap_go
+}
+
 return editor

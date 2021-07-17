@@ -92,6 +92,8 @@ local plug_map = {
     ["x|I"]              = map_cmd("v:lua.enhance_nice_block('I')"):with_expr(),
     ["x|gI"]             = map_cmd("v:lua.enhance_nice_block('gI')"):with_expr(),
     ["x|A"]              = map_cmd("v:lua.enhance_nice_block('A')"):with_expr(),
+    -- Hop
+    ["n|<Leader> "]      = map_cr("HopChar2"):with_noremap():with_silent(),
     -- Extra
     ["n|<F2>"]           = map_cu('Telescope buffers'):with_noremap():with_silent(),
     ["i|<F2>"]           = map_cmd('<cmd>Telescope buffers<CR>'):with_noremap():with_silent(),
