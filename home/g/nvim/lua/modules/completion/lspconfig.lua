@@ -59,33 +59,6 @@ lspconfig.gopls.setup {
   }
 }
 
-lspconfig.sumneko_lua.setup {
-  cmd = {
-    global.home.."/workstation/lua-language-server/bin/macOS/lua-language-server",
-    "-E",
-    global.home.."/workstation/lua-language-server/main.lua"
-  };
-  settings = {
-    Lua = {
-      diagnostics = {
-        enable = true,
-        globals = {"vim","packer_plugins"}
-      },
-      runtime = {version = "LuaJIT"},
-      workspace = {
-        library = vim.list_extend({[vim.fn.expand("$VIMRUNTIME/lua")] = true},{}),
-      },
-    },
-  }
-}
-
-lspconfig.tsserver.setup {
-  on_attach = function(client)
-    client.resolved_capabilities.document_formatting = false
-    enhance_attach(client)
-  end
-}
-
 lspconfig.clangd.setup {
   cmd = {
     "clangd",
@@ -94,10 +67,6 @@ lspconfig.clangd.setup {
     "--clang-tidy",
     "--header-insertion=iwyu",
   },
-}
-
-lspconfig.rust_analyzer.setup {
-  capabilities = capabilities,
 }
 
 local servers = {
