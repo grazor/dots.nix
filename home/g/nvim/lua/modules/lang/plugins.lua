@@ -11,4 +11,12 @@ lang['nvim-treesitter/nvim-treesitter-textobjects'] = {
   after = 'nvim-treesitter'
 }
 
+lang['p00f/nvim-ts-rainbow'] = {
+  after = 'nvim-treesitter'
+}
+
+lang['mizlan/iswap.nvim'] = {
+  after = 'nvim-treesitter'
+}
+
 return lang
