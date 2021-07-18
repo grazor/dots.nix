@@ -94,12 +94,16 @@ local plug_map = {
     ["x|A"]              = map_cmd("v:lua.enhance_nice_block('A')"):with_expr(),
     -- Hop
     ["n|<Leader> "]      = map_cr("HopChar2"):with_noremap():with_silent(),
+    -- ISwap
+    ["n|gw"]             = map_cr("ISwap"):with_noremap():with_silent(),
     -- Extra
     ["n|<F2>"]           = map_cu('Telescope buffers'):with_noremap():with_silent(),
     ["i|<F2>"]           = map_cmd('<cmd>Telescope buffers<CR>'):with_noremap():with_silent(),
     ["v|<F2>"]           = map_cu('Telescope buffers'):with_noremap():with_silent(),
     ["n|<Leader>fo"]     = map_cu('Telescope find_files search_dirs=%:p:h'):with_noremap():with_silent(),
     ["n|<Leader>e"]      = map_cmd(":e <c-r>=expand('%:p:h')<cr>/"):with_noremap(),
+    ["n|<Leader>gg"]     = map_cmd(":lua require 'telescope.builtin'.grep_string({ search = vim.fn.input(\"Grep For > \")})<CR>"):with_noremap():with_silent(),
+    ["n|<Leader>/"]     = map_cmd(':nohl<CR>'):with_noremap():with_silent(),
 };
 
 bind.nvim_load_mapping(plug_map)
