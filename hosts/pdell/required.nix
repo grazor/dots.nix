@@ -24,4 +24,8 @@
     #boot.kernelParams = [ "cgroup_enable=devices" "cgroup_enable=freezer"];
 
     environment.etc.hosts.mode = "0644";
+
+    networking.firewall.extraCommands = ''
+        iptables -I INPUT -i virbr+ -j ACCEPT
+    '';
 }
