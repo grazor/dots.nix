@@ -26,6 +26,7 @@
   powerManagement.enable = true;
 
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
 
   systemd.services.NetworkManager-wait-online.enable = false;
   systemd.extraConfig = ''
