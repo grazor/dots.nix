@@ -34,6 +34,8 @@
   '';
 
   environment.systemPackages = with pkgs; [
+    glibc.out
+
     acpi
     binutils
     bridge-utils
