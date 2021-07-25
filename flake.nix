@@ -37,7 +37,7 @@
         pzb = { };
         pozon = { };
         pdsk = { };
-	pdell = { };
+        pdell = { };
       };
     };
 }
