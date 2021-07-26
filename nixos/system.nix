@@ -26,7 +26,9 @@
   powerManagement.enable = true;
 
   networking.networkmanager.enable = true;
+  networking.wireless.iwd.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
+  services.pppd.enable = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;
   systemd.extraConfig = ''
@@ -51,5 +53,7 @@
     usbutils
     wirelesstools
     xdg_utils
+
+    exa
   ];
 }
