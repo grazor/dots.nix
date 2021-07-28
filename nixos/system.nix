@@ -37,6 +37,7 @@
 
   environment.systemPackages = with pkgs; [
     glibc.out
+    update-systemd-resolved
 
     acpi
     binutils
