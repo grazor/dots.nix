@@ -22,6 +22,7 @@
 
   environment.etc.hosts.mode = "0644";
 
+  networking.firewall.enable = false;
   networking.firewall.extraCommands = ''
     iptables -I INPUT -i virbr+ -j ACCEPT
   '';
