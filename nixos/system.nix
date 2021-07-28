@@ -28,6 +28,8 @@
   networking.networkmanager.enable = true;
   networking.wireless.iwd.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
+  services.resolved.enable = true;
+  services.resolved.fallbackDns = [ "8.8.8.8" ];
   services.pppd.enable = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;
