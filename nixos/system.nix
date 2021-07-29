@@ -30,7 +30,7 @@
   networking.networkmanager.wifi.backend = "iwd";
   services.resolved.enable = true;
   services.resolved.fallbackDns = [ "8.8.8.8" ];
-  services.pppd.enable = true;
+  services.pptpd.enable = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;
   systemd.extraConfig = ''
@@ -40,6 +40,7 @@
   environment.systemPackages = with pkgs; [
     glibc.out
     update-systemd-resolved
+    ppp
 
     acpi
     binutils
