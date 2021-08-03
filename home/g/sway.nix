@@ -32,7 +32,7 @@ in {
 
     extraConfig = ''
       for_window [class="Slack"] move to scratchpad
-      for_window [title="scratchterm"] move to scratchpad
+      for_window [class="obsidian"] move to scratchpad
       default_border pixel
     '';
 
@@ -85,8 +85,7 @@ in {
         "${modifier}+F3" = "exec --no-startup-id clipman pick -t wofi";
 
         # Display slack on top of all apps
-        "${modifier}+grave [title=\"scratchterm\"]" =
-          "scratchpad show, resize set 90 ppt 20 ppt, move position 5 ppt 80 ppt";
+        "${modifier}+grave [class=\"obsidian\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
         "${modifier}+o [class=\"Slack\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
         "${modifier}+minus" = "scratchpad show";
       };
@@ -111,10 +110,6 @@ in {
         {
           command = "autotiling";
           always = true;
-        }
-        {
-          command = "SCRATCHTERM=1 termite -t scratchterm";
-          always = false;
         }
       ];
 
