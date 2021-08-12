@@ -111,6 +111,10 @@ in {
           command = "autotiling";
           always = true;
         }
+        {
+          command = "obsidian";
+          always = false;
+        }
       ];
 
       bars = [ ];
