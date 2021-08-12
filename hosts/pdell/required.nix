@@ -7,6 +7,10 @@
   services.nfs.server.exports = ''
     /home/g 192.168.39.0/24(rw,async,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
     /home/g 192.168.122.0/24(rw,async,no_subtree_check,all_squash,anonuid=1000,anongid=1000)
+
+    /home/g 10.0.2.0/24(rw,async,insecure,no_root_squash,no_subtree_check)
+    /home/g 127.0.0.0/24(rw,async,insecure,no_root_squash,no_subtree_check)
+    /home/g 192.168.1.0/24(rw,async,insecure,no_root_squash,no_subtree_check)
   '';
 
   virtualisation.libvirtd.enable = true;
@@ -30,10 +34,4 @@
   networking.firewall.extraCommands = ''
     iptables -I INPUT -i virbr+ -j ACCEPT
   '';
-
-
-  # virtualbox
-  virtualisation.virtualbox.host.enable = true;
-  users.extraGroups.vboxusers.members = [ "g" ];
-  #virtualisation.virtualbox.host.enableExtensionPack = true;
 }
