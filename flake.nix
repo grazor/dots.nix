@@ -6,13 +6,13 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+  #inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     with nixpkgs.lib;
     let
 
-      overlays = [ inputs.neovim-nightly-overlay.overlay ];
+      #overlays = [ inputs.neovim-nightly-overlay.overlay ];
 
       mkNixosConfiguration = name:
         { config ? ./hosts + "/${name}" }:
@@ -22,7 +22,7 @@
             ./configuration.nix
             (import config)
             ({ ... }: { networking.hostName = name; })
-            { nixpkgs.overlays = overlays; }
+            #{ nixpkgs.overlays = overlays; }
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
