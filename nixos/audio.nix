@@ -1,9 +1,15 @@
 { config, pkgs, ... }:
 
 {
-  security.rtkit.enable = true;
+  # Use pulse for now
+  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.support32Bit = true; # # If compatibility with 32-bit applications is desired.
+  nixpkgs.config.pulseaudio = true;
+
+  # Temporarily disabled
+  security.rtkit.enable = false;
   services.pipewire = {
-    enable = true;
+    enable = false;
     pulse.enable = true;
 
     media-session.config.bluez-monitor.rules = [

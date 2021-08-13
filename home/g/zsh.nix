@@ -33,7 +33,7 @@
       ssh = "TERM=xterm ssh";
       gmt = "go mod tidy";
       vim = "nvim";
-      ls  = "exa";
+      ls = "exa";
     };
 
     initExtra = ''
