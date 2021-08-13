@@ -24,9 +24,7 @@
   virtualisation.lxd.recommendedSysctlSettings = true;
   #boot.kernelParams = [ "cgroup_enable=devices" "cgroup_enable=freezer"];
 
-  networking.hosts = {
-    "10.7.5.191" = [ "kubeauth.security.svc.kappa.k8s" ];
-  };
+  networking.hosts = { "10.7.5.191" = [ "kubeauth.security.svc.kappa.k8s" ]; };
   environment.etc.hosts.mode = "0644";
   services.resolved.extraConfig = "Domains=~k8s";
 
