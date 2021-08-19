@@ -34,10 +34,12 @@
       gmt = "go mod tidy";
       vim = "nvim";
       ls = "exa";
+      cd = "z";
     };
 
     initExtra = ''
       eval "$(direnv hook zsh)"
+      eval "$(zoxide init zsh)"
       compdef _watson watson
 
       watsonpropmt() {
