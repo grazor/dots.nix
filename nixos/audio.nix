@@ -7,7 +7,7 @@
   nixpkgs.config.pulseaudio = true;
 
   # Temporarily disabled
-  security.rtkit.enable = false;
+  #security.rtkit.enable = true;
   services.pipewire = {
     enable = false;
     pulse.enable = true;
