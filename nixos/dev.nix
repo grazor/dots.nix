@@ -14,11 +14,8 @@
 
     obsidian
 
-    discord
     slack
     tdesktop
-    teams
-    zoom-us
 
     #watson
   ];
