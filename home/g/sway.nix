@@ -33,6 +33,10 @@ in {
     extraConfig = ''
       for_window [class="Slack"] move to scratchpad
       for_window [class="obsidian"] move to scratchpad
+
+      # zoom notifications
+      for_window [app_id="zoom" title="^zoom$"] border none, floating enable
+
       default_border pixel
     '';
 

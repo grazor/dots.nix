@@ -8,24 +8,11 @@ stdenv.mkDerivation rec {
   };
 
   buildInputs = [
-    #github:DavHau/mach-nix
-    python38
+    python39
     pipenv
-    python38Packages.six
-    python38Packages.pynvim
-    python38Packages.pyspark
-    nodejs
-    kafkacat
-    jupyter
-    python38Packages.pandas
-    python38Packages.numpy
-    python38Packages.psycopg2
-    python38Packages.grpcio-tools
-    zlib
+    python39Packages.six
     openssl
     stdenv.cc.cc.lib
-    libffi
-    python38Packages.python-snappy
   ];
 
   # Set Environment Variables
@@ -35,7 +22,7 @@ stdenv.mkDerivation rec {
     local venv=$(pipenv --bare --venv &>> /dev/null)
 
     if [[ -z $venv || ! -d $venv ]]; then
-      pipenv install --python 3.8 --dev &>> /dev/null
+      pipenv install --python 3.9 --dev &>> /dev/null
     fi
 
     export VIRTUAL_ENV=$(pipenv --venv)
