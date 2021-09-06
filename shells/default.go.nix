@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
   };
 
   hardeningDisable = [ "fortify" ];
-  buildInputs = [ gcc go golangci-lint delve gopls protobuf protoc-gen-go ];
+  buildInputs = [ gcc go golangci-lint delve gopls protobuf protoc-gen-go protoc-gen-go-grpc ];
 
   GOPATH = "/home/g/go:/home/g/Projects";
 }
