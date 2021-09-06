@@ -29,7 +29,7 @@
   networking.wireless.iwd.enable = true;
   networking.networkmanager.wifi.backend = "iwd";
   services.resolved.enable = true;
-  services.resolved.fallbackDns = [ "8.8.8.8" ];
+  services.resolved.fallbackDns = [ "8.8.8.8" "10.0.0.1" ];
   services.pptpd.enable = true;
 
   systemd.services.NetworkManager-wait-online.enable = false;

@@ -19,6 +19,8 @@
 
   environment.systemPackages = with pkgs; [ git-lfs jq curl ];
 
+  virtualisation.docker.extraOptions = "--dns 10.0.0.1"
+
   virtualisation.lxc.enable = true;
   virtualisation.lxd.enable = true;
   virtualisation.lxd.recommendedSysctlSettings = true;
