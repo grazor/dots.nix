@@ -12,8 +12,6 @@
     jq
     gnumake
 
-    obsidian
-
     slack
     tdesktop
 
