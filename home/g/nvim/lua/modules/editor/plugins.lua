@@ -40,4 +40,16 @@ editor['phaazon/hop.nvim'] = {
   end
 }
 
+editor['windwp/nvim-autopairs'] = {
+    config = function()
+        require('nvim-autopairs').setup{}
+    end
+}
+
+editor['blackCauldron7/surround.nvim'] = {
+    config = function()
+        require"surround".setup {mappings_style = "sandwich"}
+    end
+}
+
 return editor

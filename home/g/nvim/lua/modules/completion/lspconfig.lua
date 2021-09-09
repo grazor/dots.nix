@@ -2,6 +2,7 @@ local api = vim.api
 local lspconfig = require 'lspconfig'
 local global = require 'core.global'
 local format = require('modules.completion.format')
+local signature_helper = require('lsp_signature')
 
 if not packer_plugins['lspsaga.nvim'].loaded then
   vim.cmd [[packadd lspsaga.nvim]]
@@ -9,7 +10,7 @@ end
 
 local saga = require 'lspsaga'
 saga.init_lsp_saga({
-  code_action_icon = '💡'
+  --code_action_icon = '💡'
 })
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -47,6 +48,7 @@ local enhance_attach = function(client,bufnr)
     format.lsp_before_save()
   end
   api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+  signature_helper.on_attach()
 end
 
 lspconfig.gopls.setup {
