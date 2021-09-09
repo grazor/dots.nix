@@ -5,10 +5,6 @@ function config.galaxyline()
 end
 
 function config.indent_blakline()
-    --vim.opt.listchars = {
-        --space = "⋅"
-    --}
-
     require("indent_blankline").setup {
         space_char_blankline = " ",
         show_current_context = true,

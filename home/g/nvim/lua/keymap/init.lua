@@ -25,6 +25,10 @@ local plug_map = {
     ["n|<A-8>"]          = map_cr("BufferGoto 8"):with_noremap():with_silent(),
     ["n|<A-9>"]          = map_cr("BufferGoto 9"):with_noremap():with_silent(),
     ["n|<A-0>"]          = map_cr("BufferLast"):with_noremap():with_silent(),
+    -- coq
+    ["n|<C-b>"]          = map_cmd("<cmd>lua COQnav_mark()<CR>"):with_noremap():with_silent(),
+    ["i|<C-b>"]          = map_cmd("<cmd>lua COQnav_mark()<CR>"):with_noremap():with_silent(),
+    ["v|<C-b>"]          = map_cmd("<cmd>lua COQnav_mark()<CR>"):with_noremap():with_silent(),
     -- ctrlsf
     ["n|<leader>sf"]     = map_cmd("<Plug>CtrlSFPrompt"),
     -- Lsp mapp work when insertenter and lsp start
@@ -75,10 +79,6 @@ local plug_map = {
     ["n|sa"]             = map_cmd("<Plug>(operator-surround-append)"):with_silent(),
     ["n|sd"]             = map_cmd("<Plug>(operator-surround-delete)"):with_silent(),
     ["n|sr"]             = map_cmd("<Plug>(operator-surround-replace)"):with_silent(),
-    -- Plugin vim_niceblock
-    ["x|I"]              = map_cmd("v:lua.enhance_nice_block('I')"):with_expr(),
-    ["x|gI"]             = map_cmd("v:lua.enhance_nice_block('gI')"):with_expr(),
-    ["x|A"]              = map_cmd("v:lua.enhance_nice_block('A')"):with_expr(),
     -- Hop
     ["n|<Leader> "]      = map_cr("HopChar2"):with_noremap():with_silent(),
     -- ISwap
