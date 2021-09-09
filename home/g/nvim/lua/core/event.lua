@@ -19,17 +19,14 @@ function autocmd.load_autocmds()
       {"BufWritePost","*.lua","lua require('core.pack').auto_compile()"};
     },
     bufs = {
-      -- Reload vim config automatically
-      {"BufWritePost",[[$VIM_PATH/{*.vim,*.yaml,vimrc} nested source $MYVIMRC | redraw]]};
-      -- Reload Vim script automatically if setlocal autoread
-      {"BufWritePost,FileWritePost","*.vim", [[nested if &l:autoread > 0 | source <afile> | echo 'source ' . bufname('%') | endif]]};
       {"BufWritePre","/tmp/*","setlocal noundofile"};
       {"BufWritePre","COMMIT_EDITMSG","setlocal noundofile"};
       {"BufWritePre","MERGE_MSG","setlocal noundofile"};
       {"BufWritePre","*.tmp","setlocal noundofile"};
       {"BufWritePre","*.bak","setlocal noundofile"};
       {"BufWritePre","*.tsx","lua vim.api.nvim_command('Format')"};
-      {"BufWritePre","*.go","lua require('internal.golines').golines_format()"};
+      -- Golang
+      --{"BufWritePre","*.go","lua require('internal.golines').golines_format()"};
     };
 
     wins = {
@@ -41,7 +38,7 @@ function autocmd.load_autocmds()
       -- Force write shada on leaving nvim
       {"VimLeave", "*", [[if has('nvim') | wshada! | else | wviminfo! | endif]]};
       -- Check if file changed when its window is focus, more eager than 'autoread'
-      {"FocusGained", "* checktime"};
+      {"FocusGained", "*", "checktime"};
     };
 
     ft = {

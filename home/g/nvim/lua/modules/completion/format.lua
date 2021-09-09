@@ -55,3 +55,4 @@ function format.go_organize_imports_sync(timeout_ms)
 end
 
 return format
+

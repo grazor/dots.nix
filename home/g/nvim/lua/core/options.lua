@@ -29,7 +29,6 @@ local function load_options()
     backup         = false;
     writebackup    = false;
     swapfile       = false;
-    directory      = global.cache_dir .. "swag/";
     undodir        = global.cache_dir .. "undo/";
     backupdir      = global.cache_dir .. "backup/";
     viewdir        = global.cache_dir .. "view/";
@@ -71,7 +70,7 @@ local function load_options()
     foldlevelstart = 99;
     ruler          = false;
     list           = true;
-    showtabline    = 2;
+    showtabline    = 0;
     winwidth       = 30;
     winminwidth    = 10;
     pumheight      = 15;
@@ -96,10 +95,10 @@ local function load_options()
     textwidth      = 120;
     expandtab      = true;
     autoindent     = true;
-    tabstop        = 2;
-    shiftwidth     = 2;
+    tabstop        = 4;
+    shiftwidth     = 4;
     softtabstop    = -1;
-    breakindentopt = "shift:2,min:20";
+    breakindentopt = "shift:4,min:20";
     wrap           = false;
     linebreak      = true;
     number         = true;
@@ -126,6 +125,7 @@ local function load_options()
     vim.g.python_host_prog = '/usr/bin/python'
     vim.g.python3_host_prog = '/usr/local/bin/python3'
   end
+  
   for name, value in pairs(global_local) do
     vim.o[name] = value
   end

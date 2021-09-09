@@ -7,13 +7,7 @@ stdenv.mkDerivation rec {
     paths = buildInputs;
   };
 
-  buildInputs = [
-    python39
-    pipenv
-    python39Packages.six
-    openssl
-    stdenv.cc.cc.lib
-  ];
+  buildInputs = [ python39 pipenv python39Packages.six openssl stdenv.cc.cc.lib ];
 
   # Set Environment Variables
   shellHook = ''
