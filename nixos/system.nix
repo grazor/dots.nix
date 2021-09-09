@@ -58,6 +58,9 @@
     wirelesstools
     xdg_utils
 
-    exa
+    direnv
+    brightnessctl 
+    zoxide # smart cd
+    exa # fancy ls
   ];
 }

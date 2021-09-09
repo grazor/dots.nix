@@ -21,6 +21,7 @@
       source-code-pro
       terminus_font
       ubuntu_font_family
+      nerdfonts
     ];
   };
 
