@@ -17,11 +17,11 @@
       noto-fonts
       noto-fonts-cjk
       noto-fonts-emoji
-      powerline-fonts
+      #powerline-fonts
       source-code-pro
       terminus_font
       ubuntu_font_family
-      nerdfonts
+      (nerdfonts.override { fonts = [ "Hack" "SourceCodePro" ]; })
     ];
   };
 
