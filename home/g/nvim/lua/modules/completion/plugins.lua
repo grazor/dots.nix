@@ -18,8 +18,10 @@ completion['ms-jpq/coq_nvim'] = {
         vim.g.coq_settings = {
             auto_start = 'shut-up',
             display = {
-                ghost_text = {enabled=false},
+                ghost_text = {enabled=true},
+                pum = {fast_close=false},
             },
+            keymap = {jump_to_mark = ''},
         }
     end
 }
