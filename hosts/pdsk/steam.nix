@@ -12,13 +12,6 @@
     };
   };
 
-  nixpkgs.config.packageOverrides = pkgs: {
-    steam = pkgs.steam.override {
-      extraPkgs = pkgs: [ pkgs.mono pkgs.libgdiplus pkgs.pipewire.lib ];
-      extraLibraries = pkgs: [ pkgs.pipewire ];
-    };
-  };
-
   programs.steam.enable = true;
   hardware.steam-hardware.enable = true;
 }
