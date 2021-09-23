@@ -26,17 +26,17 @@ local plug_map = {
     ["n|<A-9>"]          = map_cr("BufferGoto 9"):with_noremap():with_silent(),
     ["n|<A-0>"]          = map_cr("BufferLast"):with_noremap():with_silent(),
     -- coq
-    ["n|<C-b>"]          = map_cmd("<cmd>lua COQnav_mark()<CR>"):with_noremap():with_silent(),
-    ["i|<C-b>"]          = map_cmd("<cmd>lua COQnav_mark()<CR>"):with_noremap():with_silent(),
-    ["v|<C-b>"]          = map_cmd("<cmd>lua COQnav_mark()<CR>"):with_noremap():with_silent(),
+    ["n|<C-b>"]          = map_cmd("<cmd>lua COQ.nav_mark()<CR>"):with_noremap():with_silent(),
+    ["i|<C-b>"]          = map_cmd("<cmd>lua COQ.nav_mark()<CR>"):with_noremap():with_silent(),
+    ["v|<C-b>"]          = map_cmd("<cmd>lua COQ.nav_mark()<CR>"):with_noremap():with_silent(),
     -- ctrlsf
     ["n|<leader>sf"]     = map_cmd("<Plug>CtrlSFPrompt"),
     -- Lsp mapp work when insertenter and lsp start
     ["n|<leader>li"]     = map_cr("LspInfo"):with_noremap():with_silent():with_nowait(),
     ["n|<leader>ll"]     = map_cr("LspLog"):with_noremap():with_silent():with_nowait(),
     ["n|<leader>lr"]     = map_cr("LspRestart"):with_noremap():with_silent():with_nowait(),
-    ["n|<C-f>"]          = map_cmd("<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>"):with_silent():with_noremap():with_nowait(),
-    ["n|<C-b>"]          = map_cmd("<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>"):with_silent():with_noremap():with_nowait(),
+    --["n|<C-f>"]          = map_cmd("<cmd>lua require('lspsaga.action').smart_scroll_with_saga(1)<CR>"):with_silent():with_noremap():with_nowait(),
+    --["n|<C-b>"]          = map_cmd("<cmd>lua require('lspsaga.action').smart_scroll_with_saga(-1)<CR>"):with_silent():with_noremap():with_nowait(),
     ["n|]e"]             = map_cr('Lspsaga diagnostic_jump_next'):with_noremap():with_silent(),
     ["n|[e"]             = map_cr('Lspsaga diagnostic_jump_prev'):with_noremap():with_silent(),
     ["n|K"]              = map_cr("Lspsaga hover_doc"):with_noremap():with_silent(),
