@@ -6,6 +6,7 @@ function config.nvim_lsp()
       floating_window_above_cur_line = true,
       hint_enable = false,
   }
+  require('rust-tools').setup({})
 end
 
 return config

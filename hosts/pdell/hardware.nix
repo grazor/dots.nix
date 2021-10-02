@@ -25,4 +25,7 @@
   swapDevices = [ ];
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
 }

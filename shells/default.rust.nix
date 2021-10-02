@@ -8,5 +8,5 @@ stdenv.mkDerivation rec {
   };
 
   hardeningDisable = [ "fortify" ];
-  buildInputs = [ gcc cargo rustc ];
+  buildInputs = [ gcc cargo rustc rust-analyzer rustfmt ];
 }
