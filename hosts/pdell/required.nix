@@ -15,20 +15,15 @@
 
   virtualisation.libvirtd.enable = true;
   users.users.g.extraGroups = [ "libvirtd" ];
-  #boot.extraModprobeConfig = "options kvm_intel nested=1"; # enable nested virtualization
 
   environment.systemPackages = with pkgs; [ git-lfs jq curl ];
-
-  virtualisation.docker.extraOptions = "--dns=10.0.0.1";
 
   virtualisation.lxc.enable = true;
   virtualisation.lxd.enable = true;
   virtualisation.lxd.recommendedSysctlSettings = true;
-  #boot.kernelParams = [ "cgroup_enable=devices" "cgroup_enable=freezer"];
 
-  networking.hosts = { "10.7.5.191" = [ "kubeauth.security.svc.kappa.k8s" ]; };
   environment.etc.hosts.mode = "0644";
-  services.resolved.extraConfig = "Domains=~k8s";
+  services.resolved.dnssec = "false";
 
   networking.firewall.enable = false;
   networking.firewall.extraCommands = ''
