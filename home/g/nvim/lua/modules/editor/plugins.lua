@@ -52,4 +52,8 @@ editor['blackCauldron7/surround.nvim'] = {
     end
 }
 
+editor['plasticboy/vim-markdown'] = {
+    requires = 'godlygeek/tabular',
+}
+
 return editor
