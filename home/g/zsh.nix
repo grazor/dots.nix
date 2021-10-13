@@ -40,17 +40,8 @@
     initExtra = ''
       eval "$(direnv hook zsh)"
       eval "$(zoxide init zsh)"
-      compdef _watson watson
 
-      watsonpropmt() {
-          RPROMPT="$(watson status)"
-      }
-
-      if [ ! -z "$SCRATCHTERM" ]; then
-          precmd() {
-              watsonpropmt;
-          }
-      fi
+      [ -e /home/g/.rc ] && source /home/g/.rc
     '';
   };
 }

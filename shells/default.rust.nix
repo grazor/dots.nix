@@ -7,6 +7,7 @@ stdenv.mkDerivation rec {
     paths = buildInputs;
   };
 
-  hardeningDisable = [ "fortify" ];
-  buildInputs = [ gcc cargo rustc rust-analyzer rustfmt ];
+  nativeBuildInputs = with pkgs; [ rustc cargo gcc openssl pkg-config ];
+  buildInputs = [ rust-analyzer rustfmt ];
+  RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
 }
