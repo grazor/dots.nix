@@ -21,13 +21,13 @@
           "update-props" = {
             "bluez5.reconnect-profiles" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
             "bluez5.msbc-support" = true;
+            "bluez5.sbc-xq-support" = true;
           };
         };
       }
       {
         matches = [
           { "node.name" = "~bluez_input.*"; }
-
           { "node.name" = "~bluez_output.*"; }
         ];
         actions = { "node.pause-on-idle" = false; };
