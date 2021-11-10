@@ -12,7 +12,6 @@ sudo nixos-rebuild switch --flake '/etc/nixos#<device>'
 
 ## Add new device
 
-```bash
 mkdir ./hosts/<device>
 nixos-generate-config --show-hardware-config > ./hosts/<device>/hardware.nix
 ```
