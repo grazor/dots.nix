@@ -7,7 +7,7 @@ stdenv.mkDerivation rec {
     paths = buildInputs;
   };
 
-  nativeBuildInputs = with pkgs; [ rustc cargo gcc openssl pkg-config ];
+  nativeBuildInputs = with pkgs; [ rustc cargo gcc openssl pkg-config protobuf ];
   buildInputs = [ rust-analyzer rustfmt ];
   RUST_SRC_PATH = "${pkgs.rust.packages.stable.rustPlatform.rustLibSrc}";
 }
