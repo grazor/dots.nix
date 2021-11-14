@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
-# Depends on: xdotool, wmctrl
 
-FOCUSED=$(wmctrl -lp | grep $(xprop -root | grep _NET_ACTIVE_WINDOW | head -1 | awk '{print $5}' | sed 's/,//' | sed 's/^0x/0x0/'))
-FPID=$(echo $FOCUSED | awk '{print $3}')
-FNME=$(echo $FOCUSED | cut -f -4  -d ' ' --complement)
-xdotool search -all --pid $FPID --name "$FNME" set_window -name "$*"
+MODES_FILE="/tmp/modes"
+echo >> $MODES_FILE
+
+id=$(swaymsg -t get_tree | jq '.. | (.nodes? // empty)[] | select(.focused==true) | .id')
+title=$(cat $MODES_FILE | grep "\S" | wofi --dmenu)
+
+echo $title >> $MODES_FILE
+cat $MODES_FILE | sort | uniq >> $MODES_FILE.b
+mv $MODES_FILE.b $MODES_FILE
+
+color=$(hexdump -n 3 -v -e '"#" 3/1 "%02X" "\n"' /dev/urandom)
+echo $color
+
+swaymsg -- \[con_id=$id\] title_format "<span background='$color'>$title</span> - %title"
