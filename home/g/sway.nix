@@ -26,6 +26,7 @@ in {
     wallpaperCommand = "find ~/.wallpapers/* | shuf -n 1";
     lockCommand = "swaylock -i `${wallpaperCommand}`";
     grimshot = "${binPath}/grimshot";
+    settitle = "${binPath}/set_title";
   in {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -36,6 +37,9 @@ in {
 
       # zoom notifications
       for_window [app_id="zoom" title="^zoom$"] border none, floating enable
+
+      # x windows
+      for_window [shell="xwayland"] title_format "%title [XWayland]"
 
       default_border pixel
     '';
@@ -75,8 +79,8 @@ in {
         # Push-to-talk
         "F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ off";
         "--release F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ on";
-        "${modifier}+F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ off";
-        "${modifier}+Shift+F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ on";
+        "${modifier}+Shift+F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ off";
+        #"${modifier}+Shift+F1" = "exec pactl set-source-mute @DEFAULT_SOURCE@ on";
         "Ctrl+space" = "exec makoctl dismiss";
 
         "Print" = "exec ${grimshot} save screen";
@@ -85,6 +89,7 @@ in {
         "Ctrl+Shift+Print" = "exec ${grimshot} copy area";
         "${modifier}+Shift+Print" = "exec ${grimshot} search area";
 
+        "${modifier}+F1" = "exec ${settitle}";
         "${modifier}+F2" = "exec ${menu}";
         "${modifier}+F3" = "exec --no-startup-id clipman pick -t wofi";
 
