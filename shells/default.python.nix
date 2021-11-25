@@ -1,29 +1,42 @@
 with import <nixpkgs> { };
 
-stdenv.mkDerivation rec {
-  name = "pth";
-  env = buildEnv {
-    name = name;
-    paths = buildInputs;
-  };
+let
+  pythonPackages = python39Packages;
+in stdenv.mkDerivation rec {
+  name = "dev-python";
 
-  buildInputs = [ python39 pipenv python39Packages.six openssl stdenv.cc.cc.lib ];
+  venvDir = ".venv";
 
-  # Set Environment Variables
-  shellHook = ''
-    SOURCE_DATE_EPOCH=$(date +%s) # required for python wheels
+  buildInputs = [
+    pythonPackages.python
+    pythonPackages.venvShellHook
 
-    local venv=$(pipenv --bare --venv &>> /dev/null)
+    pythonPackages.requests
+    pythonPackages.pynvim
 
-    if [[ -z $venv || ! -d $venv ]]; then
-      pipenv install --python 3.9 --dev &>> /dev/null
-    fi
+    openssl
+    git
+    libxml2
+    libxslt
+    libzip
+    zlib
+  ];
 
-    export VIRTUAL_ENV=$(pipenv --venv)
-    export PIPENV_ACTIVE=1
-    export PYTHONPATH="$VIRTUAL_ENV/${python3.sitePackages}:$PYTHONPATH"
-    export PATH="$VIRTUAL_ENV/bin:$PATH"
+  propagatedBuildInputs = [
+      pythonPackages.setuptools
+      pythonPackages.six
+  ];
 
-    which poetry || pip install poetry
+  postVenvCreation = ''
+    unset SOURCE_DATE_EPOCH
   '';
+
+  postShellHook = ''
+    unset SOURCE_DATE_EPOCH
+    export PIP_INDEX_URL=http://pypi.k.avito.ru/pypi/
+    export PIP_TRUSTED_HOST=pypi.k.avito.ru
+
+    alias pip="python -m pip"
+  '';
+
 }
