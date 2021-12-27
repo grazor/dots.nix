@@ -10,6 +10,8 @@
 
     #kernel.sysctl = { "fs.inotify.max_user_watches" = 100000; };
     cleanTmpDir = true;
+
+    kernelPackages = pkgs.linuxPackages_xanmod;
   };
 
   services.logind.extraConfig = ''
