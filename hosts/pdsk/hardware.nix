@@ -7,8 +7,9 @@
   hardware.enableRedistributableFirmware = lib.mkDefault true;
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "nvme" "ata_piix" "usb_storage" "usbhid" "sd_mod" "sr_mod" ];
-
   boot.initrd.kernelModules = [ ];
+
+  boot.kernelPackages = pkgs.linuxPackages_xanmod;
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
