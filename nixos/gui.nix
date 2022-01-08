@@ -25,5 +25,5 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [ google-chrome mpv termite ];
+  environment.systemPackages = with pkgs; [ google-chrome mpv ];
 }

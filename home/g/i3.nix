@@ -69,7 +69,7 @@ in {
           notification = false;
         }
         {
-          command = "SCRATCHTERM=1 termite -t scratchterm";
+          command = "SCRATCHTERM=1 $terminal -t scratchterm";
           always = false;
           notification = false;
         }
