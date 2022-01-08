@@ -110,7 +110,7 @@ in {
         }
         {
           command = "foot --server";
-          always = false;
+          always = true;
         }
         {
           command = "pactl set-source-mute @DEFAULT_SOURCE@ off";
