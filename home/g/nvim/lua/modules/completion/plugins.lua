@@ -29,12 +29,4 @@ completion['ms-jpq/coq_nvim'] = {
     end
 }
 
-completion['simrat39/symbols-outline.nvim'] = {
-    config = function()
-        vim.g.symbols_outline = {
-            auto_preview = false,
-        }
-    end
-}
-
 return completion
