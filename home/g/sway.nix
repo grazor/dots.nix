@@ -45,7 +45,7 @@ in {
     '';
 
     config = rec {
-      terminal = "termite";
+      terminal = "footclient";
       menu = "wofi --show drun";
       modifier = "Mod4";
 
@@ -107,6 +107,10 @@ in {
         {
           command = "systemctl --user restart waybar";
           always = true;
+        }
+        {
+          command = "foot --server";
+          always = false;
         }
         {
           command = "pactl set-source-mute @DEFAULT_SOURCE@ off";

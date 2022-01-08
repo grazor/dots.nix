@@ -57,6 +57,7 @@
     usbutils
     wirelesstools
     xdg_utils
+    libnotify
 
     direnv
     brightnessctl 
