@@ -36,7 +36,8 @@ in {
       for_window [class="obsidian"] move to scratchpad
 
       # zoom notifications
-      for_window [app_id="zoom" title="^zoom$"] border none, floating enable
+      for_window [title="^zoom$"] border none, floating enable
+      for_window [title="Zoom Meeting(.*)?"] floating disable, inhibit_idle open
 
       # x windows
       for_window [shell="xwayland"] title_format "%title [XWayland]"
