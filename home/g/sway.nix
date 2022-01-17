@@ -7,7 +7,7 @@ in {
   imports = [ ./mako.nix ./waybar.nix ];
 
   home.packages = with pkgs; [
-    swaylock # lockscreen
+    swaylock-effects # lockscreen
     swayidle # idle manager
     waybar # bar
     wofi # launcher
@@ -24,7 +24,7 @@ in {
 
   wayland.windowManager.sway = let
     wallpaperCommand = "find ~/.wallpapers/* | shuf -n 1";
-    lockCommand = "swaylock -i `${wallpaperCommand}`";
+    lockCommand = "${binPath}/lock";
     grimshot = "${binPath}/grimshot";
     settitle = "${binPath}/set_title";
   in {
@@ -36,7 +36,7 @@ in {
       for_window [class="obsidian"] move to scratchpad
 
       # zoom notifications
-      for_window [title="^zoom$"] border none, floating enable
+      for_window [title="^zoom$"] border none, floating enable, move absolute position 10 px 10 px, focus prev
       for_window [title="Zoom Meeting(.*)?"] floating disable, inhibit_idle open
 
       # x windows
@@ -98,9 +98,21 @@ in {
         "${modifier}+grave [class=\"obsidian\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
         "${modifier}+o [class=\"Slack\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
         "${modifier}+minus" = "scratchpad show";
+
+        "${modifier}+l" = "exec --no-startup-id ${lockCommand} --fade-in 4";
       };
 
       startup = [
+        {
+          command = ''
+            swayidle \
+            timeout 20 '${lockCommand} --grace 10 --fade-in 4' \
+            timeout 30 'swaymsg "output * dpms off"' \
+            resume 'swaymsg "output * dpms on"' \
+            before-sleep '${lockCommand}'
+          '';
+          always = true;
+        }
         {
           command = "systemctl --user restart mako";
           always = true;
