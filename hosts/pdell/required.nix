@@ -29,4 +29,8 @@
   networking.firewall.extraCommands = ''
     iptables -I INPUT -i virbr+ -j ACCEPT
   '';
+
+  virtualisation.docker.extraOptions = ''
+    --dns 192.168.1.1 --dns-search msk.avito.ru
+  '';
 }
