@@ -31,6 +31,6 @@
   '';
 
   virtualisation.docker.extraOptions = ''
-    --dns 192.168.1.1 --dns-search msk.avito.ru
+    --dns 10.0.0.1 --dns 10.0.0.10 --dns 8.8.8.8 --dns-search msk.avito.ru
   '';
 }
