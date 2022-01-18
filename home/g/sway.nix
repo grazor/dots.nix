@@ -99,7 +99,7 @@ in {
         "${modifier}+o [class=\"Slack\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
         "${modifier}+minus" = "scratchpad show";
 
-        "${modifier}+l" = "exec --no-startup-id ${lockCommand} --fade-in 4";
+        "${modifier}+apostrophe" = "exec --no-startup-id ${lockCommand} --fade-in 4";
       };
 
       startup = [
