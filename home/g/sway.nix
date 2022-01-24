@@ -106,8 +106,8 @@ in {
         {
           command = ''
             swayidle \
-            timeout 20 '${lockCommand} --grace 10 --fade-in 4' \
-            timeout 30 'swaymsg "output * dpms off"' \
+            timeout 180 '${lockCommand} --grace 10 --fade-in 4' \
+            timeout 600 'swaymsg "output * dpms off"' \
             resume 'swaymsg "output * dpms on"' \
             before-sleep '${lockCommand}'
           '';
