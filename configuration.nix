@@ -8,7 +8,7 @@
 
   nix = {
     gc.automatic = true;
-    useSandbox = true;
+    settings.sandbox = true;
     package = pkgs.nixUnstable;
 
     extraOptions = ''

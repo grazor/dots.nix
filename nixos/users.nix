@@ -9,7 +9,7 @@
     useDefaultShell = true;
   };
 
-  nix.trustedUsers = [ "root" "@wheel" ];
+  nix.settings.trusted-users = [ "root" "@wheel" ];
 
   environment.systemPackages = with pkgs; [ xdg-user-dirs ];
 }
