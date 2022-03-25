@@ -32,6 +32,14 @@
   services.resolved.fallbackDns = [ "8.8.8.8" "10.0.0.1" ];
   services.pptpd.enable = true;
 
+  services.pcscd.enable = true;
+  services.dbus.packages = [ pkgs.gcr ];
+  programs.gnupg.agent = {
+     enable = true;
+     pinentryFlavor = "curses";
+     enableSSHSupport = true;
+  };
+
   systemd.services.NetworkManager-wait-online.enable = false;
   systemd.extraConfig = ''
     DefaultTimeoutStopSec=10s
