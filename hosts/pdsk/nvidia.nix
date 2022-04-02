@@ -3,12 +3,12 @@
 {
   # services.xserver.videoDrivers = [ "nuoveau" ];
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.opengl.driSupport32Bit = true;
+  #services.xserver.videoDrivers = [ "nvidia" ];
+  #hardware.opengl.driSupport32Bit = true;
 
-  boot.kernelParams = [ ];
+  #boot.kernelParams = [ ];
 
   # boot.initrd.kernelModules = [ "nvidia" ];
-  boot.kernelModules = [ "nvidia" ];
-  boot.blacklistedKernelModules = [ "i915" ];
+  #boot.kernelModules = [ "nvidia" ];
+  #boot.blacklistedKernelModules = [ "i915" ];
 }
