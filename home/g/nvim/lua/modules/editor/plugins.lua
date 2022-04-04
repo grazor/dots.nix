@@ -46,12 +46,6 @@ editor['windwp/nvim-autopairs'] = {
     end
 }
 
-editor['blackCauldron7/surround.nvim'] = {
-    config = function()
-        require"surround".setup {mappings_style = "sandwich"}
-    end
-}
-
 editor['plasticboy/vim-markdown'] = {
     requires = 'godlygeek/tabular',
 }
