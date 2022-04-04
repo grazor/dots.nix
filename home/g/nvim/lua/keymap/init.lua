@@ -75,10 +75,6 @@ local plug_map = {
     ["n|k"]              = map_cmd('v:lua.enhance_jk_move("k")'):with_silent():with_expr(),
     -- Plugin Vista
     ["n|<Leader>v"]      = map_cu('Vista'):with_noremap():with_silent(),
-    -- Plugin vim-operator-surround
-    ["n|sa"]             = map_cmd("<Plug>(operator-surround-append)"):with_silent(),
-    ["n|sd"]             = map_cmd("<Plug>(operator-surround-delete)"):with_silent(),
-    ["n|sr"]             = map_cmd("<Plug>(operator-surround-replace)"):with_silent(),
     -- Hop
     ["n|<Leader> "]      = map_cr("HopChar2"):with_noremap():with_silent(),
     -- ISwap
