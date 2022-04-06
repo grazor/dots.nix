@@ -6,16 +6,25 @@ let
 
   toolchain = builtins.toFile "rust-toolchain" "nightly-x86_64-unknown-linux-gnu";
 
-  rust_version = "1.59.0.1";
+  rust_version = "1.59.0";
+  rust_version_minor = "1";
 
   xtensa = stdenv.mkDerivation rec {
-    name = "rust-xtensa";
-    version = rust_version;
+    name = "xtensa-rust";
+    version = (rust_version + "." + rust_version_minor);
 
-    src = fetchurl {
-        url = "https://github.com/esp-rs/rust-build/releases/download/v${version}/rust-${version}-x86_64-unknown-linux-gnu.tar.xz";
-        sha256 = "1h88da3d46wfzmv2f74rzxz73acps414mx0212lw68c039w801qq";
-    };
+    srcs = [
+        (fetchurl {
+            url = "https://github.com/esp-rs/rust-build/releases/download/v${version}/rust-${version}-x86_64-unknown-linux-gnu.tar.xz";
+            sha256 = "1h88da3d46wfzmv2f74rzxz73acps414mx0212lw68c039w801qq";
+        })
+        (fetchurl {
+            url = "https://github.com/esp-rs/rust-build/releases/download/v${version}/rust-src-${version}.tar.xz";
+            sha256 = "0wq3mjllg17z4m7p94zsck4h0la7rzf0m7i7xjn4alf00ixmlr70";
+        })
+    ];
+
+    sourceRoot = ".";
 
     buildInputs = [
       openssl
@@ -27,11 +36,35 @@ let
     nativeBuildInputs = [ autoPatchelfHook ];
 
     postPatch = ''
-        patchShebangs install.sh
+        patchShebangs rust-${rust_version}-dev-x86_64-unknown-linux-gnu/install.sh
+        patchShebangs rust-src-${rust_version}-dev/install.sh
     '';
 
     installPhase = ''
-        ./install.sh --destdir=$out --prefix=/
+        rust-${rust_version}-dev-x86_64-unknown-linux-gnu/install.sh --destdir=$out --prefix=/ --without=rust-docs
+        rust-src-${rust_version}-dev/install.sh --destdir=$out --prefix=/ --without=rust-docs
+    '';
+  };
+
+  xtensa_clang = stdenv.mkDerivation rec {
+    name = "xtensa-clang";
+    version = rust_version;
+
+    src = fetchurl {
+        url = "https://github.com/espressif/llvm-project/releases/download/esp-13.0.0-20211203/xtensa-esp32-elf-llvm13_0_0-esp-13.0.0-20211203-linux-amd64.tar.xz";
+        sha256 = "17dzisyp3kq3sx5bja2kdpwxag0czc4lsrgjx086n1k50wz8naii";
+    };
+
+    buildInputs = [
+      python27
+      zlib.out
+      stdenv.cc.cc.lib
+    ];
+
+    nativeBuildInputs = [ autoPatchelfHook ];
+
+    installPhase = ''
+        cp -r . $out
     '';
   };
 
@@ -52,10 +85,11 @@ mkShell rec {
       zlib.out
 
       xtensa
+      xtensa_clang
     ];
 
     RUSTC_VERSION = lib.readFile toolchain;
-    LIBCLANG_PATH= lib.makeLibraryPath [ llvmPackages_latest.libclang.lib ];
+    LIBCLANG_PATH= lib.makeLibraryPath [ xtensa_clang ];
 
     # Add libvmi precompiled library to rustc search path
     RUSTFLAGS = (builtins.map (a: ''-L ${a}/lib'') [ libvmi ]);
@@ -73,15 +107,22 @@ mkShell rec {
     ];
 
     shellHook = ''
-      export PATH=$PATH:~/.cargo/bin
+      export PATH=${xtensa_clang.out}/bin/:$PATH:~/.cargo/bin
       export PATH=$PATH:~/.rustup/toolchains/$RUSTC_VERSION-x86_64-unknown-linux-gnu/bin/
+      export PIP_USER="no"
 
-      echo rm rust-toolchain
-      echo ln -s ${toolchain} rust-toolchain
+      # toolchains
+      rustup toolchain install stable
+      rustup toolchain install nightly
 
+      rustup component add rustfmt --toolchain stable
+      rustup component add rustfmt --toolchain nightly
+
+      rustup toolchain uninstall esp
       rustup toolchain link esp ${xtensa.out}
-      rustup toolchain list
-      rustc +esp --print target-list | grep xtensa
+
+      # dependencies
+      cargo install ldproxy
     '';
 }
 
