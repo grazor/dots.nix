@@ -120,6 +120,7 @@ mkShell rec {
 
       rustup toolchain uninstall esp
       rustup toolchain link esp ${xtensa.out}
+      rustup default esp
 
       # dependencies
       cargo install ldproxy

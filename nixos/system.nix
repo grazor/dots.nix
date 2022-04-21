@@ -32,6 +32,8 @@
   services.resolved.fallbackDns = [ "8.8.8.8" "10.0.0.1" ];
   services.pptpd.enable = true;
 
+  services.gnome3.gnome-keyring.enable = true;
+
   services.pcscd.enable = true;
   services.dbus.packages = [ pkgs.gcr ];
   programs.gnupg.agent = {
