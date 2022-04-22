@@ -7,17 +7,19 @@ HOOKS_PATH=/home/g/.config/lefthook
 usage() {
     echo "project <command> <params>"
 
+    echo -e "\tinit <shell>"
+    echo -e "\tclean"
     echo -e "\tnix"
     IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$SHELLS_BASE_PATH")
     for p in "${path_array[@]}"; do
-        find $p -name 'default.*.nix' -type f -printf "\t\t%f\n" | sed 's/default.//' | sed 's/.nix//' | sort
+        find $p -name 'default.*.nix' -printf "\t\t%f\n" | sed 's/default.//' | sed 's/.nix//' | sort
     done
     echo
 
     echo -e "\thook"
     IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$HOOKS_PATH")
     for p in "${path_array[@]}"; do
-        find $p -name '*.yml' -type f -printf "\t\t%f\n" | sed 's/.yml//' | sort
+        find $p -name '*.yml' -printf "\t\t%f\n" | sed 's/.yml//' | sort
     done
     exit 1
 }
@@ -26,6 +28,15 @@ gitignore() {
       git config --get core.excludesfile | grep -q "$GLOBAL_GITIGNORE_PATH"|| git config --global core.excludesfile "$GLOBAL_GITIGNORE_PATH"
 
       grep -q $1 $GLOBAL_GITIGNORE_PATH || echo "$1" >> $GLOBAL_GITIGNORE_PATH
+}
+
+clean() {
+    direnv deny . 2&>/dev/null
+    rm .envrc 2&>/dev/null
+    rm default.nix 2&>/dev/null
+
+    lefhtook uninstall 2&>/dev/null
+    rm lefhtook.yml 2&>/dev/null
 }
 
 shell() {
@@ -54,7 +65,7 @@ hook() {
     echo Installing hooks $p
     cat > lefthook.yml <<EOF
 extends:
-    - $HOME/.config/lefthook/golang-service.yml
+    - $p
 EOF
 
     echo lefthook install
@@ -66,10 +77,21 @@ EOF
 [ $# -eq 2 ] || usage
 
 case $1 in
+    "init")
+        clean
+        shell $2
+        hook general
+        ;;
+
     "nix")
         shell $2
         ;;
+
     "hook")
         hook $2
+        ;;
+
+    "clean")
+        clean
         ;;
 esac
