@@ -71,7 +71,11 @@ EOF
     echo lefthook install
     lefthook install
 
+    echo ln -s .lefthook/ /home/g/.bin/hooks
+    ln -s .lefthook/ /home/g/.bin/hooks
+
     gitignore lefthook.yml
+    gitignore .lefthook
 }
 
 [ $# -eq 2 ] || usage
