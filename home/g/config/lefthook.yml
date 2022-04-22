@@ -1,0 +1,4 @@
+commit-msg:
+  commands:
+    jira-prefix:
+      run: '/home/g/.bin/git-precommit-jira'
