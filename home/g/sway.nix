@@ -7,7 +7,7 @@ in {
   imports = [ ./mako.nix ./waybar.nix ];
 
   home.packages = with pkgs; [
-    swaylock-effects # lockscreen
+    #swaylock-effects # lockscreen
     swayidle # idle manager
     waybar # bar
     wofi # launcher

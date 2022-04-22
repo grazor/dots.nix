@@ -1,5 +1,5 @@
-pre-commit:
-  parallel: false
-  commands:
-    jira-prefix:
-      run: '/home/g/.bin/git-commit-msg-jira'
+
+commit-msg:
+  scripts:
+    "git-commit-msg-jira":
+      runner: bash
