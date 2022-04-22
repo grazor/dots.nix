@@ -1,0 +1,75 @@
+#!/usr/bin/env bash
+
+GLOBAL_GITIGNORE_PATH=/home/g/.gitignore
+SHELLS_BASE_PATH=/home/g/Projects/dots.nix:/home/g/Avito/shells
+HOOKS_PATH=/home/g/.config/lefthook
+
+usage() {
+    echo "project <command> <params>"
+
+    echo -e "\tnix"
+    IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$SHELLS_BASE_PATH")
+    for p in "${path_array[@]}"; do
+        find $p -name 'default.*.nix' -type f -printf "\t\t%f\n" | sed 's/default.//' | sed 's/.nix//' | sort
+    done
+    echo
+
+    echo -e "\thook"
+    IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$HOOKS_PATH")
+    for p in "${path_array[@]}"; do
+        find $p -name '*.yml' -type f -printf "\t\t%f\n" | sed 's/.yml//' | sort
+    done
+    exit 1
+}
+
+gitignore() {
+      git config --get core.excludesfile | grep -q "$GLOBAL_GITIGNORE_PATH"|| git config --global core.excludesfile "$GLOBAL_GITIGNORE_PATH"
+
+      grep -q $1 $GLOBAL_GITIGNORE_PATH || echo "$1" >> $GLOBAL_GITIGNORE_PATH
+}
+
+shell() {
+    IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$SHELLS_BASE_PATH")
+    p=$(find ${path_array[@]} -name $(echo default.$1.nix))
+    [[ "$p" == "" ]] && echo "Unknown shell $1" && usage
+
+    echo ln -s $p default.nix
+    ln -s $p default.nix
+
+    echo echo 'use nix' > .envrc
+    echo 'use nix' > .envrc
+
+    echo direnv allow .
+    direnv allow .
+
+    gitignore default.nix
+    gitignore .envrc
+}
+
+hook() {
+    IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$HOOKS_PATH")
+    p=$(find ${path_array[@]} -name $(echo $1.yml))
+    [[ "$p" == "" ]] && echo "Unknown hook $1" && usage
+
+    echo Installing hooks $p
+    cat > lefthook.yml <<EOF
+extends:
+    - $HOME/.config/lefthook/golang-service.yml
+EOF
+
+    echo lefthook install
+    lefthook install
+
+    gitignore lefthook.yml
+}
+
+[ $# -eq 2 ] || usage
+
+case $1 in
+    "nix")
+        shell $2
+        ;;
+    "hook")
+        hook $2
+        ;;
+esac

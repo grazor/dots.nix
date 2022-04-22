@@ -41,6 +41,8 @@
       eval "$(direnv hook zsh)"
       eval "$(zoxide init zsh)"
 
+      git config --get alias.jr || git config --global alias.jr '!/home/g/.bin/git-jira'
+
       [ -e /home/g/.rc ] && source /home/g/.rc
     '';
   };
