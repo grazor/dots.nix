@@ -72,10 +72,8 @@ EOF
     echo lefthook install
     lefthook install
 
-    echo mkdir .lefthook
-    mkdir .lefthook
-    echo ln -s /home/g/.bin/hooks .lefthook/
-    ln -s /home/g/.bin/hooks .lefthook/
+    echo ln -s /home/g/.bin/hooks .lefthook
+    ln -s /home/g/.bin/hooks .lefthook
 
     gitignore lefthook.yml
     gitignore .lefthook
