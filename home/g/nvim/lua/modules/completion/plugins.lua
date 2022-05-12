@@ -4,29 +4,36 @@ local conf = require('modules.completion.config')
 completion['neovim/nvim-lspconfig'] = {
   event = 'BufReadPre',
   config = conf.nvim_lsp,
+  requires = 'hrsh7th/cmp-nvim-lsp',
+}
+
+completion['tami5/lspsaga.nvim'] = {
+  cmd = 'Lspsaga',
+  config = conf.lspsaga,
+  requires = 'neovim/nvim-lspconfig',
+}
+
+completion['nvim-telescope/telescope.nvim'] = {
+  cmd = 'Telescope',
+  config = conf.telescope,
   requires = {
-      {'ray-x/lsp_signature.nvim'},
-      {'simrat39/rust-tools.nvim'},
+    {'nvim-lua/popup.nvim', opt = true}, {'nvim-lua/plenary.nvim', opt = true},
+    {'nvim-telescope/telescope-fzy-native.nvim'},
   },
 }
 
-completion['glepnir/lspsaga.nvim'] = {
-  cmd = 'Lspsaga',
+completion['glepnir/smartinput.nvim'] = {ft = 'go', config = conf.smart_input}
+
+completion['hrsh7th/nvim-cmp'] = {
+  requires = {
+    'hrsh7th/cmp-nvim-lsp', 'hrsh7th/cmp-buffer', 'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip',
+  },
+  config = conf.nvim_cmp,
 }
 
-completion['ms-jpq/coq_nvim'] = {
-    branch = 'coq',
-    requires = {'ms-jpq/coq.artifacts', branch='atifacts'},
-    config = function() 
-        vim.g.coq_settings = {
-            auto_start = 'shut-up',
-            display = {
-                ghost_text = {enabled=true},
-                pum = {fast_close=false},
-            },
-            keymap = {jump_to_mark = ''},
-        }
-    end
-}
+completion['L3MON4D3/LuaSnip'] = {config = conf.luasnip}
+
+completion['ray-x/lsp_signature.nvim'] = {config = conf.lsp_signature}
 
 return completion
