@@ -1,53 +1,37 @@
 local editor = {}
 local conf = require('modules.editor.config')
 
-editor['nvim-telescope/telescope.nvim'] = {
-  cmd = 'Telescope',
-  config = conf.telescope,
-  requires = {
-    {'nvim-lua/popup.nvim', opt = true},
-    {'nvim-lua/plenary.nvim',opt = true},
-  }
+editor['rhysd/accelerated-jk'] = {opt = true}
+
+editor['lewis6991/gitsigns.nvim'] = {
+  config = conf.gitsigns,
+  requires = {'nvim-lua/plenary.nvim', opt = true},
 }
 
-editor['rhysd/accelerated-jk'] = {
-  opt = true
-}
-
-editor['dyng/ctrlsf.vim'] = {}
-
-editor['f-person/git-blame.nvim'] = {
-  config = function()
-    vim.g.gitblame_message_template = '        <author> • <date> • <summary>'
-  end
-}
-
-editor['itchyny/vim-cursorword'] = {
-  event = {'BufReadPre','BufNewFile'},
-  config = conf.vim_cursorwod
-}
-
-editor['karb94/neoscroll.nvim'] = {
-  config = function()
-    require('neoscroll').setup()
-  end
-}
-
-editor['phaazon/hop.nvim'] = {
-  as = 'hop',
-  config = function()
-    require'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
-  end
+editor['ruifm/gitlinker.nvim'] = {
+  config = conf.gitlinker,
+  requires = {'nvim-lua/plenary.nvim', opt = true},
 }
 
 editor['windwp/nvim-autopairs'] = {
-    config = function()
-        require('nvim-autopairs').setup{}
-    end
+  config = conf.autopairs,
+  requires = {'hrsh7th/nvim-cmp', opt = true},
 }
 
-editor['plasticboy/vim-markdown'] = {
-    requires = 'godlygeek/tabular',
+editor['AckslD/nvim-trevJ.lua'] = {
+  config = conf.trevj,
+  after = 'nvim-treesitter',
 }
+
+editor['yamatsum/nvim-cursorline'] = {config = conf.cursorline}
+
+editor['lukas-reineke/indent-blankline.nvim'] = {
+  config = conf.indent,
+  after = 'nvim-treesitter',
+}
+
+editor['karb94/neoscroll.nvim'] = {config = conf.neoscroll}
+
+editor['echasnovski/mini.nvim'] = {config = conf.mini}
 
 return editor
