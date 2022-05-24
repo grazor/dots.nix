@@ -33,8 +33,6 @@ in stdenv.mkDerivation rec {
 
   postShellHook = ''
     unset SOURCE_DATE_EPOCH
-    export PIP_INDEX_URL=http://pypi.k.avito.ru/pypi/
-    export PIP_TRUSTED_HOST=pypi.k.avito.ru
 
     alias pip="python -m pip"
   '';
