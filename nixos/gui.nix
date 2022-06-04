@@ -9,7 +9,6 @@
       corefonts
       dejavu_fonts
       freefont_ttf
-      google-fonts
       inconsolata
       iosevka
       liberation_ttf
