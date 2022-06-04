@@ -9,15 +9,18 @@ let
 in
 {
   systemd.services.mqtt = {
-    Service.Description = description;
-    Service.Requires = "docker.service";
-    Service.After = "network.target";
-    Service.WantedBy = "multi-user.target";
+    description = description;
 
-    Service.Restart = "always";
-    Service.RestartSec = "3";
-    Service.ExecStart = "${pkgs.docker}/bin/docker run --name=${name} ${configOpt} ${extraOpt} ${image}";
-    Service.ExecStop = "${pkgs.docker}/bin/docker stop -t 2 ${name}";
-    Service.ExecStopPost = "${pkgs.docker}/bin/docker rm -f ${name}";
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "docker.service" ];
+    after = [ "network.target" ];
+
+    serviceConfig = {
+      Restart = "always";
+      RestartSec = "3";
+      ExecStart = "${pkgs.docker}/bin/docker run --name=${name} ${configOpt} ${extraOpt} ${image}";
+      ExecStop = "${pkgs.docker}/bin/docker stop -t 2 ${name}";
+      ExecStopPost = "${pkgs.docker}/bin/docker rm -f ${name}";
+    };
   };
 }
