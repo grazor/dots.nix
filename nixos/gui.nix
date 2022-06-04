@@ -24,6 +24,4 @@
       (nerdfonts.override { fonts = [ "Hack" "SourceCodePro" ]; })
     ];
   };
-
-  environment.systemPackages = with pkgs; [ google-chrome mpv ];
 }

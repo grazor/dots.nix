@@ -16,7 +16,7 @@
       overlays = [ inputs.neovim-nightly-overlay.overlay ];
 
       mkNixosConfiguration = name:
-        { config ? ./hosts + "/${name}" }:
+        { config ? ./hosts + "/${name}", users ? ["g"] }:
         nameValuePair name (nixosSystem {
           system = "x86_64-linux";
           modules = [
@@ -28,14 +28,14 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.g = import ./home/g;
+              home-manager.users = listToAttrs (map (x: {name = x; value = import (./. + "/home/${x}");}) users);
             }
           ];
         });
 
     in {
       nixosConfigurations = mapAttrs' mkNixosConfiguration {
-        pzb = { };
+        pzb = { users = ["cloud"]; };
         pozon = { };
         pdsk = { };
         pdell = { };

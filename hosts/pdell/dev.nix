@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  virtualisation.docker.enable = true;
+  programs.adb.enable = true;
 
   environment.systemPackages = with pkgs; [
     python3
@@ -11,5 +11,12 @@
     jq
     gnumake
     ripgrep 
+
+    slack
+    tdesktop
+    zoom-us
+    obsidian 
+
+    #watson
   ];
 }
