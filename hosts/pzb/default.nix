@@ -1,7 +1,7 @@
 { lib, ... }:
 
 {
-  imports = [ ./hardware.nix ./gui.nix ./psql.nix ./arduino.nix ./steam.nix ];
+  imports = [ ./hardware.nix ./services.nix ./gui.nix ./users.nix ./services ];
 
   nix.settings.max-jobs = lib.mkDefault 4;
 }

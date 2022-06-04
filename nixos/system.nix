@@ -8,7 +8,6 @@
       efi.canTouchEfiVariables = true;
     };
 
-    #kernel.sysctl = { "fs.inotify.max_user_watches" = 100000; };
     cleanTmpDir = true;
   };
 
@@ -20,7 +19,6 @@
 
   services.acpid.enable = true;
   services.logind.lidSwitch = "suspend";
-  services.fprintd.enable = true;
   services.sshd.enable = true;
 
   powerManagement.enable = true;

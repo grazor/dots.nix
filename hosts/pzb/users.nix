@@ -2,10 +2,10 @@
 
 {
   users.defaultUserShell = pkgs.zsh;
-  users.users.g = {
+  users.users.cloud = {
     uid = 1000;
     isNormalUser = true;
-    extraGroups = [ "wheel" "network" "uucp" "dialout" "networkmanager" "docker" "audio" "video" "input" "sway" ];
+    extraGroups = [ "network" "uucp" "dialout" "networkmanager" "docker" "audio" "video" "input" ];
     useDefaultShell = true;
   };
 
@@ -13,3 +13,4 @@
 
   environment.systemPackages = with pkgs; [ xdg-user-dirs ];
 }
+
