@@ -8,7 +8,7 @@ let
     extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --privileged --net=host";
 in
 {
-  systemd.services.hass = {
+  systemd.services.influx = {
     description = description;
 
     wantedBy = [ "multi-user.target" ];
