@@ -8,7 +8,7 @@ let
     extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --net=host";
 in
 {
-  systemd.services.hass = {
+  systemd.services.mqtt = {
     Service.Description = description;
     Service.Requires = "docker.service";
     Service.After = "network.target";
@@ -16,8 +16,8 @@ in
 
     Service.Restart = "always";
     Service.RestartSec = "3";
-    Service.ExecStart = "${pkgs.docker} run --name=${name} ${configOpt} ${extraOpt} ${image}";
-    Service.ExecStop = "${pkgs.docker} stop -t 2 ${name}";
-    Service.ExecStopPost = "${pkgs.docker} rm -f ${name}";
+    Service.ExecStart = "${pkgs.docker}/bin/docker run --name=${name} ${configOpt} ${extraOpt} ${image}";
+    Service.ExecStop = "${pkgs.docker}/bin/docker stop -t 2 ${name}";
+    Service.ExecStopPost = "${pkgs.docker}/bin/docker rm -f ${name}";
   };
 }
