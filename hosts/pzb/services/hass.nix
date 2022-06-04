@@ -3,21 +3,24 @@
 let
     description = "Home Assistant";
     name = "home-assistant";
-    image = "homeassistant/raspberrypi4-homeassistant";
+    image = "homeassistant/generic-x86-64-homeassistant";
     configOpt = "-v /home/cloud/hass/:/config";
-    extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --net=host";
+    extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --privileged --net=host";
 in
 {
   systemd.services.hass = {
-    Service.Description = description;
-    Service.Requires = "docker.service";
-    Service.After = "network.target";
-    Service.WantedBy = "multi-user.target";
+    description = description;
 
-    Service.Restart = "always";
-    Service.RestartSec = "3";
-    Service.ExecStart = "${pkgs.docker} run --name=${name} ${configOpt} ${extraOpt} ${image}";
-    Service.ExecStop = "${pkgs.docker} stop -t 2 ${name}";
-    Service.ExecStopPost = "${pkgs.docker} rm -f ${name}";
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "docker.service" ];
+    after = [ "network.target" ];
+
+    serviceConfig = {
+      Restart = "always";
+      RestartSec = "3";
+      ExecStart = "${pkgs.docker} run --name=${name} ${configOpt} ${extraOpt} ${image}";
+      ExecStop = "${pkgs.docker} stop -t 2 ${name}";
+      ExecStopPost = "${pkgs.docker} rm -f ${name}";
+    };
   };
 }
