@@ -3,7 +3,7 @@
 {
   users.defaultUserShell = pkgs.zsh;
   users.users.cloud = {
-    uid = 1000;
+    uid = 1100;
     isNormalUser = true;
     extraGroups = [ "network" "uucp" "dialout" "networkmanager" "docker" "audio" "video" "input" ];
     useDefaultShell = true;
