@@ -29,5 +29,7 @@
 
   swapDevices = [{ device = "/dev/disk/by-uuid/422855ea-f017-47c5-beef-4b7e14fae92e"; }];
 
+  services.logind.lidSwitch = "ignore";
+
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 }
