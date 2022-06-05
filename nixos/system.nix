@@ -13,6 +13,7 @@
 
   services.acpid.enable = true;
   services.sshd.enable = true;
+  services.openssh.passwordAuthentication = false;
 
   powerManagement.enable = true;
 
