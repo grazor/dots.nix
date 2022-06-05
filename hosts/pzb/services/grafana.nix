@@ -4,8 +4,8 @@ let
     description = "Grafana Dashboard";
     name = "grafana";
     image = "grafana/grafana-oss";
-    configOpt = "-v /home/cloud/grafana/config:/etc/grafana -v /home/cloud/grafana/data:/var/lib/grafana -v /home/cloud/grafana/share:/usr/share/grafana";
-    extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --privileged --net=host";
+    configOpt = "-v /home/cloud/grafana:/var/lib/grafana";
+    extraOpt = "--user 1000 --pull=always -v /etc/localtime:/etc/localtime:ro --privileged --net=host";
 in
 {
   systemd.services.grafana = {
