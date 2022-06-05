@@ -10,7 +10,10 @@
     gc.automatic = true;
     settings.sandbox = true;
     package = pkgs.nixUnstable;
+    extraOptions = ''
+      experimental-features = nix-command
+    '';
   };
 
-  system.stateVersion = "20.03";
+  system.stateVersion = "22.05";
 }
