@@ -11,14 +11,7 @@
     cleanTmpDir = true;
   };
 
-  services.logind.extraConfig = ''
-    HandleSuspendKey=suspend
-    HandleLidSwitch=suspend
-    HandleLidSwitchDocked=suspend
-  '';
-
   services.acpid.enable = true;
-  services.logind.lidSwitch = "suspend";
   services.sshd.enable = true;
 
   powerManagement.enable = true;
