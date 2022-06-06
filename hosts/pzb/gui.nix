@@ -1,5 +1,5 @@
 { pkgs, ... }:
 
 {
-    environment.systemPackages = with pkgs; [ google-chrome mpv ];
+  environment.systemPackages = with pkgs; [ google-chrome mpv ];
 }

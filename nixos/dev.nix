@@ -10,6 +10,6 @@
     git
     jq
     gnumake
-    ripgrep 
+    ripgrep
   ];
 }

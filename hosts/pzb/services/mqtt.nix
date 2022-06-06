@@ -1,13 +1,12 @@
 { pkgs, ... }:
 
 let
-    description = "Mqtt";
-    name = "mqtt";
-    image = "eclipse-mosquitto";
-    configOpt = "-v /home/cloud/mosquitto/:/mosquitto";
-    extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --net=host";
-in
-{
+  description = "Mqtt";
+  name = "mqtt";
+  image = "eclipse-mosquitto";
+  configOpt = "-v /home/cloud/mosquitto/:/mosquitto";
+  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --net=host";
+in {
   systemd.services.mqtt = {
     description = description;
 

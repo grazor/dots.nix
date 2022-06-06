@@ -10,12 +10,12 @@
     git
     jq
     gnumake
-    ripgrep 
+    ripgrep
 
     slack
     tdesktop
     zoom-us
-    obsidian 
+    obsidian
 
     #watson
   ];

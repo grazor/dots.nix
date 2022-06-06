@@ -1,13 +1,12 @@
 { pkgs, ... }:
 
 let
-    description = "Influxdb";
-    name = "influx";
-    image = "influxdb";
-    configOpt = "-v /home/cloud/influx/config:/etc/influxdb2 -v /home/cloud/influx/data:/var/lib/influxdb2";
-    extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --privileged --net=host";
-in
-{
+  description = "Influxdb";
+  name = "influx";
+  image = "influxdb";
+  configOpt = "-v /home/cloud/influx/config:/etc/influxdb2 -v /home/cloud/influx/data:/var/lib/influxdb2";
+  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --privileged --net=host";
+in {
   systemd.services.influx = {
     description = description;
 

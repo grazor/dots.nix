@@ -1,7 +1,7 @@
-let nixpkgs = import <nixpkgs> {};
+let nixpkgs = import <nixpkgs> { };
 in nixpkgs.buildFHSUserEnv {
-   name = "fhs";
-   targetPkgs = pkgs: [];
-   multiPkgs = pkgs: [ pkgs.dpkg ];
-   runScript = "bash";
+  name = "fhs";
+  targetPkgs = pkgs: [ ];
+  multiPkgs = pkgs: [ pkgs.dpkg ];
+  runScript = "bash";
 }
