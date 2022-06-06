@@ -27,9 +27,9 @@
   services.pcscd.enable = true;
   services.dbus.packages = [ pkgs.gcr ];
   programs.gnupg.agent = {
-     enable = true;
-     pinentryFlavor = "curses";
-     enableSSHSupport = true;
+    enable = true;
+    pinentryFlavor = "curses";
+    enableSSHSupport = true;
   };
 
   systemd.services.NetworkManager-wait-online.enable = false;
@@ -60,7 +60,7 @@
     libnotify
 
     direnv
-    brightnessctl 
+    brightnessctl
     zoxide # smart cd
     exa # fancy ls
   ];

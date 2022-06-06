@@ -1,7 +1,6 @@
 with import <nixpkgs> { };
 
-let
-  pythonPackages = python39Packages;
+let pythonPackages = python39Packages;
 in stdenv.mkDerivation rec {
   name = "dev-python";
 
@@ -22,10 +21,7 @@ in stdenv.mkDerivation rec {
     zlib
   ];
 
-  propagatedBuildInputs = [
-      pythonPackages.setuptools
-      pythonPackages.six
-  ];
+  propagatedBuildInputs = [ pythonPackages.setuptools pythonPackages.six ];
 
   postVenvCreation = ''
     unset SOURCE_DATE_EPOCH

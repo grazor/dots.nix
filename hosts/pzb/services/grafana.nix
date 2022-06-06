@@ -1,13 +1,12 @@
 { pkgs, ... }:
 
 let
-    description = "Grafana Dashboard";
-    name = "grafana";
-    image = "grafana/grafana-oss";
-    configOpt = "-v /home/cloud/grafana:/var/lib/grafana";
-    extraOpt = "--user 1000 --pull=always -v /etc/localtime:/etc/localtime:ro --privileged --net=host";
-in
-{
+  description = "Grafana Dashboard";
+  name = "grafana";
+  image = "grafana/grafana-oss";
+  configOpt = "-v /home/cloud/grafana:/var/lib/grafana";
+  extraOpt = "--user 1000 --pull=always -v /etc/localtime:/etc/localtime:ro --privileged --net=host";
+in {
   systemd.services.grafana = {
     description = description;
 
