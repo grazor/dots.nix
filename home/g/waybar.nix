@@ -170,8 +170,7 @@
       #waybar {
           background: #323232;
           color: white;
-          /*font-family: Cantarell, Noto Sans, sans-serif;*/
-          font-family: "Hack", "Font Awesome 5 Free";
+          font-family: "Hack Nerd Font", "Font Awesome 5 Free";
           font-size: 13px;
       }
 
