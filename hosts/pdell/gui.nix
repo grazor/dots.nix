@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  services.xserver.videoDrivers = [ "intel" ];
+
   services.xserver = {
     enable = true;
 
