@@ -1,6 +1,16 @@
 { ... }:
 
 {
-  imports = [ ./hass.nix ./mqtt.nix ./zigbee2mqtt.nix ./caddy.nix ./influx.nix ./grafana.nix ./transmission.nix ];
+  imports = [
+    ./hass.nix
+    ./mqtt.nix
+    ./zigbee2mqtt.nix
+    ./caddy.nix
+    ./influx.nix
+    ./grafana.nix
+    ./transmission.nix
+    ./radarr.nix
+    ./plex.nix
+  ];
 }
 
