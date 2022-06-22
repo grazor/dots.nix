@@ -1,15 +1,16 @@
 { pkgs, ... }:
 
 let
-  description = "Transmission";
-  name = "transmission";
-  image = "lscr.io/linuxserver/transmission:latest";
+  description = "Plex";
+  name = "plex";
+  image = "lscr.io/linuxserver/plex:latest";
 
-  path = "/home/cloud/transmission";
-  configOpt = "-v ${path}/config/:/config -v ${path}/downloads/:/downloads -v ${path}/watch/:/watch";
-  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e PUID=1000 -e PGUID=1000 -e USER=grazor -e FILE__PASSWORD=/config/password --net=host";
+  path = "/home/cloud/plex";
+  radarrPath = "/home/cloud/radarr";
+  configOpt = "-v ${path}/config/:/config -v ${radarrPath}/movies/:/movies";
+  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e PUID=1000 -e PGUID=1000 -e VERSION=docker --net=host --device=/dev/dri:/dev/dri";
 in {
-  systemd.services.transmission = {
+  systemd.services.plex = {
     description = description;
 
     wantedBy = [ "multi-user.target" ];
@@ -25,3 +26,5 @@ in {
     };
   };
 }
+
+

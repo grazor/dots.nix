@@ -1,15 +1,16 @@
 { pkgs, ... }:
 
 let
-  description = "Transmission";
-  name = "transmission";
-  image = "lscr.io/linuxserver/transmission:latest";
+  description = "Radarr";
+  name = "radarr";
+  image = "lscr.io/linuxserver/radarr:latest";
 
-  path = "/home/cloud/transmission";
-  configOpt = "-v ${path}/config/:/config -v ${path}/downloads/:/downloads -v ${path}/watch/:/watch";
+  path = "/home/cloud/radarr";
+  transmissionPath = "/home/cloud/transmission";
+  configOpt = "-v ${path}/config/:/config -v ${transmissionPath}/downloads/:/downloads -v ${path}/movies/:/movies";
   extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e PUID=1000 -e PGUID=1000 -e USER=grazor -e FILE__PASSWORD=/config/password --net=host";
 in {
-  systemd.services.transmission = {
+  systemd.services.radarr = {
     description = description;
 
     wantedBy = [ "multi-user.target" ];
@@ -25,3 +26,4 @@ in {
     };
   };
 }
+
