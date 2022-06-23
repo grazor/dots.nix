@@ -9,10 +9,11 @@
     ./influx.nix
     ./grafana.nix
     
-    ./transmission.nix
+    ./tunnel.nix
     ./radarr.nix
     ./sonarr.nix
     ./jackett.nix
+    ./transmission.nix
     ./plex.nix
   ];
 }
