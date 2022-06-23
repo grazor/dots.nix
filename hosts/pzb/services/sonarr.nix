@@ -6,7 +6,7 @@ let
   image = "lscr.io/linuxserver/sonarr:latest";
 
   path = "/home/cloud/media";
-  configOpt = "-v ${path}/sonarr/:/config -v ${path}/data/downloads/complete:/downloads -v ${path}/data/shows/:/tv";
+  configOpt = "-v ${path}/sonarr/:/config -v ${path}/data/downloads:/downloads -v ${path}/data/shows/:/tv";
   extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e PUID=1000 -e PGUID=1000 --net=host";
 in {
   systemd.services.sonarr = {

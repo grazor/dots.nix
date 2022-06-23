@@ -14,7 +14,7 @@ in {
       User = "cloud";
       Restart = "always";
       RestartSec = "1";
-      ExecStart = "ssh -N -D 9999 tun@v.porivaev.ru";
+      ExecStart = "${pkgs.openssh}/bin/ssh -N -D 8999 tun@v.porivaev.ru";
     };
   };
 }
