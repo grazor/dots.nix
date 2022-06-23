@@ -1,15 +1,15 @@
 { pkgs, ... }:
 
 let
-  description = "Plex";
-  name = "plex";
-  image = "lscr.io/linuxserver/plex:latest";
+  description = "Sonarr";
+  name = "sonarr";
+  image = "lscr.io/linuxserver/sonarr:latest";
 
   path = "/home/cloud/media";
-  configOpt = "-v ${path}/plex/:/config -v ${path}/data/movies/:/movies -v ${path}/data/shows:/tv";
-  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e PUID=1000 -e PGUID=1000 -e VERSION=docker --net=host --device=/dev/dri:/dev/dri";
+  configOpt = "-v ${path}/sonarr/:/config -v ${path}/data/downloads/complete:/downloads -v ${path}/data/shows/:/tv";
+  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e PUID=1000 -e PGUID=1000 --net=host";
 in {
-  systemd.services.plex = {
+  systemd.services.sonarr = {
     description = description;
 
     wantedBy = [ "multi-user.target" ];
@@ -25,5 +25,4 @@ in {
     };
   };
 }
-
 

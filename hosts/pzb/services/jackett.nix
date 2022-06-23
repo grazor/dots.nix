@@ -1,15 +1,15 @@
 { pkgs, ... }:
 
 let
-  description = "Plex";
-  name = "plex";
-  image = "lscr.io/linuxserver/plex:latest";
+  description = "Jackett";
+  name = "jackett";
+  image = "lscr.io/linuxserver/jackett:latest";
 
   path = "/home/cloud/media";
-  configOpt = "-v ${path}/plex/:/config -v ${path}/data/movies/:/movies -v ${path}/data/shows:/tv";
-  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e PUID=1000 -e PGUID=1000 -e VERSION=docker --net=host --device=/dev/dri:/dev/dri";
+  configOpt = "-v ${path}/jackett/:/config -v ${path}/data/downloads:/downloads";
+  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e PUID=1000 -e PGUID=1000 --net=host";
 in {
-  systemd.services.plex = {
+  systemd.services.jackett = {
     description = description;
 
     wantedBy = [ "multi-user.target" ];
@@ -25,5 +25,4 @@ in {
     };
   };
 }
-
 
