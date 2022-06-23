@@ -5,10 +5,9 @@ let
   name = "radarr";
   image = "lscr.io/linuxserver/radarr:latest";
 
-  path = "/home/cloud/radarr";
-  transmissionPath = "/home/cloud/transmission";
-  configOpt = "-v ${path}/config/:/config -v ${transmissionPath}/downloads/:/downloads -v ${path}/movies/:/movies";
-  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e PUID=1000 -e PGUID=1000 -e USER=grazor -e FILE__PASSWORD=/config/password --net=host";
+  path = "/home/cloud/media";
+  configOpt = "-v ${path}/radarr/:/config -v ${path}/data/downloads/complete:/downloads -v ${path}/data/movies/:/movies";
+  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e TZ=Europe/Moscow -e PUID=1000 -e PGUID=1000 --net=host";
 in {
   systemd.services.radarr = {
     description = description;
