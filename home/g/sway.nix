@@ -134,6 +134,10 @@ in {
           always = false;
         }
         {
+          command = "wl-paste -t text --watch ${binPath}/jira2md";
+          always = false;
+        }
+        {
           command = "autotiling";
           always = true;
         }
