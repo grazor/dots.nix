@@ -14,7 +14,7 @@
 
       modules-center = [ "clock#date" "clock#time" ];
 
-      modules-right = [ "network" "memory" "cpu" "temperature" "battery" "pulseaudio" "tray" ];
+      modules-right = [ "network" "memory" "cpu" "temperature" "battery" "pulseaudio" "custom/layout" "tray" ];
 
       modules = {
         "battery" = {
@@ -125,6 +125,12 @@
         "tray" = {
           "icon-size" = 21;
           "spacing" = 10;
+        };
+
+        "custom/layout" = {
+          "tooltip" = false;
+          "interval" = 1;
+          "exec" = "/home/g/.bin/layout";
         };
       };
     }];
