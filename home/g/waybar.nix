@@ -129,7 +129,6 @@
 
         "custom/layout" = {
           "tooltip" = false;
-          "interval" = 1;
           "exec" = "/home/g/.bin/layout";
         };
       };
