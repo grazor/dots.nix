@@ -2,14 +2,19 @@
 
 LYAOUT=$(swaymsg -rt get_inputs | jq -r '.[] | select(.name == "AT Translated Set 2 keyboard") | .xkb_active_layout_name')
 
-case $LYAOUT in
-    "English (US)")
-        echo "US 🇺🇸"
-        ;;
-    "English (Dvorak)")
-        echo "DV 🏴"
-        ;;
-    "Russian")
-        echo "RU 🇷🇺"
-        ;;
-esac
+swaymsg -mrt subscribe '["input"]'\
+    | jq -r --unbuffered 'select(.change == "xkb_layout" and .input.name == "AT Translated Set 2 keyboard") | .input.xkb_active_layout_name'\
+    | while read layout
+    do
+    case $layout in
+        "English (US)")
+            echo "🇺🇸"
+            ;;
+        "English (programmer Dvorak)")
+            echo 🧑‍💻
+            ;;
+        "Russian")
+            echo "🇷🇺"
+            ;;
+    esac
+done

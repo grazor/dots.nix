@@ -66,8 +66,8 @@ in {
       input = {
         "*" = {
           xkb_layout = "us,ru,us";
-          xkb_variant = "dvp,,";
-          xkb_options = "grp:win_space_toggle,caps:ctrl_modifier,grp_led:caps,compose:ralt";
+          xkb_variant = ",,dvp";
+          xkb_options = "grp:win_space_toggle,grp:shift_caps_switch,grp_led:caps,compose:ralt";
           natural_scroll = "enabled";
           middle_emulation = "disabled";
         };
