@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+LYAOUT=$(swaymsg -rt get_inputs | jq -r '.[] | select(.name == "AT Translated Set 2 keyboard") | .xkb_active_layout_name')
+
+case $LYAOUT in
+    "English (US)")
+        echo "US 🇺🇸"
+        ;;
+    "English (Dvorak)")
+        echo "DV 🏴"
+        ;;
+    "Russian")
+        echo "RU 🇷🇺"
+        ;;
+esac
