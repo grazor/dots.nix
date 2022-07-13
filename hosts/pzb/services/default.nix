@@ -15,6 +15,8 @@
     ./jackett.nix
     ./transmission.nix
     ./plex.nix
+
+    ./registry.nix
   ];
 }
 
