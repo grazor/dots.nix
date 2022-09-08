@@ -1,6 +1,6 @@
 with import <nixpkgs> { };
 
-let pythonPackages = python39Packages;
+let pythonPackages = python311Packages;
 in stdenv.mkDerivation rec {
   name = "dev-python";
 
@@ -10,15 +10,13 @@ in stdenv.mkDerivation rec {
     pythonPackages.python
     pythonPackages.venvShellHook
 
-    pythonPackages.requests
-    pythonPackages.pynvim
-
     openssl
     git
     libxml2
     libxslt
     libzip
     zlib
+    cmake
   ];
 
   propagatedBuildInputs = [ pythonPackages.setuptools pythonPackages.six ];
@@ -30,7 +28,7 @@ in stdenv.mkDerivation rec {
   postShellHook = ''
     unset SOURCE_DATE_EPOCH
 
-    alias pip="python -m pip"
+    pip install pdbpp poetry
   '';
 
 }

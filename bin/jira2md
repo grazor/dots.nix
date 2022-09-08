@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 COPIED=$(</dev/stdin)
-if [[ $COPIED =~ https://[a-z.]*/browse/[A-Z]{2,6}-[0-9]{1,8} ]]
+if [[ $COPIED =~ ^https://[a-z.]*/browse/[A-Z]{2,6}-[0-9]{1,8} ]]
 then
     echo $COPIED | sed 's|^\(https://[a-z.]*/browse/\)\([A-Z]\{2,6\}-[0-9]\{1,8\}\)$|[\2](\1\2)|' | wl-copy
 fi
