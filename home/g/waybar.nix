@@ -16,121 +16,119 @@
 
       modules-right = [ "network" "memory" "cpu" "temperature" "battery" "pulseaudio" "custom/layout" "tray" ];
 
-      modules = {
-        "battery" = {
-          interval = 10;
-          states = {
-            warning = 15;
-            critical = 5;
-          };
-          format = "  {icon}  {capacity}%";
-          "format-discharging" = "{icon}  {capacity}%";
-          "format-icons" = [
-            ""
-            "" # Icon: battery-three-quarters
-            "" # Icon: battery-half
-            "" # Icon: battery-quarter
-            "" # Icon: battery-empty
-          ];
-          tooltip = true;
+      "battery" = {
+        interval = 10;
+        states = {
+          warning = 15;
+          critical = 5;
         };
+        format = "  {icon}  {capacity}%";
+        "format-discharging" = "{icon}  {capacity}%";
+        "format-icons" = [
+          ""
+          "" # Icon: battery-three-quarters
+          "" # Icon: battery-half
+          "" # Icon: battery-quarter
+          "" # Icon: battery-empty
+        ];
+        tooltip = true;
+      };
 
-        "clock#time" = {
-          interval = 1;
-          format = "{:%H:%M:%S}";
-          tooltip = false;
-        };
+      "clock#time" = {
+        interval = 1;
+        format = "{:%H:%M:%S}";
+        tooltip = false;
+      };
 
-        "clock#date" = {
-          interval = 10;
-          format = "  {:%e %b %Y}";
-          tooltip = false;
-        };
+      "clock#date" = {
+        interval = 10;
+        format = "  {:%e %b %Y}";
+        tooltip = false;
+      };
 
-        "cpu" = {
-          "interval" = 5;
-          "format" = "  {usage}% ({load})";
-          "states" = {
-            "warning" = 70;
-            "critical" = 90;
-          };
+      "cpu" = {
+        "interval" = 5;
+        "format" = "  {usage}% ({load})";
+        "states" = {
+          "warning" = 70;
+          "critical" = 90;
         };
+      };
 
-        "memory" = {
-          "interval" = 5;
-          "format" = "  {}%";
-          "states" = {
-            "warning" = 70;
-            "critical" = 90;
-          };
+      "memory" = {
+        "interval" = 5;
+        "format" = "  {}%";
+        "states" = {
+          "warning" = 70;
+          "critical" = 90;
         };
+      };
 
-        "network" = {
-          "interval" = 5;
-          "format-wifi" = "  {essid} ({signalStrength}%)";
-          "format-ethernet" = "  {ifname}= {ipaddr}/{cidr}";
-          "format-disconnected" = "⚠  Disconnected";
-          "tooltip-format" = "{ifname}= {ipaddr}";
-        };
+      "network" = {
+        "interval" = 5;
+        "format-wifi" = "  {essid} ({signalStrength}%)";
+        "format-ethernet" = "  {ifname}= {ipaddr}/{cidr}";
+        "format-disconnected" = "⚠  Disconnected";
+        "tooltip-format" = "{ifname}= {ipaddr}";
+      };
 
-        "sway/mode" = {
-          "format" = ''<span style="italic">  {}</span>'';
-          "tooltip" = false;
-        };
+      "sway/mode" = {
+        "format" = ''<span style="italic">  {}</span>'';
+        "tooltip" = false;
+      };
 
-        "sway/workspaces" = {
-          "all-outputs" = false;
-          "disable-scroll" = true;
-          #"format"= "{icon} {name}";
-          "format" = "{name}";
-          "format-icons" = {
-            "1=www" = "龜";
-            "2=mail" = "";
-            "3=editor" = "";
-            "4=terminals" = "";
-            "5=portal" = "";
-            "urgent" = "";
-            "focused" = "";
-            "default" = "";
-          };
+      "sway/workspaces" = {
+        "all-outputs" = false;
+        "disable-scroll" = true;
+        #"format"= "{icon} {name}";
+        "format" = "{name}";
+        "format-icons" = {
+          "1=www" = "龜";
+          "2=mail" = "";
+          "3=editor" = "";
+          "4=terminals" = "";
+          "5=portal" = "";
+          "urgent" = "";
+          "focused" = "";
+          "default" = "";
         };
+      };
 
-        "pulseaudio" = {
-          #"scroll-step"= 1;
-          "format" = "{format_source}  {icon}  {volume}%";
-          "format-bluetooth" = "{format_source}  {icon}  {volume}%";
-          "format-source" = ''<span color="orange"></span>'';
-          "format-source-muted" = "";
-          "format-muted" = "";
-          "format-icons" = {
-            "headphones" = "";
-            "handsfree" = "";
-            "headset" = "";
-            "phone" = "";
-            "portable" = "";
-            "car" = "";
-            "default" = [ "" "" ];
-          };
-          "on-click" = "pavucontrol";
+      "pulseaudio" = {
+        #"scroll-step"= 1;
+        "format" = "{format_source}  {icon}  {volume}%";
+        "format-bluetooth" = "{format_source}  {icon}  {volume}%";
+        "format-source" = ''<span color="orange"></span>'';
+        "format-source-muted" = "";
+        "format-muted" = "";
+        "format-icons" = {
+          "headphones" = "";
+          "handsfree" = "";
+          "headset" = "";
+          "phone" = "";
+          "portable" = "";
+          "car" = "";
+          "default" = [ "" "" ];
         };
+        "on-click" = "pavucontrol";
+      };
 
-        "temperature" = {
-          "critical-threshold" = 80;
-          "interval" = 5;
-          "format" = "{icon}  {temperatureC}°C";
-          "format-icons" = [ "" "" "" "" "" ];
-          "tooltip" = true;
-        };
+      "temperature" = {
+        "critical-threshold" = 80;
+        "interval" = 5;
+        "format" = "{icon}  {temperatureC}°C";
+        "format-icons" = [ "" "" "" "" "" ];
+        "tooltip" = true;
+      };
 
-        "tray" = {
-          "icon-size" = 21;
-          "spacing" = 10;
-        };
+      "tray" = {
+        "icon-size" = 21;
+        "spacing" = 10;
+      };
 
-        "custom/layout" = {
-          "tooltip" = false;
-          "exec" = "/home/g/.bin/layout";
-        };
+      "custom/layout" = {
+        "tooltip" = false;
+        "exec" = "/home/g/.bin/layout";
       };
     }];
 

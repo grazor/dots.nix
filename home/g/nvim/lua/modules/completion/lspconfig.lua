@@ -2,11 +2,8 @@ local api = vim.api
 local global = require 'core.global'
 local format = require('modules.completion.format')
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp
-                                                                   .protocol
-                                                                   .make_client_capabilities())
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-require('lspconfig')['gopls'].setup {capabilities = capabilities}
+require'lspconfig'.gopls.setup{}
+require'lspconfig'.rust_analyzer.setup{}
 
 function _G.reload_lsp()
   vim.lsp.stop_client(vim.lsp.get_active_clients())
