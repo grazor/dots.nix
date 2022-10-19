@@ -6,6 +6,7 @@ task=$(jira list -q 'assignee = currentUser() AND Sprint in openSprints() AND Sp
 
 issue=$(echo $task | cut -d: -f1)
 
+echo "$task"
 echo -n $issue-
 read suffix
 
