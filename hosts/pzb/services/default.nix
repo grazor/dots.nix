@@ -9,14 +9,14 @@
     ./influx.nix
     ./grafana.nix
     
-    ./tunnel.nix
-    ./radarr.nix
-    ./sonarr.nix
-    ./jackett.nix
-    ./transmission.nix
-    ./plex.nix
+    #./tunnel.nix
+    #./radarr.nix
+    #./sonarr.nix
+    #./jackett.nix
+    #./transmission.nix
+    #./plex.nix
 
-    ./registry.nix
+    #./registry.nix
   ];
 }
 
