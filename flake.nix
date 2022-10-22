@@ -38,9 +38,10 @@
 
     in {
       nixosConfigurations = mapAttrs' mkNixosConfiguration {
-        pzb = { users = [ "cloud" ]; };
         pdsk = { };
         pdell = { };
+        pzb = { users = [ "cloud" ]; };
+        srv = { users = [ "cloud" ]; };
       };
     };
 }
