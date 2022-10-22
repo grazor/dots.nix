@@ -5,6 +5,7 @@ let
   name = "registry";
   image = "registry:2";
   extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --net=host";
+  configOpt = "";
 in {
   systemd.services.registry = {
     description = description;
