@@ -27,7 +27,7 @@ in {
     lockCommand = "${binPath}/lock";
     grimshot = "${binPath}/grimshot";
     settitle = "${binPath}/set_title";
-	yubikey = "${binPath}/yubikey"
+	yubikey = "${binPath}/yubikey";
   in {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -74,8 +74,8 @@ in {
         };
 
 		"4176:1031:Yubico_YubiKey_OTP+FIDO+CCID" = {
-			events = disabled;
-		}
+			events = "disabled";
+		};
       };
 
       bindkeysToCode = true;
