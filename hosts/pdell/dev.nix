@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  programs.adb.enable = true;
+  programs.adb.enable = false;
 
   environment.systemPackages = with pkgs; [
     python3
