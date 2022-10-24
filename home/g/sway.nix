@@ -27,6 +27,7 @@ in {
     lockCommand = "${binPath}/lock";
     grimshot = "${binPath}/grimshot";
     settitle = "${binPath}/set_title";
+	yubikey = "${binPath}/yubikey"
   in {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -71,6 +72,10 @@ in {
           natural_scroll = "enabled";
           middle_emulation = "disabled";
         };
+
+		"4176:1031:Yubico_YubiKey_OTP+FIDO+CCID" = {
+			events = disabled;
+		}
       };
 
       bindkeysToCode = true;
@@ -94,6 +99,7 @@ in {
         "${modifier}+F1" = "exec ${settitle}";
         "${modifier}+F2" = "exec ${menu}";
         "${modifier}+F3" = "exec --no-startup-id clipman pick -t wofi";
+        "${modifier}+F12" = "exec --no-startup-id ${yubikey}";
 
         # Display slack on top of all apps
         "${modifier}+grave [class=\"obsidian\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
