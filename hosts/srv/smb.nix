@@ -31,10 +31,20 @@
 
     shares = {
       public = {
-        #path = "/share/Public";
-        path = "/home/tmp";
+        path = "/share/Public";
         browseable = "yes";
         "read only" = "no";
+        "guest ok" = "yes";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "force user" = "smball";
+        "force group" = "smb";
+      };
+      
+      media = {
+        path = "/share/Media";
+        browseable = "yes";
+        "read only" = "yes";
         "guest ok" = "yes";
         "create mask" = "0644";
         "directory mask" = "0755";
