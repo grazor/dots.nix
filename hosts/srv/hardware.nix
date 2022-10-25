@@ -37,10 +37,10 @@
     options = [ "defaults" "size=6G" "mode=1777" ];
   };
 
-  fileSystems."/share" = {
-    device = "/dev/disk/by-uuid/89d8f44f-747c-452b-83fe-9559f5d7e8a1";
-    fsType = "ext4";
-  };
+  #fileSystems."/share" = {
+    #device = "/dev/disk/by-uuid/89d8f44f-747c-452b-83fe-9559f5d7e8a1";
+    #fsType = "ext4";
+  #};
 
   swapDevices = [ ];
 

@@ -13,7 +13,7 @@
   
   users.users.smball = {
     uid = 2000;
-    isNormalUser = false;
+    isNormalUser = true;
     extraGroups = [ "smb" ];
     useDefaultShell = false;
   };

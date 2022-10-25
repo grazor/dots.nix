@@ -23,11 +23,16 @@
       hosts deny = 0.0.0.0/0
       guest account = nobody
       map to guest = bad user
+
+      wins support = yes
+      local master = yes
+      preferred master = yes
     '';
 
     shares = {
       public = {
-        path = "/share/Public";
+        #path = "/share/Public";
+        path = "/home/tmp";
         browseable = "yes";
         "read only" = "no";
         "guest ok" = "yes";
