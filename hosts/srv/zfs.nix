@@ -1,13 +1,15 @@
-{ config, ... }"
+{ config, pkgs, ... }:
 
 {
   # kernel options
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.kernelParams = [ "nohibernate" ];
+  boot.supportedFilesystems = [ "zfs" ];
 
-  boot.kernelParams = [ "nohibernate" ];
+  boot.zfs.extraPools = [ "pvs" ];
+  services.zfs.autoScrub.enable = true;
 
+  environment.systemPackages = [ pkgs.zfs ];
 
-  #boot.zfs.extraPools = [ "zpool_name" ];
-  #services.zfs.autoScrub.enable = true;
+  networking.hostId = "89ffcbd0";
 }
