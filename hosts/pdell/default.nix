@@ -10,6 +10,7 @@
 	./required.nix
 	./dev.nix
 	./users.nix
+	./smb.nix
   ];
 
   nix.settings.max-jobs = lib.mkDefault 8;
