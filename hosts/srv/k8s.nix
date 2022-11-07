@@ -1,35 +1,20 @@
 { config, pkgs, ... }:
 
-let
-  kubeMasterIP = "10.1.1.2";
-  kubeMasterHostname = "api.kube";
-  kubeMasterAPIServerPort = 6443;
-in
 {
-  # resolve master hostname
-  networking.extraHosts = "${kubeMasterIP} ${kubeMasterHostname}";
+  networking.firewall.allowedTCPPorts = [ 6443 ];
 
-  # packages for administration tasks
-  environment.systemPackages = with pkgs; [
-    kompose
-    kubectl
-    kubernetes
+  services.k3s.enable = true;
+  services.k3s.role = "server";
+  services.k3s.extraFlags = toString [
+    #"--disable=traefik"
   ];
 
-  services.kubernetes = {
-    roles = ["master" "node"];
-    masterAddress = kubeMasterHostname;
-    apiserverAddress = "https://${kubeMasterHostname}:${toString kubeMasterAPIServerPort}";
-    easyCerts = true;
-    apiserver = {
-      securePort = kubeMasterAPIServerPort;
-      advertiseAddress = kubeMasterIP;
+  virtualisation.containerd = {
+    enable = true;
+    settings = {
+      disabled_plugins = ["io.containerd.grpc.v1.cri" "io.containerd.snapshotter.v1"];
     };
-
-    # use coredns
-    addons.dns.enable = true;
-
-    # needed if you use swap
-    #kubelet.extraOpts = "--fail-swap-on=false";
   };
+
+  environment.systemPackages = [ pkgs.k3s ];
 }
