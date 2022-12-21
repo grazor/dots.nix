@@ -36,9 +36,6 @@ in stdenv.mkDerivation rec {
     export PIP_PREFIX=$(pwd)/_build/pip_packages
     export PYTHONPATH="$PIP_PREFIX/${pkgs.python3.sitePackages}:$PYTHONPATH"
     export PATH="$PIP_PREFIX/bin:$PATH"
-
-    export PIP_INDEX_URL=http://pypi.k.avito.ru/pypi/
-    export PIP_TRUSTED_HOST=pypi.k.avito.ru
   '';
 }
 
