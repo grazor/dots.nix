@@ -1,6 +1,7 @@
 with import <nixpkgs> { };
 
-let pythonPackages = python311Packages;
+let
+  pythonPackages = python39Packages;
 in stdenv.mkDerivation rec {
   name = "dev-python";
 
@@ -8,7 +9,11 @@ in stdenv.mkDerivation rec {
 
   buildInputs = [
     pythonPackages.python
-    pythonPackages.venvShellHook
+    pythonPackages.pip
+    pythonPackages.poetry
+
+    pythonPackages.requests
+    pythonPackages.pynvim
 
     openssl
     git
@@ -16,19 +21,24 @@ in stdenv.mkDerivation rec {
     libxslt
     libzip
     zlib
-    cmake
   ];
 
-  propagatedBuildInputs = [ pythonPackages.setuptools pythonPackages.six ];
+  propagatedBuildInputs = [
+      pythonPackages.setuptools
+      pythonPackages.six
+      stdenv.cc.cc.lib
+  ];
 
-  postVenvCreation = ''
+  shellHook = ''
+    # Tells pip to put packages into $PIP_PREFIX instead of the usual locations.
+    # See https://pip.pypa.io/en/stable/user_guide/#environment-variables.
     unset SOURCE_DATE_EPOCH
+    export PIP_PREFIX=$(pwd)/_build/pip_packages
+    export PYTHONPATH="$PIP_PREFIX/${pkgs.python3.sitePackages}:$PYTHONPATH"
+    export PATH="$PIP_PREFIX/bin:$PATH"
+
+    export PIP_INDEX_URL=http://pypi.k.avito.ru/pypi/
+    export PIP_TRUSTED_HOST=pypi.k.avito.ru
   '';
-
-  postShellHook = ''
-    unset SOURCE_DATE_EPOCH
-
-    pip install pdbpp poetry
-  '';
-
 }
+
