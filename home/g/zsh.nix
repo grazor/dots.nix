@@ -15,7 +15,7 @@
       ignoreDups = true;
       ignoreSpace = true;
       share = true;
-      size = 1000000;
+      size = 100000000;
     };
 
     enableAutosuggestions = true;
