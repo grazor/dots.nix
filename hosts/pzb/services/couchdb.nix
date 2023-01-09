@@ -7,7 +7,7 @@ let
   configOpt = "-v /home/cloud/couchdb/:/opt/couchdb/etc/local.d/";
   extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e COUCHDB_USER=grazor -e COUCHDB_SECRET=changeme --net=host";
 in {
-  systemd.services.hass = {
+  systemd.services.couchdb = {
     description = description;
 
     wantedBy = [ "multi-user.target" ];
