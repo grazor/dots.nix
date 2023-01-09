@@ -8,6 +8,8 @@
     ./caddy.nix
     ./influx.nix
     ./grafana.nix
+
+    ./couchdb.nix
     
     #./tunnel.nix
     #./radarr.nix
