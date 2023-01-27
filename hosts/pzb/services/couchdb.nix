@@ -4,8 +4,8 @@ let
   description = "CouchDB";
   name = "couchdb";
   image = "couchdb:3";
-  configOpt = "-v /home/cloud/couchdb/:/opt/couchdb/etc/local.d/";
-  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -e COUCHDB_USER=grazor -e COUCHDB_SECRET=changeme --net=host";
+  configOpt = "-v /home/cloud/couchdb/config:/opt/couchdb/etc/local.d/ -v /home/cloud/couchdb/data:/opt/couchdb/data";
+  extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --net=host";
 in {
   systemd.services.couchdb = {
     description = description;
