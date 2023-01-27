@@ -10,6 +10,7 @@
     ./grafana.nix
 
     ./couchdb.nix
+    ./jellyfin.nix
     
     #./tunnel.nix
     #./radarr.nix
