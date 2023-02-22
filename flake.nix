@@ -1,16 +1,12 @@
 {
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-  #inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
   inputs.home-manager = {
     url = "github:rycee/home-manager/master";
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  inputs.neovim-nightly-overlay = {
-	url = "github:nix-community/neovim-nightly-overlay";
-	inputs.nixpkgs.url = "github:nixos/nixpkgs?rev=fad51abd42ca17a60fc1d4cb9382e2d79ae31836";
-  };
+  inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     with nixpkgs.lib;
@@ -41,10 +37,10 @@
 
     in {
       nixosConfigurations = mapAttrs' mkNixosConfiguration {
-        pdsk = { };
-        pdell = { };
-        pzb = { users = [ "cloud" ]; };
-        srv = { users = [ "cloud" ]; };
+        desktop = { };
+        workstation = { };
+        minisrv = { users = [ "cloud" ]; };
+        server = { users = [ "cloud" ]; };
       };
     };
 }

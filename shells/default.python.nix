@@ -24,21 +24,16 @@ in stdenv.mkDerivation rec {
     zlib
   ];
 
-  propagatedBuildInputs = [
-      pythonPackages.setuptools
-      pythonPackages.six
-      stdenv.cc.cc.lib
-  ];
+  propagatedBuildInputs = [ pythonPackages.setuptools pythonPackages.six stdenv.cc.cc.lib ];
 
   shellHook = ''
-    unset SOURCE_DATE_EPOCH
-    export PIP_PREFIX=$(pwd)/_build/pip_packages
-    export PYTHONPATH="$PIP_PREFIX/${python.sitePackages}:$PYTHONPATH"
-    export PATH="$PIP_PREFIX/bin:$PATH"
-	export PIP_DISABLE_PIP_VERSION_CHECK=1
+        unset SOURCE_DATE_EPOCH
+        export PIP_PREFIX=$(pwd)/_build/pip_packages
+        export PYTHONPATH="$PIP_PREFIX/${python.sitePackages}:$PYTHONPATH"
+        export PATH="$PIP_PREFIX/bin:$PATH"
+    	export PIP_DISABLE_PIP_VERSION_CHECK=1
 
-	pip install pdbpp
+    	pip install pdbpp
   '';
 }
-
 

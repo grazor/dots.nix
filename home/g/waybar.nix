@@ -14,7 +14,8 @@
 
       modules-center = [ "clock#date" "clock#time" ];
 
-      modules-right = [ "network" "memory" "cpu" "temperature" "battery" "pulseaudio" "custom/layout" "tray" ];
+      modules-right =
+        [ "network" "memory" "cpu" "temperature" "battery" "pulseaudio" "custom/layout" "tray" ];
 
       "battery" = {
         interval = 10;

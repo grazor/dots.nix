@@ -27,7 +27,7 @@ in {
     lockCommand = "${binPath}/lock";
     grimshot = "${binPath}/grimshot";
     settitle = "${binPath}/set_title";
-	yubikey = "${binPath}/yubikey";
+    yubikey = "${binPath}/yubikey";
   in {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -73,9 +73,7 @@ in {
           middle_emulation = "disabled";
         };
 
-		"4176:1031:Yubico_YubiKey_OTP+FIDO+CCID" = {
-			events = "disabled";
-		};
+        "4176:1031:Yubico_YubiKey_OTP+FIDO+CCID" = { events = "disabled"; };
       };
 
       bindkeysToCode = true;
@@ -102,8 +100,10 @@ in {
         "${modifier}+F12" = "exec --no-startup-id ${yubikey}";
 
         # Display slack on top of all apps
-        "${modifier}+grave [class=\"obsidian\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
-        "${modifier}+o [class=\"Slack\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
+        "${modifier}+grave [class=\"obsidian\"]" =
+          "scratchpad show, resize set 90 ppt 90 ppt, move position center";
+        "${modifier}+o [class=\"Slack\"]" =
+          "scratchpad show, resize set 90 ppt 90 ppt, move position center";
         "${modifier}+minus" = "scratchpad show";
 
         "${modifier}+apostrophe" = "exec --no-startup-id ${lockCommand} --fade-in 4";
