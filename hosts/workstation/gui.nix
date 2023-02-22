@@ -15,10 +15,10 @@
       vertTwoFingerScroll = true;
       vertEdgeScroll = false;
       minSpeed = "0.8";
-      services.xserver.synaptics.additionalOptions = ''
-                  Option "VertScrollDelta" "-27"
-                  Option "HorizScrollDelta" "-27"
-        	  '';
+      additionalOptions = ''
+			Option "VertScrollDelta" "-27"
+			Option "HorizScrollDelta" "-27"
+		'';
     };
   };
 
