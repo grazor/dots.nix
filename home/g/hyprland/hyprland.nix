@@ -5,7 +5,6 @@ with lib;
 {
   home.packages = with pkgs; [
 	wofi
-	eww # bar
 	swaybg
 	wlsunset
     mako # notification daemon
@@ -15,5 +14,5 @@ with lib;
     grim # image grabber
   ];
 
-  xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf
+  xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
 }

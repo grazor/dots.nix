@@ -2,7 +2,7 @@
 
 {
   imports =
-    [ ./sway.nix ./i3.nix ./hyprland.nix ./termite.nix ./nvim.nix ./bin.nix ./graphics.nix ./zsh.nix ./lefthook.nix ./dev.nix ];
+    [ ./sway.nix ./i3.nix ./hyprland ./termite.nix ./nvim.nix ./bin.nix ./graphics.nix ./zsh.nix ./lefthook.nix ./dev.nix ];
 
   # https://github.com/NixOS/nixpkgs/issues/196651
   # todo: remove workaround
