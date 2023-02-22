@@ -14,7 +14,7 @@
     with nixpkgs.lib;
     let
 
-      overlays = [ inputs.neovim-nightly-overlay.overlay inputs.hyprland ];
+      overlays = [ inputs.neovim-nightly-overlay.overlay ];
 
       mkNixosConfiguration = name:
         { config ? ./hosts + "/${name}", users ? [ "g" ] }:
@@ -34,6 +34,7 @@
                 value = import (./. + "/home/${x}");
               }) users);
             }
+			inputs.hyprland.nixosModules.default
           ];
         });
 
