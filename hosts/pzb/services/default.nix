@@ -16,7 +16,7 @@
     #./radarr.nix
     #./sonarr.nix
     #./jackett.nix
-    #./transmission.nix
+    ./transmission.nix
     #./plex.nix
 
     #./registry.nix
