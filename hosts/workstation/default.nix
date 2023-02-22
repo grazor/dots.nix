@@ -7,8 +7,8 @@
     ./gui.nix
     ./work.nix
 
-    ../shared/homecloud.nix
-    ../shared/arduino.nix
+    ../../shared/homecloud.nix
+    ../../shared/arduino.nix
   ];
 
   programs.nix-ld.enable = true;
