@@ -13,5 +13,7 @@
 	./smb.nix
   ];
 
+  programs.nix-ld.enable = true;
+
   nix.settings.max-jobs = lib.mkDefault 8;
 }
