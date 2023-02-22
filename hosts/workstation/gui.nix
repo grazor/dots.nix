@@ -15,10 +15,8 @@
       vertTwoFingerScroll = true;
       vertEdgeScroll = false;
       minSpeed = "0.8";
-      additionalOptions = ''
-			Option "VertScrollDelta" "-27"
-			Option "HorizScrollDelta" "-27"
-		'';
+      additionalOptions =
+        "	Option \"VertScrollDelta\" \"-27\"\n	Option \"HorizScrollDelta\" \"-27\"\n";
     };
   };
 
@@ -27,6 +25,21 @@
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
+  };
+
+  # hyprland
+  imports = [ hyprland.nixosModules.default ];
+  programs.hyprland = {
+    enable = true;
+
+    package = hyprland.packages.${pkgs.system}.default;
+
+    xwayland = {
+      enable = true;
+      hidpi = true;
+    };
+
+    nvidiaPatches = false;
   };
 
   environment.sessionVariables = rec {

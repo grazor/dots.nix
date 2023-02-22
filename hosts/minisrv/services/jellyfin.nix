@@ -5,7 +5,8 @@ let
   name = "jellyfin";
   image = "jellyfin/jellyfin";
   configOpt = "-v /home/cloud/jellyfin/config:/config -v /home/cloud/jellyfin/cache:/cache";
-  extraOpt = "--mount type=bind,source=/home/cloud/media,target=/media --pull=always -v /etc/localtime:/etc/localtime:ro --net=host";
+  extraOpt =
+    "--mount type=bind,source=/home/cloud/media,target=/media --pull=always -v /etc/localtime:/etc/localtime:ro --net=host";
 in {
   systemd.services.jellyfin = {
     description = description;

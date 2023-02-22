@@ -6,13 +6,15 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
+  inputs.hyprland.url = "github:hyprwm/Hyprland";
+
   inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     with nixpkgs.lib;
     let
 
-      overlays = [ inputs.neovim-nightly-overlay.overlay ];
+      overlays = [ inputs.neovim-nightly-overlay.overlay inputs.hyprland ];
 
       mkNixosConfiguration = name:
         { config ? ./hosts + "/${name}", users ? [ "g" ] }:
