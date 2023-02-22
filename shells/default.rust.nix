@@ -2,8 +2,4 @@
 
 let
 
-in pkgs.mkShell rec {
-  buildInputs = with pkgs; [
-    cargo rustc rust-analyzer rustfmt
-  ];
-}
+in pkgs.mkShell rec { buildInputs = with pkgs; [ cargo rustc rust-analyzer rustfmt ]; }
