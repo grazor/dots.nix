@@ -6,7 +6,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  inputs.hyprland.url = "github:hyprwm/Hyprland";
+  #inputs.hyprland.url = "github:hyprwm/Hyprland";
 
   inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
@@ -34,7 +34,7 @@
                 value = import (./. + "/home/${x}");
               }) users);
             }
-			inputs.hyprland.nixosModules.default
+			#inputs.hyprland.nixosModules.default
           ];
         });
 

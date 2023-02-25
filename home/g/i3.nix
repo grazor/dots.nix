@@ -4,7 +4,7 @@ with lib;
 
 let binPath = "/home/g" + "/.bin";
 in {
-  imports = [ ./mako.nix ./waybar.nix ];
+  imports = [ ./sway/mako.nix ./sway/waybar.nix ];
 
   home.packages = with pkgs; [ rofi scrot xclip dunst autotiling ];
 

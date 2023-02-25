@@ -2,12 +2,12 @@
 
 {
   imports =
-    [ ./sway.nix ./i3.nix ./hyprland ./termite.nix ./nvim.nix ./bin.nix ./graphics.nix ./zsh.nix ./lefthook.nix ./dev.nix ];
+    [ ./sway ./i3.nix ./termite.nix ./nvim.nix ./bin.nix ./assets.nix ./zsh.nix ./lefthook.nix ./dev.nix ];
+	# ./hyprland
 
   # https://github.com/NixOS/nixpkgs/issues/196651
   # todo: remove workaround
   manual.manpages.enable = false;
 
   home.stateVersion = "22.11";
-  #home.packages = with pkgs; [ ];
 }
