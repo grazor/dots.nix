@@ -34,7 +34,7 @@
                 value = import (./. + "/home/${x}");
               }) users);
             }
-			#inputs.hyprland.nixosModules.default
+            #inputs.hyprland.nixosModules.default
           ];
         });
 

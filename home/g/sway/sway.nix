@@ -33,20 +33,20 @@ in {
     wrapperFeatures.gtk = true;
 
     extraConfig = ''
-      for_window [class="Mattermost"] move to scratchpad
-      for_window [app_id="obsidian"] move to scratchpad
+            for_window [class="Mattermost"] move to scratchpad
+            for_window [app_id="obsidian"] move to scratchpad
 
-      # zoom notifications
-      for_window [title="^zoom$"] border none, floating enable, move absolute position 10 px 10 px, focus prev
-      for_window [title="Zoom Meeting(.*)?"] floating disable, inhibit_idle open
+            # zoom notifications
+            for_window [title="^zoom$"] border none, floating enable, move absolute position 10 px 10 px, focus prev
+            for_window [title="Zoom Meeting(.*)?"] floating disable, inhibit_idle open
 
-      # x windows
-      for_window [shell="xwayland"] title_format "%title [XWayland]"
+            # x windows
+            for_window [shell="xwayland"] title_format "%title [XWayland]"
 
-      default_border pixel
+            default_border pixel
 
-	  bindgesture swipe:right workspace prev
-      bindgesture swipe:left workspace next
+      	  bindgesture swipe:right workspace prev
+            bindgesture swipe:left workspace next
     '';
 
     config = rec {

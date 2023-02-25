@@ -4,9 +4,9 @@ with lib;
 
 {
   home.packages = with pkgs; [
-	wofi
-	swaybg
-	wlsunset
+    wofi
+    swaybg
+    wlsunset
     mako # notification daemon
     wl-clipboard # clipboard tool
     clipman # clipboard manager

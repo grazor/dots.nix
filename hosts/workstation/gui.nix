@@ -28,16 +28,16 @@
   };
 
   # hyprland
-  programs.hyprland = {
-    enable = true;
-
-    xwayland = {
-      enable = true;
-      hidpi = true;
-    };
-
-    nvidiaPatches = false;
-  };
+  #programs.hyprland = {
+  #enable = false;
+  #
+  #xwayland = {
+  #enable = true;
+  #hidpi = true;
+  #};
+  #
+  #nvidiaPatches = false;
+  #};
 
   environment.sessionVariables = rec {
     "QT_QPA_PLATFORM" = "xcb";
