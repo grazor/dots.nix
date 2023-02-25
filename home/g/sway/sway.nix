@@ -44,6 +44,9 @@ in {
       for_window [shell="xwayland"] title_format "%title [XWayland]"
 
       default_border pixel
+
+	  bindgesture swipe:right workspace prev
+      bindgesture swipe:left workspace next
     '';
 
     config = rec {
