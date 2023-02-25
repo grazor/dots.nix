@@ -111,27 +111,27 @@
 
 
 ;; ━━━ WIFI ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-(defvar wifi "{}")
-(defpoll wifi :interval "30s" "./scripts/wifi.sh")
+(defvar wifivar "{}")
+(defpoll wifipoll :interval "30s" "./scripts/wifi.sh")
 
 (defwidget wifi []
  (box :vexpand false :hexpand false :orientation "v"
-   (label :text {wifi.icon}
+   (label :text {wifivar.icon}
           :limit-width 10
-          :tooltip {wifi.status}
+          :tooltip {wifivar.status}
           :class "wifi"
     )
   )
 )
 
 ;; ━━━ BATTERY ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-(defvar battery "{}")
-(defpoll battery :interval "60s" "./scripts/battery.sh")
+(defvar batteryvar "{}")
+(defpoll batterypoll :interval "60s" "./scripts/battery.sh")
 
 (defwidget battery []
-   (label :text {battery.icon}
+   (label :text {batteryvar.icon}
           :limit-width 10
-          :tooltip "${battery.status}: ${battery.percent}"
+          :tooltip "${batteryvar.status}: ${batteryvar.percent}"
           :class "battery"
   )
 )

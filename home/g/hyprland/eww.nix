@@ -11,8 +11,8 @@ with lib;
   ];
 
 	# configuration
-	xdg.configFile.".config/eww/eww.scss".source = ./eww.scss;
-	xdg.configFile.".config/eww/eww.yuck".source = ./eww.yuck;
+	xdg.configFile."eww/eww.scss".source = ./eww.scss;
+	xdg.configFile."eww/eww.yuck".source = ./eww.yuck;
 
 	# scripts
 	xdg.configFile."eww/scripts/battery.sh" = {
