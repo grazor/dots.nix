@@ -39,10 +39,23 @@
   #nvidiaPatches = false;
   #};
 
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+	  vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
+    ];
+  };
+
   environment.sessionVariables = rec {
     "QT_QPA_PLATFORM" = "xcb";
     "QT_QPA_PLATFORMTHEME" = "qt5ct";
     "QT_WAYLAND_DISABLE_WINDOWDECORATION" = "1";
+	"LIBVA_DRIVER_NAME"="i965";
   };
 
   environment.systemPackages = with pkgs; [
