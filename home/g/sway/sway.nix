@@ -34,7 +34,7 @@ in {
 
     extraConfig = ''
             for_window [class="Mattermost"] move to scratchpad
-            for_window [app_id="obsidian"] move to scratchpad
+            for_window [class="obsidian"] move to scratchpad
 
             # zoom notifications
             for_window [title="^zoom$"] border none, floating enable, move absolute position 10 px 10 px, focus prev
@@ -103,7 +103,7 @@ in {
         "${modifier}+F12" = "exec --no-startup-id ${yubikey}";
 
         # Display slack on top of all apps
-        "${modifier}+grave [app_id=\"obsidian\"]" =
+        "${modifier}+grave [class=\"obsidian\"]" =
           "scratchpad show, resize set 90 ppt 90 ppt, move position center";
         "${modifier}+o [class=\"Mattermost\"]" =
           "scratchpad show, resize set 90 ppt 90 ppt, move position center";
