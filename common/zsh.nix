@@ -8,7 +8,7 @@
     ohMyZsh = {
       enable = true;
       plugins = [ "git" "sudo" "docker" "pip" ];
-      theme = "agnoster";
+      theme = "avit";
     };
     shellAliases = { vim = "nvim"; };
   };
