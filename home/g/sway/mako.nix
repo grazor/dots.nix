@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 
 {
-  programs.mako = {
+  services.mako = {
     enable = true;
     defaultTimeout = 0;
     borderColor = "#ffffff";
