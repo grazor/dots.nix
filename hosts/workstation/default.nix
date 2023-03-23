@@ -9,6 +9,7 @@
 
     ../../shared/homecloud.nix
     ../../shared/arduino.nix
+    ../../shared/steam.nix
   ];
 
   programs.nix-ld.enable = true;
