@@ -59,7 +59,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    google-chrome
+    google-chrome-beta
     mpv
     iwgtk
     libreoffice
