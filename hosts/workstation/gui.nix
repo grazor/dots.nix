@@ -64,7 +64,6 @@
     google-chrome-beta
     mpv
     iwgtk
-    libreoffice
     feh
     inkscape
     gimp
