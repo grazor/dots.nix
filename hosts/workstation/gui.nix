@@ -18,6 +18,8 @@
       additionalOptions =
         "	Option \"VertScrollDelta\" \"-27\"\n	Option \"HorizScrollDelta\" \"-27\"\n";
     };
+
+	libinput.enable = false;
   };
 
   services.xserver.windowManager.i3 = { enable = true; };
