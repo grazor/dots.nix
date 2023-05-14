@@ -8,7 +8,7 @@
       efi.canTouchEfiVariables = true;
     };
 
-    cleanTmpDir = true;
+	tmp.cleanOnBoot = true;
   };
 
   services.acpid.enable = true;
