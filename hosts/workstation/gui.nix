@@ -30,16 +30,15 @@
   };
 
   # hyprland
-  #programs.hyprland = {
-  #enable = false;
-  #
-  #xwayland = {
-  #enable = true;
-  #hidpi = true;
-  #};
-  #
-  #nvidiaPatches = false;
-  #};
+  programs.hyprland = {
+	enable = true;
+	xwayland = {
+		enable = true;
+		hidpi = true;
+	};
+  
+	nvidiaPatches = false;
+  };
 
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
