@@ -4,7 +4,15 @@ notify() {
   notify-send -t 3000 -a grimshot "$@"
 }
 
-swaymsg input '4176:1031:Yubico_YubiKey_OTP+FIDO+CCID' events enabled
-notify "Yubikey enabled for 30 sec"
-sleep 30
-swaymsg input '4176:1031:Yubico_YubiKey_OTP+FIDO+CCID' events disabled
+if [ "${DESKTOP_SESSION}" = "hyprland" ]; then
+	DEV=$(hyprctl devices | grep -Po 'yubico[^ ]*')
+	hyprctl keyword device:${DEV}:enabled 1
+	notify "Yubikey enabled for 30 sec"
+	sleep 30
+	hyprctl keyword device:${DEV}:enabled 0
+else
+	swaymsg input '4176:1031:Yubico_YubiKey_OTP+FIDO+CCID' events enabled
+	notify "Yubikey enabled for 30 sec"
+	sleep 30
+	swaymsg input '4176:1031:Yubico_YubiKey_OTP+FIDO+CCID' events disabled
+fi
