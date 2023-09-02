@@ -33,7 +33,7 @@
   programs.hyprland = {
 	enable = true;
 	xwayland.enable = true;
-	nvidiaPatches = false;
+	enableNvidiaPatches = false;
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
