@@ -9,6 +9,7 @@
 
     ../../shared/homecloud.nix
     ../../shared/arduino.nix
+    ../../shared/android.nix
     ../../shared/steam.nix
   ];
 
