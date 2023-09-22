@@ -32,6 +32,5 @@
     direnv
     brightnessctl
     zoxide
-    exa
   ];
 }
