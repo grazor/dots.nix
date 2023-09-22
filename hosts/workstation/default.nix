@@ -3,8 +3,10 @@
 {
   imports = [
     ./hardware.nix
+    ./cachix.nix
     ./wireless.nix
     ./gui.nix
+    ./hyprland.nix
     ./work.nix
 
     ../../shared/homecloud.nix

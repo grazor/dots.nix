@@ -19,7 +19,7 @@
     };
 
     enableAutosuggestions = true;
-	syntaxHighlighting.enable = true;
+    syntaxHighlighting.enable = true;
 
     sessionVariables = {
       NIX_REMOTE = "daemon";

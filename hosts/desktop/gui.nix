@@ -12,15 +12,5 @@
 
   };
 
-  environment.systemPackages = with pkgs; [
-    google-chrome
-    mpv
-    libreoffice
-    feh
-    inkscape
-    gimp
-    tdesktop
-    zoom-us
-    obsidian
-  ];
+  environment.systemPackages = with pkgs; [ google-chrome mpv libreoffice feh inkscape gimp tdesktop zoom-us obsidian ];
 }
