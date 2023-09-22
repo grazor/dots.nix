@@ -20,8 +20,7 @@ let
         sha256 = "1h88da3d46wfzmv2f74rzxz73acps414mx0212lw68c039w801qq";
       })
       (fetchurl {
-        url =
-          "https://github.com/esp-rs/rust-build/releases/download/v${version}/rust-src-${version}.tar.xz";
+        url = "https://github.com/esp-rs/rust-build/releases/download/v${version}/rust-src-${version}.tar.xz";
         sha256 = "0wq3mjllg17z4m7p94zsck4h0la7rzf0m7i7xjn4alf00ixmlr70";
       })
     ];
@@ -90,8 +89,7 @@ in mkShell rec {
   # Includes with normal include path
   # + Includes with special directory paths
   BINDGEN_EXTRA_CLANG_ARGS = (builtins.map (a: ''-I"${a}/include"'') [ libvmi glibc.dev ]) ++ [
-    ''
-      -I"${llvmPackages_latest.libclang.lib}/lib/clang/${llvmPackages_latest.libclang.version}/include"''
+    ''-I"${llvmPackages_latest.libclang.lib}/lib/clang/${llvmPackages_latest.libclang.version}/include"''
     ''-I"${glib.dev}/include/glib-2.0"''
     "-I${glib.out}/lib/glib-2.0/include/"
   ];
