@@ -22,7 +22,7 @@ completion['nvim-telescope/telescope.nvim'] = {
   },
 }
 
-completion['glepnir/smartinput.nvim'] = {ft = 'go', config = conf.smart_input}
+--completion['glepnir/smartinput.nvim'] = {ft = 'go', config = conf.smart_input}
 
 completion['hrsh7th/nvim-cmp'] = {
   requires = {
