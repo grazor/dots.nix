@@ -122,7 +122,7 @@ case "$ACTION" in
 "search")
 	TMP=$(mktemp) || die "Unable to create temp file: is mktemp installed?"
 	takeScreenshot "$TMP" "$GEOM" "$OUTPUT"
-	URL=$(curl -s -i -F encoded_image=@$TMP https://lens.google.com/upload | grep -Po 'URL=[^"]*"' | sed 's/URL=\(.*\)"/\1/')
+	URL=$(curl -s -i -F encoded_image=@$TMP https://lens.google.com/upload | grep -Po 'url=[^"]*"' | sed 's/url=\(.*\)"/\1/')
 	rm "$TMP"
 	xdg-open $URL
 	;;
