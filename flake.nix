@@ -11,6 +11,7 @@
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     with nixpkgs.lib;
     let
+	  system = "x86_64-linux";
 
       overlays = [ inputs.neovim-nightly-overlay.overlay ];
 
@@ -42,5 +43,18 @@
         minisrv = { users = [ "cloud" ]; };
         server = { users = [ "cloud" ]; };
       };
+
+	  devShells.${system}.default = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          just
+        ];
+	  };
+
+	  templates = {
+		rust-wasm = {
+			path = ./devshells/rust-wasm;
+			description = "Rust development template";
+		};
+	  };
     };
 }
