@@ -1,11 +1,13 @@
-{}:
-let 
+{ ... }:
+
 {
+  description = "wasm-pack setup";
+
+  inputs = {
     nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; };
     rust-overlay = { url = "github:oxalica/rust-overlay"; };
-}
-in
-{
+  };
+
   outputs = { nixpkgs, rust-overlay, ... }:
     let system = "x86_64-linux";
     in {
