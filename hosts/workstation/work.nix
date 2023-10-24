@@ -3,7 +3,8 @@
 {
   boot.kernelParams = [ "intel_iommu=on" ];
 
-  security.pki.certificateFiles = [ "${/avito/avito/ca.crt}" "${/avito/avito/root.crt}" "${/avito/avito-dev/ca.crt}" ];
+  security.pki.certificateFiles =
+    [ "${/avito/avito/ca.crt}" "${/avito/avito/root.crt}" "${/avito/avito-dev/ca.crt}" ];
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''

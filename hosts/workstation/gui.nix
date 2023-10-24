@@ -15,7 +15,8 @@
       vertTwoFingerScroll = true;
       vertEdgeScroll = false;
       minSpeed = "0.8";
-      additionalOptions = "	Option \"VertScrollDelta\" \"-27\"\n	Option \"HorizScrollDelta\" \"-27\"\n";
+      additionalOptions =
+        "	Option \"VertScrollDelta\" \"-27\"\n	Option \"HorizScrollDelta\" \"-27\"\n";
     };
 
     libinput.enable = false;
@@ -28,7 +29,9 @@
     wrapperFeatures.gtk = true;
   };
 
-  nixpkgs.config.packageOverrides = pkgs: { vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; }; };
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [ vaapiIntel vaapiVdpau libvdpau-va-gl ];
@@ -41,6 +44,16 @@
     "LIBVA_DRIVER_NAME" = "i965";
   };
 
-  environment.systemPackages = with pkgs; [ google-chrome-beta mpv iwgtk feh inkscape gimp tdesktop zoom-us obsidian ];
+  environment.systemPackages = with pkgs; [
+    google-chrome-beta
+    mpv
+    iwgtk
+    feh
+    inkscape
+    gimp
+    tdesktop
+    zoom-us
+    obsidian
+  ];
 }
 

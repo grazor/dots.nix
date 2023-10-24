@@ -103,8 +103,10 @@ in {
         "${modifier}+F12" = "exec --no-startup-id ${yubikey}";
 
         # Display slack on top of all apps
-        "${modifier}+grave [class=\"obsidian\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
-        "${modifier}+o [class=\"Mattermost\"]" = "scratchpad show, resize set 90 ppt 90 ppt, move position center";
+        "${modifier}+grave [class=\"obsidian\"]" =
+          "scratchpad show, resize set 90 ppt 90 ppt, move position center";
+        "${modifier}+o [class=\"Mattermost\"]" =
+          "scratchpad show, resize set 90 ppt 90 ppt, move position center";
         "${modifier}+minus" = "scratchpad show";
 
         "${modifier}+Shift+l" = "exec --no-startup-id ${lockCommand} --fade-in 4";
