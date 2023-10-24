@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 
 {
-  imports = [ ./common ./devshell ];
+  imports = [ ./common ];
 
   time.timeZone = "Europe/Moscow";
   nixpkgs.config.allowUnfree = true;
