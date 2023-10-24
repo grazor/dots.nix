@@ -1,5 +1,3 @@
-{ ... }:
-
 {
   description = "wasm-pack setup";
 
