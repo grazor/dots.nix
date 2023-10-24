@@ -52,7 +52,7 @@
 
 	  templates = {
 		rust-wasm = {
-			path = ./devshells/rust-wasm;
+			path = ./devshell/rust-wasm;
 			description = "Rust development template";
 		};
 	  };
