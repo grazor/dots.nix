@@ -6,8 +6,6 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  #inputs.hyprland.url = "github:hyprwm/Hyprland";
-
   inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
@@ -34,7 +32,6 @@
                 value = import (./. + "/home/${x}");
               }) users);
             }
-            #inputs.hyprland.nixosModules.default
           ];
         });
 
