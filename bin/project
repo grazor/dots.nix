@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 GLOBAL_GITIGNORE_PATH=/home/g/.gitignore
-SHELLS_BASE_PATH=/home/g/Projects/dots.nix:/home/g/Avito/shells
+SHELLS_BASE_PATH=/home/g/Projects/dots.nix/shells:/home/g/Avito/shells
 HOOKS_PATH=/home/g/.config/lefthook
 
 usage() {
@@ -12,7 +12,7 @@ usage() {
     echo -e "\tnix"
     IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$SHELLS_BASE_PATH")
     for p in "${path_array[@]}"; do
-        find $p -name 'default.*.nix' -printf "\t\t%f\n" | sed 's/default.//' | sed 's/.nix//' | sort
+        find $p -name 'flake.*.nix' -printf "\t\t%f\n" | sed 's/flake.//' | sed 's/.nix//' | sort
     done
     echo
 
@@ -33,7 +33,7 @@ gitignore() {
 clean() {
     direnv deny . 2&>/dev/null
     rm .envrc 2&>/dev/null
-    rm default.nix 2&>/dev/null
+    rm flake.nix 2&>/dev/null
 
     lefhtook uninstall 2&>/dev/null
     rm lefhtook.yml 2&>/dev/null
@@ -42,19 +42,19 @@ clean() {
 
 shell() {
     IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$SHELLS_BASE_PATH")
-    p=$(find ${path_array[@]} -name $(echo default.$1.nix))
+    p=$(find ${path_array[@]} -name $(echo flake.$1.nix))
     [[ "$p" == "" ]] && echo "Unknown shell $1" && usage
 
-    echo ln -s $p default.nix
-    ln -s $p default.nix
+    echo ln -s $p flake.nix
+    ln -s $p flake.nix
 
-    echo echo 'use nix' > .envrc
-    echo 'use nix' > .envrc
+    echo echo 'use flake' > .envrc
+    echo 'use flake' > .envrc
 
     echo direnv allow .
     direnv allow .
 
-    gitignore default.nix
+    gitignore flake.nix
     gitignore .envrc
 }
 
