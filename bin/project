@@ -45,8 +45,8 @@ shell() {
     p=$(find ${path_array[@]} -name $(echo flake.$1.nix))
     [[ "$p" == "" ]] && echo "Unknown shell $1" && usage
 
-    echo ln -s $p flake.nix
-    ln -s $p flake.nix
+    echo cp $p flake.nix
+    cp $p flake.nix
 
     echo echo 'use flake' > .envrc
     echo 'use flake' > .envrc
