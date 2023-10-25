@@ -16,7 +16,11 @@
         };
       in (({ pkgs, ... }:
         pkgs.mkShell {
+		  nativeBuildInputs = with pkgs; [
+            pkg-config
+          ];
           buildInputs = with pkgs; [
+		    openssl
             cargo
             cargo-watch
             nodejs
