@@ -15,6 +15,6 @@
     ../../shared/steam.nix
   ];
 
-  programs.nix-ld.enable = false;
+  programs.nix-ld.enable = true;
   nix.settings.max-jobs = lib.mkDefault 8;
 }
