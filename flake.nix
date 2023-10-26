@@ -6,13 +6,14 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+  #inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   inputs.nix-alien.url = "github:thiagokokada/nix-alien";
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     with nixpkgs.lib;
     let
-      overlays = [ inputs.neovim-nightly-overlay.overlay ];
+      #overlays = [ inputs.neovim-nightly-overlay.overlay ];
+	  overlays = [ inputs.nix-alien.overlays.default ];
 
       mkNixosConfiguration = name:
         { config ? ./hosts + "/${name}", users ? [ "g" ] }:
@@ -23,9 +24,7 @@
             (import config)
             ({ ... }: { networking.hostName = name; })
             { nixpkgs.overlays = overlays; }
-			({ self, system, ... }: {
-				environment.systemPackages = with self.inputs.nix-alien.packages.${system}; [ nix-alien ];
-			})
+			({ pkgs, ... }: { environment.systemPackages = with pkgs; [ nix-alien ]; })
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
