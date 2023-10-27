@@ -46,7 +46,7 @@ shell() {
     [[ "$p" == "" ]] && echo "Unknown shell $1" && usage
 
 	pp=$(dirname "$p")
-	f=$(echo $p | sed 's/flake\.\(.*\)\.nix/\1/')
+	f=$(echo $p | sed 's/.*flake\.\(.*\)\.nix/\1/')
 
     echo echo "use flake ${pp}#${f}"
     echo "use flake ${pp}#${f}" > .envrc
