@@ -1,37 +1,27 @@
-{
-  description = "wasm-pack setup";
+{ pkgs ? import <nixpkgs> { } }:
 
-  inputs = {
-    nixpkgs = { url = "github:nixos/nixpkgs/nixos-unstable"; };
-    rust-overlay = { url = "github:oxalica/rust-overlay"; };
+let
+  rustOverlay = builtins.fetchTarball {
+    url = "https://github.com/oxalica/rust-overlay/archive/master.tar.gz";
   };
+  nixpkgs = pkgs.appendOverlays [ (import rustOverlay) ];
 
-  outputs = { nixpkgs, rust-overlay, ... }:
-    let system = "x86_64-linux";
-    in {
-      devShell.${system} = let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [ rust-overlay.overlay ];
-        };
-      in (({ pkgs, ... }:
-        pkgs.mkShell {
-		  nativeBuildInputs = with pkgs; [
-            pkg-config
-          ];
-          buildInputs = with pkgs; [
-		    openssl
-            cargo
-            cargo-watch
-            nodejs
-            wasm-pack
-            (rust-bin.stable.latest.default.override {
-              extensions = [ "rust-src" ];
-              targets = [ "wasm32-unknown-unknown" ];
-            })
-          ];
+in with nixpkgs;
 
-          shellHook = "";
-        }) { pkgs = pkgs; });
-    };
+mkShell {
+  nativeBuildInputs = [ pkg-config ];
+
+  buildInputs = [
+    openssl
+    cargo
+    cargo-watch
+    nodejs
+    wasm-pack
+    (rust-bin.stable.latest.default.override {
+      extensions = [ "rust-src" ];
+      targets = [ "wasm32-unknown-unknown" ];
+    })
+  ];
+
+  shellHook = "";
 }

@@ -2,13 +2,11 @@
 with pkgs;
 
 mkShell {
-	hardeningDisable = [ "fortify" ];
+  hardeningDisable = [ "fortify" ];
 
-	buildInputs = [ gcc go_1_20 gopls golangci-lint delve vault universal-ctags ];
-	propagatedBuildInputs = [ stdenv.cc.cc.lib ];
+  buildInputs = [ gcc go_1_21 gopls golangci-lint delve vault universal-ctags ];
+  propagatedBuildInputs = [ stdenv.cc.cc.lib ];
 
-	shellHook = ''
-		export LD_LIBRARY_PATH=${pkgs.stdenv.cc.cc.lib}/lib/
-		export PATH=$GOPATH/bin:$PATH
-	'';
+  shellHook =
+    "	export LD_LIBRARY_PATH=${pkgs.stdenv.cc.cc.lib}/lib/\n	export PATH=$GOPATH/bin:$PATH\n";
 }

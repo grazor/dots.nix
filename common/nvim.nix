@@ -5,7 +5,7 @@
 
   environment.systemPackages = with pkgs; [
     neovim
-	# neovim-nightly
+    # neovim-nightly
     (neovim.override {
       vimAlias = true;
       withNodeJs = true;

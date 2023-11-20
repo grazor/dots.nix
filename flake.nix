@@ -13,22 +13,24 @@
     with nixpkgs.lib;
     let
       #overlays = [ inputs.neovim-nightly-overlay.overlay ];
-	  #overlays = [ inputs.nix-alien.overlays.default ];
-	  overlays = [ ];
-	  system = "x86_64-linux";
-	  alien = self.inputs.nix-alien.packages.${system};
+      #overlays = [ inputs.nix-alien.overlays.default ];
+      overlays = [ ];
+      system = "x86_64-linux";
+      alien = self.inputs.nix-alien.packages.${system};
 
       mkNixosConfiguration = name:
         { config ? ./hosts + "/${name}", users ? [ "g" ] }:
         nameValuePair name (nixosSystem {
-		  system = system;
+          system = system;
           modules = [
             ./configuration.nix
             (import config)
             ({ ... }: { networking.hostName = name; })
-            { nixpkgs.overlays = overlays; }
-			#({ pkgs, ... }: { environment.systemPackages = with pkgs; [ nix-alien ]; })
-			({...}: {environment.systemPackages = with alien; [ nix-alien ]; })
+            {
+              nixpkgs.overlays = overlays;
+            }
+            #({ pkgs, ... }: { environment.systemPackages = with pkgs; [ nix-alien ]; })
+            ({ ... }: { environment.systemPackages = with alien; [ nix-alien ]; })
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;

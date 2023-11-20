@@ -48,8 +48,8 @@ shell() {
 	pp=$(dirname "$p")
 	f=$(echo $p | sed 's/.*flake\.\(.*\)\.nix/\1/')
 
-    echo echo "use flake ${pp}#${f}"
-    echo "use flake ${pp}#${f}" > .envrc
+    echo echo "use flake ${pp}#${f} --impure"
+    echo "use flake ${pp}#${f} --impure" > .envrc
 
     echo direnv allow .
     direnv allow .
