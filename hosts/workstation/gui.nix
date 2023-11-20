@@ -45,7 +45,7 @@
   };
 
   environment.systemPackages = with pkgs; [
-    google-chrome-beta
+    google-chrome
     mpv
     iwgtk
     feh
