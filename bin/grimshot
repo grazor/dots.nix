@@ -21,7 +21,7 @@
 
 ACTION=${1:-usage}
 SUBJECT=${2:-screen}
-FILE=${3:-$(xdg-user-dir PICTURES)/$(date +'Grimshot %Y-%m-%d %H-%M-%S.png')}
+FILE=${3:-$(xdg-user-dir PICTURES)/screenshots/$(date +'Grimshot %Y-%m-%d %H-%M-%S.png')}
 if [ "$ACTION" = "usage" ] ; then
   echo "Usage:"
   echo "  grimshot copy|save|search win|screen|output|area [FILE]"

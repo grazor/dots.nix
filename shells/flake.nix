@@ -7,6 +7,7 @@
     {
 		devShells.${system} = {
 			go = import ./flake.go.nix { inherit pkgs; };
+			rustwasm = import ./flake.rustwasm.nix { inherit pkgs; };
 		};
 	};
 }
