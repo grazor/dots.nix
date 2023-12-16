@@ -2,12 +2,12 @@
 with pkgs;
 
 let
-	pythonPackages = pkgs.python38Packages;
+	pythonPackages = pkgs.python311Packages;
 in
 
 mkShell {
-	name = "py38";
-	venvDir = "./.venv.8";
+	name = "py311";
+	venvDir = "./.venv.11";
 	buildInputs = with pkgs; [
 		pythonPackages.python
 		pythonPackages.venvShellHook
