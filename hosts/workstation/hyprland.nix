@@ -10,7 +10,6 @@ in {
   programs.hyprland = {
     enable = true;
     xwayland.enable = true;
-    enableNvidiaPatches = false;
     package = hyprland-flake.packages.${pkgs.system}.hyprland;
   };
 }
