@@ -1,1 +1,0 @@
-mattermost-desktop mongodb-compass
