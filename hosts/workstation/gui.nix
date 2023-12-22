@@ -53,7 +53,7 @@
     gimp
     tdesktop
     zoom-us
-    obsidian
+    #obsidian # builds electron
   ];
 }
 
