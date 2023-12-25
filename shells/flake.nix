@@ -9,6 +9,7 @@
         python8 = import ./flake.python8.nix { inherit pkgs; };
         python11 = import ./flake.python11.nix { inherit pkgs; };
         rustwasm = import ./flake.rustwasm.nix { inherit pkgs; };
+        js = import ./flake.js.nix { inherit pkgs; };
       };
     };
 }
