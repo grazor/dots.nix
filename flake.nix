@@ -9,6 +9,8 @@
   #inputs.neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   inputs.nix-alien.url = "github:thiagokokada/nix-alien";
 
+  inputs.hyprland.url = "github:hyprwm/Hyprland";
+
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     with nixpkgs.lib;
     let
@@ -22,6 +24,7 @@
         { config ? ./hosts + "/${name}", users ? [ "g" ] }:
         nameValuePair name (nixosSystem {
           system = system;
+		  specialArgs = { inherit inputs; };
           modules = [
             ./configuration.nix
             (import config)
