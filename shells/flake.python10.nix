@@ -2,12 +2,12 @@
 with pkgs;
 
 let
-	pythonPackages = pkgs.python38Packages;
+	pythonPackages = pkgs.python310Packages;
 in
 
 mkShell {
-	name = "py38";
-	venvDir = "./.venv.8";
+	name = "py310";
+	venvDir = "./.venv.10";
 	buildInputs = with pkgs; [
 		pythonPackages.python
 		pythonPackages.venvShellHook
@@ -39,3 +39,5 @@ mkShell {
 		export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib"
 	'';
 }
+
+
