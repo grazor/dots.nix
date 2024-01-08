@@ -36,6 +36,7 @@ mkShell {
 
 	postShellHook = ''
 		unset SOURCE_DATE_EPOCH
+		export LD_LIBRARY_PATH="${pkgs.stdenv.cc.cc.lib}/lib"
 	'';
 }
 
