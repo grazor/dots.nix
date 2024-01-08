@@ -4,7 +4,7 @@ with pkgs;
 mkShell {
 	name = "js";
 	buildInputs = with pkgs; [
-		npm
+		nodejs
 		yarn
 
 		taglib
@@ -19,4 +19,7 @@ mkShell {
 	propagatedBuildInputs = with pkgs; [
 		stdenv.cc.cc.lib
 	];
+
+    shellHook =
+      "	export PATH=node_modules/.bin:$PATH\n";
 }
