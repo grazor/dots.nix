@@ -3,7 +3,7 @@
 let
   description = "Home Assistant";
   name = "hass";
-  image = "homeassistant/generic-x86-64-homeassistant";
+  image = "homeassistant/home-assistant:stable";
   configOpt = "-v /home/cloud/hass/:/config";
   extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro --privileged --net=host";
 in {
