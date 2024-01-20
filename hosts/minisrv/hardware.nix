@@ -10,16 +10,16 @@
 
   fileSystems = {
     "/" = {
-      device = "/dev/sda5";
+      device = "/dev/disk/by-uuid/113b48ee-0900-41d6-96c6-282339186a45";
       fsType = "ext4";
     };
     "/boot" = {
-      device = "/dev/sda1";
+      device = "/dev/disk/by-uuid/813A-20C2";
       fsType = "vfat";
       options = [ "rw" "relatime" "fmask=0022" ];
     };
     "/home" = {
-      device = "/dev/sda6";
+      device = "/dev/disk/by-uuid/ef3748a4-2df3-46ae-8bed-bef4fb71176a";
       fsType = "ext4";
     };
   };
