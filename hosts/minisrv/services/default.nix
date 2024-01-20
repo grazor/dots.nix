@@ -9,14 +9,14 @@
     ./influx.nix
     ./grafana.nix
 
-    ./couchdb.nix
-    ./jellyfin.nix
+    #./couchdb.nix
+    #./jellyfin.nix
 
     #./tunnel.nix
     #./radarr.nix
     #./sonarr.nix
     #./jackett.nix
-    ./transmission.nix
+    #./transmission.nix
     #./plex.nix
 
     #./registry.nix
