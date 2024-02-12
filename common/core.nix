@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   boot = {
@@ -10,6 +10,14 @@
 
     tmp.cleanOnBoot = true;
   };
+
+  # We pin the system's nixpkgs to what we have in the Flake.
+  # Both in the Flake registry, so nixpkgs resolves to our version by default
+  # and when used with a command such as `nix run nixpkgs#hello`, but also
+  # create a channel pointing to the same version.
+  nix.registry.nixpkgs.flake = inputs.nixpkgs;
+  nix.nixPath = [ "nixpkgs=/etc/channels/nixpkgs" ];
+  environment.etc."channels/nixpkgs".source = inputs.nixpkgs.outPath;
 
   services.acpid.enable = true;
   services.sshd.enable = true;
