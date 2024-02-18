@@ -8,7 +8,7 @@
 
     displayManager.gdm.enable = true;
     displayManager.gdm.wayland = true;
-    displayManager.defaultSession = "sway";
+    displayManager.defaultSession = "hyprland";
 
     synaptics = {
       enable = true;
