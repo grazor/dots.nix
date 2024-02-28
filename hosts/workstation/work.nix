@@ -19,7 +19,7 @@
   virtualisation.libvirtd.enable = true;
   users.users.g.extraGroups = [ "libvirtd" "adbusers" ];
 
-  environment.systemPackages = with pkgs; [ git-lfs ];
+  environment.systemPackages = with pkgs; [ git-lfs k3s ];
 
   virtualisation.lxc.enable = true;
   virtualisation.lxd.enable = true;
