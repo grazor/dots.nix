@@ -4,7 +4,7 @@ with lib;
 
 {
   home.packages = with pkgs; [
-    eww-wayland # bar
+    eww # bar
     pamixer
     brightnessctl
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })

@@ -1,16 +1,16 @@
-{ pkgs ? import <nixpkgs> { } }:
-with pkgs;
+{ pkgs, pythonPackages, version }:
 
-let pythonPackages = pkgs.python311Packages;
+pkgs.mkShell {
+  name = "py-" + version;
+  venvDir = "./.venv." + version;
 
-in mkShell {
-  name = "py311";
-  venvDir = "./.venv.11";
   buildInputs = with pkgs; [
     pythonPackages.python
     pythonPackages.venvShellHook
     pythonPackages.six
     pythonPackages.certifi
+    pythonPackages.requests
+    pythonPackages.pip
 
     ruff
     taglib
@@ -28,8 +28,12 @@ in mkShell {
     stdenv.cc.cc.lib
   ];
 
-  postVenvCreation = "	unset SOURCE_DATE_EPOCH\n	pip install pdbpp poetry\n";
+  postVenvCreation = ''
+    unset SOURCE_DATE_EPOCH
+    pip install pdbpp poetry jupyter
+  '';
 
-  postShellHook =
-    "	unset SOURCE_DATE_EPOCH\n	export LD_LIBRARY_PATH=\"${pkgs.stdenv.cc.cc.lib}/lib\"\n";
+  postShellHook = ''
+    unset SOURCE_DATE_EPOCH
+  '';
 }
