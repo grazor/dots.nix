@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 GLOBAL_GITIGNORE_PATH=/home/g/.gitignore
-SHELLS_BASE_PATH=/home/g/Projects/dots.nix/shells:/home/g/Avito/shells
+SHELLS_BASE_PATH=/home/g/Projects/dots.nix/flake.nix:/home/g/Avito/shells/flake.nix
 HOOKS_PATH=/home/g/.config/lefthook
+
+SYSTEM="x86_64-linux"
 
 usage() {
     echo "project <command> <params>"
@@ -12,7 +14,9 @@ usage() {
     echo -e "\tnix"
     IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$SHELLS_BASE_PATH")
     for p in "${path_array[@]}"; do
-        find $p -name 'flake.*.nix' -printf "\t\t%f\n" | sed 's/flake.//' | sed 's/.nix//' | sort
+        nix flake show "$p" --json 2>/dev/null\
+        | jq ".devShells.\"${SYSTEM}\" | keys | .[]" -r\
+        | sed 's/^\(.*\)$/\t\t\1/'
     done
     echo
 
@@ -33,7 +37,6 @@ gitignore() {
 clean() {
     direnv deny . 2&>/dev/null
     rm .envrc 2&>/dev/null
-    rm flake.nix 2&>/dev/null
 
     lefhtook uninstall 2&>/dev/null
     rm lefhtook.yml 2&>/dev/null
@@ -41,15 +44,21 @@ clean() {
 }
 
 shell() {
+    local flake=""
+
     IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$SHELLS_BASE_PATH")
-    p=$(find ${path_array[@]} -name $(echo flake.$1.nix))
-    [[ "$p" == "" ]] && echo "Unknown shell $1" && usage
+    for p in "${path_array[@]}"; do
+        if nix flake show "$p" --json 2>/dev/null\
+        | jq ".devShells.\"${SYSTEM}\" | keys | .[]" -r\
+        | grep -qx $1; then
+            flake="$p"
+            break
+        fi
+    done
+    [[ "$flake" == "" ]] && echo "Unknown shell $1" && echo && usage
 
-	pp=$(dirname "$p")
-	f=$(echo $p | sed 's/.*flake\.\(.*\)\.nix/\1/')
-
-    echo echo "use flake ${pp}#${f} --impure"
-    echo "use flake ${pp}#${f} --impure" > .envrc
+    echo echo "use flake ${flake}#$1 --impure"
+    echo "use flake ${flake}#\\\"$1\\\" --impure" > .envrc
 
     echo direnv allow .
     direnv allow .
@@ -79,20 +88,22 @@ EOF
     gitignore .lefthook
 }
 
-[ $# -eq 2 ] || usage
 
 case $1 in
     "init")
+        [ $# -eq 2 ] || usage
         clean
         shell $2
         hook general
         ;;
 
-    "nix")
+    "nix"|"shell")
+        [ $# -eq 2 ] || usage
         shell $2
         ;;
 
     "hook")
+        [ $# -eq 2 ] || usage
         hook $2
         ;;
 
