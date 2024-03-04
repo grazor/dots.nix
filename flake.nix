@@ -17,7 +17,7 @@
   outputs = { self, nixpkgs, home-manager, go21, go22, ... }@inputs:
     with nixpkgs.lib;
     let
-      overlays = [ inputs.nix-alien.overlays.default ];
+      overlays = [ inputs.nix-alien.overlays.default (import ./overlays) ];
       system = "x86_64-linux";
       alien = self.inputs.nix-alien.packages.${system};
       pkgs = import nixpkgs { inherit system; };
