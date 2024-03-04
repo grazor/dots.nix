@@ -2,26 +2,21 @@
 
 with pkgs;
 mkShell {
-    name = "js";
-    buildInputs = with pkgs; [
-        nodejs_18
-        (yarn.override {
-            nodejs = nodejs_18;
-        })
+  name = "js";
+  buildInputs = with pkgs; [
+    nodejs_18
+    (yarn.override { nodejs = nodejs_18; })
 
-        taglib
-        openssl
-        git
-        libxml2
-        libxslt
-        libzip
-        zlib
-    ];
+    taglib
+    openssl
+    git
+    libxml2
+    libxslt
+    libzip
+    zlib
+  ];
 
-    propagatedBuildInputs = with pkgs; [
-        stdenv.cc.cc.lib
-    ];
+  propagatedBuildInputs = with pkgs; [ stdenv.cc.cc.lib ];
 
-    shellHook =
-      "    export PATH=node_modules/.bin:$PATH\n";
+  shellHook = "    export PATH=node_modules/.bin:$PATH\n";
 }

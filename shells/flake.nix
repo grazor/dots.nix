@@ -5,6 +5,9 @@
       pkgs = import nixpkgs { inherit system; };
     in {
       devShells.${system} = {
+        build = import ./flake.build.nix { inherit pkgs; };
+        lua = import ./flake.lua.nix { inherit pkgs; };
+        nix = import ./flake.nix.nix { inherit pkgs; };
         go = import ./flake.go.nix { inherit pkgs; };
         python8 = import ./flake.python8.nix { inherit pkgs; };
         python9 = import ./flake.python9.nix { inherit pkgs; };

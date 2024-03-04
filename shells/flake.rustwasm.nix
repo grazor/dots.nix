@@ -17,14 +17,16 @@ mkShell {
     cargo-watch
     nodejs
     wasm-pack
-	(rust-bin.selectLatestNightlyWith (toolchain: toolchain.default.override {
-		extensions = [ "rust-src" ];
-		targets = [ "wasm32-unknown-unknown" ];
-	}))
-	rust-analyzer
+    (rust-bin.selectLatestNightlyWith (toolchain:
+      toolchain.default.override {
+        extensions = [ "rust-src" ];
+        targets = [ "wasm32-unknown-unknown" ];
+      }))
+    rust-analyzer
+    rustfmt
   ];
 
   shellHook = ''
-	PATH=$PATH:$HOME/.cargo/bin
+    PATH=$PATH:$HOME/.cargo/bin
   '';
 }
