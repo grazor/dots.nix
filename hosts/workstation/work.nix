@@ -16,10 +16,16 @@
     /home/g 192.168.1.0/24(rw,async,insecure,no_root_squash,no_subtree_check)
   '';
 
+  services.k3s = {
+    enable = true;
+    package = pkgs.k3s;
+	extraFlags = "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --docker";
+  };
+
   virtualisation.libvirtd.enable = true;
   users.users.g.extraGroups = [ "libvirtd" "adbusers" ];
 
-  environment.systemPackages = with pkgs; [ git-lfs k3s ];
+  environment.systemPackages = with pkgs; [ git-lfs ktalk ];
 
   virtualisation.lxc.enable = true;
   virtualisation.lxd.enable = true;

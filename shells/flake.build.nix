@@ -2,10 +2,19 @@
 with pkgs;
 
 mkShell {
-  hardeningDisable = [ "fortify" ];
-
-  buildInputs =
-    [ gcc go_1_21 gopls golines gotools golangci-lint delve universal-ctags ];
+  buildInputs = [
+    autoconf
+    automake
+    bison
+    flex
+    fontforge
+    gcc
+    gnumake
+    libiconv
+    libtool
+    makeWrapper
+    pkg-config
+  ];
 
   propagatedBuildInputs = [ stdenv.cc.cc.lib ];
 
