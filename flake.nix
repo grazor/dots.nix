@@ -14,6 +14,11 @@
     go22.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
   };
 
+  nixConfig = {
+    tarball-ttl = 2592000;
+    warn-dirty = false;
+  };
+
   outputs = { self, nixpkgs, home-manager, go21, go22, ... }@inputs:
     with nixpkgs.lib;
     let

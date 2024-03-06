@@ -11,6 +11,7 @@ pkgs.mkShell {
     pythonPackages.certifi
     pythonPackages.requests
     pythonPackages.pip
+    pythonPackages.python-lsp-server
 
     ruff
     taglib
