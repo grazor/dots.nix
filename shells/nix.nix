@@ -17,6 +17,9 @@ mkShell {
 
     nixd
     nixfmt
+
+    lua-language-server
+    stylua
   ];
 
   propagatedBuildInputs = [ stdenv.cc.cc.lib ];
