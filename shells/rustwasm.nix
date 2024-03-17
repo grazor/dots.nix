@@ -6,7 +6,7 @@ let
   };
   nixpkgs = pkgs.appendOverlays [ (import rustOverlay) ];
 
-in with pkgs;
+in with nixpkgs;
 
 mkShell {
   nativeBuildInputs = [ pkg-config ];
