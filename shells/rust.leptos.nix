@@ -32,6 +32,6 @@ mkShell {
     [ darwin.apple_sdk.frameworks.SystemConfiguration ];
 
   shellHook = ''
-    PATH=$PATH:$HOME/.cargo/bin
+    export PATH=$PATH:$HOME/.cargo/bin
   '';
 }
