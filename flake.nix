@@ -1,17 +1,18 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nix-alien.url = "github:thiagokokada/nix-alien";
+    hyprland.url = "github:hyprwm/Hyprland";
 
     home-manager = {
       url = "github:rycee/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-alien.url = "github:thiagokokada/nix-alien";
-    hyprland.url = "github:hyprwm/Hyprland";
-
+    # for devshells
     go21.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
     go22.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
+    rust-overlay.url = "github:oxalica/rust-overlay";
   };
 
   nixConfig = {
@@ -19,7 +20,8 @@
     warn-dirty = false;
   };
 
-  outputs = { self, nixpkgs, home-manager, go21, go22, ... }@inputs:
+  outputs =
+    { self, nixpkgs, home-manager, go21, go22, rust-overlay, ... }@inputs:
     with nixpkgs.lib;
     let
       overlays = [ inputs.nix-alien.overlays.default (import ./overlays) ];
@@ -107,6 +109,11 @@
             }
           ]);
 
+      rustPkgs = import nixpkgs {
+        inherit system;
+        overlays = [ (import rust-overlay) ];
+      };
+
     in {
       nixosConfigurations = mapAttrs' mkNixosConfiguration {
         desktop = { };
@@ -119,7 +126,7 @@
         build = import ./shells/build.nix { inherit pkgs; };
         lua = import ./shells/lua.nix { inherit pkgs; };
         nix = import ./shells/nix.nix { inherit pkgs; };
-        rustwasm = import ./shells/rustwasm.nix { inherit pkgs; };
+        "rust.leptos" = import ./shells/rust.leptos.nix { pkgs = rustPkgs; };
         nodejs18 = import ./shells/nodejs18.nix { inherit pkgs; };
       });
     };
