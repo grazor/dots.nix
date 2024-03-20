@@ -22,10 +22,13 @@ mkShell {
     cargo-watch
     cargo-leptos
     cargo-make
+    cargo-generate
 
     trunk
 
     nodejs
+    dart-sass
+    tailwindcss
 
     wasm-pack
   ] ++ pkgs.lib.optionals pkg.stdenv.isDarwin

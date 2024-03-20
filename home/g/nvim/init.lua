@@ -274,7 +274,23 @@ require("lazy").setup({
 			lspconfig.pylsp.setup({})
 			lspconfig.nixd.setup({})
 			lspconfig.bashls.setup({})
-			lspconfig.rust_analyzer.setup({})
+			lspconfig.rust_analyzer.setup({
+				settings = {
+					["rust-analyzer"] = {
+						cargo = {
+							cfgs = { "ssr", "hydrate" },
+						},
+						procMacro = {
+							ignored = {
+								leptos_macro = {
+									"component",
+									"server",
+								},
+							},
+						},
+					},
+				},
+			})
 			lspconfig.lua_ls.setup({
 				settings = {
 					Lua = {
