@@ -51,8 +51,8 @@
     feh
     inkscape
     gimp
+    wayvnc
     tdesktop
-    zoom-us
     obsidian
   ];
 }
