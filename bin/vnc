@@ -23,6 +23,7 @@ function run() {
 
   if [ "$vmonitor" == "" ]; then
     $ctl output create headless
+    sleep 1
     vmonitor=$($ctl monitors | grep Monitor | grep HEADLESS | cut -d' ' -f2 | head -n 1)
   fi
 
