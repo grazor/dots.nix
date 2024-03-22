@@ -9,8 +9,8 @@ monitor=""
 vmonitor=""
 
 function stop() {
-  $ctl monitor "${monitor},preferred,auto,1"
-  $ctl monitor "${vmonitor},disable"
+  $ctl keyword monitor "${monitor},preferred,auto,1"
+  $ctl keyword monitor "${vmonitor},disable"
   $ctl keyword input:kb_layout us,ru
 }
 
@@ -26,8 +26,8 @@ function run() {
     vmonitor=$($ctl monitors | grep Monitor | grep HEADLESS | cut -d' ' -f2 | head -n 1)
   fi
 
-  $ctl monitor "${monitor},disable"
-  $ctl monitor "${vmonitor},1920x1080,0x0,1"
+  $ctl keyword monitor "${monitor},disable"
+  $ctl keyword monitor "${vmonitor},1920x1080,0x0,1"
   $ctl keyword input:kb_layout us
   wayvnc 0.0.0.0 && sleep 1000
 }
