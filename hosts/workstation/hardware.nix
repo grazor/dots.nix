@@ -27,10 +27,7 @@
   services.blueman.enable = true;
 
   services.logind.lidSwitch = "suspend";
-  services.logind.extraConfig = ''
-    HandleSuspendKey=suspend
-    HandleLidSwitch=suspend
-    HandleLidSwitchDocked=suspend
-  '';
+  services.logind.lidSwitchDocked = "ignore";
+  services.logind.lidSwitchExternalPower = "ignore";
 }
 
