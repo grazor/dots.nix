@@ -8,7 +8,7 @@
 
   programs.zsh = {
     enable = true;
-    completionInit = ""; # re-evaluating completions adds 2.5 sec to startup time
+    completionInit = "";
 
     cdpath = [ "/home/g/Projects" ];
     history = {
@@ -18,7 +18,7 @@
       size = 100000000;
     };
 
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
     sessionVariables = {
