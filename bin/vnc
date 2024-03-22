@@ -4,21 +4,32 @@ set -euo pipefail
 
 trap stop SIGINT SIGTERM SIGQUIT
 
+ctl="hyprctl --instance 0"
+monitor=""
+vmonitor=""
+
 function stop() {
-  hyprctl --instance 0 keyword monitor eDP-1,preferred,auto,1
-  hyprctl --instance 0 keyword monitor HEADLESS-2,disable
+  $ctl monitor "${monitor},preferred,auto,1"
+  $ctl monitor "${vmonitor},disable"
+  $ctl keyword input:kb_layout us,ru
 }
 
 function run() {
-  notify-send "Vnc switch in 3 sec"
+  echo "Vnc switch in 3 sec"
   sleep 3
 
-  hyprctl --instance 0 monitors | grep -q HEADLESS \
-    || hyprctl --instance 0 output create headless
+  monitor=$($ctl monitors | grep Monitor | cut -d' ' -f2 | head -n 1)
+  vmonitor=$($ctl monitors | grep Monitor | grep HEADLESS | cut -d' ' -f2 | head -n 1 || true)
 
-  hyprctl --instance 0 keyword monitor eDP-1,disable
-  hyprctl --instance 0 keyword monitor HEADLESS-2,1920x1080,0x0,1
-  wayvnc 0.0.0.0
+  if [ "$vmonitor" == "" ]; then
+    $ctl output create headless
+    vmonitor=$($ctl monitors | grep Monitor | grep HEADLESS | cut -d' ' -f2 | head -n 1)
+  fi
+
+  $ctl monitor "${monitor},disable"
+  $ctl monitor "${vmonitor},1920x1080,0x0,1"
+  $ctl keyword input:kb_layout us
+  wayvnc 0.0.0.0 && sleep 1000
 }
 
 if [ $# == 1 ] && [ "$1" == "stop" ]; then
