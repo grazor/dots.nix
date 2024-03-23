@@ -12,6 +12,7 @@
     ./lefthook.nix
     ./dev.nix
     ./hyprland
+    ./sunshine.nix
   ];
 
   # https://github.com/NixOS/nixpkgs/issues/196651

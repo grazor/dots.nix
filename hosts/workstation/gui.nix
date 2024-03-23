@@ -51,9 +51,11 @@
     feh
     inkscape
     gimp
-    wayvnc
     tdesktop
     obsidian
+
+    wayvnc
+    sunshine
   ];
 }
 
