@@ -29,7 +29,7 @@
     let
       overlays = [
         inputs.nix-alien.overlays.default
-        inputs.nvidia-patch.overlay
+        #inputs.nvidia-patch.overlay
         (import ./overlays)
       ];
       system = "x86_64-linux";
