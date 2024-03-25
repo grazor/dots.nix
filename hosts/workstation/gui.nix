@@ -4,7 +4,6 @@
   services.xserver = {
     enable = true;
     videoDrivers = [ "intel" ];
-    synaptics.enable = true;
     displayManager = {
       gdm.enable = true;
       gdm.wayland = true;

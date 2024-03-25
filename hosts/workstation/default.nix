@@ -10,7 +10,7 @@
 
     # either of two
     ./gui.nix
-    #./gui.nvidia.nix
+    # ./gui.nvidia.nix
 
     ../../shared/homecloud.nix
     ../../shared/arduino.nix
