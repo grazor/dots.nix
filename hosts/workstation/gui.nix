@@ -1,43 +1,31 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 {
-  services.xserver.videoDrivers = [ "intel" ];
-
   services.xserver = {
     enable = true;
-
-    displayManager.gdm.enable = true;
-    displayManager.gdm.wayland = true;
-    displayManager.defaultSession = "hyprland";
-
-    synaptics = {
-      enable = true;
-      vertTwoFingerScroll = true;
-      vertEdgeScroll = false;
-      minSpeed = "0.8";
-      additionalOptions =
-        "	Option \"VertScrollDelta\" \"-27\"\n	Option \"HorizScrollDelta\" \"-27\"\n";
+    videoDrivers = [ "intel" ];
+    synaptics.enable = true;
+    displayManager = {
+      gdm.enable = true;
+      gdm.wayland = true;
+      defaultSession = "hyprland";
     };
-
     libinput.enable = false;
-  };
-
-  services.xserver.windowManager.i3 = { enable = true; };
-
-  programs.sway = {
-    enable = true;
-    wrapperFeatures.gtk = true;
   };
 
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
+
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [ vaapiIntel vaapiVdpau libvdpau-va-gl ];
+    driSupport = true;
+    driSupport32Bit = true;
   };
 
   environment.sessionVariables = rec {
+    "NIXOS_OZONE_WL" = "1";
     "QT_QPA_PLATFORM" = "xcb";
     "QT_QPA_PLATFORMTHEME" = "qt5ct";
     "QT_WAYLAND_DISABLE_WINDOWDECORATION" = "1";
@@ -58,4 +46,3 @@
     sunshine
   ];
 }
-

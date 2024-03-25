@@ -5,6 +5,7 @@
 
   time.timeZone = "Europe/Moscow";
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.nvidia.acceptLicense = true;
 
   nix = {
     gc.automatic = true;
