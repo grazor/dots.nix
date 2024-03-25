@@ -2,15 +2,15 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-alien.url = "github:thiagokokada/nix-alien";
-    hyprland.url = "github:hyprwm/Hyprland";
+    # hyprland.url = "github:hyprwm/Hyprland";
 
     home-manager = {
       url = "github:rycee/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nvidia-patch.url = "github:icewind1991/nvidia-patch-nixos";
-    nvidia-patch.inputs.nixpkgs.follows = "nixpkgs";
+    # nvidia-patch.url = "github:icewind1991/nvidia-patch-nixos";
+    # nvidia-patch.inputs.nixpkgs.follows = "nixpkgs";
 
     # for devshells
     go21.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
