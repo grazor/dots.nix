@@ -22,5 +22,4 @@
   nix.settings.max-jobs = lib.mkDefault 8;
 
   nixpkgs.config.permittedInsecurePackages = [ "electron-25.9.0" ];
-
 }

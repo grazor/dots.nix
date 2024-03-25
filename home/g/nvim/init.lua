@@ -383,6 +383,11 @@ require("lazy").setup({
 				bash = { "shfmt" },
 				rust = { "rustfmt" },
 			},
+			formatters = {
+				golines = {
+					prepend_args = { "-m", "120" },
+				},
+			},
 		},
 	},
 

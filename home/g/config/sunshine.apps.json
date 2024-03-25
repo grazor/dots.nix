@@ -12,6 +12,10 @@
           "undo": "hyprctl --instance 0 keyword monitor eDP-1,preferred,auto,1"
         }
       ]
+    },
+    {
+      "name": "Desktop orig",
+      "image-path": "desktop.png"
     }
   ]
 }
