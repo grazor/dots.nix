@@ -10,28 +10,27 @@ let
   # create patch functions for the specified revision
   nvidia-patch = pkgs.nvidia-patch rev hash;
 
-  nvidiaPackage =
-    config.boot.kernelPackages.nvidiaPackages.beta.overrideAttrs rec {
-      version = "550.54.14";
-      src = builtins.fetchurl {
-        url =
-          "https://download.nvidia.com/XFree86/Linux-x86_64/${version}/NVIDIA-Linux-x86_64-${version}.run";
-        sha256 = "sha256-jEl/8c/HwxD7h1FJvDD6pP0m0iN7LLps0uiweAFXz+M=";
-      };
-    };
+  nvidiaPackage = config.boot.kernelPackages.nvidiaPackages.mkDriver {
+    version = "550.54.14";
+    sha256_64bit = "sha256-jEl/8c/HwxD7h1FJvDD6pP0m0iN7LLps0uiweAFXz+M=";
+    sha256_aarch64 = "sha256-sProBhYziFwk9rDAR2SbRiSaO7RMrf+/ZYryj4BkLB0=";
+    openSha256 = "sha256-F+9MWtpIQTF18F2CftCJxQ6WwpA8BVmRGEq3FhHLuYw=";
+    settingsSha256 = "sha256-m2rNASJp0i0Ez2OuqL+JpgEF0Yd8sYVCyrOoo/ln2a4=";
+    persistencedSha256 = "sha256-XaPN8jVTjdag9frLPgBtqvO/goB5zxeGzaTU0CdL6C4=";
+  };
 in {
   services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
     displayManager = {
-      gdm = {
-        enable = true;
-        wayland = true;
-      };
+      gdm.enable = true;
+      gdm.wayland = true;
       defaultSession = "hyprland";
     };
     libinput.enable = false;
   };
+
+  hardware.uinput.enable = true;
 
   hardware.opengl = {
     enable = true;
@@ -45,7 +44,15 @@ in {
     powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = true;
-    package = nvidia-patch.patch-nvenc (nvidia-patch.patch-fbc nvidiaPackage);
+    #package = nvidia-patch.patch-nvenc (nvidia-patch.patch-fbc nvidiaPackage);
+    #package = nvidia-patch.patch-nvenc nvidiaPackage;
+    package = nvidiaPackage;
+
+    prime = {
+      sync.enable = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
   };
 
   environment.sessionVariables = rec {
@@ -60,8 +67,8 @@ in {
     "__GLX_VENDOR_LIBRARY_NAME" = "nvidia";
     "WLR_NO_HARDWARE_CURSORS" = "1";
 
-    "__NV_PRIME_RENDER_OFFLOAD" = "1";
-    "__NV_PRIME_RENDER_OFFLOAD_PROVIDER" = "NVIDIA-G0";
+    #"__NV_PRIME_RENDER_OFFLOAD" = "1";
+    #"__NV_PRIME_RENDER_OFFLOAD_PROVIDER" = "NVIDIA-G0";
     "__VK_LAYER_NV_optimus" = "NVIDIA_only";
   };
 
@@ -74,6 +81,8 @@ in {
     gimp
     tdesktop
     obsidian
+
+    libva-utils
 
     wayvnc
     sunshine
