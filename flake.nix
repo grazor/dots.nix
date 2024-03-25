@@ -9,6 +9,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nvidia-patch.url = "github:icewind1991/nvidia-patch-nixos";
+    nvidia-patch.inputs.nixpkgs.follows = "nixpkgs";
+
     # for devshells
     go21.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
     go22.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
@@ -24,7 +27,11 @@
     { self, nixpkgs, home-manager, go21, go22, rust-overlay, ... }@inputs:
     with nixpkgs.lib;
     let
-      overlays = [ inputs.nix-alien.overlays.default (import ./overlays) ];
+      overlays = [
+        inputs.nix-alien.overlays.default
+        inputs.nvidia-patch.overlay
+        (import ./overlays)
+      ];
       system = "x86_64-linux";
       alien = self.inputs.nix-alien.packages.${system};
       pkgs = import nixpkgs { inherit system; };

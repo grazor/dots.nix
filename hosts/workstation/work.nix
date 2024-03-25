@@ -1,10 +1,13 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   boot.kernelParams = [ "intel_iommu=on" ];
 
-  security.pki.certificateFiles =
-    [ "${/avito/avito/ca.crt}" "${/avito/avito/root.crt}" "${/avito/avito-dev/ca.crt}" ];
+  security.pki.certificateFiles = [
+    "${/avito/avito/ca.crt}"
+    "${/avito/avito/root.crt}"
+    "${/avito/avito-dev/ca.crt}"
+  ];
 
   services.nfs.server.enable = true;
   services.nfs.server.exports = ''
@@ -13,13 +16,13 @@
 
     /home/g 10.0.2.0/24(rw,async,insecure,no_root_squash,no_subtree_check)
     /home/g 127.0.0.0/24(rw,async,insecure,no_root_squash,no_subtree_check)
-    /home/g 192.168.1.0/24(rw,async,insecure,no_root_squash,no_subtree_check)
   '';
 
   services.k3s = {
     enable = true;
     package = pkgs.k3s;
-	extraFlags = "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --docker";
+    extraFlags =
+      "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --docker";
   };
 
   virtualisation.libvirtd.enable = true;
@@ -30,6 +33,11 @@
   virtualisation.lxc.enable = true;
   virtualisation.lxd.enable = true;
   virtualisation.lxd.recommendedSysctlSettings = true;
+
+  systemd.services.k3s.wantedBy = lib.mkForce [ ];
+  systemd.services.libvirtd.wantedBy = lib.mkForce [ ];
+  systemd.services.libvirt-guests.wantedBy = lib.mkForce [ ];
+  systemd.services.lxd.wantedBy = lib.mkForce [ ];
 
   environment.etc.hosts.mode = "0644";
   services.resolved.dnssec = "false";
