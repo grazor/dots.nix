@@ -16,6 +16,7 @@
       "video"
       "input"
       "sway"
+      "uinput"
     ];
     useDefaultShell = true;
   };

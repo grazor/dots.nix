@@ -1,5 +1,5 @@
 self: super:
 
 {
-  ktalk = (super.callPackage ./ktalk.nix {});
+  ktalk = (super.callPackage ./ktalk.nix { });
 }
