@@ -1,16 +1,13 @@
-{ stdenv, fetchurl, dpkg, lib, autoPatchelfHook, glib, nss, dbus, atk, cups, libdrm, gtk3, gtk4
-, pango, cairo, expat, libX11, libXcomposite, libXdamage, libXext, libXrandr, libxcb, libXtst
-, alsa-lib, mesa, popt, libxcrypt-legacy, makeShellWrapper
+{ stdenv, fetchurl, dpkg, lib, autoPatchelfHook, glib, nss, dbus, atk, cups
+, libdrm, gtk3, gtk4, pango, cairo, expat, libX11, libXcomposite, libXdamage
+, libXext, libXrandr, libxcb, libXtst, alsa-lib, mesa, popt, libxcrypt-legacy
+, makeShellWrapper
 
 #
-, wrapGAppsHook, at-spi2-atk, at-spi2-core
-, fontconfig, freetype, gdk-pixbuf
-, libcxx, libglvnd, libnotify, libpulseaudio, libuuid
-, libXcursor, libXfixes
-, wayland, libdbusmenu, libappindicator-gtk3, libXScrnSaver
-, libXi, libXrender, libxshmfence, nspr
-, systemd, libunity
-, libGL
+, wrapGAppsHook, at-spi2-atk, at-spi2-core, fontconfig, freetype, gdk-pixbuf
+, libcxx, libglvnd, libnotify, libpulseaudio, libuuid, libXcursor, libXfixes
+, wayland, libdbusmenu, libappindicator-gtk3, libXScrnSaver, libXi, libXrender
+, libxshmfence, nspr, systemd, libunity, libGL
 
 #, makeDesktopItem, lib, stdenv, makeShellWrapper, alsa-lib, 
 #, 
@@ -19,15 +16,13 @@
 #, speechd
 }:
 
-
 let
 
-  version = "2.9.0";
-
+  version = "2.10.0";
 
   sha256 = {
-    "x86_64-linux" = "sha256-1ASXr3eChfxiTqco/2G954Frs3LKi+bV7ExHMzo6wd8=";
-    "aarch64-linux" = "0wsv4mvwrvsaz1pwiqs94b3854h5l8ff2dbb1ybxmvwjbfrkdcqc";
+    "x86_64-linux" = "sha256-QW1Qt6jGbY1KQTSdFgeuoz1OTs3TB4JfINynwl0w004=";
+    "aarch64-linux" = "";
   }."${stdenv.system}";
 
   arch = {
@@ -36,8 +31,8 @@ let
   }."${stdenv.system}";
 
 in stdenv.mkDerivation rec {
-    pname = "ktalk";
-    inherit version;
+  pname = "ktalk";
+  inherit version;
 
   src = fetchurl {
     url = "https://st.ktalk.host/ktalk-app/linux/ktalk${version}${arch}.deb";
@@ -62,7 +57,7 @@ in stdenv.mkDerivation rec {
     libxcrypt-legacy
     popt
     wrapGAppsHook
-	makeShellWrapper
+    makeShellWrapper
   ];
 
   dontWrapGApps = true;
@@ -110,25 +105,24 @@ in stdenv.mkDerivation rec {
     wayland
   ]);
 
-  runtimeDeps = [libGL];
-
+  runtimeDeps = [ libGL ];
 
   unpackPhase = "${dpkg}/bin/dpkg-deb -x $src .";
 
   installPhase = ''
-        mkdir -p $out/bin
-        cp -r usr/share $out
-        cp -r opt $out
+    mkdir -p $out/bin
+    cp -r usr/share $out
+    cp -r opt $out
 
-        ln -s "$out/opt/Толк/ktalk" "$out/bin/ktalk"
+    ln -s "$out/opt/Толк/ktalk" "$out/bin/ktalk"
 
-        wrapProgramShell $out/bin/ktalk \
-            "''${gappsWrapperArgs[@]}" \
-            --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform=wayland --enable-features=WaylandWindowDecorations}}" \
-            --prefix XDG_DATA_DIRS : "${gtk3}/share/gsettings-schemas/${gtk3.name}/" \
-            --prefix LD_LIBRARY_PATH : ${libPath}:$out/opt/Толк
+    wrapProgramShell $out/bin/ktalk \
+        "''${gappsWrapperArgs[@]}" \
+        --add-flags "\''${NIXOS_OZONE_WL:+\''${WAYLAND_DISPLAY:+--ozone-platform=wayland --enable-features=WaylandWindowDecorations}}" \
+        --prefix XDG_DATA_DIRS : "${gtk3}/share/gsettings-schemas/${gtk3.name}/" \
+        --prefix LD_LIBRARY_PATH : ${libPath}:$out/opt/Толк
 
-        chmod -R g-w $out
+    chmod -R g-w $out
   '';
 
   postFixup = ''
