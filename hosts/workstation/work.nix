@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ inputs, pkgs, lib, ... }:
 
 {
   boot.kernelParams = [ "intel_iommu=on" ];
@@ -20,7 +20,8 @@
 
   services.k3s = {
     enable = true;
-    package = pkgs.k3s;
+    package = inputs.k3s.packages.${pkgs.system}.k3s;
+
     extraFlags =
       "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --docker";
   };
