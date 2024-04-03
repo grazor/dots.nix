@@ -1,6 +1,7 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    #nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/staging-next";
     nix-alien.url = "github:thiagokokada/nix-alien";
     # hyprland.url = "github:hyprwm/Hyprland";
 
@@ -16,6 +17,8 @@
     go21.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
     go22.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
     rust-overlay.url = "github:oxalica/rust-overlay";
+
+    k3s.url = "nixpkgs/72c6ed328aa4e5d9151b1a512f6ad83aca7529fa";
   };
 
   nixConfig = {

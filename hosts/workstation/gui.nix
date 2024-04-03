@@ -31,6 +31,8 @@
     "QT_QPA_PLATFORMTHEME" = "qt5ct";
     "QT_WAYLAND_DISABLE_WINDOWDECORATION" = "1";
     "LIBVA_DRIVER_NAME" = "i965";
+
+    "WLR_NO_HARDWARE_CURSORS" = "1";
   };
 
   environment.systemPackages = with pkgs; [
