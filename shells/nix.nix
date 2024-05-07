@@ -16,7 +16,7 @@ mkShell {
     pkg-config
 
     nixd
-    nixfmt
+    nixfmt-rfc-style
 
     lua-language-server
     stylua

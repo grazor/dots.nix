@@ -20,7 +20,7 @@
 
   services.k3s = {
     enable = true;
-    package = inputs.k3s.packages.${pkgs.system}.k3s;
+    package = inputs.k3s.legacyPackages.${pkgs.system}.k3s_1_28;
 
     extraFlags =
       "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --docker";
