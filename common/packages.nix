@@ -5,6 +5,8 @@
     update-systemd-resolved
     ppp
 
+    nh
+
     acpi
     binutils
     bridge-utils
@@ -12,7 +14,7 @@
     htop
     inetutils
     iw
-    nixfmt
+    nixfmt-rfc-style
     nox
     ntfs3g
     openvpn
