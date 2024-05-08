@@ -7,9 +7,12 @@
     displayManager = {
       gdm.enable = true;
       gdm.wayland = true;
-      defaultSession = "hyprland";
     };
+  };
+
+  services = {
     libinput.enable = false;
+    displayManager.defaultSession = "hyprland";
   };
 
   hardware.uinput.enable = true;
