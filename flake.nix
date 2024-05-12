@@ -26,7 +26,15 @@
   };
 
   outputs =
-    { self, nixpkgs, home-manager, go21, go22, rust-overlay, ... }@inputs:
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      go21,
+      go22,
+      rust-overlay,
+      ...
+    }@inputs:
     with nixpkgs.lib;
     let
       overlays = [
@@ -38,104 +46,150 @@
       alien = self.inputs.nix-alien.packages.${system};
       pkgs = import nixpkgs { inherit system; };
 
-      mkNixosConfiguration = name:
-        { config ? ./hosts + "/${name}", users ? [ "g" ] }:
+      mkNixosConfiguration =
+        name:
+        {
+          config ? ./hosts + "/${name}",
+          users ? [ "g" ],
+        }:
         nameValuePair name (nixosSystem {
           system = system;
-          specialArgs = { inherit inputs; };
+          specialArgs = {
+            inherit inputs;
+          };
           modules = [
             # base config
             ./configuration.nix
             (import config)
-            ({ ... }: { networking.hostName = name; })
-            {
-              nixpkgs.overlays = overlays;
-            }
+            (
+              { ... }:
+              {
+                networking.hostName = name;
+              }
+            )
+            { nixpkgs.overlays = overlays; }
 
             # nix-alien
-            ({ ... }: {
-              environment.systemPackages =
-                with self.inputs.nix-alien.packages.${system};
-                [ nix-alien ];
-              programs.nix-ld.enable = true;
-            })
+            (
+              { ... }:
+              {
+                environment.systemPackages = with self.inputs.nix-alien.packages.${system}; [ nix-alien ];
+                programs.nix-ld.enable = true;
+              }
+            )
 
             # home-manager
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users = listToAttrs (map (x: {
-                name = x;
-                value = import (./. + "/home/${x}");
-              }) users);
+              home-manager.users = listToAttrs (
+                map (x: {
+                  name = x;
+                  value = import (./. + "/home/${x}");
+                }) users
+              );
             }
           ];
         });
 
-      minorVersion = v:
+      minorVersion = v: with builtins; head (match "([[:digit:]]\\.[[:digit:]]+).*" v);
+
+      pythonShells =
         with builtins;
-        head (match "([[:digit:]]\\.[[:digit:]]+).*" v);
+        listToAttrs (
+          map
+            (
+              p:
+              let
+                v = minorVersion p.python.version;
+              in
+              {
+                name = "python." + v;
+                value = (
+                  import ./shells/python.nix {
+                    inherit pkgs;
+                    version = v;
+                    pythonPackages = p;
+                  }
+                );
+              }
+            )
+            [
+              pkgs.python39Packages
+              pkgs.python310Packages
+              pkgs.python311Packages
+              pkgs.python312Packages
+            ]
+        );
 
-      pythonShells = with builtins;
-        listToAttrs (map (p:
-          let v = minorVersion p.python.version;
-          in {
-            name = "python." + v;
-            value = (import ./shells/python.nix {
-              inherit pkgs;
-              version = v;
-              pythonPackages = p;
-            });
-          }) [
-            pkgs.python39Packages
-            pkgs.python310Packages
-            pkgs.python311Packages
-            pkgs.python312Packages
-          ]);
-
-      goShells = with builtins;
-        listToAttrs (map (p:
-          let
-            gopkgs = p.p;
-            gopkg = p.go;
-            toolchain = "go" + gopkg.version;
-            version = minorVersion gopkg.version;
-          in {
-            name = "go." + version;
-            value = (import ./shells/go.nix {
-              inherit pkgs version gopkgs gopkg toolchain;
-            });
-          }) [
-            rec {
-              p = (import go21 { inherit system; });
-              go = p.go_1_21;
-            }
-            rec {
-              p = (import go22 { inherit system; });
-              go = p.go_1_22;
-            }
-          ]);
+      goShells =
+        with builtins;
+        listToAttrs (
+          map
+            (
+              p:
+              let
+                gopkgs = p.p;
+                gopkg = p.go;
+                toolchain = "go" + gopkg.version;
+                version = minorVersion gopkg.version;
+              in
+              {
+                name = "go." + version;
+                value = (
+                  import ./shells/go.nix {
+                    inherit
+                      pkgs
+                      version
+                      gopkgs
+                      gopkg
+                      toolchain
+                      ;
+                  }
+                );
+              }
+            )
+            [
+              rec {
+                p = (import go21 { inherit system; });
+                go = p.go_1_21;
+              }
+              rec {
+                p = (import go22 { inherit system; });
+                go = p.go_1_22;
+              }
+            ]
+        );
 
       rustPkgs = import nixpkgs {
         inherit system;
         overlays = [ (import rust-overlay) ];
       };
-
-    in {
+    in
+    {
       nixosConfigurations = mapAttrs' mkNixosConfiguration {
         desktop = { };
         workstation = { };
-        minisrv = { users = [ "cloud" ]; };
-        server = { users = [ "cloud" ]; };
+        minisrv = {
+          users = [ "cloud" ];
+        };
+        server = {
+          users = [ "cloud" ];
+        };
       };
 
-      devShells.${system} = (pythonShells // goShells // {
-        build = import ./shells/build.nix { inherit pkgs; };
-        lua = import ./shells/lua.nix { inherit pkgs; };
-        nix = import ./shells/nix.nix { inherit pkgs; };
-        "rust.leptos" = import ./shells/rust.leptos.nix { pkgs = rustPkgs; };
-        nodejs18 = import ./shells/nodejs18.nix { inherit pkgs; };
-      });
+      devShells.${system} = (
+        pythonShells
+        // goShells
+        // {
+          build = import ./shells/build.nix { inherit pkgs; };
+          lua = import ./shells/lua.nix { inherit pkgs; };
+          nix = import ./shells/nix.nix { inherit pkgs; };
+          "rust.leptos" = import ./shells/rust.leptos.nix { pkgs = rustPkgs; };
+          rust = import ./shells/rust.nix { inherit pkgs; };
+          nodejs18 = import ./shells/nodejs18.nix { inherit pkgs; };
+        }
+      );
     };
 }
