@@ -11,17 +11,22 @@ mkShell {
 
     rust-analyzer
     rustfmt
-    rust
+    rustc
+    rr
 
     cargo
     cargo-watch
     cargo-make
     cargo-generate
 
-    wasm-pack
+    protobuf
   ];
 
   shellHook = ''
     export PATH=$PATH:$HOME/.cargo/bin
+
+    export PROTOBUF_LOCATION=${protobuf}
+    export PROTOC=$PROTOBUF_LOCATION/bin/protoc
+    export PROTOC_INCLUDE=$PROTOBUF_LOCATION/include
   '';
 }
