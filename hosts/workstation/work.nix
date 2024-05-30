@@ -1,4 +1,9 @@
-{ inputs, pkgs, lib, ... }:
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   boot.kernelParams = [ "intel_iommu=on" ];
@@ -22,14 +27,19 @@
     enable = true;
     package = inputs.k3s.legacyPackages.${pkgs.system}.k3s_1_28;
 
-    extraFlags =
-      "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --docker";
+    extraFlags = "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --docker";
   };
 
   virtualisation.libvirtd.enable = true;
-  users.users.g.extraGroups = [ "libvirtd" "adbusers" ];
+  users.users.g.extraGroups = [
+    "libvirtd"
+    "adbusers"
+  ];
 
-  environment.systemPackages = with pkgs; [ git-lfs ktalk ];
+  environment.systemPackages = with pkgs; [
+    git-lfs
+    ktalk
+  ];
 
   virtualisation.lxc.enable = true;
   virtualisation.lxd.enable = true;
@@ -49,6 +59,6 @@
   '';
 
   virtualisation.docker.extraOptions = ''
-    --dns 10.0.0.1 --dns 10.0.0.10 --dns 8.8.8.8 --dns-search msk.avito.ru
+    --dns 10.0.0.1 --dns 10.0.0.10 --dns 8.8.8.8 --dns-search msk.avito.ru --registry-mirror=https://mirror.gcr.io
   '';
 }
