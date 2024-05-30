@@ -59,6 +59,6 @@
   '';
 
   virtualisation.docker.extraOptions = ''
-    --dns 10.0.0.1 --dns 10.0.0.10 --dns 8.8.8.8 --dns-search msk.avito.ru --registry-mirror=https://mirror.gcr.io
+    --dns 10.0.0.1 --dns 10.0.0.10 --dns 8.8.8.8 --dns-search msk.avito.ru
   '';
 }
