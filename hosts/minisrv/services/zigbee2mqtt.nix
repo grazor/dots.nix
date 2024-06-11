@@ -3,7 +3,7 @@
 let
   description = "Zigbee to Mqtt";
   name = "zigbee2mqtt";
-  image = "koenkk/zigbee2mqtt:1.34.0";
+  image = "koenkk/zigbee2mqtt";
   configOpt = "-v /home/cloud/zigbee2mqtt:/app/data";
   extraOpt = "--pull=always --device=/dev/ttyACM0 -e TZ=Europe/Moscow -v /etc/localtime:/etc/localtime:ro -v /run/udev:/run/udev:ro --privileged --net=host";
 in
