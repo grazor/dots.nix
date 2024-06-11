@@ -58,7 +58,12 @@
     iptables -I INPUT -i virbr+ -j ACCEPT
   '';
 
-  virtualisation.docker.extraOptions = ''
-    --dns 10.0.0.1 --dns 10.0.0.10 --dns 8.8.8.8 --dns-search msk.avito.ru
-  '';
+  virtualisation.docker.daemon.settings = {
+    dns = [
+      "10.0.0.1"
+      "10.0.0.10"
+      "8.8.8.8"
+    ];
+    dns-search = [ "msk.avito.ru" ];
+  };
 }
