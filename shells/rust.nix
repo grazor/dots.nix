@@ -18,6 +18,7 @@ mkShell {
     cargo-watch
     cargo-make
     cargo-generate
+    clippy
 
     protobuf
   ];
