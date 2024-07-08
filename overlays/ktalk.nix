@@ -1,36 +1,80 @@
-{ stdenv, fetchurl, dpkg, lib, autoPatchelfHook, glib, nss, dbus, atk, cups
-, libdrm, gtk3, gtk4, pango, cairo, expat, libX11, libXcomposite, libXdamage
-, libXext, libXrandr, libxcb, libXtst, alsa-lib, mesa, popt, libxcrypt-legacy
-, makeShellWrapper
+{
+  stdenv,
+  fetchurl,
+  dpkg,
+  lib,
+  autoPatchelfHook,
+  glib,
+  nss,
+  dbus,
+  atk,
+  cups,
+  libdrm,
+  gtk3,
+  gtk4,
+  pango,
+  cairo,
+  expat,
+  libX11,
+  libXcomposite,
+  libXdamage,
+  libXext,
+  libXrandr,
+  libxcb,
+  libXtst,
+  alsa-lib,
+  mesa,
+  popt,
+  libxcrypt-legacy,
+  makeShellWrapper,
 
-#
-, wrapGAppsHook, at-spi2-atk, at-spi2-core, fontconfig, freetype, gdk-pixbuf
-, libcxx, libglvnd, libnotify, libpulseaudio, libuuid, libXcursor, libXfixes
-, wayland, libdbusmenu, libappindicator-gtk3, libXScrnSaver, libXi, libXrender
-, libxshmfence, nspr, systemd, libunity, libGL
-
-#, makeDesktopItem, lib, stdenv, makeShellWrapper, alsa-lib, 
-#, 
-#, systemd, writeScript, python3, runCommand
-#, 
-#, speechd
+  #
+  wrapGAppsHook,
+  at-spi2-atk,
+  at-spi2-core,
+  fontconfig,
+  freetype,
+  gdk-pixbuf,
+  libcxx,
+  libglvnd,
+  libnotify,
+  libpulseaudio,
+  libuuid,
+  libXcursor,
+  libXfixes,
+  wayland,
+  libdbusmenu,
+  libappindicator-gtk3,
+  libXScrnSaver,
+  libXi,
+  libXrender,
+  libxshmfence,
+  nspr,
+  systemd,
+  libunity,
+  libGL,
 }:
 
 let
 
-  version = "2.10.0";
+  version = "2.12.0-alpha.4";
 
-  sha256 = {
-    "x86_64-linux" = "sha256-QW1Qt6jGbY1KQTSdFgeuoz1OTs3TB4JfINynwl0w004=";
-    "aarch64-linux" = "";
-  }."${stdenv.system}";
+  sha256 =
+    {
+      "x86_64-linux" = "sha256-CDTzSMwskfA9XtBaub240DGjCtEcYLtMEwzcz7pm5pQ=";
+      "aarch64-linux" = "";
+    }
+    ."${stdenv.system}";
 
-  arch = {
-    "x86_64-linux" = "amd64";
-    "aarch64-linux" = "aarch64";
-  }."${stdenv.system}";
+  arch =
+    {
+      "x86_64-linux" = "amd64";
+      "aarch64-linux" = "aarch64";
+    }
+    ."${stdenv.system}";
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "ktalk";
   inherit version;
 
@@ -134,6 +178,9 @@ in stdenv.mkDerivation rec {
     description = "Ktalk";
     homepage = "https://kontur.ru/talk";
     license = lib.licenses.unfree;
-    platforms = [ "aarch64-linux" "x86_64-linux" ];
+    platforms = [
+      "aarch64-linux"
+      "x86_64-linux"
+    ];
   };
 }

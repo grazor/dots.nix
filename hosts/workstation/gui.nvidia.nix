@@ -11,8 +11,9 @@ let
   nvidia-patch = pkgs.nvidia-patch rev hash;
 
   nvidiaPackage = config.boot.kernelPackages.nvidiaPackages.latest;
-  # nvidiaPackage = config.boot.kernelPackages.nvidiaPackages.mkDriver {}
-in {
+in
+# nvidiaPackage = config.boot.kernelPackages.nvidiaPackages.mkDriver {}
+{
   services.xserver = {
     enable = true;
     videoDrivers = [ "nvidia" ];
@@ -27,7 +28,6 @@ in {
 
   hardware.opengl = {
     enable = true;
-    driSupport = true;
     driSupport32Bit = true;
   };
 
