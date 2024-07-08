@@ -21,14 +21,17 @@
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    extraPackages = with pkgs; [ vaapiIntel vaapiVdpau libvdpau-va-gl ];
-    driSupport = true;
+    extraPackages = with pkgs; [
+      vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
+    ];
     driSupport32Bit = true;
   };
 
-  environment.sessionVariables = rec {
+  environment.sessionVariables = {
     "NIXOS_OZONE_WL" = "1";
     "QT_QPA_PLATFORM" = "xcb";
     "QT_QPA_PLATFORMTHEME" = "qt5ct";
