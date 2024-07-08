@@ -26,9 +26,8 @@ in
 
   hardware.uinput.enable = true;
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport32Bit = true;
   };
 
   hardware.nvidia = {
