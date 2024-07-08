@@ -28,7 +28,6 @@
       vaapiVdpau
       libvdpau-va-gl
     ];
-    driSupport32Bit = true;
   };
 
   environment.sessionVariables = {
