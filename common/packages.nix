@@ -15,7 +15,6 @@
     inetutils
     iw
     nixfmt-rfc-style
-    nox
     ntfs3g
     openvpn
     unzip
