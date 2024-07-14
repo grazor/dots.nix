@@ -8,6 +8,18 @@
       gdm.enable = true;
       gdm.wayland = true;
     };
+
+    synaptics = {
+      enable = true;
+      vertTwoFingerScroll = true;
+      vertEdgeScroll = false;
+      minSpeed = "0.8";
+      additionalOptions = "	Option \"VertScrollDelta\" \"-27\"\n	Option \"HorizScrollDelta\" \"-27\"\n";
+    };
+
+    windowManager.i3 = {
+      enable = true;
+    };
   };
 
   services = {
