@@ -3,7 +3,8 @@
 {
   services.minio = {
     enable = true;
-    listenAddr = ":8333";
+
+    listenAddress = ":8333";
     dataDir = "/home/cloud/minio/data";
     configDir = "/home/cloud/minio/config";
 
