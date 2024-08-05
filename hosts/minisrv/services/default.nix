@@ -9,6 +9,8 @@
     ./influx.nix
     ./grafana.nix
 
+    ./minio.nix
+
     #./couchdb.nix
     #./jellyfin.nix
 
@@ -22,4 +24,3 @@
     #./registry.nix
   ];
 }
-
