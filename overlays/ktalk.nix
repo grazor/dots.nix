@@ -57,11 +57,11 @@
 
 let
 
-  version = "2.12.0-alpha.4";
+  version = "2.11.0";
 
   sha256 =
     {
-      "x86_64-linux" = "sha256-CDTzSMwskfA9XtBaub240DGjCtEcYLtMEwzcz7pm5pQ=";
+      "x86_64-linux" = "1gx55gaal2h1v35xc1fj62x41w38dw7p4cc6s15q1lmranyl1nqf";
       "aarch64-linux" = "";
     }
     ."${stdenv.system}";
