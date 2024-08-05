@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   boot = {
@@ -23,11 +28,12 @@
   services.sshd.enable = true;
   services.openssh.settings.PasswordAuthentication = false;
 
-  powerManagement.enable = true;
-
   networking.networkmanager.enable = true;
   services.resolved.enable = true;
-  services.resolved.fallbackDns = [ "8.8.8.8" "10.0.0.1" ];
+  services.resolved.fallbackDns = [
+    "8.8.8.8"
+    "10.0.0.1"
+  ];
   services.pptpd.enable = true;
 
   services.pcscd.enable = true;
@@ -38,4 +44,3 @@
     DefaultTimeoutStopSec=10s
   '';
 }
-
