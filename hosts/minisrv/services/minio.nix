@@ -5,7 +5,7 @@
     enable = true;
 
     listenAddress = ":8333";
-    dataDir = "/home/cloud/minio/data";
+    dataDir = [ "/home/cloud/minio/data" ];
     configDir = "/home/cloud/minio/config";
 
     browser = true;
