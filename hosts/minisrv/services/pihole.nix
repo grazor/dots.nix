@@ -8,7 +8,7 @@ let
   extraOpt = "--user 1000 --pull=always -v /etc/localtime:/etc/localtime:ro -p 53:53/tcp -p 53:53/udp -p 8400:80/tcp";
 in
 {
-  systemd.services.grafana = {
+  systemd.services.pihole = {
     description = description;
 
     wantedBy = [ "multi-user.target" ];
