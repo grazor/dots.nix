@@ -8,6 +8,7 @@
     ./caddy.nix
     ./influx.nix
     ./grafana.nix
+    ./pihole.nix
 
     ./minio.nix
 
