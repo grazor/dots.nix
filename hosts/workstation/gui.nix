@@ -91,6 +91,9 @@
     tdesktop
     obsidian
 
+    rose-pine-cursor
+    nordzy-cursor-theme
+
     wayvnc
     sunshine
   ];
