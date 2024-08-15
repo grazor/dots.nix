@@ -27,8 +27,12 @@
     tree
     patchelf
     bind
-    ncdu
     curl
+
+    ncdu
+    dua # <- aka ncdu
+
+    pet # cli snippet manager
 
     direnv
     brightnessctl
