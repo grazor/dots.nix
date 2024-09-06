@@ -12,6 +12,8 @@
 
     ./minio.nix
 
+    ./xray.nix
+
     #./couchdb.nix
     #./jellyfin.nix
 
