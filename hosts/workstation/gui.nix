@@ -84,6 +84,7 @@
   environment.systemPackages = with pkgs; [
     google-chrome
     mpv
+    blender
     iwgtk
     feh
     inkscape
