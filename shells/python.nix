@@ -1,4 +1,8 @@
-{ pkgs, pythonPackages, version }:
+{
+  pkgs ? import <nixpkgs> { },
+  pythonPackages ? pkgs.python312Packages,
+  version ? "3.12",
+}:
 
 pkgs.mkShell {
   name = "py-" + version;
@@ -36,5 +40,11 @@ pkgs.mkShell {
 
   postShellHook = ''
     unset SOURCE_DATE_EPOCH
+    export LD_LIBRARY_PATH=${
+      pkgs.lib.makeLibraryPath [
+        pkgs.stdenv.cc.cc
+        pkgs.libGL
+      ]
+    }
   '';
 }
