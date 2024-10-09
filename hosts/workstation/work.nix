@@ -41,6 +41,9 @@
     ktalk
   ];
 
+  virtualisation.virtualbox.host.enable = true;
+  virtualisation.virtualbox.host.enableExtensionPack = true;
+
   virtualisation.lxc.enable = true;
   virtualisation.lxd.enable = true;
   virtualisation.lxd.recommendedSysctlSettings = true;
