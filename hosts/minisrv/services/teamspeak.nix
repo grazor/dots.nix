@@ -11,4 +11,13 @@
     defaultVoicePort = 9987;
     dataDir = "/home/cloud/teamspeak";
   };
+
+  systemd.services.teamspeak3-server.serviceConfig =
+    let
+      cfg = config.services.teamspeak3-server;
+    in
+    {
+      User = lib.mkForce "cloud";
+      Group = lib.mkForce "users";
+    };
 }
