@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 {
-  services.teamspeak = {
+  services.teamspeak3 = {
     enable = true;
     openFirewall = true;
     querySshPort = 10022;
