@@ -8,12 +8,11 @@
     ./caddy.nix
     ./influx.nix
     ./grafana.nix
-    ./pihole.nix
-
     ./minio.nix
-
     ./xray.nix
+    ./teamspeak.nix
 
+    # ./pihole.nix
     #./couchdb.nix
     #./jellyfin.nix
 
