@@ -11,6 +11,7 @@
     ./minio.nix
     ./xray.nix
     ./teamspeak.nix
+    ./vaultwarden.nix
 
     # ./pihole.nix
     #./couchdb.nix
