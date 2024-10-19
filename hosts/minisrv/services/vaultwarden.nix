@@ -10,9 +10,4 @@
       websocketEnabled = true;
     };
   };
-
-  users = {
-    users.vaultwarden.name = "cloud";
-    groups.vaultwarden.name = "users";
-  };
 }
