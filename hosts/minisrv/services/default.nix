@@ -13,6 +13,8 @@
     ./teamspeak.nix
     ./vaultwarden.nix
 
+    /.siyuan.nix
+
     # ./pihole.nix
     #./couchdb.nix
     #./jellyfin.nix
