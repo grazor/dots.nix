@@ -1,13 +1,14 @@
 { pkgs, ... }:
 
 let
-  description = "siyuan notetaking"
+  description = "siyuan notetaking";
   name = "siyuan";
   image = "b3log/siyuan";
   configOpt = "-v /home/cloud/siyuan/notes:/notes";
   extraOpt = "--pull=always -v /etc/localtime:/etc/localtime:ro -p 6806:6806 -e PUID=1000 -e PGID=100";
-  appOpt = "--workspace=/notes --accessAuthCode=${SIYUAN_ACCESS_CODE}"
-in {
+  appOpt = ''--workspace=/notes --accessAuthCode=''${SIYUAN_ACCESS_CODE}'';
+in
+{
   systemd.services.siyuan = {
     description = description;
 
@@ -21,8 +22,7 @@ in {
       ExecStart = "${pkgs.docker}/bin/docker run --name=${name} ${configOpt} ${extraOpt} ${image} ${appOpt}";
       ExecStop = "${pkgs.docker}/bin/docker stop -t 2 ${name}";
       ExecStopPost = "${pkgs.docker}/bin/docker rm -f ${name}";
-      EnvironmentFile = lib.mkForce "/home/cloud/siyuan/env";
+      EnvironmentFile = "/home/cloud/siyuan/env";
     };
   };
 }
-
