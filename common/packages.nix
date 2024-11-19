@@ -20,7 +20,7 @@
     unzip
     usbutils
     wirelesstools
-    xdg_utils
+    xdg-utils
     libnotify
     ffmpeg
     unar
