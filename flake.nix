@@ -17,7 +17,7 @@
     go22.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
     rust-overlay.url = "github:oxalica/rust-overlay";
 
-    k3s.url = "nixpkgs/81610abc161d4021b29199aa464d6a1a521e0cc9";
+    k3s.url = "nixpkgs/fcb54ddcc974cff59bdfb7c1ac9e080299763d2d";
   };
 
   nixConfig = {
