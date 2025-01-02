@@ -4,11 +4,11 @@
   services = {
     syncthing = {
       enable = true;
-      group = "cloud";
-      user = "users";
+      group = "users";
+      user = "cloud";
       dataDir = "/home/cloud/syncthing/data";
       configDir = "/home/cloud/syncting/config";
-      #settings.gui.user = "grazor";
+      guiAddress = "0.0.0.0:8384";
     };
   };
 }
