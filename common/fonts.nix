@@ -20,12 +20,8 @@
       source-code-pro
       terminus_font
       ubuntu_font_family
-      (nerdfonts.override {
-        fonts = [
-          "Hack"
-          "SourceCodePro"
-        ];
-      })
+      nerd-fonts.hack
+      nerd-fonts.sauce-code-pro
     ];
   };
 }
