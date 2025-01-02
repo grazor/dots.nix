@@ -14,14 +14,18 @@
       liberation_ttf
       meslo-lg
       noto-fonts
-      noto-fonts-cjk
+      noto-fonts-cjk-sans
       noto-fonts-emoji
       powerline-fonts
       source-code-pro
       terminus_font
       ubuntu_font_family
-      (nerdfonts.override { fonts = [ "Hack" "SourceCodePro" ]; })
+      (nerdfonts.override {
+        fonts = [
+          "Hack"
+          "SourceCodePro"
+        ];
+      })
     ];
   };
 }
-
