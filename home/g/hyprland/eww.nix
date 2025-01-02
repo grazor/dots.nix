@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
 
@@ -7,7 +12,7 @@ with lib;
     eww # bar
     pamixer
     brightnessctl
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+    nerd-fonts.jetbrains-mono
   ];
 
   # configuration
@@ -70,4 +75,3 @@ with lib;
     executable = false;
   };
 }
-
