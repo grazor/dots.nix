@@ -16,8 +16,9 @@
     #./siyuan.nix
 
     # ./pihole.nix
-    ./couchdb.nix
+    #./couchdb.nix
     #./jellyfin.nix
+    ./syncthing.nix
 
     #./tunnel.nix
     #./radarr.nix
