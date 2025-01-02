@@ -7,6 +7,7 @@
     ./wireless.nix
     ./hyprland.nix
     ./work.nix
+    ./syncthing.nix
 
     # either of two
     ./gui.nix
