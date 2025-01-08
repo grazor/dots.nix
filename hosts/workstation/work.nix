@@ -42,8 +42,8 @@
     fleeting-chat
   ];
 
-  virtualisation.virtualbox.host.enable = true;
-  virtualisation.virtualbox.host.enableExtensionPack = true;
+  virtualisation.virtualbox.host.enable = false;
+  virtualisation.virtualbox.host.enableExtensionPack = false;
 
   virtualisation.lxc.enable = true;
   virtualisation.lxd.enable = true;
