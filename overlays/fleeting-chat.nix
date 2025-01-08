@@ -1,4 +1,5 @@
 {
+  pkgs ? import <nixpkgs> { },
   lib,
   fetchFromGitHub,
   rustPlatform,
@@ -12,10 +13,19 @@ rustPlatform.buildRustPackage rec {
     owner = "grazor";
     repo = pname;
     rev = version;
-    hash = "";
+    hash = "sha256-ee2fB3rpXEON66JbxngM9saCx6smE/drx2HqAxx9JDo=";
   };
 
-  cargoHash = "";
+  cargoHash = "sha256-erYkcaXLLOmC+Vkn8gly4RzJOr1ihRzb8w794quzVhU=";
+
+  buildInputs = with pkgs; [
+    dbus
+    openssl
+  ];
+
+  nativeBuildInputs = with pkgs; [
+    pkg-config
+  ];
 
   meta = {
     description = "Chats to fleeting notes";
