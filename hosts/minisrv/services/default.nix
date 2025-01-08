@@ -28,5 +28,7 @@
     #./plex.nix
 
     #./registry.nix
+
+    ./fleeting-chat.nix
   ];
 }

@@ -31,30 +31,31 @@
       Restart = "always";
       RestartSec = "3";
       ExecStart = "${pkgs.tun2socks}/bin/tun2socks -device socks0 -proxy socks5://127.0.0.1:8999";
-      ExecStartPost = "+" + pkgs.writeShellScript "wrap-traffic" ''
-        set -e
-        PATH=/run/current-system/sw/bin
+      ExecStartPost =
+        "+"
+        + pkgs.writeShellScript "wrap-traffic" ''
+          set -e
+          PATH=/run/current-system/sw/bin
 
-        hosts=$(cat <<EOF
-            tracker.opentrackr.org
-            tracker.zer0day.to    
-            tracker.coppersurfer.tk
-            tracker.leechers-paradise.org
-            tracker.internetwarriors.net
-            mgtracker.org 
-        EOF
-        )
+          hosts=$(cat <<EOF
+              tracker.opentrackr.org
+              tracker.zer0day.to    
+              tracker.coppersurfer.tk
+              tracker.leechers-paradise.org
+              tracker.internetwarriors.net
+              mgtracker.org 
+          EOF
+          )
 
-        ip addr add 127.254.254.1/32 dev socks0
-        ip link set socks0 up
+          ip addr add 127.254.254.1/32 dev socks0
+          ip link set socks0 up
 
-        ips=$(echo "$hosts" | xargs getent hosts | cut -d' ' -f1)
-        echo "$ips" | while read ip
-        do
-            ip route add $ip/32 dev socks0
-        done
-      '';
+          ips=$(echo "$hosts" | xargs getent hosts | cut -d' ' -f1)
+          echo "$ips" | while read ip
+          do
+              ip route add $ip/32 dev socks0
+          done
+        '';
     };
   };
 }
-
