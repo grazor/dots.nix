@@ -39,6 +39,7 @@
   environment.systemPackages = with pkgs; [
     git-lfs
     ktalk
+    fleeting-chat
   ];
 
   virtualisation.virtualbox.host.enable = true;
