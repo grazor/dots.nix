@@ -5,7 +5,7 @@
     ./sway
     ./i3.nix
     ./termite.nix
-    ./nvim.nix
+    #./nvim.nix
     ./bin.nix
     ./assets.nix
     ./zsh.nix
