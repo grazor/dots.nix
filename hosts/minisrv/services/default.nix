@@ -13,11 +13,6 @@
     ./teamspeak.nix
     ./vaultwarden.nix
 
-    #./siyuan.nix
-
-    # ./pihole.nix
-    #./couchdb.nix
-    #./jellyfin.nix
     ./syncthing.nix
 
     #./tunnel.nix
@@ -26,8 +21,12 @@
     #./jackett.nix
     #./transmission.nix
     #./plex.nix
-
     #./registry.nix
+
+    #./siyuan.nix
+    # ./pihole.nix
+    #./couchdb.nix
+    #./jellyfin.nix
 
     ./fleeting-chat.nix
   ];
