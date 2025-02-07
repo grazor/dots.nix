@@ -96,6 +96,7 @@
     nordzy-cursor-theme
 
     wayvnc
-    sunshine
+    #sunshine
+    rustdesk
   ];
 }

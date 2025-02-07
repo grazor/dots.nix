@@ -12,7 +12,6 @@
     # either of two
     ./gui.nix
     # ./gui.nvidia.nix
-    ./rdp.nix
 
     #../../shared/homecloud.nix
     #../../shared/arduino.nix
