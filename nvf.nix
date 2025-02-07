@@ -7,7 +7,10 @@ let
 
       globals.mapleader = " ";
       lineNumberMode = "number";
-      undoFile.enable = true;
+      undoFile = {
+        enable = false;
+        #path = nvf.mkLuaInline "os.getenv('HOME') .. '/.nvf/undo'";
+      };
       useSystemClipboard = true;
       withPython3 = true;
       searchCase = "smart";
@@ -135,7 +138,7 @@ let
         {
           key = "<C-j>";
           mode = [ "n" ];
-          action = "<C-w><C-l>";
+          action = "<C-w><C-j>";
           desc = "Move focus to the lower window";
         }
         {
