@@ -1,6 +1,7 @@
-{ pkgs, nvf }:
-
-let
+{
+  pkgs,
+  nvf,
+}: let
   configModule = {
     config.vim = {
       enableLuaLoader = false;
@@ -9,8 +10,8 @@ let
       lineNumberMode = "number";
       undoFile = {
         enable = false;
-        #path = nvf.mkLuaInline "os.getenv('HOME') .. '/.nvf/undo'";
       };
+      preventJunkFiles = true;
       useSystemClipboard = true;
       withPython3 = true;
       searchCase = "smart";
@@ -109,53 +110,55 @@ let
         ts.enable = false;
       };
 
+      lsp.formatOnSave = true;
+
       keymaps = [
         {
           key = "jk";
-          mode = [ "i" ];
+          mode = ["i"];
           action = "<ESC>";
           silent = true;
           desc = "Exit input mode";
         }
         {
           key = "<leader>e";
-          mode = [ "n" ];
+          mode = ["n"];
           action = '':e <C-R>=expand("%:p:h")<CR>/'';
           desc = "Relative path";
         }
         {
           key = "<C-h>";
-          mode = [ "n" ];
+          mode = ["n"];
           action = "<C-w><C-h>";
           desc = "Move focus to the left window";
         }
         {
           key = "<C-l>";
-          mode = [ "n" ];
+          mode = ["n"];
           action = "<C-w><C-l>";
           desc = "Move focus to the right window";
         }
         {
           key = "<C-j>";
-          mode = [ "n" ];
+          mode = ["n"];
           action = "<C-w><C-j>";
           desc = "Move focus to the lower window";
         }
         {
           key = "<C-k>";
-          mode = [ "n" ];
+          mode = ["n"];
           action = "<C-w><C-k>";
           desc = "Move focus to the upper window";
         }
         {
           key = "<Esc>";
-          mode = [ "n" ];
+          mode = ["n"];
           action = "<cmd>nohlsearch<CR>";
           desc = "Clear highlight";
         }
         {
           key = "<leader>/";
-          mode = [ "n" ];
+          mode = ["n"];
           action = "<cmd>nohlsearch<CR>";
           desc = "Clear highlight";
         }
@@ -163,8 +166,8 @@ let
     };
   };
 in
-
-(nvf.lib.neovimConfiguration {
-  inherit pkgs;
-  modules = [ configModule ];
-}).neovim
+  (nvf.lib.neovimConfiguration {
+    inherit pkgs;
+    modules = [configModule];
+  })
+  .neovim
