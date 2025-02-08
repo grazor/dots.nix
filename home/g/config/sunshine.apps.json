@@ -7,10 +7,7 @@
       "name": "Desktop",
       "image-path": "desktop.png",
       "prep-cmd": [
-        {
-          "do": "hyprctl --instance 0 keyword monitor eDP-1,1920x1080,auto,1",
-          "undo": "hyprctl --instance 0 keyword monitor eDP-1,preferred,auto,1"
-        }
+        { }
       ]
     },
     {

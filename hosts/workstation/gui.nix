@@ -97,6 +97,5 @@
 
     wayvnc
     #sunshine
-    rustdesk
   ];
 }
