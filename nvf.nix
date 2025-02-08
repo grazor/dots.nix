@@ -104,7 +104,10 @@
         lua.enable = true;
         markdown.enable = true;
         nix.enable = true;
-        python.enable = true;
+        python = {
+          enable = true;
+          lsp.enable = false;
+        };
         rust.enable = true;
 
         ts.enable = false;
