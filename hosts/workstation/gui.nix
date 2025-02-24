@@ -1,7 +1,8 @@
-{ pkgs, config, ... }:
-
 {
-
+  pkgs,
+  config,
+  ...
+}: {
   # Blacklist nvidia
   boot.extraModprobeConfig = ''
     blacklist nouveau
@@ -32,7 +33,7 @@
 
   services.xserver = {
     enable = true;
-    videoDrivers = [ "modesetting" ];
+    videoDrivers = ["modesetting"];
     displayManager = {
       gdm.enable = true;
       gdm.wayland = true;
@@ -59,7 +60,7 @@
   hardware.uinput.enable = true;
 
   nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+    vaapiIntel = pkgs.vaapiIntel.override {enableHybridCodec = true;};
   };
 
   hardware.graphics = {
@@ -83,6 +84,7 @@
 
   environment.systemPackages = with pkgs; [
     google-chrome
+    firefox
     mpv
     #blender
     iwgtk
@@ -97,5 +99,6 @@
 
     wayvnc
     #sunshine
+    waypipe
   ];
 }

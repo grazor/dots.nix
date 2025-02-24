@@ -3,10 +3,8 @@
   pkgs,
   lib,
   ...
-}:
-
-{
-  boot.kernelParams = [ "intel_iommu=on" ];
+}: {
+  boot.kernelParams = ["intel_iommu=on"];
 
   security.pki.certificateFiles = [
     "${/avito/avito/ca.crt}"
@@ -27,7 +25,7 @@
     enable = true;
     package = inputs.k3s.legacyPackages.${pkgs.system}.k3s_1_29;
 
-    extraFlags = "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --docker";
+    extraFlags = "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --resolv-conf=/home/g/.k3s.resolv.conf";
   };
 
   virtualisation.libvirtd.enable = true;
@@ -48,10 +46,10 @@
   virtualisation.lxd.enable = true;
   virtualisation.lxd.recommendedSysctlSettings = true;
 
-  systemd.services.k3s.wantedBy = lib.mkForce [ ];
-  systemd.services.libvirtd.wantedBy = lib.mkForce [ ];
-  systemd.services.libvirt-guests.wantedBy = lib.mkForce [ ];
-  systemd.services.lxd.wantedBy = lib.mkForce [ ];
+  systemd.services.k3s.wantedBy = lib.mkForce [];
+  systemd.services.libvirtd.wantedBy = lib.mkForce [];
+  systemd.services.libvirt-guests.wantedBy = lib.mkForce [];
+  systemd.services.lxd.wantedBy = lib.mkForce [];
 
   environment.etc.hosts.mode = "0644";
   services.resolved.dnssec = "false";
@@ -67,6 +65,6 @@
       "10.0.0.10"
       "8.8.8.8"
     ];
-    dns-search = [ "msk.avito.ru" ];
+    dns-search = ["msk.avito.ru"];
   };
 }
