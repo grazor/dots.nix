@@ -25,7 +25,7 @@
     enable = true;
     package = inputs.k3s.legacyPackages.${pkgs.system}.k3s_1_29;
 
-    extraFlags = "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --resolv-conf=/home/g/.k3s.resolv.conf";
+    extraFlags = "--write-kubeconfig-mode 644 --disable=traefik --disable=metrics-server --resolv-conf=/home/g/.k3s.resolv.conf --docker";
   };
 
   virtualisation.libvirtd.enable = true;
