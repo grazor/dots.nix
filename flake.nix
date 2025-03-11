@@ -15,6 +15,10 @@
     # nvidia-patch.url = "github:icewind1991/nvidia-patch-nixos";
     # nvidia-patch.inputs.nixpkgs.follows = "nixpkgs";
 
+    # darwin
+    nix-darwin.url = "github:LnL7/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+
     # for devshells
     go21.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
     go22.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
@@ -31,6 +35,7 @@
   outputs = {
     self,
     nixpkgs,
+    nix-darwin,
     nvf,
     home-manager,
     go21,
@@ -171,6 +176,10 @@
         server = {
           users = ["cloud"];
         };
+      };
+
+      darwinConfigurations."MSK-GRVQ3CV9RQ" = nix-darwin.lib.darwinSystem {
+        modules = [ (import ./hosts/darwin) ];
       };
 
       devShells.${system} = (
