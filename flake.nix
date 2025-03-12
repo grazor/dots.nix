@@ -1,7 +1,12 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nix-alien.url = "github:thiagokokada/nix-alien";
+
+    nix-alien = {
+      url = "github:thiagokokada/nix-alien";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nvf = {
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,14 +17,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nvidia-patch.url = "github:icewind1991/nvidia-patch-nixos";
-    # nvidia-patch.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
-    # darwin
-    nix-darwin.url = "github:LnL7/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
-    # for devshells
+    # devshells
     go21.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
     go22.url = "nixpkgs/10b813040df67c4039086db0f6eaf65c536886c6";
     rust-overlay.url = "github:oxalica/rust-overlay";
@@ -49,7 +52,7 @@
         # inputs.nvidia-patch.overlay
         (import ./overlays)
       ];
-      system = "x86_64-linux";
+      system = "aarch64-darwin";
       alien = self.inputs.nix-alien.packages.${system};
       pkgs = import nixpkgs {inherit system;};
 
@@ -63,16 +66,10 @@
             inherit inputs;
           };
           modules = [
-            # base config
             ./configuration.nix
             (import config)
-            (
-              {...}: {
-                networking.hostName = name;
-              }
-            )
+            (_: {networking.hostName = name;})
             {nixpkgs.overlays = overlays;}
-
             {environment.systemPackages = [(import ./nvf.nix {inherit pkgs nvf;})];}
 
             # nix-alien
@@ -179,7 +176,20 @@
       };
 
       darwinConfigurations."MSK-GRVQ3CV9RQ" = nix-darwin.lib.darwinSystem {
-        modules = [ (import ./hosts/darwin) ];
+        inherit system;
+        modules = [
+          {nixpkgs.overlays = overlays;}
+          {environment.systemPackages = [(import ./nvf.nix {inherit pkgs nvf;})];}
+          (import ./hosts/darwin {inherit pkgs;})
+          home-manager.darwinModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.smporyvaev = import ./home/darwin;
+            };
+          }
+        ];
       };
 
       devShells.${system} = (
