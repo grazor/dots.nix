@@ -1,0 +1,4 @@
+commit-msg:
+  scripts:
+    "jira-ticket":
+      runner: bash

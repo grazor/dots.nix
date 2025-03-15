@@ -9,10 +9,18 @@
     #./homebrew.nix
     ./fonts.nix
     #./zsh.nix
+
+    ../../common/dev.nix
   ];
+
+  programs.fish.enable = true;
+
+  services.openssh.enable = true;
+  services.karabiner-elements.enable = true;
 
   environment.systemPackages = with pkgs; [
     #obsidian
     iterm2
+    raycast
   ];
 }

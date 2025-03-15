@@ -54,7 +54,10 @@
       ];
       system = "aarch64-darwin";
       alien = self.inputs.nix-alien.packages.${system};
-      pkgs = import nixpkgs {inherit system;};
+      pkgs = import nixpkgs {
+        inherit system;
+        config.allowUnfree = true;
+      };
 
       mkNixosConfiguration = name: {
         config ? ./hosts + "/${name}",
@@ -183,6 +186,12 @@
           (import ./hosts/darwin {inherit pkgs;})
           home-manager.darwinModules.home-manager
           {
+            users.knownUsers = ["smporyvaev"];
+            users.users.smporyvaev = {
+              uid = 501;
+              home = "/Users/smporyvaev";
+              shell = pkgs.fish;
+            };
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;

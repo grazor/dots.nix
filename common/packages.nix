@@ -1,6 +1,9 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
+  virtualisation.docker.enable = true;
   environment.systemPackages = with pkgs; [
     update-systemd-resolved
     ppp
