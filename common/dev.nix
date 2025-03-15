@@ -1,11 +1,9 @@
-{ pkgs, ... }:
-
-{
-  virtualisation.docker.enable = true;
+{pkgs, ...}: {
+  #virtualisation.docker.enable = true;
   #virtualisation.docker.extraOptions = "--registry-mirror=https://mirror.gcr.io";
 
   environment.systemPackages = with pkgs; [
-    glibc.out
+    #glibc.out
     python3
     shfmt
     shellcheck
@@ -16,5 +14,6 @@
     jq
     gnumake
     ripgrep
+    k9s
   ];
 }
