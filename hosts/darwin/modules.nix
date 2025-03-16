@@ -1,5 +1,6 @@
 {
   home-manager,
+  nvf,
   pkgs,
   ...
 }: let
@@ -7,7 +8,7 @@
   username = "smporyvaev";
   home = "/Users/${username}";
 in [
-  (import ./system {inherit pkgs;})
+  (import ./system {inherit pkgs nvf;})
   home-manager.darwinModules.home-manager
   {
     users = {
@@ -21,7 +22,7 @@ in [
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      users.${username} = import ./user {inherit username home pkgs;};
+      users.${username} = import ./user.nix {inherit username home pkgs;};
     };
   }
 ]

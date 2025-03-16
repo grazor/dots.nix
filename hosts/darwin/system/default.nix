@@ -1,11 +1,20 @@
-{pkgs, ...}: {
-  environment.systemPackages = [
-    pkgs.vim
+{
+  pkgs,
+  nvf,
+  ...
+}: {
+  imports = [
+    ./system.nix
+    ./macos.nix
+
+    #./brew.nix
+
+    ../../_common/system/fonts.nix
+    ../../_common/system/devtools.nix
   ];
 
-  nix.settings.experimental-features = "nix-command flakes";
+  environment.systemPackages = [(import ../../_common/packages/nvf.nix {inherit pkgs nvf;})];
 
-  system.stateVersion = 6;
-
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  services.openssh.enable = true;
+  programs.fish.enable = true;
 }

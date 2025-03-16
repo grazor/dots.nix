@@ -7,13 +7,15 @@
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:rycee/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nvf.url = "github:notashelf/nvf";
+    nvf.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
     self,
     nix-darwin,
-    home-manager,
     nixpkgs,
+    ...
   }: let
     #system.configurationRevision = self.rev or self.dirtyRev or null;
     linuxSystem = "x86_64-linux";
@@ -22,6 +24,7 @@
   in {
     nixosConfigurations."minisrv" = let
       system = linuxSystem;
+      pkgs = nixpkgs.legacyPackages.${darwinSystem};
     in
       nixpkgs.lib.nixosSystem {
         inherit system;

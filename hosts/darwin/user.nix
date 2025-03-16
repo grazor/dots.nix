@@ -8,7 +8,8 @@ in {
   home.stateVersion = "24.11";
 
   imports = [
-    (import ../../_common/home/fish.nix {inherit shellInitLast;})
-    ../../_common/home/scripts.nix
+    (import ../_common/home/fish.nix {inherit shellInitLast;})
+    ../_common/home/scripts.nix
+    ../_common/home/git.nix
   ];
 }
