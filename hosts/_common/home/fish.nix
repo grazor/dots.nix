@@ -1,9 +1,10 @@
-{shellInitLast ? []}: {
+{shellInitLast ? ""}: {
   programs = {
     fish = {
       enable = true;
       shellAliases = {
         cat = "bat";
+        gst = "git status";
         gmt = "go mod tidy";
       };
       inherit shellInitLast;

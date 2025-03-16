@@ -1,0 +1,176 @@
+{
+  pkgs,
+  nvf,
+}: let
+  configModule = {
+    config.vim = {
+      enableLuaLoader = false;
+
+      globals.mapleader = " ";
+      lineNumberMode = "number";
+      undoFile = {
+        enable = false;
+      };
+      preventJunkFiles = true;
+      useSystemClipboard = true;
+      withPython3 = true;
+      searchCase = "smart";
+
+      options = {
+        mouse = "n";
+        shiftwidth = 4;
+        tabstop = 4;
+        signcolumn = "yes";
+        splitbelow = true;
+        splitright = true;
+      };
+
+      theme = {
+        enable = true;
+        name = "tokyonight";
+        transparent = false;
+        style = "night";
+      };
+
+      autocomplete.nvim-cmp = {
+        enable = true;
+      };
+
+      telescope.enable = true;
+
+      autopairs.nvim-autopairs.enable = true;
+      binds.whichKey.enable = true;
+      comments.comment-nvim.enable = true;
+      dashboard.alpha.enable = true;
+      git.enable = true;
+      minimap.codewindow.enable = true;
+      spellcheck = {
+        enable = true;
+        languages = [
+          "en"
+          "ru"
+        ];
+        programmingWordlist.enable = true;
+      };
+
+      filetree.nvimTree = {
+        enable = true;
+        openOnSetup = false;
+      };
+
+      ui = {
+        fastaction.enable = true;
+        illuminate.enable = true;
+        modes-nvim.enable = true;
+        smartcolumn.enable = true;
+      };
+
+      utility = {
+        motion.leap.enable = true;
+        surround.enable = true;
+      };
+
+      visuals = {
+        fidget-nvim.enable = true;
+        highlight-undo.enable = true;
+        indent-blankline.enable = true;
+        nvim-cursorline.enable = true;
+
+        cinnamon-nvim = {
+          enable = true;
+          setupOpts.keymaps.basic = true;
+        };
+
+        nvim-web-devicons = {
+          enable = true;
+          setupOpts.variant = "dark";
+        };
+      };
+
+      tabline.nvimBufferline.enable = false;
+
+      statusline.lualine = {
+        enable = true;
+      };
+
+      languages = {
+        enableTreesitter = true;
+        enableLSP = true;
+        enableFormat = true;
+        enableExtraDiagnostics = true;
+
+        bash.enable = true;
+        go.enable = true;
+        lua.enable = true;
+        markdown.enable = true;
+        nix.enable = true;
+        python = {
+          enable = true;
+          lsp.enable = false;
+        };
+        rust.enable = true;
+
+        ts.enable = false;
+      };
+
+      lsp.formatOnSave = true;
+
+      keymaps = [
+        {
+          key = "jk";
+          mode = ["i"];
+          action = "<ESC>";
+          silent = true;
+          desc = "Exit input mode";
+        }
+        {
+          key = "<leader>e";
+          mode = ["n"];
+          action = '':e <C-R>=expand("%:p:h")<CR>/'';
+          desc = "Relative path";
+        }
+        {
+          key = "<C-h>";
+          mode = ["n"];
+          action = "<C-w><C-h>";
+          desc = "Move focus to the left window";
+        }
+        {
+          key = "<C-l>";
+          mode = ["n"];
+          action = "<C-w><C-l>";
+          desc = "Move focus to the right window";
+        }
+        {
+          key = "<C-j>";
+          mode = ["n"];
+          action = "<C-w><C-j>";
+          desc = "Move focus to the lower window";
+        }
+        {
+          key = "<C-k>";
+          mode = ["n"];
+          action = "<C-w><C-k>";
+          desc = "Move focus to the upper window";
+        }
+        {
+          key = "<Esc>";
+          mode = ["n"];
+          action = "<cmd>nohlsearch<CR>";
+          desc = "Clear highlight";
+        }
+        {
+          key = "<leader>/";
+          mode = ["n"];
+          action = "<cmd>nohlsearch<CR>";
+          desc = "Clear highlight";
+        }
+      ];
+    };
+  };
+in
+  (nvf.lib.neovimConfiguration {
+    inherit pkgs;
+    modules = [configModule];
+  })
+  .neovim
