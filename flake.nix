@@ -12,12 +12,10 @@
   };
 
   outputs = inputs @ {
-    self,
     nix-darwin,
     nixpkgs,
     ...
   }: let
-    #system.configurationRevision = self.rev or self.dirtyRev or null;
     linuxSystem = "x86_64-linux";
     darwinSystem = "aarch64-darwin";
     allSystems = [linuxSystem darwinSystem];
@@ -42,6 +40,6 @@
         modules = import ./hosts/darwin/modules.nix (inputs // {inherit system pkgs;});
       };
 
-    shells = import ./shells {inherit allSystems nixpkgs;};
+    devShells = import ./shells {inherit allSystems nixpkgs;};
   };
 }
