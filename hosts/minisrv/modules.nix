@@ -5,33 +5,34 @@ inputs @ {
   ...
 }: let
   user = rec {
-    uid = 501;
-    user = "smporyvaev";
-    home = "/Users/${user}";
+    uid = 1000;
+    name = "cloud";
+    home = "/home/${name}";
     shell = pkgs.fish;
   };
 in [
   (import ./system {inherit inputs;})
+  (import ./services {inherit inputs;})
 
   {
     environment.systemPackages = [
       (import ../_common/packages/nvf.nix {inherit pkgs nvf;})
+      (import ../_common/packages/fleeting-chat.nix {inherit pkgs;})
     ];
   }
 
+  (import ./user.nix {inherit user pkgs;})
   home-manager.darwinModules.home-manager
   {
     users = {
-      knownUsers = [user.user];
-      users.${user.user} = {
-        inherit (user) uid home shell;
-      };
+      knownUsers = [user.name];
+      users.${user.name} = {inherit (user) uid home shell;};
     };
 
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      users.${user.user} = import ./home.nix {inherit user pkgs;};
+      users.${user.name} = import ./home.nix {inherit user pkgs;};
     };
   }
 ]

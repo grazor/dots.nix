@@ -1,6 +1,7 @@
 {
   pkgs,
   nvf,
+  ...
 }: let
   configModule = {
     config.vim = {
