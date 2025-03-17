@@ -1,7 +1,13 @@
-{pkgs, ...}: {
+_: {
   homebrew = {
     enable = true;
-    brews = [];
-    casks = [];
+    onActivation = {
+      cleanup = "none";
+      autoUpdate = true;
+      upgrade = true;
+    };
+
+    brews = ["syncthing"];
+    casks = ["obsidian"];
   };
 }

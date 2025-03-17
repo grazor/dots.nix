@@ -60,7 +60,7 @@ shell() {
 	echo direnv allow .
 	direnv allow .
 
-	gitignore flake.nix
+	gitignore .direnv
 	gitignore .envrc
 }
 

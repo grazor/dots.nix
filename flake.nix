@@ -26,9 +26,7 @@
     in
       nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = [
-          (import ./hosts/darwin/minisrv)
-        ];
+        modules = import ./hosts/darwin/minisrv (inputs // {inherit system pkgs;});
       };
 
     darwinConfigurations."MSK-GRVQ3CV9RQ" = let
