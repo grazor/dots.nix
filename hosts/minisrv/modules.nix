@@ -13,6 +13,7 @@ inputs @ {
 in [
   (import ./system {inherit inputs;})
   (import ./services {inherit inputs;})
+  (import ../_common/system/authorized-keys.nix {username = user.name;})
 
   {
     environment.systemPackages = [

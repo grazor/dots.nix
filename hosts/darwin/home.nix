@@ -3,6 +3,7 @@ _: let
     eval "$(/opt/homebrew/bin/brew shellenv)"
     fish_add_path -p ~/.bin
     fish_add_path -p ~/.avito/bin
+    eval "$(avito completion fish)"
   '';
 in {
   home.stateVersion = "24.11";

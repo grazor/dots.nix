@@ -11,4 +11,10 @@
       nix-path = ["nixpkgs=${nixpkgs.outPath}"];
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    direnv
+    nh
+    patchelf
+  ];
 }

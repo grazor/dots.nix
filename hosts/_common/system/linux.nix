@@ -33,10 +33,6 @@
   environment.systemPackages = with pkgs; [
     glibc.out
 
-    direnv
-    nh
-    patchelf
-
     acpi
     binutils
     brightnessctl

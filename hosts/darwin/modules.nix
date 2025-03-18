@@ -6,12 +6,13 @@ inputs @ {
 }: let
   user = rec {
     uid = 501;
-    user = "smporyvaev";
-    home = "/Users/${user}";
+    name = "smporyvaev";
+    home = "/Users/${name}";
     shell = pkgs.fish;
   };
 in [
   (import ./system {inherit inputs;})
+  (import ../_common/system/authorized-keys.nix {username = user.name;})
 
   {
     environment.systemPackages = [
@@ -22,8 +23,8 @@ in [
   home-manager.darwinModules.home-manager
   {
     users = {
-      knownUsers = [user.user];
-      users.${user.user} = {
+      knownUsers = [user.name];
+      users.${user.name} = {
         inherit (user) uid home shell;
       };
     };
@@ -31,7 +32,7 @@ in [
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      users.${user.user} = import ./home.nix {inherit user pkgs;};
+      users.${user.name} = import ./home.nix {inherit user pkgs;};
     };
   }
 ]

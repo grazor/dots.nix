@@ -4,6 +4,8 @@
       enable = true;
       shellAliases = {
         cat = "bat";
+      };
+      shellAbbrs = {
         gst = "git status";
         gmt = "go mod tidy";
       };
