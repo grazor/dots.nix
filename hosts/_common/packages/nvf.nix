@@ -33,8 +33,9 @@
         style = "night";
       };
 
-      autocomplete.nvim-cmp = {
-        enable = true;
+      autocomplete = {
+        nvim-cmp.enable = false;
+        blink-cmp.enable = true;
       };
 
       telescope.enable = true;
@@ -54,9 +55,12 @@
         programmingWordlist.enable = true;
       };
 
-      filetree.nvimTree = {
-        enable = true;
-        openOnSetup = false;
+      filetree = {
+        nvimTree = {
+          enable = false;
+          openOnSetup = false;
+        };
+        neo-tree.enable = true;
       };
 
       ui = {
