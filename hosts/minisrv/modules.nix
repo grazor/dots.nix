@@ -11,8 +11,8 @@ inputs @ {
     shell = pkgs.fish;
   };
 in [
-  (import ./system {inherit inputs;})
-  (import ./services {inherit inputs;})
+  (import ./system inputs)
+  (import ./services inputs)
   (import ../_common/system/authorized-keys.nix {username = user.name;})
 
   {

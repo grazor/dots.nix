@@ -41,20 +41,13 @@
     htop
     libnotify
     ntfs3g
-    tree
-    unar
-    unzip
     usbutils
     xdg-utils
 
     bind
     bridge-utils
-    curl
     inetutils
     iw
     openvpn
-
-    ncdu
-    dua # <- aka ncdu
   ];
 }
