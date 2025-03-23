@@ -8,6 +8,8 @@ _: let
 in {
   home.stateVersion = "24.11";
 
+  home.sessionVariables.EDITOR = "nvim";
+
   imports = [
     (import ../_common/home/fish.nix {inherit shellInitLast;})
     ../_common/home/scripts.nix
