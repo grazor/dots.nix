@@ -9,9 +9,6 @@
         gst = "git status";
         gmt = "go mod tidy";
       };
-      sessionVariables = {
-        EDITOR = "nvim";
-      };
       inherit shellInitLast;
     };
 
