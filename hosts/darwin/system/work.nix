@@ -6,5 +6,7 @@
     docker-credential-helpers
 
     qemu
+
+    src-cli
   ];
 }

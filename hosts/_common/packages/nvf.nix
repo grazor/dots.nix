@@ -6,6 +6,7 @@
   configModule = {
     config.vim = {
       enableLuaLoader = false;
+      extraPackages = [pkgs.fzf pkgs.ripgrep];
 
       globals.mapleader = " ";
       lineNumberMode = "number";
@@ -34,9 +35,11 @@
       };
 
       autocomplete = {
-        nvim-cmp.enable = false;
-        blink-cmp.enable = true;
+        nvim-cmp.enable = true;
+        blink-cmp.enable = false;
       };
+
+      mini.fuzzy.enable = false;
 
       telescope.enable = true;
 
@@ -55,12 +58,9 @@
         programmingWordlist.enable = true;
       };
 
-      filetree = {
-        nvimTree = {
-          enable = false;
-          openOnSetup = false;
-        };
-        neo-tree.enable = true;
+      filetree.nvimTree = {
+        enable = true;
+        openOnSetup = false;
       };
 
       ui = {

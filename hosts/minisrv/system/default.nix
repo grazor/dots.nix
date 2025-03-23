@@ -5,6 +5,7 @@
     ./services
 
     ../../_common/system/nix.nix
+    ../../_common/system/tools.nix
     ../../_common/system/linux.nix
     ../../_common/system/docker.nix
     ../../_common/system/wireless.nix

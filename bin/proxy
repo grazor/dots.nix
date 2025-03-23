@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+proxy="192.168.1.215:1080"
+
+fail() {
+	echo "Usage: proxy <enable|disable|toggle|status>"
+	exit 1
+}
+
+enable() {
+	echo export ALL_PROXY="socks5h://$proxy"
+	echo export http_proxy="socks5h://$proxy"
+	echo export https_proxy="socks5h://$proxy"
+	echo export all_proxy="socks5h://$proxy"
+}
+
+disable() {
+	echo export ALL_PROXY=
+	echo export http_proxy=
+	echo export https_proxy=
+	echo export all_proxy=
+}
+
+toggle() {
+	if [[ -z "${ALL_PROXY}" ]]; then
+		enable
+	else
+		diable
+	fi
+}
+
+status() {
+	if [[ -z "${ALL_PROXY}" ]]; then
+		echo Proxy disabled
+	else
+		echo Proxy enabled
+	fi
+}
+
+if [ $# -ne 1 ]; then
+	fail
+fi
+
+case "$1" in
+e*)
+	enable
+	;;
+d*)
+	disable
+	;;
+t*)
+	toggle
+	;;
+s*)
+	status
+	;;
+*)
+	fail
+	;;
+esac
