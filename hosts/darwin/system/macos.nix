@@ -3,7 +3,7 @@ _: {
     dock = {
       autohide = true;
       mru-spaces = false;
-      orientation = "left";
+      orientation = "right";
     };
     finder.AppleShowAllExtensions = true;
     finder.FXPreferredViewStyle = "clmv";

@@ -1,4 +1,13 @@
-{shellInitLast ? ""}: {
+{
+  shellInitLast ? "",
+  lib,
+  ...
+}: {
+  # enableFishTmuxIntegration = lib.mkOption {
+  #   type = lib.types.bool;
+  #   default = false;
+  # };
+
   programs = {
     fish = {
       enable = true;

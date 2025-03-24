@@ -12,6 +12,11 @@
     ../../_common/system/devtools.nix
   ];
 
+  # TODO:
+  # - tmux
+  # - import local.rc
+  # - link apps
+  # - fish project cd script
   #services.syncthing.enable = true;
 
   environment.systemPackages = [pkgs.xray];
