@@ -19,6 +19,7 @@
     linuxSystem = "x86_64-linux";
     darwinSystem = "aarch64-darwin";
     allSystems = [linuxSystem darwinSystem];
+    inherit (nixpkgs) lib;
   in {
     nixosConfigurations."minisrv" = let
       system = linuxSystem;
@@ -26,16 +27,17 @@
     in
       nixpkgs.lib.nixosSystem {
         inherit system;
-        modules = import ./hosts/darwin/minisrv (inputs // {inherit system pkgs;});
+        modules = import ./hosts/darwin/minisrv (inputs // {inherit system pkgs lib;});
       };
 
     darwinConfigurations."MSK-GRVQ3CV9RQ" = let
       system = darwinSystem;
       pkgs = nixpkgs.legacyPackages.${darwinSystem};
+      inherit (nix-darwin) lib;
     in
       nix-darwin.lib.darwinSystem {
         inherit system;
-        modules = import ./hosts/darwin/modules.nix (inputs // {inherit system pkgs;});
+        modules = import ./hosts/darwin/modules.nix (inputs // {inherit system pkgs lib;});
       };
 
     devShells = import ./shells {inherit allSystems nixpkgs;};
