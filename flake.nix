@@ -21,14 +21,25 @@
     allSystems = [linuxSystem darwinSystem];
     inherit (nixpkgs) lib;
   in {
-    nixosConfigurations."minisrv" = let
-      system = linuxSystem;
-      pkgs = nixpkgs.legacyPackages.${darwinSystem};
-    in
-      nixpkgs.lib.nixosSystem {
-        inherit system;
-        modules = import ./hosts/darwin/minisrv (inputs // {inherit system pkgs lib;});
-      };
+    nixosConfigurations = {
+      "minisrv" = let
+        system = linuxSystem;
+        pkgs = nixpkgs.legacyPackages.${linuxSystem};
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = import ./hosts/minisrv/modules.nix (inputs // {inherit system pkgs lib;});
+        };
+
+      "dell" = let
+        system = linuxSystem;
+        pkgs = nixpkgs.legacyPackages.${linuxSystem};
+      in
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+          modules = import ./hosts/dell/modules.nix (inputs // {inherit system pkgs lib;});
+        };
+    };
 
     darwinConfigurations."MSK-GRVQ3CV9RQ" = let
       system = darwinSystem;

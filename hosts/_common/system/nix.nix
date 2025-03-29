@@ -3,9 +3,9 @@
   pkgs,
   ...
 }: {
-  nix.registry = {
-    nixpkgs.flake = nixpkgs;
-    package = pkgs.nix;
+  nix = {
+	registry.nixpkgs.flake = nixpkgs;
+    #package = pkgs.nix;
     settings = {
       experimental-features = "nix-command flakes";
       nix-path = ["nixpkgs=${nixpkgs.outPath}"];
