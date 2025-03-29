@@ -1,13 +1,22 @@
 {
-  shellInitLast ? "",
-  lib,
+  tmuxIntegration ? false,
+  pkgs,
   ...
-}: {
-  # enableFishTmuxIntegration = lib.mkOption {
-  #   type = lib.types.bool;
-  #   default = false;
-  # };
+}: let
+  shellUserImport = ''
+    [ -e ~/.fish.user.rc ] && source ~/.fish.user.rc
+  '';
 
+  shellInitLast =
+    shellUserImport
+    + (
+      if tmuxIntegration
+      then ''
+        [ -z "$TMUX" ] && tmux new-session -A -s main
+      ''
+      else ""
+    );
+in {
   programs = {
     fish = {
       enable = true;
@@ -18,6 +27,10 @@
         gst = "git status";
         gmt = "go mod tidy";
       };
+
+      interactiveShellInit = ''
+        set fish_greeting
+      '';
       inherit shellInitLast;
     };
 

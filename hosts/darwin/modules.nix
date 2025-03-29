@@ -2,7 +2,6 @@ inputs @ {
   home-manager,
   pkgs,
   nvf,
-  lib,
   ...
 }: let
   user = rec {
@@ -33,7 +32,7 @@ in [
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
-      users.${user.name} = import ./home.nix {inherit user pkgs lib;};
+      users.${user.name} = import ./home.nix {inherit user pkgs;};
     };
   }
 ]
