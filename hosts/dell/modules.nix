@@ -1,4 +1,5 @@
 inputs @ {
+  nixpkgs,
   home-manager,
   pkgs,
   nvf,

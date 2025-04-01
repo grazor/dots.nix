@@ -6,9 +6,9 @@ inputs: {
   imports = [
     (import ../_common/home/fish.nix (inputs
       // {
-        tmuxIntegration = true;
+        tmuxIntegration = false;
       }))
-    ../_common/home/tmux.nix
+        ../_common/home/tmux.nix
     ../_common/home/scripts.nix
     ../_common/home/git.nix
   ];

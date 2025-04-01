@@ -24,7 +24,10 @@
     nixosConfigurations = {
       "minisrv" = let
         system = linuxSystem;
-        pkgs = nixpkgs.legacyPackages.${linuxSystem};
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
       in
         nixpkgs.lib.nixosSystem {
           inherit system;
@@ -33,7 +36,10 @@
 
       "dell" = let
         system = linuxSystem;
-        pkgs = nixpkgs.legacyPackages.${linuxSystem};
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
       in
         nixpkgs.lib.nixosSystem {
           inherit system;
