@@ -25,6 +25,11 @@ in {
       };
       shellAbbrs = {
         gst = "git status";
+        gaa = "git add .";
+        gco = "git commit -m";
+        gpu = "git push -u origin HEAD";
+        grm = "git rebase -i master";
+        gpf = "git push --force-with-lease";
         gmt = "go mod tidy";
       };
 
