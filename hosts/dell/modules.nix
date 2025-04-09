@@ -1,5 +1,4 @@
 inputs @ {
-  nixpkgs,
   home-manager,
   pkgs,
   nvf,
@@ -13,7 +12,7 @@ inputs @ {
   };
 in [
   (import ./system inputs)
-  #(import ./services inputs)
+  (import ./services inputs)
   (import ../_common/system/authorized-keys.nix {username = user.name;})
   {
     networking.hostName = "dell";
