@@ -7,8 +7,13 @@
     [ -e ~/.fish.user.rc ] && source ~/.fish.user.rc
   '';
 
+  shellBinPath = ''
+    fish_add_path -p ~/.bin
+  '';
+
   shellInitLast =
     shellUserImport
+    + shellBinPath
     + (
       if tmuxIntegration
       then ''
