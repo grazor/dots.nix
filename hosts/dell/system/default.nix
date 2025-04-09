@@ -14,6 +14,8 @@ inputs @ {lib, ...}: {
     ../../_common/system/wireless.nix
   ];
 
+  environment.enableAllTerminfo = true;
+
   services.logrotate.checkConfig = false;
 
   nix.settings.max-jobs = lib.mkDefault 8;
