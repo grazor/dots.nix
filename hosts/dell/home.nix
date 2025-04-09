@@ -8,7 +8,7 @@ inputs: {
       // {
         tmuxIntegration = false;
       }))
-        ../_common/home/tmux.nix
+    ../_common/home/tmux.nix
     ../_common/home/scripts.nix
     ../_common/home/git.nix
   ];
