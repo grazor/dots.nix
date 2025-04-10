@@ -10,7 +10,6 @@ in {
   ];
 
   users = {
-    knownUsers = [user.name];
     users.${user.name} = {
       inherit (user) uid home shell;
     };
