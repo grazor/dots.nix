@@ -1,11 +1,12 @@
 {
   imports = [
-    ./udev.nix
     ./common.nix
     ./docker.nix
-    ./pipewire.nix
-    ./openssh.nix
-    ./user-defaults.nix
     ./nvidia.nix
+    ./openssh.nix
+    ./pipewire.nix
+    ./udev.nix
+    ./user-defaults.nix
+    ./wireless.nix
   ];
 }
