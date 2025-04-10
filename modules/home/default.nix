@@ -9,8 +9,6 @@ in {
     ./ghostty.nix
   ];
 
-  home.stateVersion = "24.11";
-
   users = {
     knownUsers = [user.name];
     users.${user.name} = {
@@ -18,6 +16,10 @@ in {
     };
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+
+    users.${user.name}.home.stateVersion = "24.11";
+  };
 }

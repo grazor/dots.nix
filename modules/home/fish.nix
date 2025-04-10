@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }: let
   shellUserImport = ''
@@ -34,6 +35,9 @@ in {
   options.grazor.user.config.withFish = lib.mkEnableOption "with fish terminal";
 
   config = lib.mkIf cfg.withFish {
+    programs.fish.enable = true;
+    grazor.user.shell = lib.mkForce pkgs.fish;
+
     home-manager.users.${username}.programs = {
       fish = {
         enable = true;

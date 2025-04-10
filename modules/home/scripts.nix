@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  bin = ../../../bin;
+  bin = ../../bin;
   dirname = ".bin";
 
   username = config.grazor.user.name;
@@ -14,7 +14,7 @@ in {
   config = lib.mkIf cfg.withScripts {
     home-manager.users.${username} = {
       home.packages = [pkgs.lefthook];
-      xdg.configFile."lefthook/general.yml".source = ../config/lefthook.general.yml;
+      xdg.configFile."lefthook/general.yml".source = ./raw/lefthook.general.yml;
 
       home.file = lib.mapAttrs' (
         name: _: lib.nameValuePair "${dirname}/${name}" {source = bin + "/${name}";}

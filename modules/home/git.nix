@@ -7,7 +7,7 @@
   cfg = config.grazor.user.config;
 in {
   options.grazor.user.config.withGit = lib.mkEnableOption "with git config";
-  config = lib.mkIf cfg.withFonts {
+  config = lib.mkIf cfg.withGit {
     home-manager.users.${username}.programs.git = {
       enable = true;
       lfs.enable = true;
