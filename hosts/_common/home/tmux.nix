@@ -7,7 +7,6 @@
     mouse = true;
 
     plugins = with pkgs; [
-      #tmuxPlugins.vim-tmux-navigator
       tmuxPlugins.tmux-powerline
       tmuxPlugins.yank
     ];

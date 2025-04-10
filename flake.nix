@@ -43,19 +43,25 @@
       in
         nixpkgs.lib.nixosSystem {
           inherit system;
+          specialArgs = {inherit inputs;};
           modules = import ./hosts/dell/modules.nix (inputs // {inherit system pkgs lib;});
+          # modules = [
+          #   ./modules
+          #   ./modules/linux
+          #   ./hosts/dell
+          # ];
         };
     };
 
-    darwinConfigurations."MSK-GRVQ3CV9RQ" = let
+    darwinConfigurations."MSK-GRVQ3CV9RQ" = nix-darwin.lib.darwinSystem {
       system = darwinSystem;
-      pkgs = nixpkgs.legacyPackages.${darwinSystem};
-      inherit (nix-darwin) lib;
-    in
-      nix-darwin.lib.darwinSystem {
-        inherit system;
-        modules = import ./hosts/darwin/modules.nix (inputs // {inherit system pkgs lib;});
-      };
+      specialArgs = {inherit inputs;};
+      modules = [
+        ./modules
+        ./hosts/darwin
+        inputs.home-manager.darwinModules.home-manager
+      ];
+    };
 
     devShells = import ./shells {inherit allSystems nixpkgs;};
   };
