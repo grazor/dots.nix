@@ -20,8 +20,10 @@ in {
       };
       ignores = [
         ".envrc"
-        ".lefthook"
         ".direnv"
+        ".lefthook"
+        "lefthook.yml"
+        "lefthook.yaml"
       ];
     };
   };
