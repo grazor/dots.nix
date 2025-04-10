@@ -19,48 +19,46 @@
     linuxSystem = "x86_64-linux";
     darwinSystem = "aarch64-darwin";
     allSystems = [linuxSystem darwinSystem];
-    inherit (nixpkgs) lib;
+
+    commonModules = [
+      inputs.nvf.nixosModules.default
+      ./modules
+      ./modules/overlay.nix
+    ];
+    linuxModules =
+      commonModules
+      ++ [
+        inputs.home-manager.nixosModules.home-manager
+        ./modules/linux
+        ./modules/services
+      ];
+
+    specialArgs = {inherit inputs;};
   in {
     nixosConfigurations = {
-      "minisrv" = let
+      "minisrv" = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
         system = linuxSystem;
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-      in
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = import ./hosts/minisrv/modules.nix (inputs // {inherit system pkgs lib;});
-        };
+        modules = linuxModules ++ [./hosts/minisrv];
+      };
 
-      "dell" = let
+      "dell" = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
         system = linuxSystem;
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-      in
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          specialArgs = {inherit inputs;};
-          modules = import ./hosts/dell/modules.nix (inputs // {inherit system pkgs lib;});
-          # modules = [
-          #   ./modules
-          #   ./modules/linux
-          #   ./hosts/dell
-          # ];
-        };
+        modules = linuxModules ++ [./hosts/dell];
+      };
     };
 
     darwinConfigurations."MSK-GRVQ3CV9RQ" = nix-darwin.lib.darwinSystem {
+      inherit specialArgs;
       system = darwinSystem;
-      specialArgs = {inherit inputs;};
-      modules = [
-        ./modules
-        ./hosts/darwin
-        inputs.home-manager.darwinModules.home-manager
-      ];
+      modules =
+        commonModules
+        ++ [
+          inputs.home-manager.darwinModules.home-manager
+          ./modules/darwin
+          ./hosts/darwin.nix
+        ];
     };
 
     devShells = import ./shells {inherit allSystems nixpkgs;};
