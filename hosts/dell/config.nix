@@ -25,6 +25,7 @@
       withUserDefaults = true;
       withUdev = true;
       withPipewire = true;
+      asServer = true;
     };
 
     services = {
