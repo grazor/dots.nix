@@ -11,6 +11,7 @@ in {
     boot = {
       loader = {
         systemd-boot.enable = true;
+        systemd-boot.editor = false;
         timeout = 1;
         efi.canTouchEfiVariables = true;
       };

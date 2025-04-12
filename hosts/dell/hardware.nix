@@ -33,7 +33,5 @@
   swapDevices = [];
 
   hardware.bluetooth.enable = true;
-  services.logind.lidSwitch = "ignore";
-
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 }
