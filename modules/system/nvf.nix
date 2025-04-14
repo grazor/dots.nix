@@ -47,6 +47,7 @@ in {
         };
 
         mini.fuzzy.enable = false;
+        mini.splitjoin.enable = true;
 
         telescope.enable = true;
 
