@@ -31,6 +31,7 @@
 
   username = config.grazor.user.name;
   cfg = config.grazor.user.config;
+  inherit (config.grazor) withNvf;
 in {
   options.grazor.user.config.withFish = lib.mkEnableOption "with fish terminal";
 
@@ -38,57 +39,63 @@ in {
     programs.fish.enable = true;
     grazor.user.shell = lib.mkForce pkgs.fish;
 
-    home-manager.users.${username}.programs = {
-      fish = {
-        enable = true;
-        shellAliases = {
-          cat = "bat";
+    home-manager.users.${username} = lib.mkIf withNvf {
+      home.sessionVariables = {
+        EDITOR = "nvim";
+      };
+
+      programs = {
+        fish = {
+          enable = true;
+          shellAliases = {
+            cat = "bat";
+          };
+          shellAbbrs = {
+            gst = "git status";
+            gaa = "git add .";
+            gco = "git commit -m";
+            gpu = "git push -u origin HEAD";
+            grm = "git rebase -i master";
+            gpf = "git push --force-with-lease";
+            gmt = "go mod tidy";
+            t = "tmux new -A -s main";
+          };
+
+          interactiveShellInit = ''
+            set fish_greeting
+          '';
+          inherit shellInitLast;
         };
-        shellAbbrs = {
-          gst = "git status";
-          gaa = "git add .";
-          gco = "git commit -m";
-          gpu = "git push -u origin HEAD";
-          grm = "git rebase -i master";
-          gpf = "git push --force-with-lease";
-          gmt = "go mod tidy";
-          t = "tmux new -A -s main";
+
+        bat.enable = true;
+
+        atuin = {
+          enable = true;
+          enableFishIntegration = true;
+          flags = ["--disable-up-arrow"];
         };
 
-        interactiveShellInit = ''
-          set fish_greeting
-        '';
-        inherit shellInitLast;
-      };
+        eza = {
+          enable = true;
+          enableFishIntegration = true;
+        };
 
-      bat.enable = true;
+        direnv.enable = true;
 
-      atuin = {
-        enable = true;
-        enableFishIntegration = true;
-        flags = ["--disable-up-arrow"];
-      };
+        starship = {
+          enable = true;
+          enableFishIntegration = true;
+        };
 
-      eza = {
-        enable = true;
-        enableFishIntegration = true;
-      };
+        fzf = {
+          enable = true;
+          enableFishIntegration = true;
+        };
 
-      direnv.enable = true;
-
-      starship = {
-        enable = true;
-        enableFishIntegration = true;
-      };
-
-      fzf = {
-        enable = true;
-        enableFishIntegration = true;
-      };
-
-      zoxide = {
-        enable = true;
-        enableFishIntegration = true;
+        zoxide = {
+          enable = true;
+          enableFishIntegration = true;
+        };
       };
     };
   };
