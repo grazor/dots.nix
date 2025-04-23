@@ -21,9 +21,12 @@ in {
       plugins = with pkgs; [
         tmuxPlugins.tmux-powerline
         tmuxPlugins.yank
+        tmuxPlugins.tmux-floax
       ];
 
       extraConfig = ''
+        set-option -g renumber-windows on
+
         bind-key -n C-l if-shell "$is_vim" "send-keys C-l"  "send-keys C-l"
 
         bind _ split-window -h -c "#{pane_current_path}"
