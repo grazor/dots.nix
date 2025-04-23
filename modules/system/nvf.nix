@@ -57,6 +57,7 @@ in {
         dashboard.alpha.enable = true;
         git.enable = true;
         minimap.codewindow.enable = true;
+        notes.todo-comments.enable = true;
         spellcheck = {
           enable = true;
           languages = [
