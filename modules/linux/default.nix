@@ -12,5 +12,6 @@
     ./nvidia.nix
     ./intel.nix
     ./gui-apps.nix
+    ./hyprland.nix
   ];
 }
