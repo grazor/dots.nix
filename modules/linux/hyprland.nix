@@ -25,7 +25,6 @@ in {
 
     environment.systemPackages = with pkgs; [
       xdg-desktop-portal-hyprland
-      xwaylandvideobridge
 
       wofi
       swaybg

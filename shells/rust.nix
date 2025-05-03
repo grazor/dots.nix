@@ -17,6 +17,8 @@ pkgs.mkShell {
     cargo-generate
     clippy
 
+    tokio-console
+
     protobuf
   ];
 
