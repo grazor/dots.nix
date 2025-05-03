@@ -20,12 +20,16 @@
     linux = {
       withCommon = true;
       withWireless = true;
-      withNvidia = true;
       withDocker = true;
       withUserDefaults = true;
       withUdev = true;
       withPipewire = true;
       asServer = true;
+
+      withNvidia = false;
+      withIntel = true;
+      withHyprland = true;
+      withGuiApps = true;
     };
 
     services = {

@@ -19,11 +19,20 @@ in {
         s = "status";
       };
       ignores = [
-        ".envrc"
         ".direnv"
+        ".envrc"
         ".lefthook"
-        "lefthook.yml"
+        ".venv"
+        "Pipfile"
+        "Pipfile.lock"
+        "__debug_bin"
+        "_build"
+        "debug.test"
+        "default.nix"
         "lefthook.yaml"
+        "lefthook.yml"
+        "ptest"
+        "tags"
       ];
     };
   };
