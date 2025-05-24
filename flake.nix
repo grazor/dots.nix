@@ -47,6 +47,12 @@
         system = linuxSystem;
         modules = linuxModules ++ [./hosts/dell];
       };
+
+      "desktop" = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        system = linuxSystem;
+        modules = linuxModules ++ [./hosts/desktop];
+      };
     };
 
     darwinConfigurations."MSK-GRVQ3CV9RQ" = nix-darwin.lib.darwinSystem {
