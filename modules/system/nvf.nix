@@ -21,9 +21,14 @@ in {
           enable = false;
         };
         preventJunkFiles = true;
-        useSystemClipboard = true;
         withPython3 = true;
         searchCase = "smart";
+
+        clipboard = {
+          enable = true;
+          providers.wl-copy.enable = true;
+          registers = "unnamedplus";
+        };
 
         options = {
           mouse = "n";
@@ -109,7 +114,6 @@ in {
 
         languages = {
           enableTreesitter = true;
-          enableLSP = true;
           enableFormat = true;
           enableExtraDiagnostics = true;
 
@@ -127,6 +131,7 @@ in {
           ts.enable = false;
         };
 
+        lsp.enable = true;
         lsp.formatOnSave = true;
 
         keymaps = [
