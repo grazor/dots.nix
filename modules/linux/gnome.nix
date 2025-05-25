@@ -28,10 +28,11 @@ in {
 
       # extensions
       gnomeExtensions.appindicator # tray
+      dconf
     ];
 
     # tray
-    services.udev.packages = with pkgs; [gnome.gnome-settings-daemon];
+    services.udev.packages = with pkgs; [gnome-settings-daemon];
 
     environment.gnome.excludePackages = with pkgs; [
       atomix
