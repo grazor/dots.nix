@@ -24,6 +24,7 @@
       withUserDefaults = true;
       withUdev = true;
       withPipewire = true;
+      withSteam = true;
       asServer = false;
 
       withNvidia = true;

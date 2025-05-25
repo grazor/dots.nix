@@ -28,7 +28,7 @@ in {
 
       # extensions
       gnomeExtensions.appindicator # tray
-      dconf
+      dconf-editor
     ];
 
     # tray

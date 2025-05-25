@@ -10,6 +10,7 @@ in {
   config = lib.mkIf cfg.withNvidia {
     hardware.graphics = {
       enable = true;
+      enable32Bit = true;
     };
 
     services.xserver.videoDrivers = ["nvidia"];
