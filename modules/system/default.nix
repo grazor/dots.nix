@@ -7,5 +7,6 @@
     ./authorized-keys.nix
     ./nvf.nix
     ./openssh.nix
+    ./gaming.nix
   ];
 }
