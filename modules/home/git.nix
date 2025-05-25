@@ -28,7 +28,6 @@ in {
         "__debug_bin"
         "_build"
         "debug.test"
-        "default.nix"
         "lefthook.yaml"
         "lefthook.yml"
         "ptest"

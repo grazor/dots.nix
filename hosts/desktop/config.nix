@@ -14,7 +14,6 @@
         shellInitTmux = true;
         withFish = true;
         withScripts = true;
-        withGaming = true;
       };
     };
 
@@ -42,5 +41,6 @@
     withFonts = true;
     withAuthorizedKeys = true;
     sshServer = true;
+    withGaming = true;
   };
 }

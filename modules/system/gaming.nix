@@ -5,11 +5,18 @@
   ...
 }: let
   cfg = config.grazor;
+  opt = "withGaming";
 in {
-  options.grazor.withGaming = lib.mkEnableOption "with gaming tools installed";
-  config = lib.mkIf cfg.withDevtools {
+  options.grazor.${opt} = lib.mkEnableOption "with gaming tools installed";
+  config = lib.mkIf cfg.${opt} {
     environment.systemPackages = with pkgs; [
       teamspeak3
+      resources
     ];
+
+    programs.gamemode = {
+      enable = true;
+      enableRenice = true;
+    };
   };
 }
