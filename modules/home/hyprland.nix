@@ -13,9 +13,9 @@ in {
         foot
       ];
 
-      xdg.configFile."foot/foot.ini".source = ./. + /config/foot.ini;
+      xdg.configFile."foot/foot.ini".source = ./. + /raw/foot.ini;
 
-      hyprland = {
+      wayland.windowManager.hyprland = {
         enable = true;
         extraConfig = ''
           monitor=,preferred,auto,1

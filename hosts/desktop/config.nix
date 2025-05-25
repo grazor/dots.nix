@@ -28,7 +28,9 @@
 
       withNvidia = true;
       withIntel = true;
-      withHyprland = true;
+
+      withHyprland = false;
+      withGnome = true;
       withGuiApps = true;
     };
 
