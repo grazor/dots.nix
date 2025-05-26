@@ -28,8 +28,8 @@
 
       withNvidia = false;
       withIntel = true;
-      withHyprland = true;
-      withGuiApps = true;
+      withHyprland = false;
+      withGuiApps = false;
     };
 
     services = {
