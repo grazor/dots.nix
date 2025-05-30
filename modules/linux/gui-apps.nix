@@ -18,6 +18,7 @@ in {
       gimp
       tdesktop
       obsidian
+      resources
 
       rose-pine-cursor
       nordzy-cursor-theme

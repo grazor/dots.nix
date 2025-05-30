@@ -11,12 +11,6 @@ in {
   config = lib.mkIf cfg.${opt} {
     environment.systemPackages = with pkgs; [
       teamspeak3
-      resources
     ];
-
-    programs.gamemode = {
-      enable = true;
-      enableRenice = true;
-    };
   };
 }
