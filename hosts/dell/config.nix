@@ -24,12 +24,14 @@
       withUserDefaults = true;
       withUdev = true;
       withPipewire = true;
-      asServer = true;
+
+      asServer = false;
+      withGuiApps = true;
+      withGnome = true;
 
       withNvidia = false;
       withIntel = true;
       withHyprland = false;
-      withGuiApps = false;
     };
 
     services = {
