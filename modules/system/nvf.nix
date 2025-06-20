@@ -120,7 +120,7 @@ in {
           bash.enable = true;
           go.enable = true;
           lua.enable = true;
-          markdown.enable = true;
+          markdown.enable = false; # no deno pls
           nix.enable = true;
           python = {
             enable = true;
