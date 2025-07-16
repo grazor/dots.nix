@@ -32,10 +32,13 @@
       withNvidia = false;
       withIntel = true;
       withHyprland = false;
+
+      withSteam = true;
     };
 
     services = {
-      ollama.enable = true;
+      ollama.enable = false;
+      xray.enable = true;
     };
 
     withTools = true;
