@@ -15,7 +15,7 @@ in {
       iwgtk
       feh
       inkscape
-      gimp
+      #gimp
       tdesktop
       obsidian
       resources

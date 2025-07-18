@@ -8,8 +8,8 @@
 in {
   options.grazor.linux.withGnome = lib.mkEnableOption "with gnome de";
   config = lib.mkIf cfg.withGnome {
-    services.xserver = {
-      enable = true;
+    services.xserver.enable = true;
+    services = {
       displayManager = {
         gdm.enable = true;
         gdm.wayland = true;

@@ -26,14 +26,15 @@
       withPipewire = true;
 
       asServer = false;
+      k3sServer = true;
+
       withGuiApps = true;
       withGnome = true;
+      withHyprland = false;
+      withSteam = true;
 
       withNvidia = false;
       withIntel = true;
-      withHyprland = false;
-
-      withSteam = true;
     };
 
     services = {
