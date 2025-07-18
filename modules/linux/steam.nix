@@ -5,7 +5,7 @@
 }: let
   cfg = config.grazor.linux;
 in {
-  options.grazor.linux.withSteam = lib.mkEnableOption "with gnome steam";
+  options.grazor.linux.withSteam = lib.mkEnableOption "with steam";
   config = lib.mkIf cfg.withSteam {
     programs.steam = {
       enable = true;
