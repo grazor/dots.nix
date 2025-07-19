@@ -11,6 +11,11 @@ repositories:
  - name: vaultwarden
    url: https://gissilabs.github.io/charts/
 
+ - name: prowlarr
+   url: https://charts.pree.dev
+ - name: qbittorrent
+   url: https://charts.gabe565.com
+
 releases:
 - name: kyverno
   namespace: kyverno-system
@@ -44,6 +49,27 @@ releases:
         allowSignups: false
     - persistence:
         enabled: true
+
+- name: prowlarr
+  namespace: prowlarr
+  chart: prowlarr/prowlarr
+  values:
+    - env:
+        TZ: "Europe/Moscow"
+    - persistence:
+        config:
+          enabled: false
+- name: qbittorrent
+  namespace: qbittorrent
+  chart: qbittorrent/qbittorrent
+  values:
+    - env:
+        TZ: "Europe/Moscow"
+    - persistence:
+        config:
+          enabled: true
+        downloads:
+          enabled: false
 
 hooks:
 - events: ["cleanup"]

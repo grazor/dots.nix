@@ -66,6 +66,7 @@ in {
       ntfs3g
       usbutils
       xdg-utils
+      nettool
 
       bind
       bridge-utils
