@@ -4,8 +4,11 @@
     ./user-defaults.nix
     ./wireless.nix
     ./udev.nix
-    ./server.nix
     ./pipewire.nix
+
+    ./server.nix
+    ./battery.nix
+    ./k3s.nix
 
     ./docker.nix
     ./openssh.nix

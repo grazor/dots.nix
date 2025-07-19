@@ -26,6 +26,7 @@
       withPipewire = true;
 
       asServer = false;
+      withBatterySave = false;
       k3sServer = true;
 
       withGuiApps = true;
