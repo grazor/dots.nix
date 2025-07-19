@@ -1,9 +1,10 @@
 {
+  pkgs,
   lib,
   config,
   ...
 }: let
-  cfg = config.grazor;
+  cfg = config.grazor.linux;
   opt = "k3sServer";
 in {
   options.grazor.linux.${opt} = lib.mkEnableOption "with k3s server";
@@ -33,5 +34,6 @@ in {
       # agent
       #serverAddr = "https://<ip of first node>:6443";
     };
+    environment.systemPackages = with pkgs; [kubernetes-helm];
   };
 }
