@@ -5,7 +5,7 @@
   ];
 
   networking.hostName = "dell";
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.05";
   nix.settings.max-jobs = lib.mkDefault 8;
 
   environment.enableAllTerminfo = true;
