@@ -20,6 +20,6 @@ in {
     useGlobalPkgs = true;
     useUserPackages = true;
 
-    users.${user.name}.home.stateVersion = "24.11";
+    users.${user.name}.home.stateVersion = "25.05";
   };
 }

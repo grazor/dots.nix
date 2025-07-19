@@ -25,12 +25,21 @@
       ./modules
       ./modules/overlay.nix
     ];
+
     linuxModules =
       commonModules
       ++ [
         inputs.home-manager.nixosModules.home-manager
         ./modules/linux
         ./modules/services
+      ];
+
+    darwinModules =
+      commonModules
+      ++ [
+        inputs.home-manager.darwinModules.home-manager
+        ./modules/darwin
+        ./hosts/darwin.nix
       ];
 
     specialArgs = {inherit inputs;};
@@ -58,13 +67,7 @@
     darwinConfigurations."MSK-GRVQ3CV9RQ" = nix-darwin.lib.darwinSystem {
       inherit specialArgs;
       system = darwinSystem;
-      modules =
-        commonModules
-        ++ [
-          inputs.home-manager.darwinModules.home-manager
-          ./modules/darwin
-          ./hosts/darwin.nix
-        ];
+      modules = darwinModules;
     };
 
     devShells = import ./shells {inherit allSystems nixpkgs;};
