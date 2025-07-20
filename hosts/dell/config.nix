@@ -25,22 +25,8 @@
       withUdev = true;
       withPipewire = true;
 
-      asServer = false;
-      withBatterySave = false;
-      k3sServer = true;
-
-      withGuiApps = true;
-      withGnome = true;
-      withHyprland = false;
-      withSteam = true;
-
       withNvidia = false;
       withIntel = true;
-    };
-
-    services = {
-      ollama.enable = false;
-      xray.enable = true;
     };
 
     withTools = true;
