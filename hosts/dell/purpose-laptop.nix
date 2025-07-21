@@ -3,7 +3,7 @@ _: {
     linux = {
       asServer = true;
       withBatterySave = true;
-      k3sServer = true;
+      k3sServer = false;
 
       withGuiApps = false;
       withGnome = false;
