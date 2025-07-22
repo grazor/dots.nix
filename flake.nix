@@ -17,8 +17,9 @@
     ...
   }: let
     linuxSystem = "x86_64-linux";
+    linuxAarchSystem = "aarch64-linux";
     darwinSystem = "aarch64-darwin";
-    allSystems = [linuxSystem darwinSystem];
+    allSystems = [linuxSystem linuxAarchSystem darwinSystem];
 
     commonModules = [
       inputs.nvf.nixosModules.default
@@ -61,6 +62,12 @@
         inherit specialArgs;
         system = linuxSystem;
         modules = linuxModules ++ [./hosts/desktop];
+      };
+
+      "hl-rpi-mqtt" = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        system = linuxAarchSystem;
+        modules = linuxModules ++ [./hosts/hl-rpi-mqtt];
       };
     };
 
