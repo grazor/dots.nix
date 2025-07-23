@@ -23,7 +23,7 @@
       k3sServer = true;
 
       withCommon = true;
-      withWireless = true;
+      #withWireless = true;
       withDocker = true;
       withUserDefaults = true;
       withUdev = true;
