@@ -64,7 +64,7 @@ in {
         minimap.codewindow.enable = true;
         notes.todo-comments.enable = true;
         spellcheck = {
-          enable = true;
+          enable = false;
           languages = [
             "en"
             "ru"

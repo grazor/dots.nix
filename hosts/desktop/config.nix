@@ -26,6 +26,7 @@
       withPipewire = true;
       withSteam = true;
       asServer = false;
+      sshServer = true;
 
       withNvidia = true;
       withIntel = true;
