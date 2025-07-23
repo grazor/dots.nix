@@ -19,7 +19,6 @@
 
     linux = {
       asServer = true;
-      sshServer = true;
       withCommon = true;
       withWireless = true;
       withUserDefaults = true;

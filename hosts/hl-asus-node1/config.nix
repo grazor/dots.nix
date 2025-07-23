@@ -21,7 +21,6 @@
       asServer = true;
       withBatterySave = true;
       k3sServer = true;
-      sshServer = true;
 
       withCommon = true;
       withWireless = true;

@@ -24,7 +24,6 @@
       withUserDefaults = true;
       withUdev = true;
       withPipewire = true;
-      sshServer = true;
 
       withNvidia = false;
       withIntel = true;
