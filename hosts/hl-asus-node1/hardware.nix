@@ -1,31 +1,31 @@
-{lib, ...}: {
-  hardware.enableRedistributableFirmware = lib.mkDefault true;
+{ config, lib, pkgs, modulesPath, ... }:
+{
+  hardware.enableRedistributableFirmware = true;
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  boot = {
-    initrd.availableKernelModules = ["xhci_pci" "ehci_pci" "ahci" "sd_mod"];
-    initrd.kernelModules = [];
-    kernelModules = ["kvm-intel"];
-    extraModulePackages = [];
-  };
+  imports =
+    [ (modulesPath + "/installer/scan/not-detected.nix")
+    ];
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/disk/by-uuid/113b48ee-0900-41d6-96c6-282339186a45";
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "rtsx_usb_sdmmc" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
+
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/c166034d-802c-45c5-962b-d6f32d28302c";
       fsType = "ext4";
     };
-    "/boot" = {
-      device = "/dev/disk/by-uuid/813A-20C2";
+
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/EA62-6C1F";
       fsType = "vfat";
-      options = ["rw" "relatime" "fmask=0022"];
+      options = [ "fmask=0077" "dmask=0077" ];
     };
-    "/home" = {
-      device = "/dev/disk/by-uuid/ef3748a4-2df3-46ae-8bed-bef4fb71176a";
-      fsType = "ext4";
-    };
-  };
 
-  swapDevices = [{device = "/dev/disk/by-uuid/422855ea-f017-47c5-beef-4b7e14fae92e";}];
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/4476ced6-d1eb-4b64-959a-ab4274a92cf1"; }
+    ];
 
-  hardware.bluetooth.enable = true;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

@@ -37,39 +37,39 @@ releases:
 
 # ---
 
-- name: glance
-  namespace: glance
-  chart: glance/glance
-
-- name: vaultwarden
-  namespace: vaultwarden
-  chart: vaultwarden/vaultwarden
-  values:
-    - vaultwarden:
-        allowSignups: false
-    - persistence:
-        enabled: true
-
-- name: prowlarr
-  namespace: prowlarr
-  chart: prowlarr/prowlarr
-  values:
-    - env:
-        TZ: "Europe/Moscow"
-    - persistence:
-        config:
-          enabled: false
-- name: qbittorrent
-  namespace: qbittorrent
-  chart: qbittorrent/qbittorrent
-  values:
-    - env:
-        TZ: "Europe/Moscow"
-    - persistence:
-        config:
-          enabled: true
-        downloads:
-          enabled: false
+# - name: glance
+#   namespace: glance
+#   chart: glance/glance
+#
+# - name: vaultwarden
+#   namespace: vaultwarden
+#   chart: vaultwarden/vaultwarden
+#   values:
+#     - vaultwarden:
+#         allowSignups: false
+#     - persistence:
+#         enabled: true
+#
+# - name: prowlarr
+#   namespace: prowlarr
+#   chart: prowlarr/prowlarr
+#   values:
+#     - env:
+#         TZ: "Europe/Moscow"
+#     - persistence:
+#         config:
+#           enabled: false
+# - name: qbittorrent
+#   namespace: qbittorrent
+#   chart: qbittorrent/qbittorrent
+#   values:
+#     - env:
+#         TZ: "Europe/Moscow"
+#     - persistence:
+#         config:
+#           enabled: true
+#         downloads:
+#           enabled: false
 
 hooks:
 - events: ["cleanup"]
