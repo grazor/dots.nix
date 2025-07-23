@@ -63,14 +63,7 @@ in {
         git.enable = true;
         minimap.codewindow.enable = true;
         notes.todo-comments.enable = true;
-        spellcheck = {
-          enable = false;
-          languages = [
-            "en"
-            "ru"
-          ];
-          programmingWordlist.enable = true;
-        };
+        spellcheck.enable = false;
 
         filetree.nvimTree = {
           enable = true;
