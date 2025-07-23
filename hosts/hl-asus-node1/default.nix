@@ -4,7 +4,7 @@
     ./config.nix
   ];
 
-  networking.hostName = "minisrv";
+  networking.hostName = "hl-asus-node1";
   system.stateVersion = "25.05";
   nix.settings.max-jobs = lib.mkDefault 4;
 
