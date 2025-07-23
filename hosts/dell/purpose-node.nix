@@ -1,18 +1,14 @@
 _: {
   grazor = {
     linux = {
-      asServer = false;
-      withBatterySave = false;
+      asServer = true;
+      withBatterySave = true;
       k3sServer = true;
 
-      withGuiApps = true;
-      withGnome = true;
+      withGuiApps = false;
+      withGnome = false;
       withHyprland = false;
-      withSteam = true;
-    };
-
-    services = {
-      xray.enable = true;
+      withSteam = false;
     };
   };
 }

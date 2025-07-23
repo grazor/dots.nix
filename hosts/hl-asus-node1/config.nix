@@ -18,20 +18,19 @@
     };
 
     linux = {
+      asServer = true;
+      withBatterySave = true;
+
       withCommon = true;
       withWireless = true;
-      withNvidia = true;
       withDocker = true;
       withUserDefaults = true;
       withUdev = true;
-      withPipewire = true;
-      asServer = true;
     };
 
     withTools = true;
     withDevtools = true;
     withNvf = true;
-    withFonts = false;
     withAuthorizedKeys = true;
     sshServer = true;
   };
