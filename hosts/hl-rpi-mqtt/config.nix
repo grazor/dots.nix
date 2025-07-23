@@ -26,6 +26,7 @@
     };
 
     withTools = true;
+    withDevTools = true;
     withAuthorizedKeys = true;
     sshServer = true;
   };

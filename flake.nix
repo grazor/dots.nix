@@ -46,10 +46,10 @@
     specialArgs = {inherit inputs;};
   in {
     nixosConfigurations = {
-      "minisrv" = nixpkgs.lib.nixosSystem {
+      "hl-asus-node1" = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         system = linuxSystem;
-        modules = linuxModules ++ [./hosts/minisrv];
+        modules = linuxModules ++ [./hosts/hl-asus-node1];
       };
 
       "dell" = nixpkgs.lib.nixosSystem {

@@ -28,26 +28,10 @@
       asServer = true;
     };
 
-    services = {
-      hass.enable = true;
-      mqtt.enable = true;
-      zigbee2mqtt.enable = true;
-      caddy.enable = true;
-      influxdb.enable = true;
-      grafana.enable = true;
-      minio.enable = true;
-      xray.enable = true;
-      teamspeak.enable = true;
-      vaultwarden.enable = true;
-      syncthing.enable = true;
-
-      fleeting-chat.enable = true;
-    };
-
     withTools = true;
     withDevtools = true;
     withNvf = true;
-    withFonts = true;
+    withFonts = false;
     withAuthorizedKeys = true;
     sshServer = true;
   };
