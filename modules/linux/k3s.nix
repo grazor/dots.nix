@@ -4,6 +4,7 @@
   config,
   ...
 }: let
+  userGroup = config.grazor.user.group;
   cfg = config.grazor.linux;
   opt = "k3sServer";
 
@@ -23,7 +24,7 @@
 in {
   options.grazor.linux.${opt} = lib.mkEnableOption "with k3s server";
   config = lib.mkIf cfg.${opt} {
-    environment.systemPackages = [pkgs.nfs-utils my-kubernetes-helm my-helmfile];
+    environment.systemPackages = [pkgs.nfs-utils pkgs.fluxcd my-kubernetes-helm my-helmfile];
     services.openiscsi = {
       enable = true;
       name = "${config.networking.hostName}-initiatorhost";
@@ -32,9 +33,11 @@ in {
     services.k3s = {
       enable = true;
       role = "server";
-      #extraFlags = toString [
-      # "--debug" # Optionally add additional args to k3s
-      #];
+      extraFlags = toString [
+        "--write-kubeconfig-group=${userGroup}"
+        "--write-kubeconfig-mode=544"
+        #"--disable-network-policy"
+      ];
 
       # multi-node server node
       #token = "<randomized common secret>";

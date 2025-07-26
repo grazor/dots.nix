@@ -1,0 +1,34 @@
+repositories:
+ - name: glance
+   url: https://rubxkube.github.io/charts/
+ - name: vaultwarden
+   url: https://gissilabs.github.io/charts/
+
+releases:
+- name: glance
+  namespace: glance
+  chart: glance/glance
+  postRenderer: ./kustomize.sh
+  postRendererArgs: ["./patches/glance"]
+  values:
+    - common:
+        ingress:
+          enabled: false
+
+- name: vaultwarden
+  namespace: vaultwarden
+  chart: vaultwarden/vaultwarden
+  values:
+    - vaultwarden:
+        allowSignups: false
+    - persistence:
+        enabled: true
+        size: 2G
+    - service:
+        type: LoadBalancer
+        httpPort: 80
+        loadBalancerIP: 192.168.2.131
+    - ingressRoute:
+        enabled: true
+        newCRD: true
+        host: vw.porivaev.ru

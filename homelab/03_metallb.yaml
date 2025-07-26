@@ -1,8 +1,30 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: default-pool
+  name: admin-pool
   namespace: metallb-system
 spec:
   addresses:
-  - 192.168.2.128/25
+  - 192.168.2.64/26
+  autoAssign: false
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: services-pool
+  namespace: metallb-system
+spec:
+  addresses:
+  - 192.168.2.128/26
+  - 192.168.2.192/26
+
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: homelab-advertisement
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+  - services-pool
+  - admin-pool
