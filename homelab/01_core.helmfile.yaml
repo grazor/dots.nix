@@ -1,78 +1,43 @@
 repositories:
  - name: kyverno
    url: https://kyverno.github.io/kyverno/
+ - name: cert-manager
+   url: https://charts.jetstack.io
  - name: longhorn
    url: https://charts.longhorn.io
  - name: metallb
    url: https://metallb.github.io/metallb
-
- - name: glance
-   url: https://rubxkube.github.io/charts/
- - name: vaultwarden
-   url: https://gissilabs.github.io/charts/
-
- - name: prowlarr
-   url: https://charts.pree.dev
- - name: qbittorrent
-   url: https://charts.gabe565.com
 
 releases:
 - name: kyverno
   namespace: kyverno-system
   chart: kyverno/kyverno
 
+- name: cert-manager
+  namespace: cert-manager
+  chart: cert-manager/cert-manager
+  values:
+    - crds:
+        enabled: true
+        keep: true
+
 - name: longhorn
   namespace: longhorn-system
   chart: longhorn/longhorn
+  postRenderer: ./kustomize.sh
+  postRendererArgs: ["./patches/longhorn"]
   values:
     - defaultSettings:
         allowCollectingLonghornUsageMetrics: false
         defaultReplicaCount: 1
     - persistence:
         defaultClassReplicaCount: 1
+    - service:
+        ui:
+          type: "LoadBalancer"
+          annotations:
+            metallb.io/address-pool: admin-pool
 
 - name: metallb
   namespace: metallb-system
   chart: metallb/metallb
-
-# ---
-
-# - name: glance
-#   namespace: glance
-#   chart: glance/glance
-#
-# - name: vaultwarden
-#   namespace: vaultwarden
-#   chart: vaultwarden/vaultwarden
-#   values:
-#     - vaultwarden:
-#         allowSignups: false
-#     - persistence:
-#         enabled: true
-#
-# - name: prowlarr
-#   namespace: prowlarr
-#   chart: prowlarr/prowlarr
-#   values:
-#     - env:
-#         TZ: "Europe/Moscow"
-#     - persistence:
-#         config:
-#           enabled: false
-# - name: qbittorrent
-#   namespace: qbittorrent
-#   chart: qbittorrent/qbittorrent
-#   values:
-#     - env:
-#         TZ: "Europe/Moscow"
-#     - persistence:
-#         config:
-#           enabled: true
-#         downloads:
-#           enabled: false
-
-hooks:
-- events: ["cleanup"]
-  showlogs: true
-  command: "kubectl"
-  args: ["apply", "-f", "./longhorn-nix.yaml"]

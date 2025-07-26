@@ -9,7 +9,6 @@
   ];
 
   networking.hostName = "hl-asus-node1";
-  networking.useDHCP = true;
   networking.firewall.enable = false;
   networking.wireless.iwd.enable = false;
   networking.networkmanager.wifi.backend = "wpa_supplicant";
