@@ -24,7 +24,13 @@
 in {
   options.grazor.linux.${opt} = lib.mkEnableOption "with k3s server";
   config = lib.mkIf cfg.${opt} {
-    environment.systemPackages = [pkgs.nfs-utils pkgs.fluxcd my-kubernetes-helm my-helmfile];
+    environment.systemPackages = [
+      pkgs.nfs-utils
+      pkgs.fluxcd
+      pkgs.cmctl
+      my-kubernetes-helm
+      my-helmfile
+    ];
     services.openiscsi = {
       enable = true;
       name = "${config.networking.hostName}-initiatorhost";
