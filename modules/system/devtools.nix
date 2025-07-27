@@ -18,7 +18,9 @@ in {
       jq
       gnumake
       ripgrep
+
       k9s
+      fluxcd
     ];
   };
 }
