@@ -1,7 +1,0 @@
-resources:
-  - helm.out.yaml
-patches:
-  - path: service.patch.yaml
-    target:
-      kind: Service
-      name: "longhorn-frontend"
