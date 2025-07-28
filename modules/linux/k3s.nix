@@ -42,6 +42,7 @@ in {
       extraFlags = toString [
         "--write-kubeconfig-group=${userGroup}"
         "--write-kubeconfig-mode=544"
+        "--disable=traefik"
         #"--disable-network-policy"
       ];
 
