@@ -43,7 +43,7 @@ in {
         "--write-kubeconfig-group=${userGroup}"
         "--write-kubeconfig-mode=544"
         "--disable=traefik"
-        "-disable=servicelb"
+        "--disable=servicelb"
         #"--disable-network-policy"
       ];
 
