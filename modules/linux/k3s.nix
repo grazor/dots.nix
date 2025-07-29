@@ -28,6 +28,7 @@ in {
       pkgs.nfs-utils
       pkgs.fluxcd
       pkgs.cmctl
+      pkgs.kubeseal
       my-kubernetes-helm
       my-helmfile
     ];
