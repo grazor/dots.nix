@@ -55,7 +55,7 @@
       "hl-dell-node1" = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         system = linuxSystem;
-        modules = linuxModules ++ [./hosts/dell];
+        modules = linuxModules ++ [./hosts/hl-dell-node1];
       };
 
       "desktop" = nixpkgs.lib.nixosSystem {
