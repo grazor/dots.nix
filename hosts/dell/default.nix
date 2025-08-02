@@ -7,7 +7,7 @@
     ./purpose-node.nix
   ];
 
-  networking.hostName = "dell";
+  networking.hostName = "hl-dell-node1";
   system.stateVersion = "25.05";
   nix.settings.max-jobs = lib.mkDefault 8;
 
