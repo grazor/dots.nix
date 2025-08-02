@@ -35,9 +35,6 @@ in {
     networking.networkmanager.enable = true;
 
     systemd.services.NetworkManager-wait-online.enable = false;
-    systemd.extraConfig = ''
-      DefaultTimeoutStopSec=10s
-    '';
 
     time.timeZone = "Europe/Moscow";
     i18n.defaultLocale = "en_US.UTF-8";
