@@ -3,8 +3,8 @@
     ./hardware.nix
     ./config.nix
 
-    ./purpose-laptop.nix
-    #./purpose-node.nix
+    #./purpose-laptop.nix
+    ./purpose-node.nix
   ];
 
   networking.hostName = "dell";
