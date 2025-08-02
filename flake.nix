@@ -52,7 +52,7 @@
         modules = linuxModules ++ [./hosts/hl-asus-node1];
       };
 
-      "dell" = nixpkgs.lib.nixosSystem {
+      "hl-dell-node1" = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         system = linuxSystem;
         modules = linuxModules ++ [./hosts/dell];
