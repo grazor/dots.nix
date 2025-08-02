@@ -20,7 +20,7 @@
     linux = {
       asServer = true;
       withBatterySave = true;
-      k3sServer = true;
+      k3sServer = false;
 
       withCommon = true;
       #withWireless = true;
