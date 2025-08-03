@@ -59,6 +59,7 @@ in {
             gpf = "git push --force-with-lease";
             gmt = "go mod tidy";
             t = "tmux new -A -s main";
+            k = "kubectl";
           };
 
           interactiveShellInit = ''
