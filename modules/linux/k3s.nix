@@ -49,6 +49,9 @@ in {
         "--disable=servicelb"
         #"--disable-network-policy"
       ];
+      systemd.services.k3s.environment = {
+        CONTAINERD_HTTP_PROXY = "http://192.168.2.1:9998";
+      };
 
       # multi-node server node
       #token = "<randomized common secret>";
