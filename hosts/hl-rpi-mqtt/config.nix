@@ -20,7 +20,7 @@
     linux = {
       asServer = true;
       withCommon = false;
-      withWireless = true;
+      withWireless = false;
       withUserDefaults = true;
       withUdev = true;
 
