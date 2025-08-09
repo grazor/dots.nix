@@ -19,14 +19,14 @@
 
     linux = {
       asServer = true;
-      withCommon = true;
+      withCommon = false;
       withWireless = true;
       withUserDefaults = true;
       withUdev = true;
     };
 
     withTools = true;
-    withDevTools = true;
+    withDevtools = false;
     withAuthorizedKeys = true;
     sshServer = true;
   };
