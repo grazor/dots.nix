@@ -1,10 +1,8 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }: let
-  home = config.grazor.user.home;
   cfg = config.grazor.linux;
   opt = "zigbee2mqtt";
 in {
@@ -18,7 +16,7 @@ in {
         homeassistant.enabled = true;
 
         serial.port = "/dev/ttyACM0";
-        serial.adapter = "zstack";
+        serial.adapter = "ember";
       };
     };
   };
