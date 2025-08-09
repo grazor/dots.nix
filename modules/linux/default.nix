@@ -20,5 +20,8 @@
     ./hyprland.nix
     ./gnome.nix
     ./gui-apps.nix
+
+    # native services
+    ./zigbee2mqtt.nix
   ];
 }

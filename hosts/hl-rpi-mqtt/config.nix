@@ -23,9 +23,7 @@
       withWireless = true;
       withUserDefaults = true;
       withUdev = true;
-    };
 
-    services = {
       zigbee2mqtt.enable = true;
     };
 
