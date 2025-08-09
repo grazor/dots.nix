@@ -1,4 +1,8 @@
-{lib, pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   imports = [
     ./hardware.nix
     ./config.nix
@@ -7,6 +11,9 @@
   boot.loader.grub.enable = lib.mkForce false;
   boot.loader.generic-extlinux-compatible.enable = true;
 
+  networking.firewall.enable = false;
+  networking.wireless.iwd.enable = false;
+  networking.networkmanager.wifi.backend = "wpa_supplicant";
   networking.networkmanager.wifi.powersave = false;
 
   networking.hostName = "hl-rpi-mqtt";
@@ -17,7 +24,6 @@
   environment.enableAllTerminfo = true;
   services.logrotate.checkConfig = false;
 
-  networking.firewall.enable = false;
   services.resolved.enable = lib.mkForce false;
 
   # common without bootloader
@@ -47,6 +53,8 @@
 
   environment.systemPackages = with pkgs; [
     glibc.out
+
+    pkgs.wirelesstools
 
     acpi
     binutils
