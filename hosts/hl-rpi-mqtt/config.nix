@@ -25,8 +25,13 @@
       withUdev = true;
     };
 
+    services = {
+      zigbee2mqtt.enable = true;
+    };
+
     withTools = true;
     withDevtools = false;
+    withNvf = true;
     withAuthorizedKeys = true;
     sshServer = true;
   };
