@@ -114,7 +114,10 @@ in {
           bash.enable = true;
           go.enable = true;
           lua.enable = true;
-          nix.enable = true;
+          nix = {
+            enable = true;
+            format.enable = true;
+          };
           markdown = {
             enable = false; # no deno pls
             format.enable = false;
