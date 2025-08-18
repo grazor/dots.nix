@@ -18,5 +18,6 @@
     direnv
     nh
     patchelf
+    nix-inspect
   ];
 }
