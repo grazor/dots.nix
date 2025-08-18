@@ -113,11 +113,15 @@ in {
           bash.enable = true;
           go.enable = true;
           lua.enable = true;
-          markdown.enable = false; # no deno pls
           nix.enable = true;
+          markdown = {
+            enable = false; # no deno pls
+            format.enable = false;
+          };
           python = {
             enable = true;
             lsp.enable = false;
+            format.enable = false;
           };
           rust.enable = true;
 
@@ -125,7 +129,7 @@ in {
         };
 
         lsp.enable = true;
-        lsp.formatOnSave = true;
+        lsp.formatOnSave = false;
 
         keymaps = [
           {
