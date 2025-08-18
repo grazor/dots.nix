@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   nix.enable = false;
   system.stateVersion = 6;
+  system.primaryUser = "smporyvaev";
 
   grazor = {
     user = rec {
@@ -16,7 +17,7 @@
         withTmux = true;
         shellInitTmux = true;
         withFish = true;
-        withGhostty = true;
+        withGhostty = false;
         withScripts = true;
       };
     };

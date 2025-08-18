@@ -5,6 +5,7 @@
   ...
 }: let
   cfg = config.grazor;
+  isLinux = lib.strings.hasInfix "linux" pkgs.system;
 in {
   options.grazor.withNvf = lib.mkEnableOption "install nvf";
   config = lib.mkIf cfg.withNvf {
@@ -26,7 +27,7 @@ in {
 
         clipboard = {
           enable = true;
-          providers.wl-copy.enable = true;
+          providers.wl-copy.enable = isLinux;
           registers = "unnamedplus";
         };
 
@@ -120,7 +121,7 @@ in {
           };
           python = {
             enable = true;
-            lsp.enable = false;
+            lsp.enable = true;
             format.enable = false;
           };
           rust.enable = true;
