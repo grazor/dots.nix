@@ -53,7 +53,8 @@ in {
           shellAbbrs = {
             gst = "git status";
             gaa = "git add .";
-            gco = "git commit -m";
+            gcm = "git commit -m";
+            gco = "git checkout";
             gpu = "git push -u origin HEAD";
             grm = "git rebase -i master";
             gpf = "git push --force-with-lease";
