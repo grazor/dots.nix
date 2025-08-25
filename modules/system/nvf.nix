@@ -133,7 +133,7 @@ in {
         };
 
         lsp.enable = true;
-        lsp.formatOnSave = false;
+        lsp.formatOnSave = true;
 
         keymaps = [
           {
