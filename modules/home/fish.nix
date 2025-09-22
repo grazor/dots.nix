@@ -87,6 +87,7 @@ in {
         starship = {
           enable = true;
           enableFishIntegration = true;
+          transientPrompt.enable = true;
         };
 
         fzf = {
