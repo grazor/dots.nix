@@ -18,6 +18,7 @@ in {
       jq
       gnumake
       ripgrep
+      jira-cli-go
 
       k9s
       fluxcd
