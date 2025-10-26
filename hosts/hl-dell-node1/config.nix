@@ -24,6 +24,7 @@
       withUserDefaults = true;
       withUdev = true;
       withPipewire = true;
+      withProxy = true;
 
       withNvidia = false;
       withIntel = true;
