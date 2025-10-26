@@ -9,6 +9,7 @@
     ./server.nix
     ./battery.nix
     ./k3s.nix
+    ./proxy.nix
 
     ./docker.nix
     ./openssh.nix
