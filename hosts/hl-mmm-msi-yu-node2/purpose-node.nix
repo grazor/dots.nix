@@ -2,7 +2,10 @@ _: {
   grazor = {
     linux = {
       asServer = true;
+
       k3sServer = false;
+      k3sAgent = true;
+      k3sServerAddt = "https://192.168.2.2";
 
       # no battery
       withBatterySave = false;

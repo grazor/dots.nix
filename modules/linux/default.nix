@@ -8,8 +8,10 @@
 
     ./server.nix
     ./battery.nix
-    ./k3s.nix
     ./proxy.nix
+
+    ./k3s_server.nix
+    ./k3s_agent.nix
 
     ./docker.nix
     ./openssh.nix

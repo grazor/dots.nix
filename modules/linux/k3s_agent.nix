@@ -5,8 +5,11 @@
   ...
 }: let
   userGroup = config.grazor.user.group;
+  userHome = config.grazor.user.home;
   cfg = config.grazor.linux;
-  opt = "k3sServer";
+
+  opt = "k3sAgent";
+  optServerAddr = "k3sServerAddr";
 
   my-kubernetes-helm = with pkgs;
     wrapHelm kubernetes-helm {
@@ -22,7 +25,8 @@
     inherit (my-kubernetes-helm) pluginsDir;
   };
 in {
-  options.grazor.linux.${opt} = lib.mkEnableOption "with k3s server";
+  options.grazor.linux.${opt} = lib.mkEnableOption "with k3s agent";
+  options.grazor.linux.${optServerAddr} = lib.mkOption {type = lib.types.str;};
   config = lib.mkIf cfg.${opt} {
     environment.systemPackages = with pkgs;
       [
@@ -50,14 +54,9 @@ in {
         #"--disable-network-policy"
       ];
 
-      # multi-node server node
-      #token = "<randomized common secret>";
-
-      # server
-      #clusterInit = true;
-
       # agent
-      #serverAddr = "https://<ip of first node>:6443";
+      tokenFile = userHome + "/.token.k3s";
+      serverAddr = cfg.${optServerAddr};
     };
   };
 }
