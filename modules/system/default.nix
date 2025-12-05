@@ -8,5 +8,6 @@
     ./nvf.nix
     ./openssh.nix
     ./gaming.nix
+    ./3dprint.nix
   ];
 }

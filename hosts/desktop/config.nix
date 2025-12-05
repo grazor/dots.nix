@@ -42,5 +42,6 @@
     withAuthorizedKeys = true;
     sshServer = true;
     withGaming = true;
+    with3DPrint = true;
   };
 }
