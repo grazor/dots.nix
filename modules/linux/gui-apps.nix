@@ -16,7 +16,7 @@ in {
       feh
       inkscape
       #gimp
-      tdesktop
+      telegram-desktop
       obsidian
       resources
       qbittorrent
