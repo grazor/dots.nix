@@ -11,13 +11,17 @@ in {
     home-manager.users.${username}.programs.git = {
       enable = true;
       lfs.enable = true;
-      userName = "Sergey Poryvaev";
-      userEmail = "porivaevs@gmail.com";
-      aliases = {
-        ci = "commit";
-        co = "checkout";
-        s = "status";
+
+      settings = {
+        user.name = "Sergey Poryvaev";
+        user.email = "porivaevs@gmail.com";
+        alias = {
+          ci = "commit";
+          co = "checkout";
+          s = "status";
+        };
       };
+
       ignores = [
         ".direnv"
         ".envrc"
