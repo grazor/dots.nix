@@ -49,12 +49,6 @@
     specialArgs = {inherit inputs;};
   in {
     nixosConfigurations = {
-      "hl-asus-node1" = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        system = linuxSystem;
-        modules = linuxModules ++ [./hosts/hl-asus-node1];
-      };
-
       "hl-dell-node1" = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         system = linuxSystem;
@@ -71,12 +65,6 @@
         inherit specialArgs;
         system = linuxSystem;
         modules = linuxModules ++ [./hosts/desktop];
-      };
-
-      "hl-rpi-mqtt" = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        system = linuxAarchSystem;
-        modules = linuxModules ++ [./hosts/hl-rpi-mqtt];
       };
     };
 
