@@ -19,6 +19,7 @@ in {
       tdesktop
       obsidian
       resources
+      qbittorrent
 
       rose-pine-cursor
       nordzy-cursor-theme
