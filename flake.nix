@@ -61,6 +61,12 @@
         modules = linuxModules ++ [./hosts/hl-dell-node1];
       };
 
+      "hl-mmm-msi-yu-node2" = nixpkgs.lib.nixosSystem {
+        inherit specialArgs;
+        system = linuxSystem;
+        modules = linuxModules ++ [./hosts/hl-mmm-msu-yu-node2];
+      };
+
       "desktop" = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         system = linuxSystem;
