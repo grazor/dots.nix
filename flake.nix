@@ -64,7 +64,7 @@
       "hl-mmm-msi-yu-node2" = nixpkgs.lib.nixosSystem {
         inherit specialArgs;
         system = linuxSystem;
-        modules = linuxModules ++ [./hosts/hl-mmm-msu-yu-node2];
+        modules = linuxModules ++ [./hosts/hl-mmm-msi-yu-node2];
       };
 
       "desktop" = nixpkgs.lib.nixosSystem {
