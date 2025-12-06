@@ -11,6 +11,8 @@
   system.stateVersion = "25.05";
   nix.settings.max-jobs = lib.mkDefault 8;
 
+  systemd.tpm2.enable = false;
+
   environment.enableAllTerminfo = true;
   services.logrotate.checkConfig = false;
 
