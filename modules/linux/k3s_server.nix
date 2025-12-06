@@ -48,6 +48,7 @@ in {
         "--write-kubeconfig-mode=544"
         "--disable=traefik"
         "--disable=servicelb"
+        "--node-label=zigbee"
         #"--disable-network-policy"
       ];
 
