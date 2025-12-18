@@ -39,8 +39,8 @@ in {
     programs.fish.enable = true;
     grazor.user.shell = lib.mkForce pkgs.fish;
 
-    home-manager.users.${username} = lib.mkIf withNvf {
-      home.sessionVariables = {
+    home-manager.users.${username} = {
+      home.sessionVariables = lib.mkIf withNvf {
         EDITOR = "nvim";
       };
 
