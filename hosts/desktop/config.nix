@@ -41,7 +41,7 @@
     withFonts = true;
     withAuthorizedKeys = true;
     sshServer = true;
-    withGaming = false;
+    withGaming = true;
     with3DPrint = false;
   };
 }
