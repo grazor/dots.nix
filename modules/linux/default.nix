@@ -23,6 +23,7 @@
     ./hyprland.nix
     ./gnome.nix
     ./gui-apps.nix
+    ./qmk.nix
 
     # native services
     ./zigbee2mqtt.nix
