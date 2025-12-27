@@ -33,6 +33,7 @@
       withHyprland = false;
       withGnome = true;
       withGuiApps = true;
+      withQmk = true;
     };
 
     withTools = true;
