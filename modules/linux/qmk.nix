@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }: let
   cfg = config.grazor.linux;
@@ -10,8 +9,6 @@
 in {
   options.grazor.linux.${opt} = lib.mkEnableOption "qmk input source";
   config = lib.mkIf cfg.${opt} {
-    environment.systemPackages = with pkgs; [vial];
-
     services = {
       xserver.xkb = {
         options = "grp:shift_caps_switch,grp_led:scroll";
