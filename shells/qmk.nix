@@ -17,5 +17,7 @@ pkgs.mkShell {
 
   shellHook = ''
     export LD_LIBRARY_PATH=${pkgs.stdenv.cc.cc.lib}/lib/
+
+    export CONVERT_TO=promicro_rp2040
   '';
 }
