@@ -20,10 +20,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 // Layers
-enum {
+enum layers {
     _BASE_ENTHIUM,
     _SYMBOL,
     _NUMBER,
+};
+
+enum combos {
+    _COMBO_HT_ESC,
 };
 
 #define LT_RSYM LT(_SYMBOL, KC_R)
@@ -41,7 +45,11 @@ enum {
 #define HRM_AN LALT_T(KC_N)
 #define HRM_GS RGUI_T(KC_S)
 
-//
+// esc
+const uint16_t PROGMEM ht_esc[] = {HRM_SH, HRM_CT, COMBO_END};
+combo_t key_combos[] = {
+    [_COMBO_HT_ESC] = COMBO(ht_esc, KC_ESC),
+};
 
 /*
   q y o u = x l d w z
