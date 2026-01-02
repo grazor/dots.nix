@@ -26,4 +26,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define CHORDAL_HOLD
 
 // Display
-#define OLED_BRIGHTNESS 128
+#define OLED_BRIGHTNESS 32
