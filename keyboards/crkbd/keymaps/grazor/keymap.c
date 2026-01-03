@@ -19,7 +19,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include QMK_KEYBOARD_H
 
 
-// Layers
 enum layers {
     _BASE_ENTHIUM,
     _SYMBOL,
@@ -30,6 +29,12 @@ enum combos {
     _COMBO_HT_ESC,
 };
 
+enum tapdance {
+    _TD_LRBRAC,
+};
+
+
+// Aliases
 #define LT_RSYM LT(_SYMBOL, KC_R)
 #define LT_NUM  MO(_NUMBER)
 
@@ -45,11 +50,19 @@ enum combos {
 #define HRM_AN LALT_T(KC_N)
 #define HRM_GS RGUI_T(KC_S)
 
-// esc
+// Combos
 const uint16_t PROGMEM ht_esc[] = {HRM_SH, HRM_CT, COMBO_END};
 combo_t key_combos[] = {
     [_COMBO_HT_ESC] = COMBO(ht_esc, KC_ESC),
 };
+
+// Tap dance
+tap_dance_action_t tap_dance_actions[] = {
+    [_TD_LRBRAC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
+};
+
+# define TD_BRCS TD(_TD_LRBRAC)
+
 
 /*
   q y o u = x l d w z
@@ -61,11 +74,11 @@ b c i a e - k h t n s f
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE_ENTHIUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX,    KC_Q,    KC_Y,    KC_O,    KC_U,  KC_EQL,                         KC_X,    KC_L,    KC_D,    KC_W,   KC_Z,  XXXXXXX,
+       KC_GRV,    KC_Q,    KC_Y,    KC_O,    KC_U,  KC_EQL,                         KC_X,    KC_L,    KC_D,    KC_W,   KC_Z,  TD_BRCS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
          KC_B,  HRM_GC,  HRM_AI,  HRM_CA,  HRM_SE, KC_MINS,                         KC_K,  HRM_SH,  HRM_CT,  HRM_AN,  HRM_GS,    KC_F,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_QUOT, KC_COMM,  KC_DOT, KC_SCLN, KC_SLSH,                         KC_J,    KC_M,    KC_G,    KC_P,    KC_V, XXXXXXX,
+       KC_TAB, KC_QUOT, KC_COMM,  KC_DOT, KC_SCLN, KC_SLSH,                         KC_J,    KC_M,    KC_G,    KC_P,    KC_V, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_ENT,  LT_NUM,  KC_SPC,    LT_RSYM, XXXXXXX, KC_BSPC
                                       //`--------------------------'  `--------------------------'
@@ -73,13 +86,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_SYMBOL] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
+      KC_EXLM, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_PERC,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,
+      KC_HASH, KC_CIRC, KC_LCBR, KC_RCBR,  KC_DLR, KC_ASTR,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      KC_AMPR,   KC_LT, KC_PIPE, KC_MINS,   KC_GT,   KC_AT,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, XXXXXXX,  KC_SPC,     KC_ENT, _______, KC_RALT
+                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, _______, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -141,6 +154,9 @@ bool render_status(void) {
         case _SYMBOL:
             oled_write_P(PSTR("SYMBOL\n"), false);
             break;
+        case _NUMBER:
+            oled_write_P(PSTR("NUMBER\n"), false);
+            break;
         default:
             oled_write_ln_P(PSTR("Undefined"), false);
     }
@@ -157,7 +173,6 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
     if (!is_keyboard_master()) {
         return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
     }
-
     return rotation;
 }
 
