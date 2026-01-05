@@ -74,11 +74,11 @@ b c i a e - k h t n s f
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BASE_ENTHIUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_GRV,    KC_Q,    KC_Y,    KC_O,    KC_U,  KC_EQL,                         KC_X,    KC_L,    KC_D,    KC_W,   KC_Z,  TD_BRCS,
+       KC_GRV,    KC_Q,    KC_Y,    KC_O,    KC_U,  KC_EQL,                         KC_X,    KC_L,    KC_D,    KC_P,   KC_Z,  TD_BRCS,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-         KC_B,  HRM_GC,  HRM_AI,  HRM_CA,  HRM_SE, KC_MINS,                         KC_K,  HRM_SH,  HRM_CT,  HRM_AN,  HRM_GS,    KC_F,
+         KC_B,  HRM_GC,  HRM_AI,  HRM_CA,  HRM_SE, KC_MINS,                         KC_K,  HRM_SH,  HRM_CT,  HRM_AN,  HRM_GS,    KC_W,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB, KC_QUOT, KC_COMM,  KC_DOT, KC_SCLN, KC_SLSH,                         KC_J,    KC_M,    KC_G,    KC_P,    KC_V, XXXXXXX,
+       KC_TAB, KC_QUOT, KC_COMM,  KC_DOT, KC_SLSH, KC_SCLN,                         KC_J,    KC_M,    KC_G,    KC_F,    KC_V, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_ENT,  LT_NUM,  KC_SPC,    LT_RSYM, XXXXXXX, KC_BSPC
                                       //`--------------------------'  `--------------------------'
