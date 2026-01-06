@@ -25,5 +25,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define QUICK_TAP_TERM 0
 #define CHORDAL_HOLD
 
+// Combo
+#define COMBO_STRICT_TIMER
+#define COMBO_TERM 40
+
 // Display
-#define OLED_BRIGHTNESS 32
+#define OLED_BRIGHTNESS 16
+
+// Input lag
+// https://keebsforall.com/blogs/mechanical-keyboards-101/reduce-keyboard-input-lag-with-qmk
+#define DEBOUNCE 3
+#define DEBOUNCE_TYPE symm
+#define USB_POLLING_INTERVAL_MS 1
+#define QMK_KEYS_PER_SCAN 12
+#define F_CPU 16000000
+#define DIODE_DIRECTION COL2ROW  // or ROW2COL based on your PCB design
