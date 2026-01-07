@@ -14,6 +14,7 @@
         shellInitTmux = true;
         withFish = true;
         withScripts = true;
+        withZen = true;
       };
     };
 

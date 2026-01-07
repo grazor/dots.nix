@@ -7,6 +7,7 @@ in {
     ./tmux.nix
     ./scripts.nix
     ./ghostty.nix
+    ./zen.nix
   ];
 
   users = {
