@@ -32,11 +32,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Display
 #define OLED_BRIGHTNESS 16
 
+// Caps
+#define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
+
 // Input lag
 // https://keebsforall.com/blogs/mechanical-keyboards-101/reduce-keyboard-input-lag-with-qmk
-#define DEBOUNCE 3
-#define DEBOUNCE_TYPE symm
+//#define DEBOUNCE 3
+//#define DEBOUNCE_TYPE symm
 #define USB_POLLING_INTERVAL_MS 1
-#define QMK_KEYS_PER_SCAN 12
+//#define QMK_KEYS_PER_SCAN 12
 #define F_CPU 16000000
-#define DIODE_DIRECTION COL2ROW  // or ROW2COL based on your PCB design
+//#define DIODE_DIRECTION COL2ROW  // or ROW2COL based on your PCB design
