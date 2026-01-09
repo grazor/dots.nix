@@ -24,6 +24,7 @@ enum layers {
     _BASE_ENTHIUM,
     _SYMBOL,
     _NUMBER,
+    _COMMAND,
 };
 
 enum combos {
@@ -38,6 +39,7 @@ enum tapdance {
 // Aliases
 #define LT_RSYM LT(_SYMBOL, KC_R)
 #define LT_NUM  MO(_NUMBER)
+#define LT_CMD  MO(_COMMAND)
 
 // Left-hand home row mods
 #define HRM_GC LGUI_T(KC_C)
@@ -50,6 +52,11 @@ enum tapdance {
 #define HRM_CT RCTL_T(KC_T)
 #define HRM_AN LALT_T(KC_N)
 #define HRM_GS RGUI_T(KC_S)
+
+// Layout keys
+#define LAYOUT1 LSA(KC_1)
+#define LAYOUT2 LSA(KC_2)
+#define LAYOUT3 LSA(KC_3)
 
 // Combos
 const uint16_t PROGMEM ht_esc[] = {HRM_SH, HRM_CT, COMBO_END};
@@ -81,19 +88,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        KC_TAB, KC_QUOT, KC_COMM,  KC_DOT, KC_SLSH, KC_SCLN,                         KC_J,    KC_M,    KC_G,    KC_F,    KC_V, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           KC_ENT,  LT_NUM,  KC_SPC,    LT_RSYM, XXXXXXX, KC_BSPC
+                                           KC_ENT,  LT_NUM,  KC_SPC,    LT_RSYM,  LT_CMD, KC_BSPC
                                       //`--------------------------'  `--------------------------'
   ),
 
     [_SYMBOL] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_EXLM, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_PERC,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  KC_F18,
+      KC_EXLM, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_PERC,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_HASH, KC_CIRC, KC_LCBR, KC_RCBR,  KC_DLR, KC_ASTR,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_AMPR,   KC_LT, KC_PIPE, KC_MINS,   KC_GT,   KC_AT,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, _______, XXXXXXX
+                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -106,6 +113,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     KC_SLASH,    KC_1,    KC_2,    KC_3, KC_MINS, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           XXXXXXX, _______, XXXXXXX,    XXXXXXX,  KC_DOT,    KC_0
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+    [_COMMAND] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+       KC_F18, XXXXXXX, XXXXXXX, LAYOUT1, LAYOUT3, XXXXXXX,                      XXXXXXX, XXXXXXX,   KC_UP, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                       KC_TAB, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, _______, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -149,6 +168,9 @@ bool render_status(void) {
             break;
         case _NUMBER:
             oled_write_P(PSTR(" NUM"), false);
+            break;
+        case _COMMAND:
+            oled_write_P(PSTR(" CMD"), false);
             break;
         default:
             oled_write_P(PSTR(" ???"), false);
