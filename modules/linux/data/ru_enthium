@@ -26,7 +26,7 @@ xkb_symbols "enthium" {
     key <AE12>	{[       Cyrillic_ie,       Cyrillic_IE  ]}; // x
     key <AB02>	{[       Cyrillic_en,       Cyrillic_EN  ]}; // l
     key <AC09>	{[      Cyrillic_ghe,      Cyrillic_GHE  ]}; // d
-    key <AC03>	{[      Cyrillic_sha,      Cyrillic_SHA  ]}; // w
+    key <AC03>	{[       Cyrillic_yu,       Cyrillic_YU  ]}; // p
     key <AD02>	{[    Cyrillic_shcha,    Cyrillic_SHCHA  ]}; // z
     key <AB01>	{[       Cyrillic_ze,       Cyrillic_ZE  ]}; //
 
@@ -47,7 +47,7 @@ xkb_symbols "enthium" {
     key <AD05>	{[       Cyrillic_el,       Cyrillic_EL  ]}; // t
     key <AB06>	{[       Cyrillic_de,       Cyrillic_DE  ]}; // n
     key <AC02>	{[      Cyrillic_zhe,      Cyrillic_ZHE  ]}; // s
-    key <AC04>	{[        Cyrillic_e,        Cyrillic_E  ]}; // f
+    key <AC04>	{[      Cyrillic_sha,      Cyrillic_SHA  ]}; // w
 
     key <AC11>	{[       Cyrillic_ya,       Cyrillic_YA  ]}; // '
     key <AB08>	{[      Cyrillic_che,      Cyrillic_CHE  ]}; // ,
@@ -57,7 +57,7 @@ xkb_symbols "enthium" {
     key <AC07>	{[       Cyrillic_te,       Cyrillic_TE  ]}; // j
     key <AB07>	{[ Cyrillic_softsign, Cyrillic_SOFTSIGN  ]}; // m
     key <AC05>	{[       Cyrillic_be,       Cyrillic_BE  ]}; // g
-    key <AD10>	{[       Cyrillic_yu,       Cyrillic_YU  ]}; // p
+    key <AD10>	{[        Cyrillic_e,        Cyrillic_E  ]}; // f
     key <AB04>  {[            period,             comma  ]}; // v
 
     include "kpdl(comma)"
