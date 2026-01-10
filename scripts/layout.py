@@ -106,8 +106,10 @@ karabiner_special = {
     ';': 'semicolon',
     '\'': 'quote',
     ',': 'comma',
-    ',': 'period',
+    '.': 'period',
     '/': 'slash',
+    '[': 'open_bracket',
+    ']': 'close_bracket',
 }
 
 xkb = XKB_PREFIX.strip() + '\n'
@@ -118,6 +120,9 @@ for (enth, qwerty, code, ru, (lower, upper)) in enth_ru_remap:
 
     enth_k = karabiner_special.get(enth, enth)
     qwerty_k = karabiner_special.get(qwerty, qwerty)
+
+    if qwerty == '/':
+        continue
 
     karabiner['manipulators'].append({
         'type': 'basic',
@@ -134,6 +139,38 @@ for (enth, qwerty, code, ru, (lower, upper)) in enth_ru_remap:
         'from': {'key_code': enth_k, 'modifiers': {'optional': ['shift']}},
         'to': [{'key_code': qwerty_k}],
     })
+
+karabiner['manipulators'].append({
+    'type': 'basic',
+    'conditions': [
+        {
+            'type': 'device_if',
+            'identifiers': [ {'vendor_id': VENDOR_ID, 'product_id': PRODUCT_ID} ],
+        },
+        {
+            'type': 'input_source_if',
+            'input_sources': [ {'language': 'ru' } ],
+        },
+    ],
+    'from': {'key_code': 'v', 'modifiers': {}},
+    'to': [ { 'key_code': '7', 'modifiers': ['shift'] } ],
+})
+
+karabiner['manipulators'].append({
+    'type': 'basic',
+    'conditions': [
+        {
+            'type': 'device_if',
+            'identifiers': [ {'vendor_id': VENDOR_ID, 'product_id': PRODUCT_ID} ],
+        },
+        {
+            'type': 'input_source_if',
+            'input_sources': [ {'language': 'ru' } ],
+        },
+    ],
+    'from': {'key_code': 'v', 'modifiers': {'mandatory': ['shift']}},
+    'to': [ { 'key_code': '6', 'modifiers': ['shift'] } ],
+})
 
 xkb += XKB_SUFFIX
 karabiner_json = json.dumps(karabiner, indent=2)

@@ -373,7 +373,7 @@
         }
       ],
       "from": {
-        "key_code": "[",
+        "key_code": "open_bracket",
         "modifiers": {
           "optional": [
             "shift"
@@ -382,7 +382,7 @@
       },
       "to": [
         {
-          "key_code": "["
+          "key_code": "open_bracket"
         }
       ]
     },
@@ -408,7 +408,7 @@
         }
       ],
       "from": {
-        "key_code": "]",
+        "key_code": "close_bracket",
         "modifiers": {
           "optional": [
             "shift"
@@ -417,7 +417,7 @@
       },
       "to": [
         {
-          "key_code": "]"
+          "key_code": "close_bracket"
         }
       ]
     },
@@ -863,7 +863,7 @@
         }
       ],
       "from": {
-        "key_code": "period",
+        "key_code": "comma",
         "modifiers": {
           "optional": [
             "shift"
@@ -898,7 +898,7 @@
         }
       ],
       "from": {
-        "key_code": ".",
+        "key_code": "period",
         "modifiers": {
           "optional": [
             "shift"
@@ -1082,7 +1082,7 @@
       },
       "to": [
         {
-          "key_code": "period"
+          "key_code": "comma"
         }
       ]
     },
@@ -1117,7 +1117,41 @@
       },
       "to": [
         {
-          "key_code": "."
+          "key_code": "period"
+        }
+      ]
+    },
+    {
+      "type": "basic",
+      "conditions": [
+        {
+          "type": "device_if",
+          "identifiers": [
+            {
+              "vendor_id": 18003,
+              "product_id": 1
+            }
+          ]
+        },
+        {
+          "type": "input_source_if",
+          "input_sources": [
+            {
+              "language": "ru"
+            }
+          ]
+        }
+      ],
+      "from": {
+        "key_code": "v",
+        "modifiers": {}
+      },
+      "to": [
+        {
+          "key_code": "7",
+          "modifiers": [
+            "shift"
+          ]
         }
       ]
     },
@@ -1145,14 +1179,17 @@
       "from": {
         "key_code": "v",
         "modifiers": {
-          "optional": [
+          "mandatory": [
             "shift"
           ]
         }
       },
       "to": [
         {
-          "key_code": "slash"
+          "key_code": "6",
+          "modifiers": [
+            "shift"
+          ]
         }
       ]
     }
