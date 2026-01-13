@@ -20,6 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "bongocat.h"
 
+enum keycodes {
+    LT_SYMMD = SAFE_RANGE,
+    MACRO_ESC_L1,
+};
+
 enum layers {
     _BASE_ENTHIUM,
     _SYMBOL,
@@ -29,6 +34,9 @@ enum layers {
 
 enum combos {
     _COMBO_HT_ESC,
+    _COMBO_HTN_ESC_L1,
+    _COMBO_LAYOUT1,
+    _COMBO_LAYOUT2,
 };
 
 enum tapdance {
@@ -37,9 +45,8 @@ enum tapdance {
 
 
 // Aliases
-#define LT_RSYM LT(_SYMBOL, KC_R)
+#define LT_RCMD LT(_COMMAND, KC_R)
 #define LT_NUM  MO(_NUMBER)
-#define LT_CMD  MO(_COMMAND)
 
 // Left-hand home row mods
 #define HRM_GC LGUI_T(KC_C)
@@ -55,13 +62,19 @@ enum tapdance {
 
 // Layout keys
 #define LAYOUT1 LSA(KC_1)
-#define LAYOUT2 LSA(KC_2)
-#define LAYOUT3 LSA(KC_3)
+#define LAYOUT2 LSA(KC_3)
 
 // Combos
 const uint16_t PROGMEM ht_esc[] = {HRM_SH, HRM_CT, COMBO_END};
+const uint16_t PROGMEM htn_esc_l1[] = {HRM_SH, HRM_CT, HRM_AN, COMBO_END};
+const uint16_t PROGMEM um_layout1[] = {KC_U, KC_MINS, COMBO_END};
+const uint16_t PROGMEM lk_layout2[] = {KC_L, KC_K, COMBO_END};
+
 combo_t key_combos[] = {
     [_COMBO_HT_ESC] = COMBO(ht_esc, KC_ESC),
+    [_COMBO_HTN_ESC_L1] = COMBO(htn_esc_l1, MACRO_ESC_L1),
+    [_COMBO_LAYOUT1] = COMBO(um_layout1, LAYOUT1),
+    [_COMBO_LAYOUT2] = COMBO(lk_layout2, LAYOUT2),
 };
 
 // Tap dance
@@ -88,7 +101,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        KC_TAB, KC_QUOT, KC_COMM,  KC_DOT, KC_SLSH, KC_SCLN,                         KC_J,    KC_M,    KC_G,    KC_F,    KC_V, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           KC_ENT,  LT_NUM,  KC_SPC,    LT_RSYM,  LT_CMD, KC_BSPC
+                                           KC_ENT,  LT_NUM,  KC_SPC,    LT_RCMD,LT_SYMMD, KC_BSPC
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -100,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_AMPR,   KC_LT, KC_PIPE, KC_MINS,   KC_GT,   KC_AT,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                          _______, XXXXXXX, _______,    XXXXXXX, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -110,21 +123,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_ASTR,    KC_4,    KC_5,    KC_6, KC_PLUS,  KC_EQL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     KC_SLASH,    KC_1,    KC_2,    KC_3, KC_MINS, XXXXXXX,
+       KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     KC_SLASH,    KC_1,    KC_2,    KC_3, KC_MINS, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, _______, XXXXXXX,    XXXXXXX,  KC_DOT,    KC_0
+                                          _______, _______, _______,     KC_DOT,    KC_0, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
     [_COMMAND] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_F18, XXXXXXX, XXXXXXX, LAYOUT1, LAYOUT3, XXXXXXX,                      XXXXXXX, XXXXXXX,   KC_UP, XXXXXXX, XXXXXXX, XXXXXXX,
+       KC_F18, XXXXXXX, XXXXXXX, LAYOUT1, LAYOUT2, XXXXXXX,                      XXXXXXX, XXXXXXX,   KC_UP, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                       KC_TAB, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, _______, XXXXXXX
+                                          _______, XXXXXXX, _______,    _______, XXXXXXX, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -142,6 +155,28 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 */
 };
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case LT_SYMMD:
+      if (record->event.pressed) {
+        register_code(KC_F17);
+        layer_on(_SYMBOL);
+      } else {
+        unregister_code(KC_F17);
+        layer_off(_SYMBOL);
+      }
+      return false;
+
+    case MACRO_ESC_L1:
+        if (record->event.pressed) {
+            tap_code16(KC_ESC);
+            tap_code16(LAYOUT1);
+        }
+        return true;
+  }
+  return true;
+}
 
 #ifdef CHORDAL_HOLD
 const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
