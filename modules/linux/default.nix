@@ -16,6 +16,7 @@
     ./docker.nix
     ./openssh.nix
     ./steam.nix
+    ./heroic.nix
 
     ./nvidia.nix
     ./intel.nix

@@ -26,6 +26,7 @@
       withUdev = true;
       withPipewire = true;
       withSteam = true;
+      withHeroic = true;
       asServer = false;
 
       withNvidia = true;
