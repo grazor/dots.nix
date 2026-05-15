@@ -9,15 +9,15 @@ pkgs.mkShell {
 
     rust-analyzer
     rustfmt
-    rustc
-
-    cargo
     cargo-watch
     cargo-make
     cargo-generate
     clippy
 
+    rustup
+    cargo-cross
     tokio-console
+    websocat
 
     protobuf
   ];
@@ -28,5 +28,13 @@ pkgs.mkShell {
     export PROTOBUF_LOCATION=${pkgs.protobuf}
     export PROTOC=$PROTOBUF_LOCATION/bin/protoc
     export PROTOC_INCLUDE=$PROTOBUF_LOCATION/include
+
+    # Setup macOS SDK paths for cross-compilation
+    export SDKROOT=$(xcrun --show-sdk-path)
+
+    # For x86_64-apple-darwin cross-compilation, use cargo-cross
+    # For native compilation, use cargo normally
+    echo "Rust targets available for cross-compilation:"
+    rustup target list | grep darwin
   '';
 }

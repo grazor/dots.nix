@@ -11,4 +11,5 @@ in
     lua = import ./lua.nix {inherit pkgs;};
     python3 = import ./python3.nix {inherit pkgs;};
     qmk = import ./qmk.nix {inherit pkgs;};
+    node = import ./node.nix {inherit pkgs;};
   })
