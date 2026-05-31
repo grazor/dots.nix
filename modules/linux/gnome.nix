@@ -12,7 +12,6 @@ in {
     services = {
       displayManager = {
         gdm.enable = true;
-        gdm.wayland = true;
       };
       desktopManager.gnome.enable = true;
     };
