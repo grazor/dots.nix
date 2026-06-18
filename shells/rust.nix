@@ -7,15 +7,15 @@ pkgs.mkShell {
     openssl
     cacert
 
+    rustup
     rust-analyzer
     rustfmt
-    cargo-watch
-    cargo-make
-    cargo-generate
-    clippy
+    # cargo-watch
+    # cargo-make
+    # cargo-generate
+    # clippy
+    # cargo-cross
 
-    rustup
-    cargo-cross
     tokio-console
     websocat
 
