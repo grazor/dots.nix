@@ -28,6 +28,19 @@
 
       withNvidia = false;
       withIntel = true;
+
+      wireguardServer = {
+        enable = true;
+        # Forward this UDP port on the router to this host.
+        listenPort = 51820;
+        peers = [
+          # Add a client per device, e.g.:
+          # {
+          #   publicKey = "<client public key>";
+          #   allowedIPs = ["10.100.0.2/32"];
+          # }
+        ];
+      };
     };
 
     withTools = true;

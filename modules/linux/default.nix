@@ -9,6 +9,7 @@
     ./server.nix
     ./battery.nix
     ./proxy.nix
+    ./wireguard.nix
 
     ./k3s_server.nix
     ./k3s_agent.nix
