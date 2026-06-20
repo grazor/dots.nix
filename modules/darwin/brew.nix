@@ -1,12 +1,6 @@
+# Homebrew integration. Packages/casks are declared per-host (see hosts/mac).
 {
-  lib,
-  config,
-  ...
-}: let
-  cfg = config.grazor.darwin;
-in {
-  options.grazor.darwin.withBrew = lib.mkEnableOption "with brew";
-  config = lib.mkIf cfg.withBrew {
+  flake.modules.darwin.brew = {
     homebrew = {
       enable = true;
       onActivation = {

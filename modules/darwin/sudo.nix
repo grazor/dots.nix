@@ -1,14 +1,7 @@
+# Touch ID for sudo (with tmux reattach so it works inside tmux).
 {
-  lib,
-  config,
-  ...
-}: let
-  inherit (config.grazor.user.config) withTmux;
-  cfg = config.grazor.darwin;
-in {
-  options.grazor.darwin.withSudo = lib.mkEnableOption "with sudo pam";
-  config = lib.mkIf cfg.withSudo {
+  flake.modules.darwin.sudo = {
     security.pam.services.sudo_local.touchIdAuth = true;
-    security.pam.services.sudo_local.reattach = withTmux;
+    security.pam.services.sudo_local.reattach = true;
   };
 }

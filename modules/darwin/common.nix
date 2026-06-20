@@ -1,12 +1,10 @@
+# Base nix-darwin system defaults.
 {
-  lib,
-  config,
-  ...
-}: let
-  cfg = config.grazor.darwin;
-in {
-  options.grazor.darwin.withCommon = lib.mkEnableOption "with common defaults";
-  config = lib.mkIf cfg.withCommon {
+  flake.modules.darwin.common = {
+    nixpkgs.config.allowUnfree = true;
+
+    programs.fish.enable = true;
+
     system.defaults = {
       dock = {
         autohide = true;

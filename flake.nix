@@ -1,13 +1,16 @@
 {
-  description = "Grazor nix config";
+  description = "Grazor nix config (dendritic)";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    nix-darwin.url = "github:LnL7/nix-darwin/master";
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
+
+    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    home-manager.url = "github:rycee/home-manager/master";
+    home-manager.url = "github:nix-community/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nvf.url = "github:notashelf/nvf";
@@ -15,68 +18,16 @@
 
     zen-browser.url = "github:youwen5/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+
+    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
   };
 
-  outputs = inputs @ {
-    nix-darwin,
-    nixpkgs,
-    ...
-  }: let
-    linuxSystem = "x86_64-linux";
-    linuxAarchSystem = "aarch64-linux";
-    darwinSystem = "aarch64-darwin";
-    allSystems = [linuxSystem linuxAarchSystem darwinSystem];
-
-    commonModules = [
-      inputs.nvf.nixosModules.default
-      ./modules
-      ./modules/overlay.nix
-    ];
-
-    linuxModules =
-      commonModules
-      ++ [
-        inputs.home-manager.nixosModules.home-manager
-        ./modules/linux
-        ./modules/services
-      ];
-
-    darwinModules =
-      commonModules
-      ++ [
-        inputs.home-manager.darwinModules.home-manager
-        ./modules/darwin
-        ./hosts/darwin.nix
-      ];
-
-    specialArgs = {inherit inputs;};
-  in {
-    nixosConfigurations = {
-      "hl-dell-node1" = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        system = linuxSystem;
-        modules = linuxModules ++ [./hosts/hl-dell-node1];
-      };
-
-      "hl-mmm-msi-yu-node2" = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        system = linuxSystem;
-        modules = linuxModules ++ [./hosts/hl-mmm-msi-yu-node2];
-      };
-
-      "desktop" = nixpkgs.lib.nixosSystem {
-        inherit specialArgs;
-        system = linuxSystem;
-        modules = linuxModules ++ [./hosts/desktop];
-      };
-    };
-
-    darwinConfigurations."MSK-GRVQ3CV9RQ" = nix-darwin.lib.darwinSystem {
-      inherit specialArgs;
-      system = darwinSystem;
-      modules = darwinModules;
-    };
-
-    devShells = import ./shells {inherit allSystems nixpkgs;};
-  };
+  # Dendritic pattern: every *.nix under ./modules is a flake-parts module,
+  # auto-imported by import-tree. Hosts compose named aspects exposed under
+  # flake.modules.{nixos,darwin,homeManager}.<name>.
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
 }

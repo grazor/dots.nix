@@ -1,0 +1,22 @@
+# sops configuration.
+#
+# Populate the anchors below with real age recipients, then encrypt the secret:
+#   - admin: your personal age key      ->  age-keygen -o ~/.config/sops/age/keys.txt
+#   - dell/asus: each host's age key derived from its SSH host key:
+#       nix run nixpkgs#ssh-to-age -- -i /etc/ssh/ssh_host_ed25519_key.pub
+#
+# Then:  sops secrets/k3s.yaml
+# This file stores the k3s token plus the Flux Git deploy key and Flux SOPS
+# age key. Do not commit real private keys until this file is encrypted.
+keys:
+  - &admin age1REPLACE_ADMIN
+  - &dell age1REPLACE_DELL
+  - &asus age1REPLACE_ASUS
+
+creation_rules:
+  - path_regex: secrets/k3s\.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *dell
+          - *asus

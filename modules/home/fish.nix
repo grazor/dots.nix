@@ -1,107 +1,60 @@
+# Fish shell. The login-shell PATH/tmux hooks are contributed by the `scripts`
+# and `tmux-autostart` aspects respectively.
 {
-  lib,
-  config,
-  pkgs,
-  ...
-}: let
-  shellUserImport = ''
-    [ -e ~/.fish.user.rc ] && source ~/.fish.user.rc
-  '';
+  flake.modules.homeManager.fish = {
+    programs.fish = {
+      enable = true;
 
-  shellInitTmux = ''
-    [ -z "$TMUX" ] && tmux new-session -A -s main
-  '';
+      shellAliases.cat = "bat";
 
-  shellBinPath = ''
-    fish_add_path -p ~/.bin
-  '';
-
-  shellInitLast =
-    shellUserImport
-    + (
-      if cfg.withScripts
-      then shellBinPath
-      else ""
-    )
-    + (
-      if cfg.shellInitTmux
-      then shellInitTmux
-      else ""
-    );
-
-  username = config.grazor.user.name;
-  cfg = config.grazor.user.config;
-  inherit (config.grazor) withNvf;
-in {
-  options.grazor.user.config.withFish = lib.mkEnableOption "with fish terminal";
-
-  config = lib.mkIf cfg.withFish {
-    programs.fish.enable = true;
-    grazor.user.shell = lib.mkForce pkgs.fish;
-
-    environment.systemPackages = with pkgs; [tig];
-
-    home-manager.users.${username} = {
-      home.sessionVariables = lib.mkIf withNvf {
-        EDITOR = "nvim";
+      shellAbbrs = {
+        gst = "git status";
+        gaa = "git add .";
+        gcm = "git commit -m";
+        gco = "git checkout";
+        gpu = "git push -u origin HEAD";
+        grm = "git rebase -i master";
+        gpf = "git push --force-with-lease";
+        gmt = "go mod tidy";
+        t = "tmux new -A -s main";
+        k = "kubectl";
       };
 
-      programs = {
-        fish = {
-          enable = true;
-          shellAliases = {
-            cat = "bat";
-          };
-          shellAbbrs = {
-            gst = "git status";
-            gaa = "git add .";
-            gcm = "git commit -m";
-            gco = "git checkout";
-            gpu = "git push -u origin HEAD";
-            grm = "git rebase -i master";
-            gpf = "git push --force-with-lease";
-            gmt = "go mod tidy";
-            t = "tmux new -A -s main";
-            k = "kubectl";
-          };
+      interactiveShellInit = ''
+        set fish_greeting
+        [ -e ~/.fish.user.rc ] && source ~/.fish.user.rc
+      '';
+    };
 
-          interactiveShellInit = ''
-            set fish_greeting
-          '';
-          inherit shellInitLast;
-        };
+    programs.bat.enable = true;
 
-        bat.enable = true;
+    programs.atuin = {
+      enable = true;
+      enableFishIntegration = true;
+      flags = ["--disable-up-arrow"];
+    };
 
-        atuin = {
-          enable = true;
-          enableFishIntegration = true;
-          flags = ["--disable-up-arrow"];
-        };
+    programs.eza = {
+      enable = true;
+      enableFishIntegration = true;
+    };
 
-        eza = {
-          enable = true;
-          enableFishIntegration = true;
-        };
+    programs.direnv.enable = true;
 
-        direnv.enable = true;
+    programs.starship = {
+      enable = true;
+      enableFishIntegration = true;
+      enableTransience = true;
+    };
 
-        starship = {
-          enable = true;
-          enableFishIntegration = true;
-          enableTransience = true;
-        };
+    programs.fzf = {
+      enable = true;
+      enableFishIntegration = true;
+    };
 
-        fzf = {
-          enable = true;
-          enableFishIntegration = true;
-        };
-
-        zoxide = {
-          enable = true;
-          enableFishIntegration = true;
-        };
-      };
+    programs.zoxide = {
+      enable = true;
+      enableFishIntegration = true;
     };
   };
 }
