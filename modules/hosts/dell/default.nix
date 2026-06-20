@@ -33,6 +33,16 @@
       # k3s/CoreDNS handle DNS; systemd-resolved is forced off here.
       services.resolved.enable = lib.mkForce false;
 
+      # Bootstrap Flux + restore the Sealed Secrets key on this (server) node.
+      grazor.flux.enable = true;
+
+      # The `code` key (cloud@hl-dell-node1) is this node's git push key.
+      sops.secrets."code-ssh-key" = {
+        owner = "cloud";
+        path = "/home/cloud/.ssh/id_ed25519";
+        mode = "0600";
+      };
+
       # Hardware is detected by nixos-facter. Regenerate on the device:
       #   sudo nixos-facter -o modules/hosts/dell/facter.json
       facter.reportPath = ./facter.json;

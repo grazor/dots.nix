@@ -73,10 +73,11 @@ flake, then switch the host to its composed configuration.
    ```sh
    sudo nix run nixpkgs#nixos-facter -- -o modules/hosts/<name>/facter.json
    ```
-5. For k3s nodes (`dell`, `asus`), set up SOPS before the first real switch:
-   replace the `.sops.yaml` age recipients, add the k3s/Flux values to
-   `secrets/k3s.yaml`, encrypt it, and set `sops.validateSopsFiles = true`
-   once the secret is real.
+5. For k3s nodes (`dell`, `asus`), the secrets in `secrets/k3s.yaml` are already
+   encrypted, but only the admin age key can decrypt them. Before the first real
+   switch, add this host's age recipient and re-key so the host can decrypt at
+   activation (see the "Secrets" section for the `ssh-to-age` + `updatekeys`
+   steps). Skip this and activation will fail to decrypt.
 6. Install or switch:
    ```sh
    sudo nixos-install --flake .#dell      # fresh install from /mnt
@@ -86,21 +87,20 @@ flake, then switch the host to its composed configuration.
 Bootstrap order for the homelab cluster is `dell` first, then `asus`: `dell`
 is the k3s server and `asus` joins it as an agent via `https://192.168.2.2:6443`.
 
-Flux bootstrap runs from the k3s server only. After the external manifests repo
-exists and the secrets are encrypted, enable it in `modules/hosts/dell/default.nix`:
+Flux bootstrap runs from the k3s server (`dell`) only; it is already enabled
+there via `grazor.flux.enable = true` (defaults point at
+`ssh://git@github.com/grazor/homelab`, path `./cluster`). On activation,
+`flux-bootstrap.service`:
 
-```nix
-grazor.flux = {
-  enable = true;
-  repository = "ssh://git@github.com/<owner>/<flux-repo>.git";
-  branch = "main";
-  path = "./clusters/homelab";
-};
-```
+1. restores the **Sealed Secrets** controller key as the TLS secret
+   `sealed-secrets/graz-sealed-key` (labeled active) so the `SealedSecret`
+   manifests committed in the homelab repo decrypt in-cluster;
+2. installs the Flux controllers;
+3. creates the Git deploy-key secret plus the root `GitRepository` +
+   `Kustomization` (equivalent to `cluster/flux-system/gotk-sync.yaml`).
 
-On activation, `flux-bootstrap.service` installs Flux controllers, creates the
-Git deploy-key secret, creates the `sops-age` secret, and applies the root
-`GitRepository` + `Kustomization`. The agent node (`asus`) does not run Flux
+In-cluster secrets are decrypted by the sealed-secrets controller — Flux does
+**not** use SOPS decryption. The agent node (`asus`) does not run Flux
 bootstrap; it just joins the k3s cluster.
 
 ### macOS
@@ -128,64 +128,53 @@ nix develop .#rust        # or python3 / node / lua / qmk
 
 ## Secrets (sops-nix)
 
-Secrets are stored in `secrets/k3s.yaml` and encrypted with SOPS. This repo
-contains three secret values:
+`secrets/k3s.yaml` is encrypted with SOPS (age) and **already populated**. It
+holds five values:
 
-| Key | Purpose |
-|-----|---------|
-| `k3s-token` | k3s server/agent join token |
-| `flux-deploy-key` | OpenSSH private deploy key Flux uses to read the manifests repo |
-| `flux-sops-age-key` | age private key Flux uses to decrypt SOPS-encrypted manifests |
+| Key | Purpose | Consumed by |
+|-----|---------|-------------|
+| `k3s-token` | k3s server/agent join token | `services.k3s.tokenFile` on `dell` + `asus` |
+| `flux-deploy-key` | OpenSSH deploy key for the homelab manifests repo | `flux-bootstrap.service` (GitRepository secret) |
+| `sealed-secrets-tls-crt` | Sealed Secrets controller cert | restored as `sealed-secrets/graz-sealed-key` |
+| `sealed-secrets-tls-key` | Sealed Secrets controller key | restored as `sealed-secrets/graz-sealed-key` |
+| `code-ssh-key` | `cloud@hl-dell-node1` git push key | installed to `/home/cloud/.ssh/id_ed25519` on `dell` |
 
-One-time setup:
-
-1. Generate a personal age key and collect each host's age key from its SSH host key:
-   ```sh
-   age-keygen -o ~/.config/sops/age/keys.txt          # admin key
-   nix run nixpkgs#ssh-to-age -- -i /etc/ssh/ssh_host_ed25519_key.pub   # per host
-   ```
-2. Put those public keys into `.sops.yaml` (replace the `age1REPLACE_*` anchors).
-3. Generate the Flux keys:
-   ```sh
-   age-keygen -o /tmp/flux-sops-age.key
-   age-keygen -y /tmp/flux-sops-age.key > /tmp/flux-sops-age.pub
-
-   ssh-keygen -t ed25519 -f /tmp/flux-deploy-key -C flux-homelab -N ""
-   ```
-4. Add `/tmp/flux-deploy-key.pub` as a deploy key in the external Flux
-   manifests repository. Read-only access is enough for this NixOS bootstrap
-   flow because the host creates Flux resources directly instead of pushing to
-   the repo.
-5. Encrypt this repo's secrets:
-   ```sh
-   sops secrets/k3s.yaml
-   ```
-   Set:
-   ```yaml
-   k3s-token: <token from the old ~/.token.k3s>
-   flux-deploy-key: |
-     -----BEGIN OPENSSH PRIVATE KEY-----
-     ...
-     -----END OPENSSH PRIVATE KEY-----
-   flux-sops-age-key: |
-     AGE-SECRET-KEY-...
-   ```
-6. Flip `sops.validateSopsFiles` back to `true` in `modules/nixos/sops.nix`.
-
-The token is decrypted on-device to `/run/secrets/k3s-token` and used as
-`services.k3s.tokenFile`. Flux secrets are decrypted to `/run/secrets/*`, then
-`flux-bootstrap.service` copies them into Kubernetes secrets in the
-`flux-system` namespace.
-
-To add a new encrypted Kubernetes Secret to the external Flux manifests repo,
-encrypt it with `/tmp/flux-sops-age.pub`:
+Recipients live in `.sops.yaml`. Currently only the **admin** age key
+(`~/.config/sops/age/keys.txt` on this machine) can decrypt. Each NixOS host
+decrypts at activation using an age key derived from its SSH host key, so before
+the first real switch on `dell`/`asus` you must add the host recipients and
+re-key:
 
 ```sh
-SOPS_AGE_RECIPIENTS="$(cat /tmp/flux-sops-age.pub)" \
-  sops --encrypt --encrypted-regex '^(data|stringData)$' \
-  --in-place clusters/homelab/path/to/secret.yaml
+# On each host, derive its age recipient from the SSH host key:
+nix run nixpkgs#ssh-to-age -- -i /etc/ssh/ssh_host_ed25519_key.pub
 ```
 
-Commit the encrypted YAML to the manifests repo. The private key stays in this
-repo's encrypted `secrets/k3s.yaml` and is installed into the cluster as the
-`sops-age` secret.
+1. Uncomment the `dell` / `asus` anchors in `.sops.yaml` and paste the
+   recipients from above.
+2. Re-encrypt the data key for the new recipients:
+   ```sh
+   nix run nixpkgs#sops -- updatekeys secrets/k3s.yaml
+   ```
+
+> **macOS:** the admin key is at `~/.config/sops/age/keys.txt`, which is *not*
+> the default location sops checks on macOS. Export
+> `SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt` before running `sops` to
+> decrypt / `updatekeys`.
+
+To edit a value (e.g. swap the generated `k3s-token` for an existing one):
+
+```sh
+SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt nix run nixpkgs#sops -- secrets/k3s.yaml
+```
+
+### Adding new in-cluster secrets
+
+The homelab cluster uses **Sealed Secrets**, not Flux SOPS. To add a Kubernetes
+secret to the manifests repo, seal it against the controller cert and commit the
+`SealedSecret` (see the homelab repo's `scripts/secret.sh`):
+
+```sh
+kubectl -n <ns> create secret generic <name> --dry-run=client \
+  --from-file=<field>=/dev/stdin -o yaml | kubeseal --cert sealed.crt -o yaml
+```

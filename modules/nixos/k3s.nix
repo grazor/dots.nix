@@ -91,6 +91,12 @@
     };
   };
 
+  # Flux bootstrap for the Sealed-Secrets-based homelab cluster. On the k3s
+  # server it restores the Sealed Secrets controller key (so the SealedSecrets
+  # committed in the manifests repo decrypt) and creates the Flux GitRepository
+  # + root Kustomization, mirroring `scripts/setup.sh` /
+  # `cluster/flux-system/gotk-sync.yaml`. In-cluster decryption is handled by
+  # the sealed-secrets controller, not Flux SOPS.
   flake.modules.nixos.flux-bootstrap = {
     config,
     lib,
@@ -111,16 +117,17 @@
     sourceName = lib.escapeShellArg cfg.sourceName;
     kustomizationName = lib.escapeShellArg cfg.kustomizationName;
     deployKeySecretName = lib.escapeShellArg cfg.deployKeySecretName;
-    sopsAgeSecretName = lib.escapeShellArg cfg.sopsAgeSecretName;
+    sealedNamespace = lib.escapeShellArg cfg.sealedSecrets.namespace;
+    sealedSecretName = lib.escapeShellArg cfg.sealedSecrets.secretName;
     components = lib.escapeShellArg (lib.concatStringsSep "," cfg.components);
     componentsExtra = lib.escapeShellArg (lib.concatStringsSep "," cfg.componentsExtra);
   in {
     options.grazor.flux = {
-      enable = mkEnableOption "Flux bootstrap from an external Git repository";
+      enable = mkEnableOption "Flux bootstrap for the homelab cluster";
 
       repository = mkOption {
         type = types.str;
-        example = "ssh://git@github.com/example/homelab-manifests.git";
+        default = "ssh://git@github.com/grazor/homelab";
         description = "SSH URL of the Git repository containing Flux/k3s manifests.";
       };
 
@@ -132,7 +139,7 @@
 
       path = mkOption {
         type = types.str;
-        default = "./clusters/homelab";
+        default = "./cluster";
         description = "Path inside the manifests repository to reconcile.";
       };
 
@@ -144,14 +151,14 @@
 
       sourceName = mkOption {
         type = types.str;
-        default = "homelab";
-        description = "Name of the Flux GitRepository source.";
+        default = "flux-system";
+        description = "Name of the Flux GitRepository source (matches gotk-sync.yaml).";
       };
 
       kustomizationName = mkOption {
         type = types.str;
-        default = "homelab";
-        description = "Name of the root Flux Kustomization.";
+        default = "flux-system";
+        description = "Name of the root Flux Kustomization (matches gotk-sync.yaml).";
       };
 
       interval = mkOption {
@@ -162,14 +169,21 @@
 
       deployKeySecretName = mkOption {
         type = types.str;
-        default = "homelab-git";
-        description = "Kubernetes Secret name for the Git deploy key.";
+        default = "flux-system";
+        description = "Kubernetes Secret name for the Git deploy key (gotk-sync secretRef).";
       };
 
-      sopsAgeSecretName = mkOption {
-        type = types.str;
-        default = "sops-age";
-        description = "Kubernetes Secret name containing Flux's SOPS age key.";
+      sealedSecrets = {
+        namespace = mkOption {
+          type = types.str;
+          default = "sealed-secrets";
+          description = "Namespace of the sealed-secrets controller.";
+        };
+        secretName = mkOption {
+          type = types.str;
+          default = "graz-sealed-key";
+          description = "TLS Secret name holding the sealed-secrets controller key.";
+        };
       };
 
       components = mkOption {
@@ -210,15 +224,17 @@
         }
       ];
 
+      # Decrypted on-device by sops-nix; consumed only by the bootstrap service.
       sops.secrets = {
         "flux-deploy-key".mode = "0400";
-        "flux-sops-age-key".mode = "0400";
+        "sealed-secrets-tls-crt".mode = "0400";
+        "sealed-secrets-tls-key".mode = "0400";
       };
 
       environment.systemPackages = [pkgs.fluxcd];
 
       systemd.services.flux-bootstrap = {
-        description = "Bootstrap Flux from the homelab manifests repository";
+        description = "Restore Sealed Secrets key and bootstrap Flux for the homelab cluster";
         wantedBy = ["multi-user.target"];
         wants = ["network-online.target" "k3s.service"];
         after = ["network-online.target" "k3s.service"];
@@ -243,12 +259,21 @@
             sleep 2
           done
 
-          ${kubectl} get namespace ${namespace} >/dev/null 2>&1 || ${kubectl} create namespace ${namespace}
+          # 1. Restore the Sealed Secrets controller key so that the
+          #    SealedSecrets committed in the manifests repo can be decrypted.
+          ${kubectl} get namespace ${sealedNamespace} >/dev/null 2>&1 || ${kubectl} create namespace ${sealedNamespace}
 
-          ${kubectl} -n ${namespace} create secret generic ${sopsAgeSecretName} \
-            --from-file=age.agekey=${config.sops.secrets."flux-sops-age-key".path} \
+          ${kubectl} -n ${sealedNamespace} create secret tls ${sealedSecretName} \
+            --cert=${config.sops.secrets."sealed-secrets-tls-crt".path} \
+            --key=${config.sops.secrets."sealed-secrets-tls-key".path} \
             --dry-run=client \
             -o yaml | ${kubectl} apply -f -
+
+          ${kubectl} -n ${sealedNamespace} label secret ${sealedSecretName} \
+            sealedsecrets.bitnami.com/sealed-secrets-key=active --overwrite
+
+          # 2. Install Flux controllers.
+          ${kubectl} get namespace ${namespace} >/dev/null 2>&1 || ${kubectl} create namespace ${namespace}
 
           ${flux} install \
             --namespace=${namespace} \
@@ -261,6 +286,8 @@
           ${kubectl} -n ${namespace} rollout status deploy/source-controller --timeout=5m
           ${kubectl} -n ${namespace} rollout status deploy/kustomize-controller --timeout=5m
 
+          # 3. Git deploy key + GitRepository + root Kustomization
+          #    (equivalent to cluster/flux-system/gotk-sync.yaml).
           ${flux} create secret git ${deployKeySecretName} \
             --namespace=${namespace} \
             --url=${repo} \
@@ -281,8 +308,6 @@
             --path=${path} \
             --prune=true \
             --interval=${interval} \
-            --decryption-provider=sops \
-            --decryption-secret=${sopsAgeSecretName} \
             --export | ${kubectl} apply -f -
         '';
       };
