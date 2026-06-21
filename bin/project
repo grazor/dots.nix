@@ -48,14 +48,15 @@ shell() {
 	done
 	[[ "$flake" == "" ]] && echo "Unknown shell $1" && echo && usage
 
-	echo "use flake ${flake}#$1 --impure"
-	echo "use flake ${flake}#\\\"$1\\\" --impure" >.envrc
+	echo "use flake ${flake}#$1"
+	echo "use flake ${flake}#\\\"$1\\\"" >.envrc
 
 	echo direnv allow .
 	direnv allow .
 
 	gitignore .direnv
 	gitignore .envrc
+	gitignore .pre-commit-config.yaml
 }
 
 if [ $# -eq 0 ]; then
