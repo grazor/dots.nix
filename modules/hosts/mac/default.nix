@@ -18,8 +18,43 @@
       system.stateVersion = 6;
       system.primaryUser = "smporyvaev";
 
-      homebrew.brews = ["syncthing"];
-      homebrew.casks = ["obsidian"];
+      homebrew.brews = [
+        "cabextract"
+        {
+          name = "docker";
+          link = false;
+        }
+        "docker-buildx"
+        "docker-compose"
+        "docker-credential-helper"
+        "git-lfs"
+        "graphviz"
+        "htop"
+        "kanata"
+        "mpv"
+        "qemu"
+        "sevenzip"
+        "wireguard-tools"
+        "xray"
+        "zenity"
+      ];
+
+      homebrew.casks = [
+        "blender"
+        "codex"
+        "ghostty"
+        "gimp"
+        "obsidian"
+        "openscad"
+        "orcaslicer"
+        "qbittorrent"
+        "stolendata-mpv"
+        "sweet-home3d"
+        "visual-studio-code"
+        "zed"
+        "zen"
+        "zoom"
+      ];
     };
   };
 }

@@ -70,7 +70,11 @@
         comments.comment-nvim.enable = true;
         dashboard.alpha.enable = true;
         git.enable = true;
-        minimap.codewindow.enable = true;
+        # Disabled: codewindow's treesitter highlighter does
+        # `require("nvim-treesitter.ts_utils")`, which the rewritten
+        # nvim-treesitter (main branch) no longer ships, so it errored on
+        # startup.
+        minimap.codewindow.enable = false;
         notes.todo-comments.enable = true;
         spellcheck.enable = false;
 
