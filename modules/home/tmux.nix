@@ -30,6 +30,7 @@
     home.sessionVariables = {
       "TMUX_POWERLINE_LEFT_STATUS_SEGMENTS" = "tmux_session_info 148 234";
       "TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS" = "pwd 89 211";
+      "TMUX_POWERLINE_STATUS_JUSTIFICATION" = "absolute-centre";
     };
   };
 }
