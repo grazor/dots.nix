@@ -9,6 +9,7 @@
         tools
         devtools
         fonts
+        stylix
         user-smporyvaev
       ];
 

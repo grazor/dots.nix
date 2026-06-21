@@ -17,15 +17,13 @@
       ignores = [
         ".direnv"
         ".envrc"
-        ".lefthook"
+        ".pre-commit-config.yaml"
         ".venv"
         "Pipfile"
         "Pipfile.lock"
         "__debug_bin"
         "_build"
         "debug.test"
-        "lefthook.yaml"
-        "lefthook.yml"
         "ptest"
         "tags"
       ];

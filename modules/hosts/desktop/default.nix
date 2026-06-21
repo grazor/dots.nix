@@ -12,6 +12,7 @@
         udev
         gnome
         gui-apps
+        stylix
         zen
         gaming
         qmk

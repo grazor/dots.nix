@@ -1,5 +1,10 @@
 # Zen browser, wrapped with managed extensions and policies.
 {inputs, ...}: {
+  flake-file.inputs.zen-browser = {
+    url = "github:youwen5/zen-browser-flake";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   flake.modules.nixos.zen = {
     pkgs,
     lib,

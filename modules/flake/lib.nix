@@ -7,6 +7,8 @@
   config,
   ...
 }: {
+  flake-file.inputs.nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+
   _module.args.mkNixos = {
     system ? "x86_64-linux",
     aspects ? (_: []),

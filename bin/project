@@ -2,7 +2,6 @@
 
 GLOBAL_GITIGNORE_PATH=${HOME}/.gitignore
 SHELLS_BASE_PATH=${HOME}/dots:${HOME}/Avito/shells
-HOOKS_PATH=${HOME}/.config/lefthook
 
 SYSTEM=${SYSTEM:-$(nix eval --raw --impure --expr builtins.currentSystem 2>/dev/null || echo aarch64-darwin)}
 
@@ -17,13 +16,6 @@ usage() {
 		nix flake show "$p" --json 2>/dev/null | jq -r "(.devShells.\"${SYSTEM}\" // {}) | keys[]" | sed 's/^\(.*\)$/\t\t\1/'
 	done
 	echo
-
-	echo -e "\thook"
-	IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$HOOKS_PATH")
-	for p in "${path_array[@]}"; do
-		[[ -d "$p" ]] || continue
-		find "$p" -name '*.yml' -exec basename {} .yml \; | sed 's/^/\t\t/' | sort
-	done
 	exit 1
 }
 
@@ -39,9 +31,9 @@ clean() {
 	direnv deny . &>/dev/null
 	rm -f .envrc &>/dev/null
 
-	lefthook uninstall &>/dev/null
-	rm -f lefthook.yml &>/dev/null
-	rm -rf .lefthook
+	# git-hooks (pre-commit) installs itself from the devshell shellHook; tidy
+	# its generated config on teardown.
+	rm -f .pre-commit-config.yaml &>/dev/null
 }
 
 shell() {
@@ -66,39 +58,6 @@ shell() {
 	gitignore .envrc
 }
 
-hook() {
-	local p
-	local dirs=()
-
-	IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$HOOKS_PATH")
-	for p in "${path_array[@]}"; do
-		[[ -d "$p" ]] && dirs+=("$p")
-	done
-
-	if [ "${#dirs[@]}" -eq 0 ]; then
-		echo "No hook directories found"
-		usage
-	fi
-
-	p=$(find "${dirs[@]}" -name "$1.yml" -print -quit)
-	[[ "$p" == "" ]] && echo "Unknown hook $1" && usage
-
-	echo "Installing hooks $p"
-	cat >lefthook.yml <<EOF
-extends:
-    - $p
-EOF
-
-	echo lefthook install
-	lefthook install
-
-	echo ln -s "${HOME}/.bin/hooks" .lefthook
-	ln -s "${HOME}/.bin/hooks" .lefthook
-
-	gitignore lefthook.yml
-	gitignore .lefthook
-}
-
 if [ $# -eq 0 ]; then
 	usage
 fi
@@ -108,17 +67,11 @@ case "$1" in
 	[ $# -eq 2 ] || usage
 	clean
 	shell "$2"
-	hook general
 	;;
 
 "nix" | "shell")
 	[ $# -eq 2 ] || usage
 	shell "$2"
-	;;
-
-"hook")
-	[ $# -eq 2 ] || usage
-	hook "$2"
 	;;
 
 "clean")

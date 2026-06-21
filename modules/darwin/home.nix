@@ -14,7 +14,7 @@ in {
     home-manager.useUserPackages = true;
     home-manager.users.smporyvaev = {
       home.stateVersion = "25.05";
-      imports = with hm; [fish tmux tmux-autostart git scripts nvf];
+      imports = with hm; [fish tmux tmux-autostart git scripts nvf nix-index];
     };
   };
 }

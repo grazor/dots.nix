@@ -1,20 +1,13 @@
-# Personal scripts (~/.bin) + lefthook.
+# Personal scripts (~/.bin).
 {
-  flake.modules.homeManager.scripts = {
-    pkgs,
-    lib,
-    ...
-  }: let
+  flake.modules.homeManager.scripts = {lib, ...}: let
     bin = ../../bin;
     dirname = ".bin";
   in {
-    home.packages = [pkgs.lefthook];
     home.sessionPath = ["$HOME/${dirname}"];
-    xdg.configFile."lefthook/general.yml".source = ./raw/lefthook.general.yml;
 
-    home.file =
-      lib.mapAttrs' (
-        name: _: lib.nameValuePair "${dirname}/${name}" {source = bin + "/${name}";}
-      ) (builtins.readDir bin);
+    home.file = lib.mapAttrs' (
+      name: _: lib.nameValuePair "${dirname}/${name}" {source = bin + "/${name}";}
+    ) (builtins.readDir bin);
   };
 }

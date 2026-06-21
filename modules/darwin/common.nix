@@ -1,5 +1,10 @@
 # Base nix-darwin system defaults.
 {
+  flake-file.inputs.nix-darwin = {
+    url = "github:nix-darwin/nix-darwin/master";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   flake.modules.darwin.common = {
     nixpkgs.config.allowUnfree = true;
 

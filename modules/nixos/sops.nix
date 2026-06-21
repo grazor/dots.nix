@@ -3,6 +3,11 @@
 # their consumers (k3s token in modules/nixos/k3s.nix; Flux/Sealed Secrets keys
 # in the flux-bootstrap module; the dell `code` key in hosts/dell).
 {
+  flake-file.inputs.sops-nix = {
+    url = "github:Mic92/sops-nix";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
   flake.modules.nixos.sops = {
     sops.defaultSopsFile = ../../secrets/k3s.yaml;
     sops.validateSopsFiles = true;

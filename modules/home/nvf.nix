@@ -1,7 +1,16 @@
 # Neovim via nvf, configured through home-manager so it is identical on NixOS
 # and nix-darwin.
 {inputs, ...}: {
-  flake.modules.homeManager.nvf = {pkgs, ...}: {
+  flake-file.inputs.nvf = {
+    url = "github:notashelf/nvf";
+    inputs.nixpkgs.follows = "nixpkgs";
+  };
+
+  flake.modules.homeManager.nvf = {
+    pkgs,
+    lib,
+    ...
+  }: {
     imports = [inputs.nvf.homeManagerModules.default];
 
     home.sessionVariables.EDITOR = "nvim";
@@ -37,7 +46,11 @@
 
         theme = {
           enable = true;
-          name = "tokyonight";
+          # Priority 500 sits between nvf's own default (mkDefault, 1000) and a
+          # normal definition (100): it beats nvf's default so hosts keep
+          # tokyonight, but loses to stylix's normal-priority base16 on the
+          # desktop, so stylix themes nvf there.
+          name = lib.mkOverride 500 "tokyonight";
           transparent = false;
           style = "night";
         };
