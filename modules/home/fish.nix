@@ -39,7 +39,13 @@
       enableFishIntegration = true;
     };
 
-    programs.direnv.enable = true;
+    # nix-direnv caches `nix print-dev-env` and creates a GC root per project,
+    # so `use flake` shells are not re-evaluated/rebuilt on every cd or after
+    # nix garbage collection.
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
 
     programs.starship = {
       enable = true;

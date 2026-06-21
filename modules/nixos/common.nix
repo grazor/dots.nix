@@ -9,6 +9,9 @@
         experimental-features = "nix-command flakes";
         nix-path = ["nixpkgs=${inputs.nixpkgs.outPath}"];
         trusted-users = ["root" "@wheel"];
+        # Keep dev-shell build deps across GC so direnv shells aren't rebuilt.
+        keep-outputs = true;
+        keep-derivations = true;
       };
     };
 

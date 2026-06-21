@@ -10,32 +10,33 @@ fail() {
 }
 
 enable() {
-	echo export ALL_PROXY="socks5h://$proxy"
-	echo export http_proxy="socks5h://$proxy"
-	echo export https_proxy="socks5h://$proxy"
-	echo export all_proxy="socks5h://$proxy"
+	printf 'export ALL_PROXY=%q\n' "socks5h://$proxy"
+	printf 'export http_proxy=%q\n' "socks5h://$proxy"
+	printf 'export https_proxy=%q\n' "socks5h://$proxy"
+	printf 'export all_proxy=%q\n' "socks5h://$proxy"
 }
 
 disable() {
-	echo export ALL_PROXY=
-	echo export http_proxy=
-	echo export https_proxy=
-	echo export all_proxy=
+	echo "unset ALL_PROXY http_proxy https_proxy all_proxy"
+}
+
+is_enabled() {
+	[[ -n "${ALL_PROXY:-}${http_proxy:-}${https_proxy:-}${all_proxy:-}" ]]
 }
 
 toggle() {
-	if [[ -z "${ALL_PROXY}" ]]; then
-		enable
+	if is_enabled; then
+		disable
 	else
-		diable
+		enable
 	fi
 }
 
 status() {
-	if [[ -z "${ALL_PROXY}" ]]; then
-		echo Proxy disabled
-	else
+	if is_enabled; then
 		echo Proxy enabled
+	else
+		echo Proxy disabled
 	fi
 }
 
@@ -44,16 +45,16 @@ if [ $# -ne 1 ]; then
 fi
 
 case "$1" in
-e*)
+e | enable)
 	enable
 	;;
-d*)
+d | disable)
 	disable
 	;;
-t*)
+t | toggle)
 	toggle
 	;;
-s*)
+s | status)
 	status
 	;;
 *)
