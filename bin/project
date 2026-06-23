@@ -1,86 +1,443 @@
 #!/usr/bin/env bash
+#
+# project — wire up (or tear down) a Nix devShell for the current directory.
+#
+# Detects the language + version from the files in $PWD, lets you pick a
+# matching devShell (interactively when run with no shell), and points direnv
+# at it. Each devShell installs its own pre-commit hooks on entry — alejandra
+# for nix, plus rustfmt / ruff / stylua / prettier / clang-format per language.
+#
+#   project                 detect + interactively pick a devShell
+#   project init <shell>    clean, then wire up <shell>
+#   project use  <shell>    wire up <shell> without cleaning first
+#   project detect          guess the devShell for $PWD (no changes)
+#   project list            list available shells
+#   project clean           remove .envrc + pre-commit config, deny direnv
+
+set -uo pipefail
 
 GLOBAL_GITIGNORE_PATH=${HOME}/.gitignore
-SHELLS_BASE_PATH=${HOME}/dots:${HOME}/Avito/shells
+SHELLS_BASE_PATH=${SHELLS_BASE_PATH:-${HOME}/dots:${HOME}/Avito/shells}
 
 SYSTEM=${SYSTEM:-$(nix eval --raw --impure --expr builtins.currentSystem 2>/dev/null || echo aarch64-darwin)}
 
-usage() {
-	echo "project <command> <params>"
+# ---------------------------------------------------------------------------
+# pretty output
+# ---------------------------------------------------------------------------
+if [[ -t 1 && -z ${NO_COLOR:-} ]]; then
+	B=$'\e[1m' D=$'\e[2m' R=$'\e[0m'
+	RED=$'\e[31m' GRN=$'\e[32m' YLW=$'\e[33m' CYN=$'\e[36m'
+else
+	B='' D='' R='' RED='' GRN='' YLW='' CYN=''
+fi
 
-	echo -e "\tinit <shell>"
-	echo -e "\tclean"
-	echo -e "\tnix"
-	IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$SHELLS_BASE_PATH")
-	for p in "${path_array[@]}"; do
-		nix flake show "$p" --json 2>/dev/null | jq -r "(.devShells.\"${SYSTEM}\" // {}) | keys[]" | sed 's/^\(.*\)$/\t\t\1/'
-	done
-	echo
+say() { printf '%s\n' "$*"; }
+info() { printf '%s▸%s %s\n' "$CYN" "$R" "$*"; }
+ok() { printf '%s✓%s %s\n' "$GRN" "$R" "$*"; }
+warn() { printf '%s!%s %s\n' "$YLW" "$R" "$*" >&2; }
+die() {
+	printf '%s✗%s %s\n' "$RED" "$R" "$*" >&2
 	exit 1
 }
 
+# ---------------------------------------------------------------------------
+# available shells (cached — `nix flake show` is slow)
+# ---------------------------------------------------------------------------
+SHELL_CACHE=''
+
+build_cache() {
+	[[ -n $SHELL_CACHE ]] && return
+	local p s shells
+	local -a _paths
+	[[ -t 2 ]] && printf '%sdiscovering shells…%s' "$D" "$R" >&2
+	IFS=: read -r -d '' -a _paths < <(printf '%s:\0' "$SHELLS_BASE_PATH")
+	for p in "${_paths[@]}"; do
+		[[ -z $p ]] && continue
+		shells=$(nix flake show "$p" --json 2>/dev/null |
+			jq -r "(.devShells.\"${SYSTEM}\" // {}) | keys[]" 2>/dev/null)
+		while IFS= read -r s; do
+			[[ -z $s ]] && continue
+			SHELL_CACHE+="${s}	${p}"$'\n'
+		done <<<"$shells"
+	done
+	[[ -t 2 ]] && printf '\r\e[K' >&2
+}
+
+list_shells() { build_cache; printf '%s' "$SHELL_CACHE" | awk -F'\t' 'NF{print $1}'; }
+flake_of() { build_cache; printf '%s' "$SHELL_CACHE" | awk -F'\t' -v s="$1" '$1==s{print $2; exit}'; }
+has_shell() { list_shells | grep -Fxq "$1"; }
+# shells contributed by a single root (handed to that root's hook)
+shells_in_root() { build_cache; printf '%s' "$SHELL_CACHE" | awk -F'\t' -v r="$1" '$2==r{print $1}'; }
+
+# ---------------------------------------------------------------------------
+# external hooks — a shells root may ship an executable `.project-hook` to
+# register its own suggestions + checks:
+#   <root>/.project-hook suggest         -> "<shell>\t<reason>\t<version>" for $PWD
+#   <root>/.project-hook checks <shell>  -> the checks <shell> installs
+# It runs in $PWD with $PROJECT_SHELLS (this root's shells) + $PROJECT_SYSTEM set.
+# ---------------------------------------------------------------------------
+run_hook() {
+	local root=$1 sub=$2
+	shift 2
+	local hook=$root/.project-hook
+	[[ -x $hook ]] || return 1
+	PROJECT_SYSTEM=$SYSTEM PROJECT_SHELLS=$(shells_in_root "$root") "$hook" "$sub" "$@" 2>/dev/null
+}
+
+# checks a shell installs — from its root's hook, else the built-in map below
+# (which mirrors modules/devshells/hooks.nix).
+builtin_checks() {
+	case $1 in
+	rust) echo "alejandra rustfmt" ;;
+	node) echo "alejandra prettier" ;;
+	python3) echo "alejandra ruff ruff-format" ;;
+	lua) echo "alejandra stylua" ;;
+	nix) echo "alejandra statix deadnix" ;;
+	qmk) echo "alejandra" ;;
+	esac
+}
+
+# checks_for <shell> -> space-separated check names ('' if none)
+checks_for() {
+	local out
+	out=$(run_hook "$(flake_of "$1")" checks "$1")
+	[[ -z $out ]] && out=$(builtin_checks "$1")
+	printf '%s' "$out" | tr '\n' ' ' | awk '{$1=$1};1'
+}
+
+# ---------------------------------------------------------------------------
+# detection — guess the devShell + version from files in $PWD
+# ---------------------------------------------------------------------------
+DETECT_LANG='' DETECT_REASON='' DETECT_VERSION=''
+
+# firstfile <patterns...> — echo the first existing file/glob match, else fail.
+# nullglob drops non-matching globs, but literal names (no wildcard) survive
+# expansion regardless, so each candidate still needs an explicit -e test.
+firstfile() {
+	local g m
+	local -a matches
+	shopt -s nullglob
+	for g in "$@"; do
+		matches=($g)
+		for m in "${matches[@]}"; do
+			if [[ -e $m ]]; then
+				printf '%s\n' "$m"
+				shopt -u nullglob
+				return 0
+			fi
+		done
+	done
+	shopt -u nullglob
+	return 1
+}
+
+detect_version() {
+	local lang=$1 v=''
+	case $lang in
+	node)
+		if [[ -f .nvmrc ]]; then v=$(<.nvmrc)
+		elif [[ -f .node-version ]]; then v=$(<.node-version)
+		elif [[ -f package.json ]]; then v=$(jq -r '.engines.node // empty' package.json 2>/dev/null)
+		elif [[ -f .tool-versions ]]; then v=$(awk '/^nodejs /{print $2}' .tool-versions)
+		fi
+		;;
+	python3)
+		if [[ -f .python-version ]]; then v=$(<.python-version)
+		elif [[ -f pyproject.toml ]]; then v=$(grep -oE 'requires-python.*' pyproject.toml | head -1)
+		elif [[ -f .tool-versions ]]; then v=$(awk '/^python /{print $2}' .tool-versions)
+		fi
+		;;
+	rust)
+		if [[ -f rust-toolchain.toml ]]; then v=$(grep -oE 'channel *= *"[^"]+"' rust-toolchain.toml | head -1)
+		elif [[ -f rust-toolchain ]]; then v=$(<rust-toolchain)
+		elif [[ -f .tool-versions ]]; then v=$(awk '/^rust /{print $2}' .tool-versions)
+		fi
+		;;
+	lua)
+		[[ -f .tool-versions ]] && v=$(awk '/^lua /{print $2}' .tool-versions)
+		;;
+	esac
+	# keep only the version-looking part, collapse whitespace
+	grep -oE '[0-9]+(\.[0-9]+)*' <<<"$v" | head -1
+}
+
+detect() {
+	DETECT_LANG='' DETECT_REASON='' DETECT_VERSION=''
+	local f
+	if f=$(firstfile Cargo.toml); then DETECT_LANG=rust
+	elif f=$(firstfile package.json pnpm-lock.yaml yarn.lock .nvmrc .node-version); then DETECT_LANG=node
+	elif f=$(firstfile pyproject.toml requirements.txt setup.py Pipfile .python-version '*.py'); then DETECT_LANG=python3
+	elif f=$(firstfile qmk.json keymap.c rules.mk); then DETECT_LANG=qmk
+	elif f=$(firstfile .luarc.json stylua.toml init.lua '*.lua'); then DETECT_LANG=lua
+	# nix is the last fallback: a rust/node project with a flake.nix should still
+	# detect its real language above before landing here.
+	elif f=$(firstfile flake.nix default.nix shell.nix '*.nix'); then DETECT_LANG=nix
+	else return 1
+	fi
+	DETECT_REASON=$f
+	DETECT_VERSION=$(detect_version "$DETECT_LANG")
+	return 0
+}
+
+# ---------------------------------------------------------------------------
+# suggestion — which shell to pre-select for $PWD. External `.project-hook`s are
+# more specific (they encode project-type knowledge, e.g. go.mod -> avito.go.X),
+# so they win over the built-in language detection above; built-in is the
+# fallback. Only a shell that actually exists can be suggested.
+# ---------------------------------------------------------------------------
+SUGGEST_SHELL='' SUGGEST_REASON='' SUGGEST_VERSION=''
+
+suggest() {
+	SUGGEST_SHELL='' SUGGEST_REASON='' SUGGEST_VERSION=''
+	local p out shell reason ver
+	local -a _paths
+	IFS=: read -r -d '' -a _paths < <(printf '%s:\0' "$SHELLS_BASE_PATH")
+	for p in "${_paths[@]}"; do
+		[[ -z $p ]] && continue
+		out=$(run_hook "$p" suggest) || continue
+		IFS=$'\t' read -r shell reason ver <<<"$out"
+		if [[ -n $shell ]] && has_shell "$shell"; then
+			SUGGEST_SHELL=$shell SUGGEST_REASON=${reason:-$(basename "$p")} SUGGEST_VERSION=$ver
+			return 0
+		fi
+	done
+	if detect && has_shell "$DETECT_LANG"; then
+		SUGGEST_SHELL=$DETECT_LANG SUGGEST_REASON=$DETECT_REASON SUGGEST_VERSION=$DETECT_VERSION
+		return 0
+	fi
+	return 1
+}
+
+# pretty one-liner describing the suggestion
+suggest_line() {
+	local v=${SUGGEST_VERSION:+ v$SUGGEST_VERSION}
+	printf '%s%s%s%s %s(%s%s)%s' \
+		"$B" "$GRN" "$SUGGEST_SHELL" "$R" \
+		"$D" "$SUGGEST_REASON" "$v" "$R"
+}
+
+# ---------------------------------------------------------------------------
+# direnv / gitignore plumbing
+# ---------------------------------------------------------------------------
 gitignore() {
 	touch "$GLOBAL_GITIGNORE_PATH"
-
-	git config --get core.excludesfile | grep -Fxq "$GLOBAL_GITIGNORE_PATH" || git config --global core.excludesfile "$GLOBAL_GITIGNORE_PATH"
-
-	grep -Fxq "$1" "$GLOBAL_GITIGNORE_PATH" || echo "$1" >>"$GLOBAL_GITIGNORE_PATH"
+	git config --get core.excludesfile | grep -Fxq "$GLOBAL_GITIGNORE_PATH" ||
+		git config --global core.excludesfile "$GLOBAL_GITIGNORE_PATH"
+	grep -Fxq "$1" "$GLOBAL_GITIGNORE_PATH" || printf '%s\n' "$1" >>"$GLOBAL_GITIGNORE_PATH"
 }
 
 clean() {
 	direnv deny . &>/dev/null
 	rm -f .envrc &>/dev/null
-
-	# git-hooks (pre-commit) installs itself from the devshell shellHook; tidy
-	# its generated config on teardown.
+	# pre-commit installs itself from the devShell shellHook; tidy up on teardown.
+	command -v pre-commit &>/dev/null && pre-commit uninstall &>/dev/null
 	rm -f .pre-commit-config.yaml &>/dev/null
 }
 
-shell() {
-	local flake=""
+use_shell() {
+	local name=$1 flake title
+	flake=$(flake_of "$name")
+	[[ -z $flake ]] && {
+		warn "unknown shell: ${B}${name}${R}"
+		say ''
+		list_available
+		exit 1
+	}
 
-	IFS=: read -r -d '' -a path_array < <(printf '%s:\0' "$SHELLS_BASE_PATH")
-	for p in "${path_array[@]}"; do
-		if nix flake show "$p" --json 2>/dev/null | jq -r "(.devShells.\"${SYSTEM}\" // {}) | keys[]" | grep -Fxq "$1"; then
-			flake="$p"
-			break
-		fi
-	done
-	[[ "$flake" == "" ]] && echo "Unknown shell $1" && echo && usage
+	title=$(basename "$PWD")
+	{
+		printf 'use flake %s#\\"%s\\"\n' "$flake" "$name"
+		# Name the tmux pane after the project, so split panes are identifiable.
+		# The `|| true` keeps a non-tmux shell from failing the whole .envrc.
+		printf '[ -n "$TMUX" ] && tmux select-pane -T %q >/dev/null 2>&1 || true\n' "$title"
+	} >.envrc
 
-	echo "use flake ${flake}#$1"
-	echo "use flake ${flake}#\\\"$1\\\"" >.envrc
-
-	echo direnv allow .
-	direnv allow .
+	info "use flake ${B}${flake}#${name}${R}"
+	if direnv allow . 2>/dev/null; then
+		ok 'direnv allowed'
+	else
+		warn 'direnv allow failed — run it manually'
+	fi
 
 	gitignore .direnv
 	gitignore .envrc
 	gitignore .pre-commit-config.yaml
 }
 
-if [ $# -eq 0 ]; then
-	usage
-fi
+# ---------------------------------------------------------------------------
+# listing / interactive picker
+# ---------------------------------------------------------------------------
+current_shell() {
+	[[ -f .envrc ]] || return 1
+	grep -oE '#\\?"?[A-Za-z0-9_-]+\\?"?' .envrc | head -1 | tr -d '#\\"'
+}
 
-case "$1" in
-"init")
-	[ $# -eq 2 ] || usage
-	clean
-	shell "$2"
-	;;
+# list_available [verbose] — print shells with current/suggested markers; in
+# verbose mode also show the checks each shell installs.
+list_available() {
+	local verbose=${1:-} cur s det='' checks
+	cur=$(current_shell) || cur=''
+	suggest && det=$SUGGEST_SHELL
 
-"nix" | "shell")
-	[ $# -eq 2 ] || usage
-	shell "$2"
-	;;
+	info "available shells ${D}(${SHELLS_BASE_PATH})${R}:"
+	while IFS= read -r s; do
+		if [[ $s == "$cur" && $s == "$det" ]]; then
+			printf '   %s★ %s%s%s %s(current · suggested)%s\n' "$GRN" "$B" "$s" "$R" "$D" "$R"
+		elif [[ $s == "$cur" ]]; then
+			printf '   %s● %s%s%s %s(current)%s\n' "$GRN" "$B" "$s" "$R" "$D" "$R"
+		elif [[ $s == "$det" ]]; then
+			printf '   %s★ %s%s%s %s(suggested)%s\n' "$YLW" "$B" "$s" "$R" "$D" "$R"
+		else
+			printf '     %s\n' "$s"
+		fi
+		if [[ $verbose == verbose ]]; then
+			checks=$(checks_for "$s")
+			[[ -n $checks ]] && printf '       %schecks: %s%s\n' "$D" "$checks" "$R"
+		fi
+	done < <(list_shells)
 
-"clean")
-	[ $# -eq 1 ] || usage
-	clean
-	;;
+	[[ -n $det ]] && printf '   %s↳ suggested from %s/: %s\n' \
+		"$D" "$(basename "$PWD")" "$(suggest_line)"
+}
 
-*)
-	usage
-	;;
-esac
+menu_select() {
+	local default=$1
+	shift
+	local -a opts=("$@")
+	local i n reply prompt
+	for i in "${!opts[@]}"; do
+		n=$((i + 1))
+		if [[ ${opts[i]} == "$default" ]]; then
+			printf '  %s%2d) %s%s %s★%s\n' "$B" "$n" "${opts[i]}" "$R" "$YLW" "$R" >&2
+		else
+			printf '  %2d) %s\n' "$n" "${opts[i]}" >&2
+		fi
+	done
+	prompt="pick a shell"
+	[[ -n $default ]] && prompt+=" ${D}[$default]${R}"
+	printf '%s%s ›%s ' "$CYN" "$prompt" "$R" >&2
+	read -r reply
+	[[ -z $reply ]] && { printf '%s' "$default"; return; }
+	if [[ $reply =~ ^[0-9]+$ ]] && ((reply >= 1 && reply <= ${#opts[@]})); then
+		printf '%s' "${opts[reply - 1]}"
+	else
+		printf '%s' "$reply"
+	fi
+}
+
+# pick — fill REPLY_SHELL via fzf (if present) or a numbered menu
+pick() {
+	local -a shells ordered
+	mapfile -t shells < <(list_shells)
+	((${#shells[@]})) || die "no shells found under ${SHELLS_BASE_PATH}"
+
+	local default=''
+	if suggest; then
+		default=$SUGGEST_SHELL
+		info "suggested $(suggest_line)"
+	else
+		info "no shell detected for ${B}$(basename "$PWD")/${R}"
+	fi
+
+	local s
+	if command -v fzf &>/dev/null; then
+		ordered=()
+		[[ -n $default ]] && ordered+=("$default")
+		for s in "${shells[@]}"; do [[ $s == "$default" ]] || ordered+=("$s"); done
+		REPLY_SHELL=$(printf '%s\n' "${ordered[@]}" |
+			fzf --height='~40%' --reverse --prompt='devshell › ' \
+				--header="${default:+suggested: $default · }enter to confirm, esc to cancel")
+		[[ -z $REPLY_SHELL ]] && die 'cancelled'
+	else
+		REPLY_SHELL=$(menu_select "$default" "${shells[@]}")
+		[[ -z $REPLY_SHELL ]] && die 'cancelled'
+	fi
+}
+
+# ---------------------------------------------------------------------------
+# usage / dispatch
+# ---------------------------------------------------------------------------
+usage() {
+	say "${B}project${R} — Nix devShell setup for the current directory"
+	say ''
+	say "${B}usage:${R} project [command] [shell]"
+	say ''
+	say "  ${CYN}(no args)${R}      detect + interactively pick a devShell"
+	say "  ${CYN}init${R} [shell]   clean, then wire up [shell] (interactive if omitted)"
+	say "  ${CYN}use${R}  <shell>   wire up <shell> without cleaning first"
+	say "  ${CYN}detect${R}         guess the devShell for \$PWD (no changes)"
+	say "  ${CYN}list${R}           list available shells + their checks"
+	say "  ${CYN}checks${R} [shell]  show the checks a shell installs"
+	say "  ${CYN}clean${R}          remove .envrc + pre-commit config, deny direnv"
+	say ''
+	say "${D}A shells root may ship an executable .project-hook to register its own${R}"
+	say "${D}suggestions + checks (see ${SHELLS_BASE_PATH%%:*}/bin/project header).${R}"
+	say ''
+	list_available
+}
+
+main() {
+	local checks
+	case ${1:-} in
+	'')
+		pick
+		clean
+		use_shell "$REPLY_SHELL"
+		;;
+	init)
+		case $# in
+		1) pick; clean; use_shell "$REPLY_SHELL" ;;
+		2) clean; use_shell "$2" ;;
+		*) usage; exit 1 ;;
+		esac
+		;;
+	use | nix | shell)
+		[[ $# -eq 2 ]] || { usage; exit 1; }
+		use_shell "$2"
+		;;
+	detect)
+		if suggest; then
+			info "suggested $(suggest_line)"
+			checks=$(checks_for "$SUGGEST_SHELL")
+			[[ -n $checks ]] && info "checks: ${D}${checks}${R}"
+		else
+			info "nothing detected in ${B}$(basename "$PWD")/${R}"
+		fi
+		;;
+	checks)
+		case $# in
+		2)
+			has_shell "$2" || warn "no devShell named ${B}$2${R} is available"
+			checks=$(checks_for "$2")
+			info "checks for ${B}$2${R}: ${D}${checks:-none}${R}"
+			;;
+		1)
+			if suggest; then
+				checks=$(checks_for "$SUGGEST_SHELL")
+				info "checks for suggested ${B}${SUGGEST_SHELL}${R}: ${D}${checks:-none}${R}"
+			else
+				info "no shell detected — try ${B}project checks <shell>${R}"
+			fi
+			;;
+		*) usage; exit 1 ;;
+		esac
+		;;
+	list | ls)
+		list_available verbose
+		;;
+	clean)
+		[[ $# -eq 1 ]] || { usage; exit 1; }
+		clean
+		ok 'cleaned direnv + pre-commit config'
+		;;
+	-h | --help | help)
+		usage
+		;;
+	*)
+		usage
+		exit 1
+		;;
+	esac
+}
+
+main "$@"

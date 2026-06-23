@@ -2,9 +2,14 @@
   perSystem = {
     pkgs,
     lib,
+    preCommit,
     ...
   }: let
     py = pkgs.python312Packages;
+    hooks = preCommit {
+      ruff.enable = true;
+      ruff-format.enable = true;
+    };
   in {
     devShells.python3 = pkgs.mkShell {
       name = "python3";
@@ -28,7 +33,8 @@
           libxslt
           libzip
           zlib
-        ]);
+        ])
+        ++ hooks.enabledPackages;
       # libstdc++ on PATH for binary wheels — Linux only.
       propagatedBuildInputs = lib.optionals pkgs.stdenv.isLinux [pkgs.stdenv.cc.cc.lib];
       postVenvCreation = ''
@@ -41,7 +47,8 @@
         ''
         + lib.optionalString pkgs.stdenv.isLinux ''
           export LD_LIBRARY_PATH=${lib.makeLibraryPath [pkgs.stdenv.cc.cc pkgs.libGL]}
-        '';
+        ''
+        + hooks.shellHook;
     };
   };
 }

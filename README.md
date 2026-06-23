@@ -22,11 +22,13 @@ each host is built by **composing** aspects (no per-feature enable flags).
 flake.nix                 # flake-parts + import-tree entrypoint (minimal)
 modules/                  # every *.nix is a flake-parts module (auto-imported)
   flake/                  # option declaration, host builders, devShells, perSystem args
+  devshells/              # per-language `nix develop` shells + shared pre-commit wiring
   nixos/                  # flake.modules.nixos.<aspect>
   darwin/                 # flake.modules.darwin.<aspect>
   home/                   # flake.modules.homeManager.<aspect>
   shared/                 # aspects for both NixOS and darwin (tools/devtools/fonts)
   hosts/<name>/           # one host each: default.nix composes aspects; facter.json = hardware
+bin/                      # small helper scripts on PATH (project, proxy, …)
 secrets/                  # sops-encrypted secrets
 .sops.yaml                # sops recipients / creation rules
 ```
@@ -123,8 +125,28 @@ sudo nixos-rebuild switch --flake .#dell      # or asus / desktop
 darwin-rebuild switch --flake .#mac
 
 # dev shells
-nix develop .#rust        # or python3 / node / lua / qmk
+nix develop .#rust        # or nix / python3 / node / lua / qmk
 ```
+
+For per-directory use, `bin/project` points direnv at one of these shells:
+
+```sh
+project                   # detect language/version from $PWD, pick a shell
+project init rust         # or: use / detect / list / checks / clean
+```
+
+Entering a shell installs its pre-commit hooks in the current repo — alejandra
+for nix everywhere, plus `rustfmt` / `prettier` / `ruff` / `stylua` per language
+and `statix` + `deadnix` in the `nix` shell (wired in
+`modules/devshells/hooks.nix`). The generated `.envrc` also names the tmux pane
+after the project directory.
+
+`project` also reads shells from other roots (`SHELLS_BASE_PATH`, e.g.
+`~/Avito/shells`). Such a root can ship an executable `.project-hook` to register
+its own suggestions + checks — `project` calls it with `suggest` (print
+`<shell>\t<reason>\t<version>` for `$PWD`) and `checks <shell>`. The Avito hook,
+for example, reads `go.mod`'s `go X.Y` and resolves it to `avito.go.X.Y` (or the
+nearest available). Hook suggestions win over the built-in detection above.
 
 ## Secrets (sops-nix)
 
