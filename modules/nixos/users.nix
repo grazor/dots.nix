@@ -65,7 +65,7 @@ in {
       useUserPackages = true;
       users.g = {
         home.stateVersion = "25.05";
-        imports = with hm; [fish tmux tmux-autostart git scripts nvf nix-index];
+        imports = with hm; [fish tmux tmux-autostart workmux git scripts nvf nix-index];
       };
     };
   };
