@@ -24,6 +24,7 @@
 
         bind _ split-window -h -c "#{pane_current_path}"
         bind - split-window -v -c "#{pane_current_path}"
+        bind C-c new-session
         bind h select-pane -L
         bind j select-pane -D
         bind k select-pane -U
