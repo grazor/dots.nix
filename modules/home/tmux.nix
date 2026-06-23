@@ -16,9 +16,9 @@
       extraConfig = ''
         set-option -g renumber-windows on
 
-        # Show each pane's title on its top border. `bin/project` writes a
-        # `tmux select-pane -T <project>` line into the direnv .envrc, so the
-        # border reads the project name whenever you're inside a dev shell.
+        # Show each pane's title on its top border. The direnv stdlib hook (see
+        # modules/home/fish.nix) runs `tmux select-pane -T <project>` on every
+        # .envrc load, so the border reads the project name in any direnv dir.
         set-option -g pane-border-status top
         set-option -g pane-border-format " #{pane_index} #[bold]#{pane_title}#[default] "
 
@@ -33,10 +33,24 @@
       '';
     };
 
-    home.sessionVariables = {
-      "TMUX_POWERLINE_LEFT_STATUS_SEGMENTS" = "tmux_session_info 148 234";
-      "TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS" = "pwd 89 211";
-      "TMUX_POWERLINE_STATUS_JUSTIFICATION" = "absolute-centre";
-    };
+    # tmux-powerline reads this on startup (it sources $XDG_CONFIG_HOME/
+    # tmux-powerline/config.sh before applying its own defaults). Managing it
+    # here keeps the status bar declarative — previously these lived in env
+    # vars, but the plugin's auto-generated config.sh shadowed them and forced
+    # status-justify back to "centre". Only settings that differ from the
+    # plugin defaults are pinned; the rest fall back to its config/defaults.sh.
+    xdg.configFile."tmux-powerline/config.sh".text = ''
+      # Pin the window list to the true centre of the bar (needs tmux >= 3.2).
+      export TMUX_POWERLINE_STATUS_JUSTIFICATION="absolute-centre"
+
+      # Status segments, each "<segment> <fg> <bg>" with 256-colour indices.
+      # Overrides the default theme's richer segment set.
+      TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
+        "tmux_session_info 148 234"
+      )
+      TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=(
+        "pwd 89 211"
+      )
+    '';
   };
 }

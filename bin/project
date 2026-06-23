@@ -235,7 +235,7 @@ clean() {
 }
 
 use_shell() {
-	local name=$1 flake title
+	local name=$1 flake
 	flake=$(flake_of "$name")
 	[[ -z $flake ]] && {
 		warn "unknown shell: ${B}${name}${R}"
@@ -244,13 +244,9 @@ use_shell() {
 		exit 1
 	}
 
-	title=$(basename "$PWD")
-	{
-		printf 'use flake %s#\\"%s\\"\n' "$flake" "$name"
-		# Name the tmux pane after the project, so split panes are identifiable.
-		# The `|| true` keeps a non-tmux shell from failing the whole .envrc.
-		printf '[ -n "$TMUX" ] && tmux select-pane -T %q >/dev/null 2>&1 || true\n' "$title"
-	} >.envrc
+	# The tmux pane title is set for every direnv dir by the direnv stdlib hook
+	# (see modules/home/fish.nix), so the .envrc just needs to wire the shell.
+	printf 'use flake %s#\\"%s\\"\n' "$flake" "$name" >.envrc
 
 	info "use flake ${B}${flake}#${name}${R}"
 	if direnv allow . 2>/dev/null; then

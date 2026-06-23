@@ -45,6 +45,15 @@
     programs.direnv = {
       enable = true;
       nix-direnv.enable = true;
+
+      # Sourced on every .envrc load, with $PWD at the .envrc's directory (the
+      # project root, even when entered from a subdir). Name the tmux pane after
+      # the project so split panes stay identifiable on the pane border (see
+      # tmux pane-border-format). Fires for any direnv dir, not just ones set up
+      # via `bin/project`. `|| true` keeps a non-tmux shell from erroring.
+      stdlib = ''
+        [ -n "$TMUX" ] && tmux select-pane -T "$(basename "$PWD")" >/dev/null 2>&1 || true
+      '';
     };
 
     programs.starship = {
