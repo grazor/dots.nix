@@ -138,8 +138,8 @@ project init rust         # or: use / detect / list / checks / clean
 Entering a shell installs its pre-commit hooks in the current repo — alejandra
 for nix everywhere, plus `rustfmt` / `prettier` / `ruff` / `stylua` per language
 and `statix` + `deadnix` in the `nix` shell (wired in
-`modules/devshells/hooks.nix`). The generated `.envrc` also names the tmux pane
-after the project directory.
+`modules/devshells/hooks.nix`). The direnv hook also names the current tmux
+window after the project directory.
 
 `project` also reads shells from other roots (`SHELLS_BASE_PATH`, e.g.
 `~/Avito/shells`). Such a root can ship an executable `.project-hook` to register

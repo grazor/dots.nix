@@ -16,11 +16,9 @@
       extraConfig = ''
         set-option -g renumber-windows on
 
-        # Show each pane's title on its top border. The direnv stdlib hook (see
-        # modules/home/fish.nix) runs `tmux select-pane -T <project>` on every
-        # .envrc load, so the border reads the project name in any direnv dir.
-        set-option -g pane-border-status top
-        set-option -g pane-border-format " #{pane_index} #[bold]#{pane_title}#[default] "
+        # Keep pane borders compact; project names are shown in the tmux window
+        # list via the direnv hook in modules/home/fish.nix.
+        set-option -g pane-border-status off
 
         bind-key -n C-l if-shell "$is_vim" "send-keys C-l"  "send-keys C-l"
 

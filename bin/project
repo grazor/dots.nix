@@ -244,7 +244,7 @@ use_shell() {
 		exit 1
 	}
 
-	# The tmux pane title is set for every direnv dir by the direnv stdlib hook
+	# The tmux window title is set for every direnv dir by the direnv stdlib hook
 	# (see modules/home/fish.nix), so the .envrc just needs to wire the shell.
 	printf 'use flake %s#\\"%s\\"\n' "$flake" "$name" >.envrc
 

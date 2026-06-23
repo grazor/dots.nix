@@ -39,11 +39,13 @@ in {
       openssh.authorizedKeys.keys = authorizedKeys;
     };
 
-    home-manager.useGlobalPkgs = true;
-    home-manager.useUserPackages = true;
-    home-manager.users.cloud = {
-      home.stateVersion = "25.05";
-      imports = with hm; [fish tmux git scripts nvf nix-index];
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      users.cloud = {
+        home.stateVersion = "25.05";
+        imports = with hm; [fish tmux git scripts nvf nix-index];
+      };
     };
   };
 
@@ -58,11 +60,13 @@ in {
       openssh.authorizedKeys.keys = authorizedKeys;
     };
 
-    home-manager.useGlobalPkgs = true;
-    home-manager.useUserPackages = true;
-    home-manager.users.g = {
-      home.stateVersion = "25.05";
-      imports = with hm; [fish tmux tmux-autostart git scripts nvf nix-index];
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      users.g = {
+        home.stateVersion = "25.05";
+        imports = with hm; [fish tmux tmux-autostart git scripts nvf nix-index];
+      };
     };
   };
 }

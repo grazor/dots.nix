@@ -1,9 +1,12 @@
 # GNOME desktop environment.
 {
   flake.modules.nixos.gnome = {pkgs, ...}: {
-    services.xserver.enable = true;
-    services.displayManager.gdm.enable = true;
-    services.desktopManager.gnome.enable = true;
+    services = {
+      xserver.enable = true;
+      displayManager.gdm.enable = true;
+      desktopManager.gnome.enable = true;
+      udev.packages = with pkgs; [gnome-settings-daemon];
+    };
 
     environment.systemPackages = with pkgs; [
       xdg-desktop-portal-gnome
@@ -18,8 +21,6 @@
       dconf-editor
       gnome-tweaks
     ];
-
-    services.udev.packages = with pkgs; [gnome-settings-daemon];
 
     environment.gnome.excludePackages = with pkgs; [
       atomix

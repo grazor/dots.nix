@@ -29,11 +29,7 @@ in {
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.nixos.stylix = {
-    pkgs,
-    config,
-    ...
-  }: {
+  flake.modules.nixos.stylix = {config, ...}: {
     imports = [inputs.stylix.nixosModules.stylix settings];
 
     # stylix's kmscon target sets `services.kmscon.config`, which this nixpkgs

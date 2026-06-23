@@ -21,7 +21,7 @@
           nix-output-monitor # nicer `nom build` output
         ])
         ++ hooks.enabledPackages;
-      shellHook = hooks.shellHook;
+      inherit (hooks) shellHook;
     };
   };
 }
