@@ -28,44 +28,64 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINEcA3dCkiqDQtsoP0MicTylt6rQCntGf6XeWif0TecA cloud"
   ];
 in {
-  # cloud — homelab nodes (Dell, Asus): no GUI, no tmux autostart.
-  flake.modules.nixos.user-cloud = {pkgs, ...}: {
-    users.users.cloud = {
-      uid = 1000;
-      isNormalUser = true;
-      home = "/home/cloud";
-      shell = pkgs.fish;
-      extraGroups = linuxGroups;
-      openssh.authorizedKeys.keys = authorizedKeys;
-    };
+  flake.modules.nixos = {
+    # cloud — homelab nodes (Dell, Asus): no GUI, no tmux autostart.
+    user-cloud = {pkgs, ...}: {
+      users.users.cloud = {
+        uid = 1000;
+        isNormalUser = true;
+        home = "/home/cloud";
+        shell = pkgs.fish;
+        extraGroups = linuxGroups;
+        openssh.authorizedKeys.keys = authorizedKeys;
+      };
 
-    home-manager = {
-      useGlobalPkgs = true;
-      useUserPackages = true;
-      users.cloud = {
-        home.stateVersion = "25.05";
-        imports = with hm; [fish tmux git scripts nvf nix-index];
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        users.cloud = {
+          home.stateVersion = "25.05";
+          imports = with hm; [fish tmux git scripts nvf nix-index];
+        };
       };
     };
-  };
 
-  # g — desktop workstation: tmux autostart on login.
-  flake.modules.nixos.user-g = {pkgs, ...}: {
-    users.users.g = {
-      uid = 1000;
-      isNormalUser = true;
-      home = "/home/g";
-      shell = pkgs.fish;
-      extraGroups = linuxGroups;
-      openssh.authorizedKeys.keys = authorizedKeys;
+    # pi — lightweight service nodes: SSH + sudo, no home-manager profile.
+    user-pi = {pkgs, ...}: {
+      users.users.pi = {
+        uid = 1000;
+        isNormalUser = true;
+        home = "/home/pi";
+        shell = pkgs.fish;
+        extraGroups = [
+          "wheel"
+          "network"
+          "networkmanager"
+          "dialout"
+          "uucp"
+        ];
+        openssh.authorizedKeys.keys = authorizedKeys;
+      };
     };
 
-    home-manager = {
-      useGlobalPkgs = true;
-      useUserPackages = true;
-      users.g = {
-        home.stateVersion = "25.05";
-        imports = with hm; [fish tmux tmux-autostart workmux git scripts nvf nix-index];
+    # g — desktop workstation: tmux autostart on login.
+    user-g = {pkgs, ...}: {
+      users.users.g = {
+        uid = 1000;
+        isNormalUser = true;
+        home = "/home/g";
+        shell = pkgs.fish;
+        extraGroups = linuxGroups;
+        openssh.authorizedKeys.keys = authorizedKeys;
+      };
+
+      home-manager = {
+        useGlobalPkgs = true;
+        useUserPackages = true;
+        users.g = {
+          home.stateVersion = "25.05";
+          imports = with hm; [fish tmux tmux-autostart workmux git scripts nvf nix-index];
+        };
       };
     };
   };

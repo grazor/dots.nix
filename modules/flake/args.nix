@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  systems = ["x86_64-linux" "aarch64-darwin"];
+  systems = ["x86_64-linux" "aarch64-linux" "aarch64-darwin"];
 
   # pkgs used by perSystem outputs (devShells). Unfree allowed to match the
   # system configurations.

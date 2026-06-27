@@ -13,6 +13,8 @@ each host is built by **composing** aspects (no per-feature enable flags).
 |------|--------|------|------|
 | `dell` | Dell laptop | NixOS | homelab k3s **server** + WireGuard server (headless, user `cloud`) |
 | `asus` | Asus node | NixOS | homelab k3s **agent**/worker (headless, user `cloud`) |
+| `nas` | Homebuilt NAS | NixOS | homelab k3s **agent**/storage worker with ZFS (headless, user `cloud`) |
+| `rpi4b` | Raspberry Pi 4B | NixOS | native Zigbee2MQTT bridge to the k3s MQTT broker (headless, user `pi`) |
 | `desktop` | Desktop PC | NixOS | gaming workstation — GNOME + NVIDIA + Steam (user `g`) |
 | `mac` | Work MacBook | nix-darwin | dev machine (user `smporyvaev`) |
 
@@ -75,19 +77,31 @@ flake, then switch the host to its composed configuration.
    ```sh
    sudo nix run nixpkgs#nixos-facter -- -o modules/hosts/<name>/facter.json
    ```
-5. For k3s nodes (`dell`, `asus`), the secrets in `secrets/k3s.yaml` are already
+5. For k3s nodes (`dell`, `asus`, `nas`), the secrets in `secrets/k3s.yaml` are already
    encrypted, but only the admin age key can decrypt them. Before the first real
    switch, add this host's age recipient and re-key so the host can decrypt at
    activation (see the "Secrets" section for the `ssh-to-age` + `updatekeys`
    steps). Skip this and activation will fail to decrypt.
+   For `rpi4b`, do the same with `secrets/zigbee2mqtt.yaml`.
 6. Install or switch:
    ```sh
    sudo nixos-install --flake .#dell      # fresh install from /mnt
    sudo nixos-rebuild switch --flake .#dell
    ```
 
-Bootstrap order for the homelab cluster is `dell` first, then `asus`: `dell`
-is the k3s server and `asus` joins it as an agent via `https://192.168.2.2:6443`.
+Bootstrap order for the homelab cluster is `dell` first, then `asus` / `nas`:
+`dell` is the k3s server and both agents join it via `https://192.168.2.2:6443`.
+The `nas` node registers with `storage=nas` and the `storage=nas:NoSchedule`
+taint, so only workloads with the matching selector and toleration are scheduled
+there.
+
+`rpi4b` is intentionally not a k3s node. It runs native Zigbee2MQTT against the
+USB coordinator and publishes to the k3s Mosquitto LoadBalancer at
+`192.168.10.160:1883`. Its frontend listens on `0.0.0.0:8080`; reserve
+`192.168.2.4` for `rpi4b` or update the homelab EndpointSlice. The homelab k3s
+repo keeps only the `z2m.porivaev.ru` Traefik route to that frontend. After
+moving the dongle, keep the in-cluster Zigbee2MQTT workload disabled so only one
+instance owns the coordinator.
 
 Flux bootstrap runs from the k3s server (`dell`) only; it is already enabled
 there via `grazor.flux.enable = true` (defaults point at
@@ -102,8 +116,8 @@ there via `grazor.flux.enable = true` (defaults point at
    `Kustomization` (equivalent to `cluster/flux-system/gotk-sync.yaml`).
 
 In-cluster secrets are decrypted by the sealed-secrets controller — Flux does
-**not** use SOPS decryption. The agent node (`asus`) does not run Flux
-bootstrap; it just joins the k3s cluster.
+**not** use SOPS decryption. Agent nodes (`asus`, `nas`) do not run Flux
+bootstrap; they just join the k3s cluster.
 
 ### macOS
 
@@ -119,7 +133,7 @@ bootstrap; it just joins the k3s cluster.
 
 ```sh
 # NixOS hosts
-sudo nixos-rebuild switch --flake .#dell      # or asus / desktop
+sudo nixos-rebuild switch --flake .#dell      # or asus / nas / rpi4b / desktop
 
 # macOS
 darwin-rebuild switch --flake .#mac
@@ -155,28 +169,36 @@ holds five values:
 
 | Key | Purpose | Consumed by |
 |-----|---------|-------------|
-| `k3s-token` | k3s server/agent join token | `services.k3s.tokenFile` on `dell` + `asus` |
+| `k3s-token` | k3s server/agent join token | `services.k3s.tokenFile` on `dell` + `asus` + `nas` |
 | `flux-deploy-key` | OpenSSH deploy key for the homelab manifests repo | `flux-bootstrap.service` (GitRepository secret) |
 | `sealed-secrets-tls-crt` | Sealed Secrets controller cert | restored as `sealed-secrets/graz-sealed-key` |
 | `sealed-secrets-tls-key` | Sealed Secrets controller key | restored as `sealed-secrets/graz-sealed-key` |
 | `code-ssh-key` | `cloud@hl-dell-node1` git push key | installed to `/home/cloud/.ssh/id_ed25519` on `dell` |
 
+`secrets/zigbee2mqtt.yaml` holds the native Raspberry Pi Zigbee2MQTT MQTT
+password:
+
+| Key | Purpose | Consumed by |
+|-----|---------|-------------|
+| `zigbee2mqtt-mqtt-password` | Mosquitto password for MQTT user `z2m` | `services.zigbee2mqtt` on `rpi4b` |
+
 Recipients live in `.sops.yaml`. Currently only the **admin** age key
 (`~/.config/sops/age/keys.txt` on this machine) can decrypt. Each NixOS host
 decrypts at activation using an age key derived from its SSH host key, so before
-the first real switch on `dell`/`asus` you must add the host recipients and
-re-key:
+the first real switch on `dell`/`asus`/`nas`/`rpi4b` you must add the host
+recipients and re-key:
 
 ```sh
 # On each host, derive its age recipient from the SSH host key:
 nix run nixpkgs#ssh-to-age -- -i /etc/ssh/ssh_host_ed25519_key.pub
 ```
 
-1. Uncomment the `dell` / `asus` anchors in `.sops.yaml` and paste the
-   recipients from above.
+1. Uncomment the relevant `dell` / `asus` / `nas` / `rpi4b` anchors in
+   `.sops.yaml` and paste the recipients from above.
 2. Re-encrypt the data key for the new recipients:
    ```sh
    nix run nixpkgs#sops -- updatekeys secrets/k3s.yaml
+   nix run nixpkgs#sops -- updatekeys secrets/zigbee2mqtt.yaml
    ```
 
 > **macOS:** the admin key is at `~/.config/sops/age/keys.txt`, which is *not*

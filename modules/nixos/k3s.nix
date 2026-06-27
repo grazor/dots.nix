@@ -2,6 +2,7 @@
 #   - k3s-base : tooling + storage shims + token (sops) shared by all nodes
 #   - k3s-server : control-plane (Dell)
 #   - k3s-agent : worker (Asus)
+#   - k3s-nas : storage worker tainted for NAS-bound workloads only
 {
   flake.modules.nixos = {
     k3s-base = {
@@ -90,6 +91,14 @@
         role = "agent";
         serverAddr = "https://192.168.2.2:6443";
       };
+    };
+
+    k3s-nas = {
+      services.k3s.extraFlags = toString [
+        "--node-label=storage=nas"
+        "--node-label=node-role.kubernetes.io/nas=true"
+        "--node-taint=storage=nas:NoSchedule"
+      ];
     };
   };
 }

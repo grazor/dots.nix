@@ -12,6 +12,8 @@ keys:
   - &admin age1d93mez999rx9dmjtdjyujnsffvchehyfv8v8jqfurter2pydju5s3xthlt
   # - &dell age1REPLACE_DELL
   # - &asus age1REPLACE_ASUS
+  # - &nas age1REPLACE_NAS
+  # - &rpi4b age1REPLACE_RPI4B
 
 creation_rules:
   - path_regex: secrets/k3s\.yaml$
@@ -20,3 +22,9 @@ creation_rules:
           - *admin
           # - *dell
           # - *asus
+          # - *nas
+  - path_regex: secrets/zigbee2mqtt\.yaml$
+    key_groups:
+      - age:
+          - *admin
+          # - *rpi4b
