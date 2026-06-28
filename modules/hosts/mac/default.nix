@@ -11,6 +11,7 @@
         fonts
         stylix
         user-smporyvaev
+        agent-dev
       ];
 
     machine = {
