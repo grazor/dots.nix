@@ -17,6 +17,7 @@
 
       extraConfig = ''
         set-option -g renumber-windows on
+        set-option -g focus-events on
 
         # Keep pane borders compact; project names are shown in the tmux window
         # list via the direnv hook in modules/home/fish.nix.
