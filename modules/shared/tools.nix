@@ -18,6 +18,7 @@ let
       gifsicle
 
       tig
+      glow
     ];
   aspect = {pkgs, ...}: {environment.systemPackages = packages pkgs;};
 in {

@@ -45,6 +45,7 @@
     xdg.configFile."workmux/config.yaml".text = ''
       agent: claude
       mode: window
+      nerdfont: true
       window_prefix: wm-
       panes:
         - command: 'claude --dangerously-skip-permissions --model opus'
