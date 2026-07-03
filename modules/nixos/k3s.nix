@@ -92,7 +92,6 @@
           "--write-kubeconfig-mode=640"
           "--disable=traefik"
           "--disable=servicelb"
-          "--node-label=hass=zigbee"
         ];
       };
     };
