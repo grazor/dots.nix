@@ -1,6 +1,9 @@
 # Privoxy forwarding to the home-network SOCKS5 proxy.
 {
   flake.modules.nixos.proxy = {
+    # Deliberately LAN-facing (privoxy listens on 0.0.0.0).
+    networking.firewall.allowedTCPPorts = [9998];
+
     services.privoxy = {
       enable = true;
       settings = {

@@ -23,8 +23,6 @@
         # list via the direnv hook in modules/home/fish.nix.
         set-option -g pane-border-status off
 
-        bind-key -n C-l if-shell "$is_vim" "send-keys C-l"  "send-keys C-l"
-
         bind _ split-window -h -c "#{pane_current_path}"
         bind - split-window -v -c "#{pane_current_path}"
         bind C-c new-session

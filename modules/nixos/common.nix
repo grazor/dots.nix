@@ -30,15 +30,18 @@
       pcscd.enable = true;
       dbus.packages = [pkgs.gcr];
       resolved.enable = true;
-      resolved.settings.Resolve.FallbackDNS = ["8.8.8.8" "10.0.0.1"];
+      resolved.settings.Resolve.FallbackDNS = ["1.1.1.1" "8.8.8.8"];
       logrotate.checkConfig = false;
     };
 
     # Detected hardware comes from nixos-facter per host; keep firmware on.
     hardware.enableRedistributableFirmware = true;
 
-    networking.networkmanager.enable = true;
-    networking.firewall.enable = false;
+    networking = {
+      networkmanager.enable = true;
+      # Firewall on everywhere; each aspect opens only the ports it owns.
+      firewall.enable = true;
+    };
     systemd.services.NetworkManager-wait-online.enable = false;
 
     programs.fish.enable = true;

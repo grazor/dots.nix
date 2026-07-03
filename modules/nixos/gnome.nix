@@ -4,18 +4,24 @@
     services = {
       xserver.enable = true;
       displayManager.gdm.enable = true;
+      # The desktop is also an SSH/Steam target — never suspend while idle.
+      displayManager.gdm.autoSuspend = false;
       desktopManager.gnome.enable = true;
       udev.packages = with pkgs; [gnome-settings-daemon];
     };
 
+    programs.dconf.profiles.user.databases = [
+      {
+        settings."org/gnome/settings-daemon/plugins/power" = {
+          sleep-inactive-ac-type = "nothing";
+        };
+      }
+    ];
+
     environment.systemPackages = with pkgs; [
       xdg-desktop-portal-gnome
 
-      wlsunset
-      mako
       wl-clipboard
-      slurp
-      grim
 
       gnomeExtensions.appindicator
       dconf-editor

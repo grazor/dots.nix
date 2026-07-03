@@ -6,7 +6,6 @@ let
       shfmt
       shellcheck
 
-      file
       git
       jq
       gnumake

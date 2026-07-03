@@ -19,6 +19,7 @@
         ".envrc"
         ".pre-commit-config.yaml"
         ".venv"
+        ".venv.py3"
         "Pipfile"
         "Pipfile.lock"
         "__debug_bin"

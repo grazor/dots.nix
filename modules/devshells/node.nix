@@ -13,8 +13,6 @@
         (with pkgs; [
           autoconf
           automake
-          bison
-          fontforge
           gcc
           gnumake
           makeWrapper

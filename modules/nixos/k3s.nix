@@ -46,6 +46,14 @@
         tokenFile = config.sops.secrets."k3s-token".path;
       };
 
+      # kubelet (10250/tcp) and flannel VXLAN (8472/udp) between nodes;
+      # pod/CNI traffic flows over trusted interfaces.
+      networking.firewall = {
+        allowedTCPPorts = [10250];
+        allowedUDPPorts = [8472];
+        trustedInterfaces = ["cni0" "flannel.1"];
+      };
+
       systemd.tmpfiles.rules = [
         "L+ /usr/local/bin/iscsiadm - - - - /run/current-system/sw/bin/iscsiadm"
         "L+ /usr/bin/iscsiadm - - - - /run/current-system/sw/bin/iscsiadm"
@@ -73,12 +81,15 @@
     };
 
     k3s-server = {
+      # API server, used by the agents and kubectl from the LAN.
+      networking.firewall.allowedTCPPorts = [6443];
+
       services.k3s = {
         role = "server";
         clusterInit = true;
         extraFlags = toString [
           "--write-kubeconfig-group=users"
-          "--write-kubeconfig-mode=544"
+          "--write-kubeconfig-mode=640"
           "--disable=traefik"
           "--disable=servicelb"
           "--node-label=hass=zigbee"

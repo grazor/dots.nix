@@ -18,6 +18,9 @@
       restartUnits = ["zigbee2mqtt.service"];
     };
 
+    # Zigbee2MQTT web frontend.
+    networking.firewall.allowedTCPPorts = [8080];
+
     services.zigbee2mqtt = {
       enable = true;
       settings = {

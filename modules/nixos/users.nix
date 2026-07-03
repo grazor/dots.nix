@@ -6,7 +6,6 @@
 
   linuxGroups = [
     "wheel"
-    "network"
     "uucp"
     "dialout"
     "networkmanager"
@@ -14,8 +13,6 @@
     "audio"
     "video"
     "input"
-    "sway"
-    "uinput"
   ];
 
   # SSH public keys authorized for the primary user on every host.
@@ -59,7 +56,6 @@ in {
         shell = pkgs.fish;
         extraGroups = [
           "wheel"
-          "network"
           "networkmanager"
           "dialout"
           "uucp"

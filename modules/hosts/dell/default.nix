@@ -60,7 +60,6 @@
       };
 
       hardware.bluetooth.enable = true;
-      powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
     };
   };
 }

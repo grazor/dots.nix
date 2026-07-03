@@ -13,8 +13,11 @@
         CPU_MIN_PERF_ON_AC = 0;
         CPU_MAX_PERF_ON_AC = 100;
         CPU_MIN_PERF_ON_BAT = 0;
-        CPU_MAX_PERF_ON_BAT = 20;
+        # Battery means a power outage here, not portable use — the node keeps
+        # serving k3s, so don't starve it.
+        CPU_MAX_PERF_ON_BAT = 50;
 
+        # Needs firmware support for charge thresholds; verify with `tlp-stat -b`.
         START_CHARGE_THRESH_BAT0 = 30;
         STOP_CHARGE_THRESH_BAT0 = 60;
       };

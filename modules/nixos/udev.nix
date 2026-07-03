@@ -1,6 +1,6 @@
 # General USB device rules (Arduino, debug probes, webcam tuning).
 {
-  flake.modules.nixos.udev = {
+  flake.modules.nixos.udev = {pkgs, ...}: {
     services.udev.extraRules = ''
       SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="0925", ATTR{idProduct}=="3881", MODE="0666"
       SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", ATTR{idVendor}=="21a9", ATTR{idProduct}=="1001", MODE="0666"
@@ -14,7 +14,7 @@
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="11a0", ATTRS{idProduct}=="eb20", MODE="0666"
       ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="0451", ATTRS{idProduct}=="16a2", MODE="0666"
 
-      SUBSYSTEM=="video4linux", KERNEL=="video[0-9]*", ATTRS{product}=="C922 Pro Stream Webcam", RUN="v4l2-ctl -d $devnode --set-ctrl=zoom_absolute=120 --set-ctrl=backlight_compensation=1"
+      SUBSYSTEM=="video4linux", KERNEL=="video[0-9]*", ATTRS{product}=="C922 Pro Stream Webcam", RUN+="${pkgs.v4l-utils}/bin/v4l2-ctl -d $devnode --set-ctrl=zoom_absolute=120 --set-ctrl=backlight_compensation=1"
     '';
   };
 }
