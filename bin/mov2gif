@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Convert a screen recording (mov/mp4/…) to an optimized GIF.
+#
+# usage: mov2gif <input> [fps] [max-width]
+#   fps       defaults to 10
+#   max-width scales down to this width (never upscales); omitted = keep size
+set -euo pipefail
+
+if [ $# -lt 1 ] || [ ! -f "$1" ]; then
+  echo "usage: mov2gif <input> [fps] [max-width]" >&2
+  exit 64
+fi
+
+src="$1"
+fps="${2:-10}"
+width="${3:-}"
+
+dst="${src%.*}.gif"
+[ "$dst" = "$src" ] && dst="$src.gif"
+
+filters="fps=$fps"
+[ -n "$width" ] && filters="$filters,scale='min(iw,$width)':-1:flags=lanczos"
+
+# Two-pass palette gives clean colors (no rgb8 banding); the diff modes
+# favor screen recordings (static background, small changes).
+ffmpeg -v warning -y -i "$src" \
+  -vf "$filters,split[a][b];[a]palettegen=stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" \
+  "$dst"
+
+gifsicle -b -O3 "$dst"
+
+du -h "$dst" | cut -f1 | xargs -I{} echo "$dst ({})"
