@@ -65,6 +65,12 @@
       fzf = {
         enable = true;
         enableFishIntegration = true;
+
+        # Atuin owns Ctrl-R (its fish integration is sourced after fzf's, so it
+        # won anyway — this just stops home-manager warning about the clash).
+        # Ctrl-T (files) and Alt-C (dirs) stay with fzf; up-arrow stays plain
+        # fish history, via atuin's --disable-up-arrow above.
+        historyWidget.fish.command = "";
       };
 
       zoxide = {
