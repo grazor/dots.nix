@@ -1,4 +1,12 @@
-{
+let
+  # Published as data too, so combo shells can union it (see hooks.nix).
+  hookConfig = {
+    ruff.enable = true;
+    ruff-format.enable = true;
+  };
+in {
+  flake.devshellHooks.python3 = hookConfig;
+
   perSystem = {
     pkgs,
     lib,
@@ -6,10 +14,7 @@
     ...
   }: let
     py = pkgs.python312Packages;
-    hooks = preCommit {
-      ruff.enable = true;
-      ruff-format.enable = true;
-    };
+    hooks = preCommit hookConfig;
   in {
     devShells.python3 = pkgs.mkShell {
       name = "python3";

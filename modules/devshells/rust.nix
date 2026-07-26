@@ -1,10 +1,15 @@
-{
+let
+  # Published as data too, so combo shells can union it (see hooks.nix).
+  hookConfig = {rustfmt.enable = true;};
+in {
+  flake.devshellHooks.rust = hookConfig;
+
   perSystem = {
     pkgs,
     preCommit,
     ...
   }: let
-    hooks = preCommit {rustfmt.enable = true;};
+    hooks = preCommit hookConfig;
   in {
     devShells.rust = pkgs.mkShell {
       name = "rust";

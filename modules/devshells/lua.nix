@@ -1,11 +1,16 @@
-{
+let
+  # Published as data too, so combo shells can union it (see hooks.nix).
+  hookConfig = {stylua.enable = true;};
+in {
+  flake.devshellHooks.lua = hookConfig;
+
   perSystem = {
     pkgs,
     lib,
     preCommit,
     ...
   }: let
-    hooks = preCommit {stylua.enable = true;};
+    hooks = preCommit hookConfig;
   in {
     devShells.lua = pkgs.mkShell {
       name = "lua";

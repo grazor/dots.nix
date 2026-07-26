@@ -1,11 +1,16 @@
-{
+let
+  # Published as data too, so combo shells can union it (see hooks.nix).
+  hookConfig = {prettier.enable = true;};
+in {
+  flake.devshellHooks.node = hookConfig;
+
   perSystem = {
     pkgs,
     lib,
     preCommit,
     ...
   }: let
-    hooks = preCommit {prettier.enable = true;};
+    hooks = preCommit hookConfig;
   in {
     devShells.node = pkgs.mkShell {
       name = "node";

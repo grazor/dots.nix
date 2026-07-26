@@ -1,13 +1,18 @@
-{
+let
+  # alejandra only — no clang-format, to avoid reformatting vendored QMK
+  # firmware C that lives alongside a keymap.
+  # Published as data too, so combo shells can union it (see hooks.nix).
+  hookConfig = {};
+in {
+  flake.devshellHooks.qmk = hookConfig;
+
   perSystem = {
     pkgs,
     lib,
     preCommit,
     ...
   }: let
-    # alejandra only — no clang-format, to avoid reformatting vendored QMK
-    # firmware C that lives alongside a keymap.
-    hooks = preCommit {};
+    hooks = preCommit hookConfig;
   in {
     devShells.qmk = pkgs.mkShell {
       name = "qmk";

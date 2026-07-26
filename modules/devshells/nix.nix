@@ -1,14 +1,19 @@
-{
+let
+  # alejandra comes from preCommit's default; add the nix linters as hooks too.
+  # Published as data too, so combo shells can union it (see hooks.nix).
+  hookConfig = {
+    statix.enable = true;
+    deadnix.enable = true;
+  };
+in {
+  flake.devshellHooks.nix = hookConfig;
+
   perSystem = {
     pkgs,
     preCommit,
     ...
   }: let
-    # alejandra comes from preCommit's default; add the nix linters as hooks too.
-    hooks = preCommit {
-      statix.enable = true;
-      deadnix.enable = true;
-    };
+    hooks = preCommit hookConfig;
   in {
     devShells.nix = pkgs.mkShell {
       name = "nix";
