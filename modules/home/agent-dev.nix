@@ -34,24 +34,28 @@
     # `wm add <feature>` spins up a worktree window with the layout below.
     programs.fish.shellAbbrs.wm = "workmux";
 
-    # Layout: claude (left, full height) | codex (top-right) / terminal (bottom-right).
+    # prefix + a pops the workmux dashboard over the current pane. Lives here
+    # rather than in modules/home/tmux.nix so the binding only exists on hosts
+    # that actually ship workmux; extraConfig merges across both modules.
+    programs.tmux.extraConfig = ''
+      bind a display-popup -h 30 -w 100 -E "workmux dashboard"
+    '';
+
+    # Layout: claude (left, full height) | term (top-right) / terminal (bottom-right).
     #   +--------+--------+
-    #   |        | codex  |
+    #   |        |  term  |
     #   | claude +--------+
     #   |        |  term  |
     #   +--------+--------+
-    # codex is routed through the local proxy on :9998 (fish needs the `env`
-    # prefix; bare VAR=val assignments are not valid fish syntax).
     xdg.configFile."workmux/config.yaml".text = ''
       agent: claude
       mode: window
       nerdfont: true
       window_prefix: wm-
       panes:
-        - command: 'claude --dangerously-skip-permissions --model opus'
+        - command: 'claude --dangerously-skip-permissions --permission-mode bypassPermissions --model opus'
           focus: true
-        - command: 'env HTTP_PROXY=127.0.0.1:9998 HTTPS_PROXY=127.0.0.1:9998 codex --yolo'
-          split: horizontal
+        - split: horizontal
         - split: vertical
     '';
   };
