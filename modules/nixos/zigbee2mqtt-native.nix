@@ -47,7 +47,7 @@
         serial = {
           # Replace with the stable by-id path from the Pi:
           #   ls -l /dev/serial/by-id/
-          port = "/dev/serial/by-id/REPLACE_ME_ZIGBEE_DONGLE";
+          port = "/dev/ttyACM0";
           adapter = "ember";
           baudrate = 115200;
           rtscts = false;
