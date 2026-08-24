@@ -48,12 +48,25 @@ in {
     };
 
     # pi — lightweight service nodes: SSH + sudo, no home-manager profile.
-    user-pi = {pkgs, ...}: {
+    # The login password is declarative: sops-nix decrypts it early
+    # (neededForUsers -> /run/secrets-for-users) so it is on disk before the
+    # user activation script runs. Requires the `sops` aspect on the host.
+    user-pi = {
+      config,
+      pkgs,
+      ...
+    }: {
+      sops.secrets.pi-password = {
+        sopsFile = ../../secrets/users.yaml;
+        neededForUsers = true;
+      };
+
       users.users.pi = {
         uid = 1000;
         isNormalUser = true;
         home = "/home/pi";
         shell = pkgs.fish;
+        hashedPasswordFile = config.sops.secrets.pi-password.path;
         extraGroups = [
           "wheel"
           "networkmanager"

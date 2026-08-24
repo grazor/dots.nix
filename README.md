@@ -182,6 +182,16 @@ password:
 |-----|---------|-------------|
 | `zigbee2mqtt-mqtt-password` | Mosquitto password for MQTT user `z2m` | `services.zigbee2mqtt` on `rpi4b` |
 
+`secrets/users.yaml` holds login password hashes for declarative accounts:
+
+| Key | Purpose | Consumed by |
+|-----|---------|-------------|
+| `pi-password` | yescrypt/sha-512 hash for the `pi` account | `users.users.pi.hashedPasswordFile` via `user-pi` |
+
+These are declared with `neededForUsers = true` so sops-nix decrypts them to
+`/run/secrets-for-users` *before* the user activation script runs; a plain
+`sops.secrets` entry lands too late and the account would be created locked.
+
 Recipients live in `.sops.yaml`. Currently only the **admin** age key
 (`~/.config/sops/age/keys.txt` on this machine) can decrypt. Each NixOS host
 decrypts at activation using an age key derived from its SSH host key, so before

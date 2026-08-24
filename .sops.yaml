@@ -28,3 +28,8 @@ creation_rules:
       - age:
           - *admin
           - *rpi4b
+  - path_regex: secrets/users\.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *rpi4b
