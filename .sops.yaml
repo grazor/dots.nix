@@ -10,10 +10,10 @@
 # Secrets controller key (cert+key), and the dell `code` SSH key.
 keys:
   - &admin age1d93mez999rx9dmjtdjyujnsffvchehyfv8v8jqfurter2pydju5s3xthlt
+  - &rpi4b age1eelwcjp3p2ksegx76n53pqz87z6mxpd00a05legj4s8sja3dgy3s0rcx76
   # - &dell age1REPLACE_DELL
   # - &asus age1REPLACE_ASUS
   # - &nas age1REPLACE_NAS
-  # - &rpi4b age1REPLACE_RPI4B
 
 creation_rules:
   - path_regex: secrets/k3s\.yaml$
@@ -27,4 +27,4 @@ creation_rules:
     key_groups:
       - age:
           - *admin
-          # - *rpi4b
+          - *rpi4b
