@@ -74,7 +74,6 @@
         # `require("nvim-treesitter.ts_utils")`, which the rewritten
         # nvim-treesitter (main branch) no longer ships, so it errored on
         # startup.
-        minimap.codewindow.enable = false;
         notes.todo-comments.enable = true;
         spellcheck.enable = false;
 
