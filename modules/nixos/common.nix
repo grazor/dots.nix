@@ -73,7 +73,6 @@
       acpi
       binutils
       brightnessctl
-      ffmpeg
       findutils
       htop
       libnotify

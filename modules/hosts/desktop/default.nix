@@ -18,6 +18,7 @@
         qmk
         ssh-server
         tools
+        mediatools
         devtools
         fonts
         user-g

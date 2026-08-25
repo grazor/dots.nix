@@ -7,6 +7,7 @@
         sudo
         brew
         tools
+        mediatools
         devtools
         fonts
         stylix

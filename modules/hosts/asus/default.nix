@@ -16,6 +16,7 @@
         ssh-server
         sops
         tools
+        mediatools
         devtools
         fonts
         user-cloud

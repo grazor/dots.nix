@@ -14,9 +14,6 @@ let
       ncdu
       dua
 
-      ffmpeg
-      gifsicle
-
       tig
       glow
     ];

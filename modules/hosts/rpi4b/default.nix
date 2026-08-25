@@ -10,10 +10,16 @@
         ssh-server
         sops
         zigbee2mqtt-native
+        tools
+        devtools
         user-pi
       ];
 
-    machine = {lib, ...}: {
+    machine = {
+      lib,
+      pkgs,
+      ...
+    }: {
       networking.hostName = "rpi4b";
       system.stateVersion = "25.05";
       nix.settings.max-jobs = lib.mkDefault 2;
@@ -38,6 +44,10 @@
         fsType = "vfat";
         options = ["nofail" "noauto"];
       };
+
+      environment.systemPackages = with pkgs; [
+        vim
+      ];
 
       powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
     };
