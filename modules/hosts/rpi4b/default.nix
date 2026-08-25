@@ -20,7 +20,49 @@
       pkgs,
       ...
     }: {
-      networking.hostName = "rpi4b";
+      networking = {
+        hostName = "rpi4b";
+
+        # The MetalLB pools sit behind the k3s server, which shares this L2
+        # segment. Routing them via the gateway makes the router hairpin
+        # traffic back out the interface it arrived on, and it drops that — so
+        # point them straight at the k3s node instead.
+        #
+        # Declared twice on purpose: facter puts end0 under scripted networking,
+        # so network-setup.service installs these at boot; NetworkManager also
+        # manages the link and flushes foreign routes when it reconfigures it,
+        # so the dispatcher reinstates them on link-up. `ip route replace` is
+        # idempotent, which makes the pair safe.
+        interfaces.end0.ipv4.routes = [
+          {
+            address = "192.168.10.0";
+            prefixLength = 24;
+            via = "192.168.2.2";
+          }
+          {
+            address = "192.168.11.0";
+            prefixLength = 24;
+            via = "192.168.2.2";
+          }
+        ];
+
+        networkmanager.dispatcherScripts = [
+          {
+            type = "basic";
+            source = pkgs.writeShellScript "homelab-routes" ''
+              interface="$1"
+              action="$2"
+              [ "$interface" = "end0" ] || exit 0
+              case "$action" in
+                up | dhcp4-change)
+                  ${pkgs.iproute2}/bin/ip route replace 192.168.10.0/24 via 192.168.2.2 dev end0
+                  ${pkgs.iproute2}/bin/ip route replace 192.168.11.0/24 via 192.168.2.2 dev end0
+                  ;;
+              esac
+            '';
+          }
+        ];
+      };
       system.stateVersion = "25.05";
       nix.settings.max-jobs = lib.mkDefault 2;
 
@@ -44,29 +86,6 @@
         fsType = "vfat";
         options = ["nofail" "noauto"];
       };
-
-      # The MetalLB pools sit behind the k3s server, which shares this L2
-      # segment. Routing them via the gateway makes the router hairpin traffic
-      # back out the interface it arrived on, and it drops that — so point them
-      # straight at the k3s node instead. NetworkManager owns end0 and flushes
-      # foreign routes when it reconfigures the link, so reinstall on link-up
-      # rather than declaring them via networking.interfaces.
-      networking.networkmanager.dispatcherScripts = [
-        {
-          type = "basic";
-          source = pkgs.writeShellScript "homelab-routes" ''
-            interface="$1"
-            action="$2"
-            [ "$interface" = "end0" ] || exit 0
-            case "$action" in
-              up | dhcp4-change)
-                ${pkgs.iproute2}/bin/ip route replace 192.168.10.0/24 via 192.168.2.2 dev end0
-                ${pkgs.iproute2}/bin/ip route replace 192.168.11.0/24 via 192.168.2.2 dev end0
-                ;;
-            esac
-          '';
-        }
-      ];
 
       environment.systemPackages = with pkgs; [
         vim
