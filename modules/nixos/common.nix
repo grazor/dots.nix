@@ -39,9 +39,6 @@
 
     networking = {
       networkmanager.enable = true;
-      # NetworkManager owns DHCP; dhcpcd defaults to on and would otherwise
-      # race it, leaving two default routes on every link (metric 100 vs 1002).
-      dhcpcd.enable = false;
       # Firewall on everywhere; each aspect opens only the ports it owns.
       firewall.enable = true;
     };
