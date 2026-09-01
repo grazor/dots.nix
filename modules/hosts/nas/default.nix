@@ -310,7 +310,8 @@
                 "create mask" = "0664";
                 "directory mask" = "2775";
               };
-              "photos-shared" = familyShare "/srv/nas/photos/shared";
+              # Family photos nobody owns; an immich External Library as well.
+              "photos-family-external" = familyShare "/srv/nas/photos/shared";
               # media is owned by cloud (uid 1000, what the arr pods run as).
               # Write as cloud so Sonarr/Radarr can still hardlink and clean up.
               media = {
@@ -329,14 +330,14 @@
                 })
                 # Own photos: read/write here, and the same directory is an
                 # immich External Library (mounted read-only in the pod).
-                (lib.nameValuePair "photos-${u}" {
+                (lib.nameValuePair "photos-${u}-external" {
                   path = "/srv/nas/photos/${u}";
                   "valid users" = u;
                   "read only" = "no";
                 })
-                # immich's own library, browsable but never written to. Needs
-                # the storage template enabled and the storage label = ${u}.
-                (lib.nameValuePair "immich-${u}" {
+                # immich's own library (phone backups), browsable but never
+                # written to. Needs the storage template on and storage label = ${u}.
+                (lib.nameValuePair "photos-${u}-immich-ro" {
                   path = "/srv/nas/immich/library/${u}";
                   "valid users" = u;
                   "read only" = "yes";
