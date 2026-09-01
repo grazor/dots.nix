@@ -92,12 +92,11 @@
       ...
     }: let
       # People with a personal share and a photo library. uids are pinned
-      # because hostPath ownership has to survive a reinstall.
-      # TODO: replace with the real usernames before the first deploy; the
-      # immich storage label of each person must equal their username here.
+      # because hostPath ownership has to survive a reinstall. Each person's
+      # immich storage label must equal their username here.
       members = {
-        user1 = 2001;
-        user2 = 2002;
+        graz = 2001;
+        po = 2002;
       };
       memberNames = lib.attrNames members;
       familyGid = 2000;
