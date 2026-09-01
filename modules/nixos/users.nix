@@ -40,6 +40,9 @@ in {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
+        # A login shell that runs before the first activation leaves files like
+        # ~/.config/fish/config.fish behind; move them aside instead of failing.
+        backupFileExtension = "hm-bak";
         users.cloud = {
           home.stateVersion = "25.05";
           imports = with hm; [fish tmux git scripts nvf nix-index];
@@ -91,6 +94,9 @@ in {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
+        # A login shell that runs before the first activation leaves files like
+        # ~/.config/fish/config.fish behind; move them aside instead of failing.
+        backupFileExtension = "hm-bak";
         users.g = {
           home.stateVersion = "25.05";
           imports = with hm; [fish tmux tmux-autostart git scripts nvf nix-index];
