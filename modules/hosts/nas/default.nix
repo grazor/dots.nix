@@ -35,7 +35,7 @@
 #     tank $HDD
 #   zfs create -o mountpoint=legacy -o recordsize=1M tank/immich
 #   zfs create -o mountpoint=legacy -o recordsize=1M tank/media
-#   for d in backup shared public; do
+#   for d in backup shared; do
 #     zfs create -o mountpoint=legacy -o compression=zstd tank/$d
 #   done
 #   zfs create -o canmount=off tank/home
@@ -114,7 +114,6 @@
           "/srv/nas/media" = "tank/media";
           "/srv/nas/backup" = "tank/backup";
           "/srv/nas/shared" = "tank/shared";
-          "/srv/nas/public" = "tank/public";
           "/srv/nas/photos/shared" = "tank/photos/shared";
         }
         // lib.listToAttrs (lib.concatMap (u: [
@@ -195,7 +194,7 @@
           })
           members
           // {
-            # Samba guest account: owns everything in the password-less share.
+            # Samba guest account; every session on `shared` writes as it.
             public = {
               uid = 2003;
               isSystemUser = true;
@@ -288,6 +287,8 @@
                 # for real users are still rejected.
                 "map to guest" = "Bad User";
                 "guest account" = "public";
+                # Only list the shares the connecting user may open.
+                "access based share enum" = "yes";
                 # fruit must come first; it makes shares behave for Apple clients.
                 "vfs objects" = "fruit streams_xattr";
                 "fruit:metadata" = "stream";
@@ -296,20 +297,20 @@
                 "fruit:delete_empty_adfiles" = "yes";
                 "inherit permissions" = "yes";
               };
-              shared = familyShare "/srv/nas/shared";
-              "photos-shared" = familyShare "/srv/nas/photos/shared";
-              # Drop box for visitors: anonymous, or guest/guest for clients
-              # that refuse anonymous SMB. Everyone writes as `public`, so
-              # anyone can tidy up after anyone.
-              public = {
-                path = "/srv/nas/public";
+              # The one folder for everyone: family logins, guest/guest, and
+              # anonymous visitors. Every SMB session writes as `public`, so
+              # anyone can tidy up after anyone; group family keeps rw for
+              # local services and the pods.
+              shared = {
+                path = "/srv/nas/shared";
                 "guest ok" = "yes";
                 "read only" = "no";
                 "force user" = "public";
-                "force group" = "public";
+                "force group" = "family";
                 "create mask" = "0664";
                 "directory mask" = "2775";
               };
+              "photos-shared" = familyShare "/srv/nas/photos/shared";
               # media is owned by cloud (uid 1000, what the arr pods run as).
               # Write as cloud so Sonarr/Radarr can still hardlink and clean up.
               media = {
@@ -407,8 +408,7 @@
             "d /srv/nas/media/movies 0755 cloud users -"
             "d /srv/nas/media/tv 0755 cloud users -"
             "d /srv/nas/backup 0755 cloud users -"
-            "d /srv/nas/shared 2775 root family -"
-            "d /srv/nas/public 2775 public public -"
+            "d /srv/nas/shared 2775 public family -"
             "d /srv/nas/home 0755 root root -"
             "d /srv/nas/photos 0755 root root -"
             "d /srv/nas/photos/shared 2775 root family -"
