@@ -343,8 +343,9 @@
               ])
               memberNames);
         };
-        # Discovery: wsdd for Windows "Network", avahi for smb://nas.local on
-        # iPhones and Macs.
+        # Discovery: wsdd for Windows "Network"; avahi for nas.local and the
+        # Finder sidebar on Macs/iPhones. nixpkgs' samba is built without mDNS,
+        # so the SMB service is announced by a static avahi record instead.
         samba-wsdd = {
           enable = true;
           openFirewall = true;
@@ -355,8 +356,26 @@
           openFirewall = true;
           publish = {
             enable = true;
+            addresses = true;
             userServices = true;
           };
+          extraServiceFiles.smb = ''
+            <?xml version="1.0" standalone='no'?>
+            <!DOCTYPE service-group SYSTEM "avahi-service.dtd">
+            <service-group>
+              <name replace-wildcards="yes">%h</name>
+              <service>
+                <type>_smb._tcp</type>
+                <port>445</port>
+              </service>
+              <!-- Finder icon: a rack server. -->
+              <service>
+                <type>_device-info._tcp</type>
+                <port>0</port>
+                <txt-record>model=RackMac</txt-record>
+              </service>
+            </service-group>
+          '';
         };
       };
 
