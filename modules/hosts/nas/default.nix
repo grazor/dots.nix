@@ -35,7 +35,7 @@
 #     tank $HDD
 #   zfs create -o mountpoint=legacy -o recordsize=1M tank/immich
 #   zfs create -o mountpoint=legacy -o recordsize=1M tank/media
-#   for d in backup shared; do
+#   for d in backup shared public; do
 #     zfs create -o mountpoint=legacy -o compression=zstd tank/$d
 #   done
 #   zfs create -o canmount=off tank/home
@@ -113,6 +113,7 @@
           "/srv/nas/media" = "tank/media";
           "/srv/nas/backup" = "tank/backup";
           "/srv/nas/shared" = "tank/shared";
+          "/srv/nas/public" = "tank/public";
           "/srv/nas/photos/shared" = "tank/photos/shared";
         }
         // lib.listToAttrs (lib.concatMap (u: [
@@ -182,7 +183,10 @@
         };
 
       users = {
-        groups.family.gid = familyGid;
+        groups = {
+          family.gid = familyGid;
+          public.gid = 2003;
+        };
         users =
           lib.mapAttrs (_: uid: {
             inherit uid;
@@ -192,6 +196,13 @@
           })
           members
           // {
+            # Samba guest account: owns everything in the password-less share.
+            public = {
+              uid = 2003;
+              isSystemUser = true;
+              group = "public";
+              description = "Samba guest (no password)";
+            };
             # The arr/immich pods run as cloud; it should read the family shares.
             cloud.extraGroups = ["family"];
           };
@@ -267,7 +278,10 @@
               global = {
                 "server string" = "nas";
                 security = "user";
-                "map to guest" = "never";
+                # Unknown usernames become the guest account; wrong passwords
+                # for real users are still rejected.
+                "map to guest" = "Bad User";
+                "guest account" = "public";
                 # fruit must come first; it makes shares behave for Apple clients.
                 "vfs objects" = "fruit streams_xattr";
                 "fruit:metadata" = "stream";
@@ -278,6 +292,17 @@
               };
               shared = familyShare "/srv/nas/shared";
               "photos-shared" = familyShare "/srv/nas/photos/shared";
+              # Password-less drop box for visitors. Guests and members alike
+              # write as `public`, so anyone can tidy up after anyone.
+              public = {
+                path = "/srv/nas/public";
+                "guest ok" = "yes";
+                "read only" = "no";
+                "force user" = "public";
+                "force group" = "public";
+                "create mask" = "0664";
+                "directory mask" = "2775";
+              };
               # media is owned by cloud (uid 1000, what the arr pods run as).
               # Write as cloud so Sonarr/Radarr can still hardlink and clean up.
               media = {
@@ -354,6 +379,7 @@
           "d /srv/nas/media/tv 0755 cloud users -"
           "d /srv/nas/backup 0755 cloud users -"
           "d /srv/nas/shared 2775 root family -"
+          "d /srv/nas/public 2775 public public -"
           "d /srv/nas/home 0755 root root -"
           "d /srv/nas/photos 0755 root root -"
           "d /srv/nas/photos/shared 2775 root family -"
