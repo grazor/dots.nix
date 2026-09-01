@@ -60,7 +60,8 @@
 #   # point "/srv/nas/media" below at bulk/media, add bulk to autoScrub,
 #   # rebuild, then: zfs destroy -r tank/media
 #
-# Samba keeps its own password database. Once per member, on the box:
+# Samba keeps its own password database. Once per member, and once for the
+# visitor login `guest`, on the box:
 #   sudo smbpasswd -a <member>
 {mkNixos, ...}: {
   flake.nixosConfigurations.nas = mkNixos {
@@ -87,7 +88,6 @@
       ];
 
     machine = {
-      config,
       lib,
       pkgs,
       ...
@@ -368,20 +368,6 @@
 
       systemd = {
         tpm2.enable = false;
-
-        # The guest login's password is public knowledge, so it is set here
-        # instead of by hand. Idempotent: only adds the entry when missing.
-        services.samba-guest-password = {
-          description = "Set the well-known Samba password for guest";
-          wantedBy = ["multi-user.target"];
-          after = ["samba-smbd.service"];
-          serviceConfig.Type = "oneshot";
-          path = [config.services.samba.package];
-          script = ''
-            pdbedit -L 2>/dev/null | grep -q '^guest:' \
-              || printf 'guest\nguest\n' | smbpasswd -s -a guest
-          '';
-        };
 
         # Runs after local-fs.target, so these land inside the mounted datasets
         # and fix up ownership of each dataset root.
