@@ -87,6 +87,7 @@
       ];
 
     machine = {
+      config,
       lib,
       pkgs,
       ...
@@ -151,8 +152,6 @@
       system.stateVersion = "25.05";
       nix.settings.max-jobs = lib.mkDefault 4;
 
-      systemd.tpm2.enable = false;
-
       # Regenerate on the device:
       #   sudo nixos-facter -o modules/hosts/nas/facter.json
       facter.reportPath = ./facter.json;
@@ -202,6 +201,13 @@
               isSystemUser = true;
               group = "public";
               description = "Samba guest (no password)";
+            };
+            # Login for clients that refuse anonymous SMB (Windows): guest/guest.
+            guest = {
+              uid = 2004;
+              isSystemUser = true;
+              group = "public";
+              description = "Samba visitor login (well-known password)";
             };
             # The arr/immich pods run as cloud; it should read the family shares.
             cloud.extraGroups = ["family"];
@@ -292,8 +298,9 @@
               };
               shared = familyShare "/srv/nas/shared";
               "photos-shared" = familyShare "/srv/nas/photos/shared";
-              # Password-less drop box for visitors. Guests and members alike
-              # write as `public`, so anyone can tidy up after anyone.
+              # Drop box for visitors: anonymous, or guest/guest for clients
+              # that refuse anonymous SMB. Everyone writes as `public`, so
+              # anyone can tidy up after anyone.
               public = {
                 path = "/srv/nas/public";
                 "guest ok" = "yes";
@@ -359,37 +366,55 @@
         smartmontools
       ];
 
-      # Runs after local-fs.target, so these land inside the mounted datasets
-      # and fix up ownership of each dataset root.
-      systemd.tmpfiles.rules =
-        [
-          "d /srv/nas 0755 root root -"
-          "d /srv/nas/appdata 0755 cloud users -"
-          "d /srv/nas/db 0755 root root -"
-          # immich's postgres image runs as uid/gid 999.
-          "d /srv/nas/db/immich 0700 999 999 -"
-          "d /srv/nas/immich 0755 cloud users -"
-          "d /srv/nas/media 0755 cloud users -"
-          "d /srv/nas/media/books 0755 cloud users -"
-          "d /srv/nas/media/downloads 0755 cloud users -"
-          "d /srv/nas/media/downloads/complete 0755 cloud users -"
-          "d /srv/nas/media/downloads/incomplete 0755 cloud users -"
-          "d /srv/nas/media/downloads/incomplete-nzb 0755 cloud users -"
-          "d /srv/nas/media/movies 0755 cloud users -"
-          "d /srv/nas/media/tv 0755 cloud users -"
-          "d /srv/nas/backup 0755 cloud users -"
-          "d /srv/nas/shared 2775 root family -"
-          "d /srv/nas/public 2775 public public -"
-          "d /srv/nas/home 0755 root root -"
-          "d /srv/nas/photos 0755 root root -"
-          "d /srv/nas/photos/shared 2775 root family -"
-        ]
-        ++ map (a: "d /srv/nas/appdata/${a} 0755 cloud users -") appdataDirs
-        ++ lib.concatMap (u: [
-          "d /srv/nas/home/${u} 0700 ${u} family -"
-          "d /srv/nas/photos/${u} 0750 ${u} family -"
-        ])
-        memberNames;
+      systemd = {
+        tpm2.enable = false;
+
+        # The guest login's password is public knowledge, so it is set here
+        # instead of by hand. Idempotent: only adds the entry when missing.
+        services.samba-guest-password = {
+          description = "Set the well-known Samba password for guest";
+          wantedBy = ["multi-user.target"];
+          after = ["samba-smbd.service"];
+          serviceConfig.Type = "oneshot";
+          path = [config.services.samba.package];
+          script = ''
+            pdbedit -L 2>/dev/null | grep -q '^guest:' \
+              || printf 'guest\nguest\n' | smbpasswd -s -a guest
+          '';
+        };
+
+        # Runs after local-fs.target, so these land inside the mounted datasets
+        # and fix up ownership of each dataset root.
+        tmpfiles.rules =
+          [
+            "d /srv/nas 0755 root root -"
+            "d /srv/nas/appdata 0755 cloud users -"
+            "d /srv/nas/db 0755 root root -"
+            # immich's postgres image runs as uid/gid 999.
+            "d /srv/nas/db/immich 0700 999 999 -"
+            "d /srv/nas/immich 0755 cloud users -"
+            "d /srv/nas/media 0755 cloud users -"
+            "d /srv/nas/media/books 0755 cloud users -"
+            "d /srv/nas/media/downloads 0755 cloud users -"
+            "d /srv/nas/media/downloads/complete 0755 cloud users -"
+            "d /srv/nas/media/downloads/incomplete 0755 cloud users -"
+            "d /srv/nas/media/downloads/incomplete-nzb 0755 cloud users -"
+            "d /srv/nas/media/movies 0755 cloud users -"
+            "d /srv/nas/media/tv 0755 cloud users -"
+            "d /srv/nas/backup 0755 cloud users -"
+            "d /srv/nas/shared 2775 root family -"
+            "d /srv/nas/public 2775 public public -"
+            "d /srv/nas/home 0755 root root -"
+            "d /srv/nas/photos 0755 root root -"
+            "d /srv/nas/photos/shared 2775 root family -"
+          ]
+          ++ map (a: "d /srv/nas/appdata/${a} 0755 cloud users -") appdataDirs
+          ++ lib.concatMap (u: [
+            "d /srv/nas/home/${u} 0700 ${u} family -"
+            "d /srv/nas/photos/${u} 0750 ${u} family -"
+          ])
+          memberNames;
+      };
 
       powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
     };
