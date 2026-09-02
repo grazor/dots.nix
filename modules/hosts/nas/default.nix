@@ -63,6 +63,10 @@
 # Samba keeps its own password database. Once per member, and once for the
 # visitor login `guest`, on the box:
 #   sudo smbpasswd -a <member>
+#
+# Incus (throwaway dev containers) keeps its instances on rpool/incus, a
+# dataset it creates itself on first start; it is not in the list above and
+# nothing snapshots or replicates it. Precious files belong in /share.
 {mkNixos, ...}: {
   flake.nixosConfigurations.nas = mkNixos {
     aspects = m:
@@ -70,6 +74,7 @@
         common
         proxy
         docker
+        incus
         graphics-intel
         udev
         headless
@@ -209,7 +214,8 @@
               description = "Samba visitor login (well-known password)";
             };
             # The arr/immich pods run as cloud; it should read the family shares.
-            cloud.extraGroups = ["family"];
+            # incus-admin: drive Incus with `incus` without sudo.
+            cloud.extraGroups = ["family" "incus-admin"];
           };
       };
 
@@ -379,6 +385,65 @@
             </service-group>
           '';
         };
+      };
+
+      # Dev containers (Rust apps, Telegram bots, ...):
+      #   incus launch images:debian/13 bot -p default -p share
+      #   incus exec bot -- bash
+      #   incus delete -f bot
+      # Re-applied on every incusd start, so nothing here may be "auto".
+      virtualisation.incus.preseed = {
+        networks = [
+          {
+            name = "incusbr0";
+            type = "bridge";
+            config = {
+              # NAT to the LAN. 10.100.0.0/24 is dell's WireGuard subnet.
+              "ipv4.address" = "10.20.0.1/24";
+              "ipv4.nat" = "true";
+              "ipv6.address" = "none";
+            };
+          }
+        ];
+        # Each instance is a ZFS dataset under rpool/incus (SSD), so launch,
+        # snapshot and delete are instant. Incus creates the dataset itself.
+        storage_pools = [
+          {
+            name = "default";
+            driver = "zfs";
+            config.source = "rpool/incus";
+          }
+        ];
+        profiles = [
+          {
+            name = "default";
+            devices = {
+              eth0 = {
+                name = "eth0";
+                network = "incusbr0";
+                type = "nic";
+              };
+              root = {
+                path = "/";
+                pool = "default";
+                type = "disk";
+              };
+            };
+          }
+          # `-p share`: the SMB `shared` folder at /share. shift maps host uids
+          # into the unprivileged container, so root inside reads and writes
+          # everything. Files it creates are root:family 0644; use umask 002
+          # (or chmod g+w) if they must stay editable over SMB.
+          {
+            name = "share";
+            devices.share = {
+              type = "disk";
+              source = "/srv/nas/shared";
+              path = "/share";
+              shift = "true";
+            };
+          }
+        ];
       };
 
       environment.systemPackages = with pkgs; [

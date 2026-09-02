@@ -13,7 +13,7 @@ each host is built by **composing** aspects (no per-feature enable flags).
 |------|--------|------|------|
 | `dell` | Dell laptop | NixOS | homelab k3s **server** + WireGuard server (headless, user `cloud`) |
 | `asus` | Asus node | NixOS | homelab k3s **agent**/worker (headless, user `cloud`) |
-| `nas` | Homebuilt NAS | NixOS | homelab k3s **agent**/storage worker with ZFS (headless, user `cloud`) |
+| `nas` | Homebuilt NAS | NixOS | homelab k3s **agent**/storage worker with ZFS + Incus dev containers (headless, user `cloud`) |
 | `rpi4b` | Raspberry Pi 4B | NixOS | native Zigbee2MQTT bridge to the k3s MQTT broker (headless, user `pi`) |
 | `desktop` | Desktop PC | NixOS | gaming workstation — GNOME + NVIDIA + Steam (user `g`) |
 | `mac` | Work MacBook | nix-darwin | dev machine (user `smporyvaev`) |
@@ -94,6 +94,17 @@ Bootstrap order for the homelab cluster is `dell` first, then `asus` / `nas`:
 The `nas` node registers with `storage=nas` and the `storage=nas:NoSchedule`
 taint, so only workloads with the matching selector and toleration are scheduled
 there.
+
+`nas` also runs Incus for throwaway dev containers (Rust apps, Telegram bots).
+Instances are ZFS datasets under `rpool/incus`; the `share` profile mounts the
+SMB `shared` folder at `/share` inside the container:
+
+```sh
+incus image list images: debian                          # browse images
+incus launch images:debian/13 bot -p default -p share
+incus exec bot -- bash
+incus delete -f bot
+```
 
 `rpi4b` is intentionally not a k3s node. It runs native Zigbee2MQTT against the
 USB coordinator and publishes to the k3s Mosquitto LoadBalancer at
