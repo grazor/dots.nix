@@ -417,6 +417,9 @@
         profiles = [
           {
             name = "default";
+            # Nested namespaces get a clean procfs, which the Nix build
+            # sandbox needs; the stock NixOS image cannot rebuild without it.
+            config."security.nesting" = "true";
             devices = {
               eth0 = {
                 name = "eth0";
