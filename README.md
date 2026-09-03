@@ -12,7 +12,7 @@ each host is built by **composing** aspects (no per-feature enable flags).
 | Host | Device | Type | Role |
 |------|--------|------|------|
 | `dell` | Dell laptop | NixOS | homelab k3s **server** + WireGuard server (headless, user `cloud`) |
-| `asus` | Asus node | NixOS | homelab k3s **agent**/worker (headless, user `cloud`) |
+| `asus` | Asus node | NixOS | homelab k3s **agent**/worker + shared HP USB printer/scanner (headless, user `cloud`) |
 | `nas` | Homebuilt NAS | NixOS | homelab k3s **agent**/storage worker with ZFS + Incus dev containers (headless, user `cloud`) |
 | `rpi4b` | Raspberry Pi 4B | NixOS | native Zigbee2MQTT bridge to the k3s MQTT broker (headless, user `pi`) |
 | `lxc` | Incus container | NixOS | dev container guest on `nas`: shell, tmux, nvf, dev tools (user `cloud`) |

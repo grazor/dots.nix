@@ -1,4 +1,5 @@
-# Asus node — homelab k3s agent/worker (headless, user `cloud`).
+# Asus node — homelab k3s agent/worker (headless, user `cloud`), and the box
+# the HP USB printer/scanner is plugged into.
 {mkNixos, ...}: {
   flake.nixosConfigurations.asus = mkNixos {
     aspects = m:
@@ -15,6 +16,7 @@
         k3s-agent
         ssh-server
         sops
+        print-server
         tools
         mediatools
         devtools
@@ -47,6 +49,12 @@
 
       hardware.bluetooth.enable = true;
       powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+
+      # Print and scan over USB from a local shell too. The queue itself is
+      # made once with `sudo hp-setup -i`; to pin it here instead, use
+      # hardware.printers.ensurePrinters with the URI from `lpinfo -v` and
+      # the model from `lpinfo -m`.
+      users.users.cloud.extraGroups = ["lp" "scanner"];
     };
   };
 }
