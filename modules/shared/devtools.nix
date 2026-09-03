@@ -12,6 +12,9 @@ let
       ripgrep
       jira-cli-go
 
+      # For the `psql` client; nixpkgs ships no client-only split of this.
+      postgresql
+
       k9s
       fluxcd
     ];

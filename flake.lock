@@ -413,7 +413,6 @@
         "sops-nix": "sops-nix",
         "stylix": "stylix",
         "treefmt-nix": "treefmt-nix",
-        "workmux": "workmux",
         "zen-browser": "zen-browser"
       }
     },
@@ -567,26 +566,6 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "workmux": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1788380432,
-        "narHash": "sha256-HYDKnkPrl4lpxGXTzW1FhIMUkOM8s4PhR5ZTkTc/T9w=",
-        "owner": "raine",
-        "repo": "workmux",
-        "rev": "7db11edacf359baaaf0dcdd8c2e2453310366c16",
-        "type": "github"
-      },
-      "original": {
-        "owner": "raine",
-        "repo": "workmux",
         "type": "github"
       }
     },
