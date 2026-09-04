@@ -23,6 +23,13 @@ creation_rules:
           - *dell
           # - *asus
           # - *nas
+  # Control-plane-only material: the agents never become recipients here, so
+  # adding them to secrets/k3s.yaml does not hand them the sealing key.
+  - path_regex: secrets/server\.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *dell
   - path_regex: secrets/zigbee2mqtt\.yaml$
     key_groups:
       - age:

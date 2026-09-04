@@ -170,13 +170,39 @@ nearest available). Hook suggestions win over the built-in detection above.
 
 ## Secrets (sops-nix)
 
-`secrets/k3s.yaml` is encrypted with SOPS (age) and **already populated**. It
-holds two values:
+SOPS recipients are per *file*, not per key: everyone listed on a file can
+decrypt every value in it. So the k3s material is split by who must read it.
+
+`secrets/k3s.yaml` — every node is a recipient, so it holds exactly one value:
 
 | Key | Purpose | Consumed by |
 |-----|---------|-------------|
-| `k3s-token` | k3s server/agent join token | `services.k3s.tokenFile` on `dell` + `asus` + `nas` |
-| `code-ssh-key` | `cloud@hl-dell-node1` git push key for the homelab repo | installed to `/home/cloud/.ssh/k3s-flux` on every k3s node (`k3s-base`) |
+| `k3s-token` | k3s server/agent join token | `services.k3s.tokenFile` on `dell` + `asus` + `nas` (`k3s-base`) |
+
+`secrets/server.yaml` — admin + the control-plane node only:
+
+| Key | Purpose | Consumed by |
+|-----|---------|-------------|
+| `code-ssh-key` | `cloud@hl-dell-node1` git push key for the homelab repo | symlinked to `/home/cloud/.ssh/k3s-flux` on the server (`k3s-server`) |
+| `k3s-sealed-secrets-private` | Sealed Secrets controller key (RSA 4096) | `/run/secrets/k3s-sealed-secrets-private` on the server (`k3s-server`) |
+
+The matching **cert is public** and deliberately unencrypted, at
+`modules/nixos/data/sealed-secrets.crt` — `k3s-server` puts it at
+`/etc/sealed-secrets.crt`, and `kubeseal --cert` needs no age key to seal
+against it. RSA rather than ed25519 because sealed-secrets wraps its AES
+session key with RSA-OAEP and kubeseal rejects any other key type.
+
+Installing the key into the cluster is manual, since nothing bootstraps Flux
+from here any more:
+
+```sh
+kubectl -n sealed-secrets create secret tls graz-sealed-key \
+  --cert=/etc/sealed-secrets.crt \
+  --key=/run/secrets/k3s-sealed-secrets-private
+kubectl -n sealed-secrets label secret graz-sealed-key \
+  sealedsecrets.bitnami.com/sealed-secrets-key=active
+kubectl -n sealed-secrets delete pod -l name=sealed-secrets-controller
+```
 
 `secrets/zigbee2mqtt.yaml` holds the native Raspberry Pi Zigbee2MQTT MQTT
 password:

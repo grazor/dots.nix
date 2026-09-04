@@ -22,17 +22,9 @@
         inherit (my-kubernetes-helm) pluginsDir;
       };
     in {
-      # k3s join token, decrypted on-device by sops-nix.
-      sops.secrets."k3s-token" = {};
-
-      # The `code` key (cloud@hl-dell-node1) reaches the homelab manifests repo
-      # from any node in the cluster. Not ~/.ssh/id_ed25519: it is a
-      # purpose-specific key, so point git at it explicitly.
-      sops.secrets."code-ssh-key" = {
-        owner = "cloud";
-        path = "/home/cloud/.ssh/k3s-flux";
-        mode = "0600";
-      };
+      # k3s join token, decrypted on-device by sops-nix. Every node is a
+      # recipient of secrets/k3s.yaml, so that file holds nothing else.
+      sops.secrets."k3s-token".restartUnits = ["k3s.service"];
 
       environment.systemPackages = with pkgs;
         [
@@ -92,6 +84,33 @@
     k3s-server = {
       # API server, used by the agents and kubectl from the LAN.
       networking.firewall.allowedTCPPorts = [6443];
+
+      # Control-plane-only material lives in secrets/server.yaml, whose only
+      # recipients are the admin key and this node — the agents are recipients
+      # of secrets/k3s.yaml and must not be able to read these.
+      #
+      # The `code` key (cloud@hl-dell-node1) pushes to the homelab manifests
+      # repo. Not ~/.ssh/id_ed25519: it is a purpose-specific key, so point git
+      # at it explicitly (git -c core.sshCommand, or ~/.ssh/config).
+      sops.secrets."code-ssh-key" = {
+        sopsFile = ../../secrets/server.yaml;
+        owner = "cloud";
+        path = "/home/cloud/.ssh/k3s-flux";
+        mode = "0600";
+      };
+
+      # Sealed Secrets controller key. Nothing here installs it: create the TLS
+      # secret by hand from this path (see README) — the controller owns it
+      # from then on.
+      sops.secrets."k3s-sealed-secrets-private" = {
+        sopsFile = ../../secrets/server.yaml;
+        owner = "cloud";
+        mode = "0400";
+      };
+
+      # Its cert is public by design: kept in the clear so `kubeseal --cert`
+      # works without the age key.
+      environment.etc."sealed-secrets.crt".source = ./data/sealed-secrets.crt;
 
       services.k3s = {
         role = "server";
