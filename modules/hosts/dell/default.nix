@@ -13,8 +13,8 @@
         udev
         battery
         headless
-        k3s-base
-        k3s-server
+        #k3s-base
+        #k3s-server
         flux-bootstrap
         ssh-server
         sops
