@@ -120,21 +120,10 @@ repo keeps only the `z2m.porivaev.ru` Traefik route to that frontend. After
 moving the dongle, keep the in-cluster Zigbee2MQTT workload disabled so only one
 instance owns the coordinator.
 
-Flux bootstrap runs from the k3s server (`dell`) only; it is already enabled
-there via `grazor.flux.enable = true` (defaults point at
-`ssh://git@github.com/grazor/homelab`, path `./cluster`). On activation,
-`flux-bootstrap.service`:
-
-1. restores the **Sealed Secrets** controller key as the TLS secret
-   `sealed-secrets/graz-sealed-key` (labeled active) so the `SealedSecret`
-   manifests committed in the homelab repo decrypt in-cluster;
-2. installs the Flux controllers;
-3. creates the Git deploy-key secret plus the root `GitRepository` +
-   `Kustomization` (equivalent to `cluster/flux-system/gotk-sync.yaml`).
-
-In-cluster secrets are decrypted by the sealed-secrets controller — Flux does
-**not** use SOPS decryption. Agent nodes (`asus`, `nas`) do not run Flux
-bootstrap; they just join the k3s cluster.
+Flux is bootstrapped from outside this repo: run `flux bootstrap` (or the
+homelab repo's `scripts/setup.sh`) against the cluster by hand. The Flux deploy
+key and the Sealed Secrets controller key are no longer kept here either — the
+nodes only carry the k3s join token.
 
 ### macOS
 
@@ -182,14 +171,11 @@ nearest available). Hook suggestions win over the built-in detection above.
 ## Secrets (sops-nix)
 
 `secrets/k3s.yaml` is encrypted with SOPS (age) and **already populated**. It
-holds five values:
+holds two values:
 
 | Key | Purpose | Consumed by |
 |-----|---------|-------------|
 | `k3s-token` | k3s server/agent join token | `services.k3s.tokenFile` on `dell` + `asus` + `nas` |
-| `flux-deploy-key` | OpenSSH deploy key for the homelab manifests repo | `flux-bootstrap.service` (GitRepository secret) |
-| `sealed-secrets-tls-crt` | Sealed Secrets controller cert | restored as `sealed-secrets/graz-sealed-key` |
-| `sealed-secrets-tls-key` | Sealed Secrets controller key | restored as `sealed-secrets/graz-sealed-key` |
 | `code-ssh-key` | `cloud@hl-dell-node1` git push key | installed to `/home/cloud/.ssh/id_ed25519` on `dell` |
 
 `secrets/zigbee2mqtt.yaml` holds the native Raspberry Pi Zigbee2MQTT MQTT

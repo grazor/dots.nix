@@ -15,7 +15,6 @@
         headless
         #k3s-base
         #k3s-server
-        flux-bootstrap
         ssh-server
         sops
         tools
@@ -34,9 +33,6 @@
       # k3s/CoreDNS handle DNS; systemd-resolved is forced off here.
       services.resolved.enable = lib.mkForce false;
 
-      # Bootstrap Flux + restore the Sealed Secrets key on this (server) node.
-      grazor.flux.enable = true;
-
       # The `code` key (cloud@hl-dell-node1) is this node's git push key.
       sops.secrets."code-ssh-key" = {
         owner = "cloud";
@@ -49,13 +45,15 @@
       facter.reportPath = ./facter.json;
 
       # facter does not manage mounts — declare them explicitly.
+      # Single unencrypted ext4 root plus the EFI system partition, both
+      # addressed by label so a reinstall does not change the config:
+      #   mkfs.fat -F32 -n BOOT <esp> ; mkfs.ext4 -L nixos <root>
       fileSystems."/" = {
-        device = "/dev/disk/by-uuid/65b0d516-76fe-4a82-bd43-ab937680d82b";
+        device = "/dev/disk/by-label/nixos";
         fsType = "ext4";
       };
-      boot.initrd.luks.devices."luks-8da9eb70-9a52-4935-82ca-69d39e465873".device = "/dev/disk/by-uuid/8da9eb70-9a52-4935-82ca-69d39e465873";
       fileSystems."/boot" = {
-        device = "/dev/disk/by-uuid/A2D3-9A85";
+        device = "/dev/disk/by-label/BOOT";
         fsType = "vfat";
         options = ["fmask=0077" "dmask=0077"];
       };
