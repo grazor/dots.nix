@@ -12,9 +12,8 @@
         graphics-intel
         udev
         headless
-        # Temporarily out of the cluster; re-enable both together.
-        #k3s-base
-        #k3s-agent
+        k3s-base
+        k3s-agent
         ssh-server
         sops
         print-server

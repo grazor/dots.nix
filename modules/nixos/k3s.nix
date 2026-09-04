@@ -132,9 +132,12 @@
     };
 
     k3s-nas = {
+      # No node-role.kubernetes.io/* here: kubelet refuses to self-assign
+      # labels in the kubernetes.io namespace and exits, taking k3s with it.
+      # The cosmetic ROLES entry is set from the server instead:
+      #   kubectl label node nas node-role.kubernetes.io/nas=true
       services.k3s.extraFlags = toString [
         "--node-label=storage=nas"
-        "--node-label=node-role.kubernetes.io/nas=true"
         "--node-taint=storage=nas:NoSchedule"
       ];
     };
