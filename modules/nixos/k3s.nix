@@ -25,6 +25,15 @@
       # k3s join token, decrypted on-device by sops-nix.
       sops.secrets."k3s-token" = {};
 
+      # The `code` key (cloud@hl-dell-node1) reaches the homelab manifests repo
+      # from any node in the cluster. Not ~/.ssh/id_ed25519: it is a
+      # purpose-specific key, so point git at it explicitly.
+      sops.secrets."code-ssh-key" = {
+        owner = "cloud";
+        path = "/home/cloud/.ssh/k3s-flux";
+        mode = "0600";
+      };
+
       environment.systemPackages = with pkgs;
         [
           nfs-utils

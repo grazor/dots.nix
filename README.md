@@ -176,7 +176,7 @@ holds two values:
 | Key | Purpose | Consumed by |
 |-----|---------|-------------|
 | `k3s-token` | k3s server/agent join token | `services.k3s.tokenFile` on `dell` + `asus` + `nas` |
-| `code-ssh-key` | `cloud@hl-dell-node1` git push key | installed to `/home/cloud/.ssh/id_ed25519` on `dell` |
+| `code-ssh-key` | `cloud@hl-dell-node1` git push key for the homelab repo | installed to `/home/cloud/.ssh/k3s-flux` on every k3s node (`k3s-base`) |
 
 `secrets/zigbee2mqtt.yaml` holds the native Raspberry Pi Zigbee2MQTT MQTT
 password:

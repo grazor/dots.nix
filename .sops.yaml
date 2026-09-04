@@ -11,7 +11,7 @@
 keys:
   - &admin age1d93mez999rx9dmjtdjyujnsffvchehyfv8v8jqfurter2pydju5s3xthlt
   - &rpi4b age1eelwcjp3p2ksegx76n53pqz87z6mxpd00a05legj4s8sja3dgy3s0rcx76
-  # - &dell age1REPLACE_DELL
+  - &dell age14xwqc7e0jn8upg7vqetg4puavlznahkfrg6x4yj2vpx3uu2knegsnmylcg
   # - &asus age1REPLACE_ASUS
   # - &nas age1REPLACE_NAS
 
@@ -20,7 +20,7 @@ creation_rules:
     key_groups:
       - age:
           - *admin
-          # - *dell
+          - *dell
           # - *asus
           # - *nas
   - path_regex: secrets/zigbee2mqtt\.yaml$
