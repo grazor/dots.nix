@@ -78,11 +78,9 @@
         graphics-intel
         udev
         headless
-        # Off while data migrates onto the new pools. Re-enable k3s-base,
-        # k3s-agent and k3s-nas once /srv/nas is populated.
-        #k3s-base
-        #k3s-agent
-        #k3s-nas
+        k3s-base
+        k3s-agent
+        k3s-nas
         ssh-server
         sops
         tools
