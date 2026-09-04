@@ -16,7 +16,7 @@
         k3s-agent
         ssh-server
         sops
-        print-server
+        #print-server
         tools
         mediatools
         devtools
