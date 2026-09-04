@@ -120,6 +120,10 @@
           "--write-kubeconfig-mode=640"
           "--disable=traefik"
           "--disable=servicelb"
+          # The router's static routes send the MetalLB VIPs to this node, and
+          # Traefik pins itself here with nodeSelector ingress=true (its
+          # externalTrafficPolicy: Local needs an endpoint on the same node).
+          "--node-label=ingress=true"
         ];
       };
     };
