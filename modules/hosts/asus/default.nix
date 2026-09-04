@@ -5,7 +5,6 @@
     aspects = m:
       with m; [
         common
-        wireless
         proxy
         docker
         pipewire
