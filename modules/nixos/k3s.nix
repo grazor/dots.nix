@@ -50,7 +50,12 @@
       # kubelet (10250/tcp) and flannel VXLAN (8472/udp) between nodes;
       # pod/CNI traffic flows over trusted interfaces.
       networking.firewall = {
-        allowedTCPPorts = [10250];
+        # 10250 kubelet; 9100 node-exporter, which runs on the host network,
+        # so Prometheus reaches it at the node address rather than a pod IP.
+        # Without it only the node Prometheus itself runs on is scraped - the
+        # rest answer through cni0, which is trusted, while the others arrive
+        # on the physical NIC and are dropped.
+        allowedTCPPorts = [10250 9100];
         allowedUDPPorts = [8472];
         trustedInterfaces = ["cni0" "flannel.1"];
       };
