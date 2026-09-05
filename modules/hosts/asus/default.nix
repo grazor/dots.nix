@@ -29,6 +29,17 @@
       nix.settings.max-jobs = lib.mkDefault 8;
 
       systemd.tpm2.enable = false;
+
+      # Pin k3s to the wired NIC. The box holds DHCP leases on both enp2s0
+      # (192.168.2.31) and wlan0 (192.168.2.20); k3s picks by default route,
+      # and when it lands on wlan0 the flannel VXLAN endpoint moves to Wi-Fi
+      # with it. Control traffic survives that, but Longhorn's engine-to-replica
+      # writes do not: replicas report "Failed to write" and the engine never
+      # leaves `starting`, so volumes hang in `attaching`.
+      services.k3s.extraFlags = lib.mkForce (toString [
+        "--node-ip=192.168.2.31"
+        "--flannel-iface=enp2s0"
+      ]);
       services.resolved.enable = lib.mkForce false;
 
       # Regenerate on the device:
