@@ -278,6 +278,20 @@
           notifications.wall.enable = true;
         };
 
+        # ZFS capacity for Prometheus: pool size/allocated/free/health and
+        # per-dataset used/available, from `zpool list` / `zfs list`. The
+        # in-cluster node-exporter only sees the kernel kstats (ARC, pool
+        # state), never capacity, and no pod can run zpool against the host
+        # module. Scraped by address under job "zfs" in the homelab prometheus
+        # ConfigMap, like rpi4b's node-exporter. All pools by default, so
+        # `bulk` shows up on its own once it exists.
+        prometheus.exporters.zfs = {
+          enable = true;
+          listenAddress = "0.0.0.0";
+          port = 9134;
+          openFirewall = true;
+        };
+
         # SMB for Windows Explorer, the iOS Files app and Android file managers.
         samba = {
           enable = true;
