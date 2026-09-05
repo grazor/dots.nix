@@ -65,8 +65,22 @@
       nix.settings.max-jobs = lib.mkDefault 2;
 
       systemd.tpm2.enable = false;
-      services.acpid.enable = lib.mkForce false;
-      services.pcscd.enable = lib.mkForce false;
+      services = {
+        acpid.enable = lib.mkForce false;
+        pcscd.enable = lib.mkForce false;
+
+        # The cluster's Prometheus scrapes this host by address - the Pi is
+        # not a k8s node, so there is no endpoint to discover. systemd gives
+        # the zigbee2mqtt unit's state; thermal_zone gives the SoC
+        # temperature, which is the number that actually matters on a Pi.
+        prometheus.exporters.node = {
+          enable = true;
+          listenAddress = "0.0.0.0";
+          port = 9100;
+          enabledCollectors = ["systemd" "thermal_zone"];
+          openFirewall = true;
+        };
+      };
 
       # Regenerate on the device:
       #   sudo nixos-facter -o modules/hosts/rpi4b/facter.json
