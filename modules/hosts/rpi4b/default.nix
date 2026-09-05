@@ -10,8 +10,6 @@
         ssh-server
         sops
         zigbee2mqtt-native
-        tools
-        devtools
         user-pi
       ];
 
@@ -87,8 +85,19 @@
         options = ["nofail" "noauto"];
       };
 
+      # No `tools`/`devtools` here. This host runs one service, and those
+      # aspects carry a workstation's worth of things it has no use for -
+      # k9s, fluxcd, jira-cli, postgresql, glow, tig, shellcheck, shfmt,
+      # gnumake, python3 - on an SD card. What is left is what is actually
+      # used to look after it: an editor, git to pull this repo, and enough
+      # to poke at the broker. `common` already provides the network and
+      # hardware tooling (bind, iproute2, iw, usbutils, htop, ...).
       environment.systemPackages = with pkgs; [
         vim
+        git
+        curl
+        jq
+        ncdu
       ];
 
       powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
