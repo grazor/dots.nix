@@ -30,16 +30,18 @@
 
       systemd.tpm2.enable = false;
 
-      # Pin k3s to the wired NIC. The box holds DHCP leases on both enp2s0
-      # (192.168.2.31) and wlan0 (192.168.2.20); k3s picks by default route,
-      # and when it lands on wlan0 the flannel VXLAN endpoint moves to Wi-Fi
-      # with it. Control traffic survives that, but Longhorn's engine-to-replica
-      # writes do not: replicas report "Failed to write" and the engine never
-      # leaves `starting`, so volumes hang in `attaching`.
-      services.k3s.extraFlags = lib.mkForce (toString [
-        "--node-ip=192.168.2.31"
-        "--flannel-iface=enp2s0"
-      ]);
+      # The Wi-Fi radio is off entirely: this is a wired server, and leaving it
+      # up gave the box a second address on the same subnet. k3s picked the
+      # Wi-Fi one by default route, which moved the flannel VXLAN endpoint onto
+      # Wi-Fi with it. Control traffic tolerated that, Longhorn did not -
+      # replicas reported "Failed to write", the engine never left `starting`,
+      # and volumes hung in `attaching`.
+      boot.blacklistedKernelModules = ["iwlwifi"];
+
+      # One NIC left, so the node IP is unambiguous; name the interface anyway
+      # rather than leaving flannel to infer it. No --node-ip: the address is
+      # a DHCP lease and hardcoding one that moves stops k3s from starting.
+      services.k3s.extraFlags = lib.mkForce "--flannel-iface=enp2s0";
       services.resolved.enable = lib.mkForce false;
 
       # Regenerate on the device:
