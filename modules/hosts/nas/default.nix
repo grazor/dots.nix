@@ -137,6 +137,7 @@
         "sabnzbd"
         "seerr"
         "sonarr"
+        "paperless"
       ];
 
       # Group-writable share: everyone in `family` sees each other's files.
