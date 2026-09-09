@@ -140,6 +140,14 @@
         "sonarr"
         "paperless"
         "orcaslicer"
+        "navidrome"
+        "kavita"
+        "ombi"
+        # audiobookshelf keeps config and metadata apart, like its own compose
+        # file does; the parent is listed so it is not created root-owned.
+        "audiobookshelf"
+        "audiobookshelf/config"
+        "audiobookshelf/metadata"
       ];
 
       # Group-writable share: everyone in `family` sees each other's files.
@@ -484,6 +492,7 @@
             "d /srv/nas/db/immich 0700 999 999 -"
             "d /srv/nas/immich 0755 cloud users -"
             "d /srv/nas/media 0755 cloud users -"
+            "d /srv/nas/media/audiobooks 0755 cloud users -"
             "d /srv/nas/media/books 0755 cloud users -"
             "d /srv/nas/media/downloads 0755 cloud users -"
             "d /srv/nas/media/downloads/complete 0755 cloud users -"
