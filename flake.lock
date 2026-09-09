@@ -398,6 +398,22 @@
         "type": "github"
       }
     },
+    "postilla-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1787232391,
+        "narHash": "sha256-y7/vnBaDi+yBY+OiMlljfK35z7BW2uQ0jCa3j3ll2TU=",
+        "owner": "eltonsst",
+        "repo": "postilla.nvim",
+        "rev": "7c5d3177932e5b379d2308973ebb44b9abda4238",
+        "type": "github"
+      },
+      "original": {
+        "owner": "eltonsst",
+        "repo": "postilla.nvim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-file": "flake-file",
@@ -410,6 +426,7 @@
         "nixos-facter-modules": "nixos-facter-modules",
         "nixpkgs": "nixpkgs",
         "nvf": "nvf",
+        "postilla-nvim": "postilla-nvim",
         "sops-nix": "sops-nix",
         "stylix": "stylix",
         "treefmt-nix": "treefmt-nix",

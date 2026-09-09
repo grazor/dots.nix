@@ -6,11 +6,25 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
+  # Not in nixpkgs' vimPlugins, so it is pinned as a source-only input and
+  # packaged below.
+  flake-file.inputs.postilla-nvim = {
+    url = "github:eltonsst/postilla.nvim";
+    flake = false;
+  };
+
   flake.modules.homeManager.nvf = {
     pkgs,
     lib,
     ...
-  }: {
+  }: let
+    postilla-nvim = pkgs.vimUtils.buildVimPlugin {
+      pname = "postilla.nvim";
+      version = inputs.postilla-nvim.shortRev or "unstable";
+      src = inputs.postilla-nvim;
+      meta.homepage = "https://github.com/eltonsst/postilla.nvim";
+    };
+  in {
     imports = [inputs.nvf.homeManagerModules.default];
 
     home.sessionVariables.EDITOR = "nvim";
@@ -109,6 +123,22 @@
             enable = true;
             setupOpts.variant = "dark";
           };
+        };
+
+        # postilla.nvim: annotate agent-written code line by line in a normal
+        # buffer and export the notes in revdiff's annotation format
+        # (`## file:line`), ready to paste back to the agent. Not an nvf module
+        # -- nvf's `assistant.*` plugins are all completion/chat, none do
+        # review -- so it is wired up through extraPlugins.
+        extraPlugins.postilla = {
+          package = postilla-nvim;
+          setup = ''
+            require("postilla").setup({
+              keymap = "<leader>rc",
+              next_keymap = "]r",
+              previous_keymap = "[r",
+            })
+          '';
         };
 
         tabline.nvimBufferline.enable = false;
