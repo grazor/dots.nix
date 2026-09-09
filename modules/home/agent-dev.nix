@@ -4,8 +4,8 @@
 # Opt-in feature spanning two aspects, both enabled only on the macOS host:
 #   - darwin.agent-dev      → OpenSpec CLI (Homebrew), composed in the host's
 #                             `aspects` list.
-#   - homeManager.agent-dev → diffx + the tmux agent sidebar, imported into the
-#                             user's home-manager profile.
+#   - homeManager.agent-dev → review tools + the tmux agent sidebar, imported
+#                             into the user's home-manager profile.
 {
   # OpenSpec (`openspec` CLI) is installed via Homebrew rather than its upstream
   # Nix flake, which builds against an EOL nodejs_20 that nixpkgs marks insecure.
@@ -67,6 +67,56 @@
       };
     });
 
+    # revdiff — terminal-native diff review with inline annotations. Upstream
+    # ships a Nix flake, but packaging it here keeps this opt-in aspect
+    # self-contained and avoids adding a flake-utils input solely for one Go
+    # binary. Its dependencies are committed in vendor/, so there is no
+    # separate vendor hash to maintain.
+    revdiff = let
+      version = "1.13.0";
+    in
+      pkgs.buildGoModule {
+        pname = "revdiff";
+        inherit version;
+
+        src = pkgs.fetchFromGitHub {
+          owner = "umputun";
+          repo = "revdiff";
+          tag = "v${version}";
+          hash = "sha256-qcah2Fx4u9AXEfb22R9BW3Rv9oYx+H8+KPGQVRjOr98=";
+        };
+
+        vendorHash = null;
+        subPackages = ["app"];
+        env.CGO_ENABLED = 0;
+
+        # Upstream's tests inspect the git working tree, which fetchFromGitHub
+        # deliberately does not preserve in the Nix build sandbox.
+        doCheck = false;
+
+        nativeBuildInputs = [pkgs.installShellFiles];
+        ldflags = [
+          "-s"
+          "-w"
+          "-X main.revision=v${version}"
+        ];
+
+        postInstall = ''
+          mv "$out/bin/app" "$out/bin/revdiff"
+          installShellCompletion \
+            --bash completions/revdiff.bash \
+            --fish completions/revdiff.fish \
+            --zsh completions/revdiff.zsh
+        '';
+
+        meta = {
+          description = "TUI for reviewing diffs, files, and documents with inline annotations";
+          homepage = "https://github.com/umputun/revdiff";
+          license = pkgs.lib.licenses.mit;
+          mainProgram = "revdiff";
+        };
+      };
+
     # tmux-agent-sidebar — a sidebar pane listing every Claude Code / Codex /
     # OpenCode agent running across all sessions, with its status, last prompt
     # and git state. prefix + e toggles it in the current window, prefix + E
@@ -119,20 +169,40 @@
         '';
       };
   in {
-    home.packages = [diffx];
+    home.packages = [diffx revdiff];
+
+    # nix-darwin updates home.packages in /etc/profiles during the privileged
+    # system activation. Keep revdiff reachable through the already-exported
+    # ~/.local/bin as well, including from tmux servers and shells that predate
+    # the latest system switch.
+    home.file.".local/bin/revdiff".source = pkgs.lib.getExe revdiff;
+
+    # Home Manager installs tmux plugins directly from the Nix store rather
+    # than through TPM. Expose this one through a stable XDG path so Claude
+    # Code can register the bundled marketplace without depending on a store
+    # hash that changes on upgrades.
+    xdg.dataFile."tmux/plugins/tmux-agent-sidebar".source = "${tmux-agent-sidebar}/share/tmux-plugins/tmux-agent-sidebar";
 
     # Merges with the plugin list in modules/home/tmux.nix; kept here so the
     # sidebar only builds on hosts that actually run coding agents.
-    programs.tmux.plugins = [
-      {
-        plugin = tmux-agent-sidebar;
-        # No sidebar until prefix + e asks for one. This has to be set here
-        # rather than in `extraConfig`, which home-manager emits *after* the
-        # plugin loads: agent-sidebar.conf reads @sidebar_auto_create at load
-        # time to decide whether to register its after-new-window hook, and
-        # that hook does not re-read the option when it fires.
-        extraConfig = "set -g @sidebar_auto_create off";
-      }
-    ];
+    programs.tmux = {
+      plugins = [
+        {
+          plugin = tmux-agent-sidebar;
+          # No sidebar until prefix + e asks for one. This has to be set here
+          # rather than in `extraConfig`, which home-manager emits *after* the
+          # plugin loads: agent-sidebar.conf reads @sidebar_auto_create at load
+          # time to decide whether to register its after-new-window hook, and
+          # that hook does not re-read the option when it fires.
+          extraConfig = "set -g @sidebar_auto_create off";
+        }
+      ];
+
+      # Standalone reviews use the same 90% tmux popup as revdiff's Claude and
+      # Codex launchers, rooted at the active pane's working directory.
+      extraConfig = ''
+        bind R display-popup -E -w 90% -h 90% -d "#{pane_current_path}" -- ${pkgs.lib.getExe revdiff}
+      '';
+    };
   };
 }
