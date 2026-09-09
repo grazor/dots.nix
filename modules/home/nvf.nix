@@ -174,15 +174,20 @@
           smart-splits = {
             enable = true;
 
-            # Upstream resizes with <A-hjkl>, which never reaches Neovim on
-            # macOS: Ghostty leaves `macos-option-as-alt` unset, so Option is
-            # a Unicode compose key (Option+h is a dead-key modifier, not Alt).
-            # Ctrl+arrows arrive as plain CSI sequences on every terminal.
+            # Resize has to dodge three layers above Neovim on this box:
+            # upstream's <A-hjkl> dies because Ghostty leaves
+            # `macos-option-as-alt` unset (Option is a Unicode compose key),
+            # <C-arrow> is swallowed by macOS workspace switching, and
+            # <C-S-hjkl> does not survive the Karabiner Ctrl remap. Ctrl+Shift
+            # +arrow is the one combination left free. Arrows also carry the
+            # modifier inside their CSI sequence (CSI 1;6D), so this needs no
+            # kitty keyboard protocol -- unlike <C-S-h>, which is byte-identical
+            # to <C-h> under legacy encoding.
             keymaps = {
-              resize_left = "<C-Left>";
-              resize_down = "<C-Down>";
-              resize_up = "<C-Up>";
-              resize_right = "<C-Right>";
+              resize_left = "<C-S-Left>";
+              resize_down = "<C-S-Down>";
+              resize_up = "<C-S-Up>";
+              resize_right = "<C-S-Right>";
             };
           };
         };
