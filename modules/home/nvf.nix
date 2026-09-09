@@ -24,6 +24,22 @@
       src = inputs.postilla-nvim;
       meta.homepage = "https://github.com/eltonsst/postilla.nvim";
     };
+
+    # Neovim's runtime ships an `en` spellfile only. Compiling `ru` from the
+    # LibreOffice hunspell dictionary keeps `spelllang=en,ru` declarative --
+    # otherwise spellfile.vim prompts to download one into ~/.local at runtime.
+    ruSpellfile =
+      pkgs.runCommandLocal "nvim-spell-ru" {
+        nativeBuildInputs = [pkgs.neovim-unwrapped];
+      } ''
+        set -eu
+        mkdir -p "$out/spell" build
+        cp ${pkgs.hunspellDicts.ru_RU}/share/hunspell/ru_RU.aff build/ru.aff
+        cp ${pkgs.hunspellDicts.ru_RU}/share/hunspell/ru_RU.dic build/ru.dic
+        cd build
+        nvim --headless --clean --cmd "set encoding=utf-8" \
+          --cmd "mkspell! $out/spell/ru.utf-8.spl ru" --cmd qa
+      '';
   in {
     imports = [inputs.nvf.homeManagerModules.default];
 
@@ -33,12 +49,14 @@
       enable = true;
 
       settings.vim = {
-        enableLuaLoader = false;
+        # vim.loader.enable(): bytecode cache for lua modules, cuts startup.
+        enableLuaLoader = true;
         extraPackages = [pkgs.fzf pkgs.ripgrep];
+        additionalRuntimePaths = [ruSpellfile.outPath];
 
         globals.mapleader = " ";
         lineNumberMode = "number";
-        undoFile.enable = false;
+        undoFile.enable = true;
         preventJunkFiles = true;
         withPython3 = true;
         searchCase = "smart";
@@ -56,7 +74,21 @@
           signcolumn = "yes";
           splitbelow = true;
           splitright = true;
+
+          # `spellcheck.enable` sets `spell` globally, which underlines every
+          # identifier in code. Force it off and let the autocmd below turn it
+          # back on for prose buffers only.
+          spell = lib.mkForce false;
         };
+
+        autocmds = [
+          {
+            event = ["FileType"];
+            pattern = ["markdown" "gitcommit" "text" "asciidoc"];
+            command = "setlocal spell";
+            desc = "Spellcheck prose buffers only";
+          }
+        ];
 
         theme = {
           enable = true;
@@ -70,12 +102,28 @@
         };
 
         autocomplete = {
-          nvim-cmp.enable = true;
+          nvim-cmp = {
+            enable = true;
+
+            # nvf installs cmp-buffer and cmp-path unconditionally
+            # (`sourcePlugins`), but only registers what is in `sources` --
+            # whose default is dropped as soon as anything defines that option,
+            # and both the lsp and treesitter modules do. Without these two the
+            # plugins load and are never used.
+            sources = {
+              buffer = "[Buffer]";
+              path = "[Path]";
+            };
+          };
+
           blink-cmp.enable = false;
         };
 
-        mini.fuzzy.enable = false;
-        mini.splitjoin.enable = true;
+        mini = {
+          ai.enable = true;
+          fuzzy.enable = false;
+          splitjoin.enable = true;
+        };
 
         telescope.enable = true;
 
@@ -84,12 +132,18 @@
         comments.comment-nvim.enable = true;
         dashboard.alpha.enable = true;
         git.enable = true;
-        # Disabled: codewindow's treesitter highlighter does
-        # `require("nvim-treesitter.ts_utils")`, which the rewritten
-        # nvim-treesitter (main branch) no longer ships, so it errored on
-        # startup.
         notes.todo-comments.enable = true;
-        spellcheck.enable = false;
+        spellcheck = {
+          enable = true;
+          languages = ["en" "ru"];
+        };
+
+        treesitter = {
+          # Sticky header showing the enclosing function/block.
+          context.enable = true;
+          # af/if/ac/ic textobjects and function-wise motions.
+          textobjects.enable = true;
+        };
 
         filetree.nvimTree = {
           enable = true;
@@ -106,6 +160,18 @@
         utility = {
           motion.leap.enable = true;
           surround.enable = true;
+
+          # Reads .envrc, so per-project devshell tooling reaches the LSPs.
+          direnv.enable = true;
+
+          # Edit a directory as a normal buffer; complements nvimTree rather
+          # than replacing it.
+          oil-nvim.enable = true;
+
+          # Owns <C-hjkl> (see the keymaps list below, where the plain
+          # <C-w> equivalents used to live) and hands the motion off to the
+          # multiplexer when there is no split left in that direction.
+          smart-splits.enable = true;
         };
 
         visuals = {
@@ -113,6 +179,7 @@
           highlight-undo.enable = true;
           indent-blankline.enable = true;
           nvim-cursorline.enable = true;
+          rainbow-delimiters.enable = true;
 
           cinnamon-nvim = {
             enable = true;
@@ -158,7 +225,9 @@
             format.enable = true;
           };
           markdown = {
-            enable = false;
+            enable = true;
+            # Left off deliberately: lsp.formatOnSave is on, and a markdown
+            # formatter would rewrite every existing doc on the first save.
             format.enable = false;
           };
           python = {
@@ -171,8 +240,11 @@
           typescript.enable = false;
         };
 
-        lsp.enable = true;
-        lsp.formatOnSave = true;
+        lsp = {
+          enable = true;
+          formatOnSave = true;
+          lspkind.enable = true;
+        };
 
         keymaps = [
           {
@@ -187,30 +259,6 @@
             mode = ["n"];
             action = '':e <C-R>=expand("%:p:h")<CR>/'';
             desc = "Relative path";
-          }
-          {
-            key = "<C-h>";
-            mode = ["n"];
-            action = "<C-w><C-h>";
-            desc = "Move focus to the left window";
-          }
-          {
-            key = "<C-l>";
-            mode = ["n"];
-            action = "<C-w><C-l>";
-            desc = "Move focus to the right window";
-          }
-          {
-            key = "<C-j>";
-            mode = ["n"];
-            action = "<C-w><C-j>";
-            desc = "Move focus to the lower window";
-          }
-          {
-            key = "<C-k>";
-            mode = ["n"];
-            action = "<C-w><C-k>";
-            desc = "Move focus to the upper window";
           }
           {
             key = "<Esc>";
