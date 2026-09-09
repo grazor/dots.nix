@@ -171,7 +171,20 @@
           # Owns <C-hjkl> (see the keymaps list below, where the plain
           # <C-w> equivalents used to live) and hands the motion off to the
           # multiplexer when there is no split left in that direction.
-          smart-splits.enable = true;
+          smart-splits = {
+            enable = true;
+
+            # Upstream resizes with <A-hjkl>, which never reaches Neovim on
+            # macOS: Ghostty leaves `macos-option-as-alt` unset, so Option is
+            # a Unicode compose key (Option+h is a dead-key modifier, not Alt).
+            # Ctrl+arrows arrive as plain CSI sequences on every terminal.
+            keymaps = {
+              resize_left = "<C-Left>";
+              resize_down = "<C-Down>";
+              resize_up = "<C-Up>";
+              resize_right = "<C-Right>";
+            };
+          };
         };
 
         visuals = {
