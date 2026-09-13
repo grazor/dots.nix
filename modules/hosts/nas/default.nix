@@ -139,7 +139,6 @@
         "seerr"
         "sonarr"
         "paperless"
-        "orcaslicer"
       ];
 
       # Group-writable share: everyone in `family` sees each other's files.
