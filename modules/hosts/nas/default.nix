@@ -139,6 +139,7 @@
         "seerr"
         "sonarr"
         "paperless"
+        "manyfold"
       ];
 
       # Group-writable share: everyone in `family` sees each other's files.
@@ -483,6 +484,8 @@
             "d /srv/nas/db/immich 0700 999 999 -"
             "d /srv/nas/immich 0755 cloud users -"
             "d /srv/nas/media 0755 cloud users -"
+            # Manyfold's model library (see homelab apps/3d/manyfold).
+            "d /srv/nas/media/3d 0755 cloud users -"
             "d /srv/nas/media/books 0755 cloud users -"
             "d /srv/nas/media/downloads 0755 cloud users -"
             "d /srv/nas/media/downloads/complete 0755 cloud users -"

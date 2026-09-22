@@ -52,6 +52,7 @@
         "qbittorrent"
         "stolendata-mpv"
         "sweet-home3d"
+        "telegram"
         "visual-studio-code"
         "zed"
         "zen"
