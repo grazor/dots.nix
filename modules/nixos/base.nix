@@ -7,7 +7,7 @@
     nix = {
       registry.nixpkgs.flake = inputs.nixpkgs;
       settings = {
-        experimental-features = "nix-command flakes";
+        experimental-features = ["nix-command" "flakes"];
         nix-path = ["nixpkgs=${inputs.nixpkgs.outPath}"];
         trusted-users = ["root" "@wheel"];
         # Keep dev-shell build deps across GC so direnv shells aren't rebuilt.

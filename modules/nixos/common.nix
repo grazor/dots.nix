@@ -18,7 +18,7 @@
     services = {
       acpid.enable = true;
       pcscd.enable = true;
-      dbus.packages = [pkgs.gcr];
+      dbus.packages = [pkgs.gcr_3];
       resolved.enable = true;
       resolved.settings.Resolve.FallbackDNS = ["1.1.1.1" "8.8.8.8"];
       logrotate.checkConfig = false;
