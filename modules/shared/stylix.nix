@@ -22,6 +22,10 @@
         };
       };
     };
+
+    # rofi is unused, and stylix's rofi target still sets the renamed
+    # `programs.rofi.font`, which warns on every eval.
+    home-manager.sharedModules = [{stylix.targets.rofi.enable = false;}];
   };
 in {
   flake-file.inputs.stylix = {

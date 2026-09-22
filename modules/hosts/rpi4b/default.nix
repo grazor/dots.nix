@@ -101,7 +101,7 @@
 
       # No `tools`/`devtools` here. This host runs one service, and those
       # aspects carry a workstation's worth of things it has no use for -
-      # k9s, fluxcd, jira-cli, postgresql, glow, tig, shellcheck, shfmt,
+      # k9s, fluxcd, postgresql, glow, tig, shellcheck, shfmt,
       # gnumake, python3 - on an SD card. What is left is what is actually
       # used to look after it: an editor, git to pull this repo, and enough
       # to poke at the broker. `common` already provides the network and

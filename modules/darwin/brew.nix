@@ -4,7 +4,7 @@
     homebrew = {
       enable = true;
       onActivation = {
-        cleanup = "uninstall";
+        cleanup = "none"; # keep brew packages not declared here
         autoUpdate = true;
         upgrade = true;
       };
