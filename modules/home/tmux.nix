@@ -19,6 +19,10 @@
         set-option -g renumber-windows on
         set-option -g focus-events on
 
+        # Pass OSC 8 hyperlinks through to the outer terminal (Ghostty reports
+        # TERM=xterm-ghostty). tmux strips them unless the feature is declared.
+        set-option -as terminal-features ",xterm*:hyperlinks"
+
         # Keep pane borders compact; project names are shown in the tmux window
         # list via the direnv hook in modules/home/fish.nix.
         set-option -g pane-border-status off

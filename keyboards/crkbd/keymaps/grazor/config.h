@@ -24,6 +24,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_TERM 200
 #define QUICK_TAP_TERM 0
 #define CHORDAL_HOLD
+#define PERMISSIVE_HOLD
+#define FLOW_TAP_TERM 150
 
 // Combo
 #define COMBO_STRICT_TIMER
@@ -35,11 +37,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Caps
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD
 
+// Caps Lock is only sent as the OS layout hotkey, no need to hold it
+#define TAP_HOLD_CAPS_DELAY 0
+
 // Input lag
 // https://keebsforall.com/blogs/mechanical-keyboards-101/reduce-keyboard-input-lag-with-qmk
 //#define DEBOUNCE 3
 //#define DEBOUNCE_TYPE symm
-#define USB_POLLING_INTERVAL_MS 1
 //#define QMK_KEYS_PER_SCAN 12
-#define F_CPU 16000000
 //#define DIODE_DIRECTION COL2ROW  // or ROW2COL based on your PCB design

@@ -1,3 +1,5 @@
+CONVERT_TO = sparkfun_pm2040
+
 COMBO_ENABLE = yes
 TAP_DANCE_ENABLE = yes
 
@@ -5,5 +7,6 @@ COMMAND_ENABLE = no
 CAPS_WORD_ENABLE = yes
 
 WPM_ENABLE = yes
+RAW_ENABLE = yes
 
 SRC += bongocat.c

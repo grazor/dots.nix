@@ -33,7 +33,7 @@
 # define IDLE_FRAME_DURATION 300  // how long each frame lasts in ms
 # define ANIM_FRAME_RATIO 2.5 // how aggressively animation speeds up with wpm
 // #define SLEEP_TIMER 60000 // should sleep after this period of 0 wpm, needs fixing
-# define ANIM_SIZE 636  // number of bytes in array, minimize for adequate firmware size, max is 1024
+# define ANIM_SIZE 512  // number of bytes in array, 128x32 / 8
 
 uint32_t curr_anim_duration = 0; // variable animation duration
 uint32_t bongo_timer = 0;
