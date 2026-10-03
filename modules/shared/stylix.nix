@@ -23,9 +23,62 @@
       };
     };
 
-    # rofi is unused, and stylix's rofi target still sets the renamed
-    # `programs.rofi.font`, which warns on every eval.
-    home-manager.sharedModules = [{stylix.targets.rofi.enable = false;}];
+    home-manager.sharedModules = [
+      ({
+        config,
+        lib,
+        options,
+        ...
+      }: {
+        stylix.targets = {
+          # rofi is unused, and stylix's rofi target still sets the renamed
+          # `programs.rofi.font`, which warns on every eval.
+          rofi.enable = false;
+
+          # On GNOME stylix's HM qt target copies `platform = "gnome"` from
+          # NixOS, then warns it's unsupported and sets the deprecated
+          # `qt.platformTheme.name = "gnome"`. The NixOS qt target already
+          # themes Qt system-wide (gnome + adwaita-dark), so the HM one is
+          # redundant.
+          qt.enable = false;
+
+          # stylix's nvf target sets the renamed `vim.statusline.lualine.theme`;
+          # the base16 theme is set below under the new option path instead.
+          nvf.enable = false;
+        };
+
+        programs = lib.optionalAttrs (options.programs ? nvf) {
+          nvf.settings.vim = {
+            theme = {
+              enable = true;
+              name = "base16";
+              base16-colors = {
+                inherit
+                  (config.lib.stylix.colors.withHashtag)
+                  base00
+                  base01
+                  base02
+                  base03
+                  base04
+                  base05
+                  base06
+                  base07
+                  base08
+                  base09
+                  base0A
+                  base0B
+                  base0C
+                  base0D
+                  base0E
+                  base0F
+                  ;
+              };
+            };
+            statusline.lualine.setupOpts.options.theme = "base16";
+          };
+        };
+      })
+    ];
   };
 in {
   flake-file.inputs.stylix = {
