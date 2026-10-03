@@ -34,6 +34,7 @@ enum layers {
     _SYMBOL,
     _NUMBER,
     _COMMAND,
+    _MOUSE,
 };
 
 enum combos {
@@ -98,15 +99,88 @@ uint8_t combo_ref_from_layer(uint8_t layer) {
     return layer == _RU ? _BASE_ENTHIUM : layer;
 }
 
-// Tap dance
+// Tap dance: [ on one tap, ] on two (х and ъ in Russian). A tap dance bypasses
+// Caps Word, so it applies the shift itself while Caps Word is on in Russian.
+static uint16_t brackets_registered;
+
+static void brackets_register(uint8_t count) {
+    brackets_registered = count == 1 ? KC_LBRC : KC_RBRC;
+    if (is_caps_word_on() && IS_LAYER_ON(_RU)) {
+        brackets_registered = S(brackets_registered);
+    }
+    register_code16(brackets_registered);
+}
+
+static void brackets_each_tap(tap_dance_state_t *state, void *user_data) {
+    if (state->count == 2) {
+        brackets_register(2);
+        state->finished = true;
+    }
+}
+
+static void brackets_finished(tap_dance_state_t *state, void *user_data) {
+    brackets_register(1);
+}
+
+static void brackets_reset(tap_dance_state_t *state, void *user_data) {
+    if (state->count == 1) {
+        wait_ms(TAP_CODE_DELAY);
+    }
+    unregister_code16(brackets_registered);
+}
+
 tap_dance_action_t tap_dance_actions[] = {
-    [_TD_LRBRAC] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
+    [_TD_LRBRAC] = ACTION_TAP_DANCE_FN_ADVANCED(brackets_each_tap, brackets_finished, brackets_reset),
 };
 
 # define TD_BRCS TD(_TD_LRBRAC)
 
+// Caps Word: defaults, plus the Russian letters that sit on punctuation keys
+bool caps_word_press_user(uint16_t keycode) {
+    switch (keycode) {
+        case KC_A ... KC_Z:
+        case KC_MINS:
+            add_weak_mods(MOD_BIT(KC_LSFT));
+            return true;
+
+        case KC_1 ... KC_0:
+        case KC_BSPC:
+        case KC_DEL:
+        case KC_UNDS:
+            return true;
+
+        // ж э б ю ё
+        case KC_SCLN:
+        case KC_QUOT:
+        case KC_COMM:
+        case KC_DOT:
+        case KC_GRV:
+            if (get_highest_layer(layer_state) != _RU) {
+                return false;
+            }
+            add_weak_mods(MOD_BIT(KC_LSFT));
+            return true;
+
+        // х ъ, shifted by the tap dance
+        case TD_BRCS:
+            return IS_LAYER_ON(_RU);
+
+        default:
+            return false;
+    }
+}
+
+// Key overrides
+const key_override_t delete_key_override = ko_make_basic(MOD_MASK_SHIFT, KC_BSPC, KC_DEL);
+
+const key_override_t *key_overrides[] = {
+    &delete_key_override,
+};
+
 
 /*
+  Enthium v14
+
   q y o u = x l d p z
 b c i a e - k h t n s w
   ' , . ; / j m g f v
@@ -120,7 +194,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
          KC_B,  HRM_GC,  HRM_AI,  HRM_CA,  HRM_SE, KC_MINS,                         KC_K,  HRM_SH,  HRM_CT,  HRM_AN,  HRM_GS,    KC_W,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB, KC_QUOT, KC_COMM,  KC_DOT, KC_SLSH, KC_SCLN,                         KC_J,    KC_M,    KC_G,    KC_F,    KC_V, XXXXXXX,
+       KC_TAB, KC_QUOT, KC_COMM,  KC_DOT, KC_SCLN, KC_SLSH,                         KC_J,    KC_M,    KC_G,    KC_F,    KC_V, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                            KC_ENT,  LT_NUM,  KC_SPC,    LT_RCMD,LT_SYMMD, KC_BSPC
                                       //`--------------------------'  `--------------------------'
@@ -140,15 +214,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
+    // After sunaku's Glove80 symbol layer: brackets and operators roll inward on
+    // the left hand, = _ and the Vim motions ^ $ # * sit on the home row, ? * /
+    // stack on the inner column. What his extra rows and thumbs hold moves to
+    // the right hand: braces on the home fingers, quotes on the ring finger.
     [_SYMBOL] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      KC_EXLM, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_PERC,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      KC_EXLM, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_QUES,                      KC_PERC, KC_PLUS, KC_AMPR, KC_QUOT, KC_SCLN,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_HASH, KC_CIRC, KC_LCBR, KC_RCBR,  KC_DLR, KC_ASTR,                      XXXXXXX, KC_BSLS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      KC_HASH, KC_CIRC,  KC_EQL, KC_UNDS,  KC_DLR, KC_ASTR,                      KC_BSLS, KC_LCBR, KC_RCBR, KC_DQUO, KC_COLN,   KC_AT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_AMPR,   KC_LT, KC_PIPE, KC_MINS,   KC_GT,   KC_AT,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      KC_TILD,   KC_LT, KC_PIPE, KC_MINS,   KC_GT, KC_SLSH,                      XXXXXXX, XXXXXXX, KC_COMM,  KC_DOT, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, XXXXXXX, _______,    XXXXXXX, _______, _______
+                                          _______, _______, _______,    XXXXXXX, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -158,9 +236,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_ASTR,    KC_4,    KC_5,    KC_6, KC_PLUS,  KC_EQL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     KC_SLASH,    KC_1,    KC_2,    KC_3, KC_MINS, XXXXXXX,
+       KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     KC_SLASH,    KC_1,    KC_2,    KC_3, KC_MINS,  KC_DOT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,     KC_DOT,    KC_0, _______
+                                          _______, _______, _______,       KC_0, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -173,6 +251,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, XXXXXXX, _______,    _______, XXXXXXX, _______
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+    // Symbols + Numbers held together. Pointer under the right hand, buttons
+    // on the left home row so a drag is one hand holding and the other moving.
+    [_MOUSE] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, MS_BTN1,   MS_UP, MS_BTN2, MS_WHLU, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, MS_BTN3, MS_BTN2, MS_BTN1, XXXXXXX,                      XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, MS_WHLD, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          _______, _______, _______,    XXXXXXX, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -191,6 +283,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 */
 };
 
+layer_state_t layer_state_set_user(layer_state_t state) {
+    return update_tri_layer_state(state, _SYMBOL, _NUMBER, _MOUSE);
+}
+
 // Send the OS layout hotkey without any held mods leaking into it
 static void os_layout(uint16_t keycode) {
     const uint8_t mods = get_mods();
@@ -200,27 +296,42 @@ static void os_layout(uint16_t keycode) {
     send_keyboard_report();
 }
 
-// The host helper (kb-layout-sync) reports the active OS layout over Raw HID:
-// data[0] = HID_LAYOUT_SYNC, data[1] = 1 for ru, 0 for anything else.
+// The firmware follows the OS layout however it was switched:
+//   macOS  kb-layout-sync reports it over Raw HID,
+//          data[0] = HID_LAYOUT_SYNC, data[1] = 1 for ru, 0 otherwise
+//   Linux  xkb option grp_led:scroll lights Scroll Lock while ru is active
 #define HID_LAYOUT_SYNC 0x4C
 #define SYM_SYNC_SETTLE_MS 500
 
 static bool     sym_from_ru;
 static uint32_t sync_ignore_until;
 
-void raw_hid_receive(uint8_t *data, uint8_t length) {
-    if (data[0] != HID_LAYOUT_SYNC) {
-        return;
-    }
+static void follow_os_layout(bool ru) {
     // The symbol key flips the OS layout to en and back; don't follow that
     if (sym_from_ru || !timer_expired32(timer_read32(), sync_ignore_until)) {
         return;
     }
-    if (data[1]) {
+    if (ru) {
         layer_on(_RU);
     } else {
         layer_off(_RU);
     }
+}
+
+void raw_hid_receive(uint8_t *data, uint8_t length) {
+    if (data[0] == HID_LAYOUT_SYNC) {
+        follow_os_layout(data[1]);
+    }
+}
+
+// Only changes count, so a host that never drives Scroll Lock is unaffected
+bool led_update_user(led_t led_state) {
+    static bool scroll_lock;
+    if (led_state.scroll_lock != scroll_lock) {
+        scroll_lock = led_state.scroll_lock;
+        follow_os_layout(scroll_lock);
+    }
+    return true;
 }
 
 static void set_russian(bool ru) {
@@ -325,9 +436,7 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
 
 #ifdef OLED_ENABLE
 
-bool render_status(void) {
-    oled_set_cursor(17, 0);
-    //oled_write_P(PSTR("Layer: "), false);
+static void render_layer(void) {
     switch (get_highest_layer(layer_state)) {
         case _BASE_ENTHIUM:
             oled_write_P(PSTR("ENTH"), false);
@@ -344,30 +453,30 @@ bool render_status(void) {
         case _COMMAND:
             oled_write_P(PSTR(" CMD"), false);
             break;
+        case _MOUSE:
+            oled_write_P(PSTR("MOUS"), false);
+            break;
         default:
             oled_write_P(PSTR(" ???"), false);
     }
-
-    oled_set_cursor(18, 1);
-    oled_write(get_u8_str(get_current_wpm(), '0'), false);
-
-    /*
-    led_t led_state = host_keyboard_led_state();
-    oled_write_P(led_state.num_lock ? PSTR("NUM ") : PSTR("    "), false);
-    oled_write_P(led_state.caps_lock ? PSTR("CAP ") : PSTR("    "), false);
-    oled_write_P(led_state.scroll_lock ? PSTR("SCR ") : PSTR("    "), false);
-    */
-
-    return false;
 }
+
+// Keyboard-level Corne logo, fills the first three rows
+void oled_render_logo(void);
 
 bool oled_task_user(void) {
     if (is_keyboard_master()) {
         render_bongocat();
-        render_status();
-        return false;
+        oled_set_cursor(17, 0);
+        render_layer();
+        oled_set_cursor(18, 1);
+        oled_write(get_u8_str(get_current_wpm(), '0'), false);
+    } else {
+        // Layer state arrives over the split link (SPLIT_LAYER_STATE_ENABLE)
+        oled_render_logo();
+        oled_set_cursor(0, 3);
+        render_layer();
     }
-    // Offhand: let the keyboard-level code draw the Corne logo
-    return true;
+    return false;
 }
 #endif

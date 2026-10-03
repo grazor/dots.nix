@@ -1,14 +1,9 @@
-# QMK / Vial keyboard support: custom Enthium XKB layout + flashing udev rules.
+# QMK / Vial keyboard support: layout switching + flashing udev rules.
 {
   flake.modules.nixos.qmk = {
-    services.xserver.xkb = {
-      options = "grp:shift_caps_switch,grp_led:scroll";
-      extraLayouts."enth" = {
-        description = "Enthium";
-        languages = ["ru"];
-        symbolsFile = ./data/ru_enthium;
-      };
-    };
+    # Caps selects en, Shift+Caps selects ru; the Scroll Lock LED mirrors ru so
+    # the keyboard firmware can follow the active layout.
+    services.xserver.xkb.options = "grp:shift_caps_switch,grp_led:scroll";
 
     services.udev.extraRules = ''
       ### Vial

@@ -1,0 +1,4 @@
+# Firmware images that `qmk compile` copies here
+*.bin
+*.hex
+*.uf2
