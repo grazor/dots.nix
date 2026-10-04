@@ -41,8 +41,8 @@ BASE = [
     K("`", shift="~"), K("q"), K("y"), K("o"), K("u"), K("=", shift="+"),
     K("x"), K("l"), K("d"), K("p"), K("z"), K("[", cap="twice ]"),
 
-    K("b"), K("c", hold=CMD), K("i", hold=OPT), K("a", hold=CTL), K("e", hold=SFT), K("-", shift="_"),
-    K("k"), K("h", hold=SFT), K("t", hold=CTL), K("n", hold=OPT), K("s", hold=CMD), K("w"),
+    K("b"), K("c", hold=CTL), K("i", hold=OPT), K("a", hold=CMD), K("e", hold=SFT), K("-", shift="_"),
+    K("k"), K("h", hold=SFT), K("t", hold=CMD), K("n", hold=OPT), K("s", hold=CTL), K("w"),
 
     K("Tab"), K("'", shift='"'), K(",", shift="<"), K(".", shift=">"), K(";", shift=":"), K("/", shift="?"),
     K("j"), K("m"), K("g"), K("f"), K("v"), X,
@@ -55,8 +55,8 @@ RUSSIAN = [
     T("ё"), K("й", "ru"), K("ц", "ru"), K("у", "ru"), K("к", "ru"), K("е", "ru"),
     K("н", "ru"), K("г", "ru"), K("ш", "ru"), K("щ", "ru"), K("з", "ru"), T("х", cap="twice ъ"),
 
-    T("и"), K("ф", "ru", hold=CMD), K("ы", "ru", hold=OPT), K("в", "ru", hold=CTL), K("а", "ru", hold=SFT), K("п", "ru"),
-    K("р", "ru"), K("о", "ru", hold=SFT), K("л", "ru", hold=CTL), K("д", "ru", hold=OPT), K("ж", "ru", hold=CMD), K("э", "ru"),
+    T("и"), K("ф", "ru", hold=CTL), K("ы", "ru", hold=OPT), K("в", "ru", hold=CMD), K("а", "ru", hold=SFT), K("п", "ru"),
+    K("р", "ru"), K("о", "ru", hold=SFT), K("л", "ru", hold=CMD), K("д", "ru", hold=OPT), K("ж", "ru", hold=CTL), K("э", "ru"),
 
     T("Tab"), K("я", "ru"), K("ч", "ru"), K("с", "ru"), K("м", "ru"), K("и", "ru"),
     K("т", "ru"), K("ь", "ru"), K("б", "ru"), K("ю", "ru"), K(".", "ru", shift=","), X,
@@ -73,7 +73,7 @@ SYMBOLS = [
     K("\\", "pri"), K("{", "pri"), K("}", "pri"), K('"', "pri"), K(":", "pri"), K("@", "pri"),
 
     K("~", "pri"), K("<", "pri"), K("|", "pri"), K("-", "pri"), K(">", "pri"), K("/", "pri"),
-    X, X, K(",", "pri"), K(".", "pri"), X, X,
+    X, X, K(",", "pri"), K(".", "pri"), X, K("Lock", "sec", cap="layer"),
 
     T("Enter"), T("", hold="Numbers", strip="num", cap="adds Mouse"), T("Space"),
     X, K("held", "held"), T("⌫", cap="⇧ Delete"),
@@ -83,11 +83,11 @@ NUMBERS = [
     X, K("1", "pri"), K("2", "pri"), K("3", "pri"), K("4", "pri"), K("5", "pri"),
     K("6", "pri"), K("7", "pri"), K("8", "pri"), K("9", "pri"), K("0", "pri"), K("⌫", "sec"),
 
-    X, K(CMD, "mod"), K(OPT, "mod"), K(CTL, "mod"), K(SFT, "mod"), X,
+    X, K(CTL, "mod"), K(OPT, "mod"), K(CMD, "mod"), K(SFT, "mod"), K("Space", "sec"),
     K("*", "sec"), K("4", "pri"), K("5", "pri"), K("6", "pri"), K("+", "sec"), K("=", "sec"),
 
-    K("Tab", "sec"), X, X, X, X, X,
-    K("/", "sec"), K("1", "pri"), K("2", "pri"), K("3", "pri"), K("-", "sec"), K(".", "sec"),
+    K("Tab", "sec"), X, K(",", "pri"), K(".", "pri"), X, X,
+    K("/", "sec"), K("1", "pri"), K("2", "pri"), K("3", "pri"), K("-", "sec"), K("Lock", "sec", cap="layer"),
 
     T("Enter"), K("held", "held"), T("Space"),
     K("0", "pri"), T("", hold="Symbols", strip="sym", cap="adds Mouse"), T("⌫", cap="⇧ Delete"),
@@ -101,7 +101,7 @@ MOUSE = [
     X, K("←", "pri"), K("↓", "pri"), K("→", "pri"), K("Scroll", "sec", cap="down"), X,
 
     X, X, X, X, X, X,
-    X, X, X, X, X, X,
+    X, X, X, X, X, K("Lock", "sec", cap="layer"),
 
     T("Enter"), K("held", "held"), T("Space"),
     X, K("held", "held"), T("⌫", cap="⇧ Delete"),
@@ -109,13 +109,13 @@ MOUSE = [
 
 COMMAND = [
     K("F18", "sec", cap="mic"), X, X, K("EN", "sec", cap="layout"), K("RU", "sec", cap="layout"), K("⇧ Tab", "sec"),
-    X, X, K("↑", "pri"), X, X, K("Delete", "sec"),
+    X, X, K("↑", "pri"), X, K("Page", "pri", cap="up"), K("Delete", "sec"),
 
-    X, K(CMD, "mod"), K(OPT, "mod"), K(CTL, "mod"), K(SFT, "mod"), K("Tab", "sec"),
-    X, K("←", "pri"), K("↓", "pri"), K("→", "pri"), X, X,
+    X, K(CTL, "mod"), K(OPT, "mod"), K(CMD, "mod"), K(SFT, "mod"), K("Tab", "sec"),
+    X, K("←", "pri"), K("↓", "pri"), K("→", "pri"), K("Page", "pri", cap="down"), X,
 
     X, X, X, X, X, X,
-    X, K("Vol −", "sec"), K("Mute", "sec"), K("Vol +", "sec"), X, X,
+    X, K("Vol −", "sec"), K("Mute", "sec"), K("Vol +", "sec"), X, K("Lock", "sec", cap="layer"),
 
     T("Enter"), X, T("Space"),
     K("held", "held"), X, T("⌫", cap="⇧ Delete"),
@@ -131,8 +131,8 @@ LAYERS = {
     "ru": dict(
         title="Русский",
         keys=RUSSIAN,
-        text="On whenever the system layout is Russian. Shortcuts with Control, Option or Command still use "
-        "the Enthium letters, so they stay under the same fingers. The display shows RUS.",
+        text="On whenever the system layout is Russian. Shortcuts with Control, Option or Command use the "
+        "Enthium keys, so they stay under the same fingers. The display shows RUS.",
     ),
     "sym": dict(
         title="Symbols",
@@ -144,13 +144,14 @@ LAYERS = {
         title="Numbers",
         keys=NUMBERS,
         text="Hold the middle key of the left thumb. Digits run along the top row and again as a "
-        "number pad under the right hand. The display shows NUM.",
+        "number pad under the right hand; comma and full stop sit where they are on the base layer. "
+        "The display shows NUM.",
     ),
     "cmd": dict(
         title="Command",
         keys=COMMAND,
-        text="Hold the R key on the right thumb. Arrows under the right hand, layout switching and "
-        "modifiers under the left. The display shows CMD.",
+        text="Hold the R key on the right thumb. Arrows and paging under the right hand, layout "
+        "switching and modifiers under the left. The display shows CMD.",
     ),
     "mou": dict(
         title="Mouse",
@@ -167,7 +168,11 @@ def main_class(text):
     return "word" if len(text) <= 5 else "word long"
 
 
-def render_key(key, x, y, h):
+# Keys under the resting fingers: pinky to index on each hand's home row
+HOME = {13, 14, 15, 16, 19, 20, 21, 22}
+
+
+def render_key(key, x, y, h, home=False):
     style = f"left:{x * U:.2f}mm;top:{y * U:.2f}mm;height:{h * U - GAP:.2f}mm"
     parts = []
     if key["shift"]:
@@ -179,12 +184,16 @@ def render_key(key, x, y, h):
     if key["hold"]:
         size = "glyph" if len(key["hold"]) == 1 else "word"
         parts.append(f'<span class="hold {key["strip"]} {size}">{escape(key["hold"])}</span>')
-    return f'<div class="key {key["kind"]}" style="{style}">{"".join(parts)}</div>'
+    classes = f'key {key["kind"]}{" home" if home else ""}'
+    return f'<div class="{classes}" style="{style}">{"".join(parts)}</div>'
 
 
 def render_layer(name):
     layer = LAYERS[name]
-    keys = "".join(render_key(key, *pos) for key, pos in zip(layer["keys"], GEOMETRY, strict=True))
+    keys = "".join(
+        render_key(key, *pos, home=index in HOME)
+        for index, (key, pos) in enumerate(zip(layer["keys"], GEOMETRY, strict=True))
+    )
     return f"""
     <section class="layer {name}">
       <header>
@@ -229,7 +238,7 @@ NOTES = f"""
         so every symbol comes out the same in both layouts.</p>
       </div>
       <div>
-        <h3>Symbols in one motion</h3>
+        <h3>Symbol rolls</h3>
         <p>Roll inward on the left hand, pinky towards index:</p>
         <p class="rolls">{chip("( )")}{chip("[ ]")}{chip("< >")}{chip("->")}{chip("=>")}{chip("<-")}{chip("!=")}{chip("<=")}{chip("|>")}{chip("~/")}{chip("!(")}</p>
         <p>Slide one finger along its column:</p>
@@ -238,9 +247,20 @@ NOTES = f"""
         {chip("${")} {chip("={")} {chip("(" + chr(34))} alternate hands.</p>
       </div>
       <div>
+        <h3>Staying on a layer</h3>
+        <p>While holding a layer key, tap Lock (bottom right) and let go: the layer stays on.
+        Tap Lock again to leave. Works for Symbols, Numbers, Command and Mouse.</p>
+      </div>
+      <div>
+        <h3>Right display</h3>
+        <p>EN or RU in large type, the name of the layer you hold, and along the bottom the
+        modifiers you hold, lit in finger order from pinky to index.</p>
+      </div>
+      <div>
         <h3>Home row</h3>
-        <p>Each home key is a letter when tapped and a modifier when held: Command, Option,
-        Control, Shift from pinky to index, mirrored on the right hand.</p>
+        <p>Each home key is a letter when tapped and a modifier when held: Control, Option,
+        Command, Shift from pinky to index, mirrored on the right hand. On Linux, Control and
+        the Super key trade places, so Control sits under the middle finger there.</p>
         <p>A modifier only takes hold with a key from the other hand, or after a short pause, so
         fast typing never triggers one by accident.</p>
       </div>
@@ -248,6 +268,7 @@ NOTES = f"""
         <h3>Reading the keys</h3>
         <ul class="legend">
           <li><span class="key plain swatch"><span class="face"><span class="main glyph">a</span></span><span class="hold mod glyph">⌃</span></span>Tap for the letter, hold for the lower edge</li>
+          <li><span class="key plain home swatch"><span class="face"><span class="main glyph">t</span></span></span>Home position, where the fingers rest</li>
           <li><span class="key pri swatch"><span class="face"><span class="main glyph">7</span></span></span>What the layer is for</li>
           <li><span class="key sec swatch"><span class="face"><span class="main glyph">+</span></span></span>Extras on the layer</li>
           <li><span class="key held swatch"><span class="face"><span class="main word">held</span></span></span>The key you are holding</li>
@@ -311,6 +332,10 @@ h2 {{
   border: 0.22mm solid var(--edge); background: #fff;
   display: flex; flex-direction: column; overflow: hidden;
 }}
+.key.home::before {{
+  content: ""; position: absolute; top: 1.15mm; left: 50%; width: 4.6mm; margin-left: -2.3mm;
+  height: 0.75mm; border-radius: 0.4mm; background: var(--bump);
+}}
 .face {{
   flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
   gap: 0.8mm; min-height: 0;
@@ -333,13 +358,13 @@ h2 {{
 .hold.word {{ font-size: 2.15mm; }}
 
 .notes {{ width: {15 * U}mm; margin: 0 auto; }}
-.notes header {{ height: 10.5mm; display: flex; align-items: flex-end; margin-bottom: 9mm; }}
-.notes .grid {{ display: grid; grid-template-columns: repeat(3, 1fr); gap: 13mm 14mm; }}
-h3 {{ font-family: "Unbounded", "Golos Text", sans-serif; font-weight: 600; font-size: 4.1mm; margin-bottom: 4mm; }}
-.notes p {{ font-size: 3.5mm; line-height: 1.45; margin-bottom: 2.6mm; max-width: 72mm; }}
+.notes header {{ height: 10.5mm; display: flex; align-items: flex-end; margin-bottom: 6mm; }}
+.notes .grid {{ display: grid; grid-template-columns: repeat(4, 1fr); gap: 8mm 10mm; }}
+h3 {{ font-family: "Unbounded", "Golos Text", sans-serif; font-weight: 600; font-size: 3.7mm; margin-bottom: 3mm; }}
+.notes p {{ font-size: 3.1mm; line-height: 1.42; margin-bottom: 2.2mm; }}
 dl {{ display: grid; grid-template-columns: auto 1fr; gap: 2.8mm 3.5mm; align-items: center; margin-bottom: 3.5mm; }}
 dt {{ display: flex; gap: 0.9mm; }}
-dd {{ font-size: 3.5mm; line-height: 1.3; }}
+dd {{ font-size: 3.2mm; line-height: 1.3; }}
 .chip {{
   min-width: 6.6mm; height: 6.6mm; padding: 0 1.5mm; border-radius: 1.4mm;
   border: 0.22mm solid var(--edge); display: inline-flex; align-items: center; justify-content: center;
@@ -347,8 +372,9 @@ dd {{ font-size: 3.5mm; line-height: 1.3; }}
 }}
 .rolls {{ display: flex; flex-wrap: wrap; gap: 1.2mm; }}
 .legend {{ list-style: none; }}
-.legend li {{ display: flex; align-items: center; gap: 3.5mm; font-size: 3.5mm; line-height: 1.3; margin-bottom: 2.2mm; }}
-.key.swatch {{ position: static; flex: none; width: 10.4mm; height: 10.4mm; border-radius: 1.6mm; --hue: var(--num); }}
+.legend li {{ display: flex; align-items: center; gap: 3mm; font-size: 3.1mm; line-height: 1.25; margin-bottom: 1.3mm; }}
+.key.swatch {{ position: relative; flex: none; width: 9mm; height: 9mm; border-radius: 1.5mm; --hue: var(--num); }}
+.key.swatch.home::before {{ top: 0.8mm; width: 3.4mm; margin-left: -1.7mm; height: 0.6mm; }}
 .swatch .main.glyph {{ font-size: 4mm; }}
 .swatch .main.word {{ font-size: 2.2mm; }}
 .swatch .hold {{ height: 3.1mm; }}
@@ -363,7 +389,7 @@ footer {{
 THEMES = {
     "color": """
 :root {
-  --ink: #15171c; --quiet: #6d7480; --edge: #9aa1ab;
+  --ink: #15171c; --quiet: #6d7480; --edge: #9aa1ab; --bump: #15171c;
   --ru: #cf2f4a; --sym: #6a48d7; --num: #0a8a76; --cmd: #d47a00; --mou: #1d6fd6;
 }
 .hold.mod { background: #e3e6eb; }
@@ -382,7 +408,7 @@ THEMES = {
 .key.none { border-color: #e4e6ea; }
 """,
     "bw": """
-:root { --ink: #000; --quiet: #000; --edge: #000; --title: #000; }
+:root { --ink: #000; --quiet: #000; --edge: #000; --title: #000; --bump: #000; }
 .hold.mod { border-top: 0.22mm solid #000; }
 .hold.num, .hold.cmd, .hold.sym { background: #000; color: #fff; }
 .key.pri  { border-width: 0.6mm; }

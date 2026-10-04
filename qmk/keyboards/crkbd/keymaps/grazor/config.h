@@ -34,8 +34,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Display
 #define OLED_BRIGHTNESS 16
 
-// Split: share layer state so the offhand OLED can show it
+// Split: share layer and modifier state with the offhand OLED
 #define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_MODS_ENABLE
+#define SPLIT_TRANSACTION_IDS_USER USER_SYNC_HOST
 
 // Caps
 #define BOTH_SHIFTS_TURNS_ON_CAPS_WORD

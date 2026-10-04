@@ -20,12 +20,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "bongocat.h"
 #include "raw_hid.h"
+#include "transactions.h"
 
 enum keycodes {
     LT_SYMMD = SAFE_RANGE,
     MACRO_ESC_L1,
     LANG_EN,
     LANG_RU,
+    NUM_DOT,
+    NUM_COMM,
 };
 
 enum layers {
@@ -224,7 +227,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_HASH, KC_CIRC,  KC_EQL, KC_UNDS,  KC_DLR, KC_ASTR,                      KC_BSLS, KC_LCBR, KC_RCBR, KC_DQUO, KC_COLN,   KC_AT,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_TILD,   KC_LT, KC_PIPE, KC_MINS,   KC_GT, KC_SLSH,                      XXXXXXX, XXXXXXX, KC_COMM,  KC_DOT, XXXXXXX, XXXXXXX,
+      KC_TILD,   KC_LT, KC_PIPE, KC_MINS,   KC_GT, KC_SLSH,                      XXXXXXX, XXXXXXX, KC_COMM,  KC_DOT, XXXXXXX, QK_LLCK,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    XXXXXXX, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -234,9 +237,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,                      KC_ASTR,    KC_4,    KC_5,    KC_6, KC_PLUS,  KC_EQL,
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT,  KC_SPC,                      KC_ASTR,    KC_4,    KC_5,    KC_6, KC_PLUS,  KC_EQL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                     KC_SLASH,    KC_1,    KC_2,    KC_3, KC_MINS,  KC_DOT,
+       KC_TAB, XXXXXXX,NUM_COMM, NUM_DOT, XXXXXXX, XXXXXXX,                     KC_SLASH,    KC_1,    KC_2,    KC_3, KC_MINS, QK_LLCK,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,       KC_0, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -244,11 +247,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_COMMAND] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_F18, XXXXXXX, XXXXXXX, LANG_EN, LANG_RU, KC_STAB,                      XXXXXXX, XXXXXXX,   KC_UP, XXXXXXX, XXXXXXX,  KC_DEL,
+       KC_F18, XXXXXXX, XXXXXXX, LANG_EN, LANG_RU, KC_STAB,                      XXXXXXX, XXXXXXX,   KC_UP, XXXXXXX, KC_PGUP,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT,  KC_TAB,                      XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, XXXXXXX,
+      XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT,  KC_TAB,                      XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, QK_LLCK,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, XXXXXXX, _______,    _______, XXXXXXX, _______
                                       //`--------------------------'  `--------------------------'
@@ -262,7 +265,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, MS_BTN3, MS_BTN2, MS_BTN1, XXXXXXX,                      XXXXXXX, MS_LEFT, MS_DOWN, MS_RGHT, MS_WHLD, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_LLCK,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    XXXXXXX, _______, _______
                                       //`--------------------------'  `--------------------------'
@@ -284,6 +287,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+    if (is_layer_locked(_MOUSE)) {
+        return state;
+    }
     return update_tri_layer_state(state, _SYMBOL, _NUMBER, _MOUSE);
 }
 
@@ -296,19 +302,92 @@ static void os_layout(uint16_t keycode) {
     send_keyboard_report();
 }
 
+// Home row mods are written GACS (GUI on the pinky). On macOS, where Cmd does the
+// job of Ctrl, Ctrl and GUI trade places for CAGS: Cmd on the middle finger.
+// The host is macOS when OS detection says so, or when kb-layout-sync (a macOS
+// helper) talks to the keyboard.
+static bool host_is_mac;
+
+static void set_host_mac(bool mac) {
+    if (mac == host_is_mac) {
+        return;
+    }
+    host_is_mac = mac;
+    // A modifier held across the swap would be released as the other one
+    clear_mods();
+    send_keyboard_report();
+    keymap_config.swap_lctl_lgui = mac;
+    keymap_config.swap_rctl_rgui = mac;
+}
+
+bool process_detected_host_os_user(os_variant_t detected_os) {
+    set_host_mac(detected_os == OS_MACOS || detected_os == OS_IOS);
+    return true;
+}
+
+// The offhand display shows the mods by name, so it needs to know the host too
+static void host_sync_handler(uint8_t in_buflen, const void *in_data, uint8_t out_buflen, void *out_data) {
+    host_is_mac = *(const bool *)in_data;
+}
+
+void keyboard_post_init_user(void) {
+    transaction_register_rpc(USER_SYNC_HOST, host_sync_handler);
+}
+
+void housekeeping_task_user(void) {
+    static uint32_t last_sync;
+    static bool     synced_mac;
+    if (!is_keyboard_master()) {
+        return;
+    }
+    // Resend now and then too, in case the other half restarted
+    if (synced_mac != host_is_mac || timer_elapsed32(last_sync) > 1000) {
+        if (transaction_rpc_send(USER_SYNC_HOST, sizeof(host_is_mac), &host_is_mac)) {
+            synced_mac = host_is_mac;
+            last_sync  = timer_read32();
+        }
+    }
+}
+
 // The firmware follows the OS layout however it was switched:
 //   macOS  kb-layout-sync reports it over Raw HID,
 //          data[0] = HID_LAYOUT_SYNC, data[1] = 1 for ru, 0 otherwise
 //   Linux  xkb option grp_led:scroll lights Scroll Lock while ru is active
 #define HID_LAYOUT_SYNC 0x4C
-#define SYM_SYNC_SETTLE_MS 500
+#define BORROW_SETTLE_MS 500
 
-static bool     sym_from_ru;
+// While Russian is on, the OS layout is borrowed back to en for as long as the
+// Symbols layer is held, so symbols come out the same in both layouts. Shortcuts
+// need no switch: process_ru_hotkey sends their Enthium keycodes.
+#define BORROW_SYMBOLS (1 << 0)
+
+static uint8_t  en_borrowed;
 static uint32_t sync_ignore_until;
 
+static void borrow_en(uint8_t reason) {
+    if (!IS_LAYER_ON(_RU) || (en_borrowed & reason)) {
+        return;
+    }
+    if (!en_borrowed) {
+        os_layout(OS_EN);
+    }
+    en_borrowed |= reason;
+}
+
+static void return_en(uint8_t reason) {
+    if (!(en_borrowed & reason)) {
+        return;
+    }
+    en_borrowed &= ~reason;
+    if (!en_borrowed) {
+        sync_ignore_until = timer_read32() + BORROW_SETTLE_MS;
+        os_layout(OS_RU);
+    }
+}
+
 static void follow_os_layout(bool ru) {
-    // The symbol key flips the OS layout to en and back; don't follow that
-    if (sym_from_ru || !timer_expired32(timer_read32(), sync_ignore_until)) {
+    // Borrowing flips the OS layout to en and back; don't follow that
+    if (en_borrowed || !timer_expired32(timer_read32(), sync_ignore_until)) {
         return;
     }
     if (ru) {
@@ -320,6 +399,7 @@ static void follow_os_layout(bool ru) {
 
 void raw_hid_receive(uint8_t *data, uint8_t length) {
     if (data[0] == HID_LAYOUT_SYNC) {
+        set_host_mac(true);
         follow_os_layout(data[1]);
     }
 }
@@ -334,7 +414,16 @@ bool led_update_user(led_t led_state) {
     return true;
 }
 
+// A locked Symbols layer outlives its key; switch back to ru once it unlocks
+bool layer_lock_set_user(layer_state_t locked_layers) {
+    if (!(locked_layers & ((layer_state_t)1 << _SYMBOL)) && !IS_LAYER_ON(_SYMBOL)) {
+        return_en(BORROW_SYMBOLS);
+    }
+    return true;
+}
+
 static void set_russian(bool ru) {
+    en_borrowed = 0;
     os_layout(ru ? OS_RU : OS_EN);
     if (ru) {
         layer_on(_RU);
@@ -392,16 +481,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       // Symbols are typed in the en layout, then ru is restored
       if (record->event.pressed) {
         layer_on(_SYMBOL);
-        sym_from_ru = IS_LAYER_ON(_RU);
-        if (sym_from_ru) {
-          os_layout(OS_EN);
-        }
-      } else {
+        borrow_en(BORROW_SYMBOLS);
+      } else if (!is_layer_locked(_SYMBOL)) {
         layer_off(_SYMBOL);
-        if (sym_from_ru) {
-          sym_from_ru       = false;
-          sync_ignore_until = timer_read32() + SYM_SYNC_SETTLE_MS;
-          os_layout(OS_RU);
+        return_en(BORROW_SYMBOLS);
+      }
+      return false;
+
+    case NUM_DOT:
+    case NUM_COMM:
+      // In Russian . and , live on the slash key (Shift for the comma)
+      if (record->event.pressed) {
+        if (IS_LAYER_ON(_RU) && !en_borrowed) {
+          tap_code16(keycode == NUM_DOT ? KC_SLSH : S(KC_SLSH));
+        } else {
+          tap_code(keycode == NUM_DOT ? KC_DOT : KC_COMM);
         }
       }
       return false;
@@ -461,8 +555,85 @@ static void render_layer(void) {
     }
 }
 
-// Keyboard-level Corne logo, fills the first three rows
-void oled_render_logo(void);
+// Offhand display: the active layout in large type, the layer being held, and
+// the held modifiers along the bottom in finger order, pinky to index.
+
+extern const unsigned char font[];
+
+// A font glyph scaled 3x: 18x24 px from the top of the screen
+static void render_big_char(char c, uint8_t x0) {
+    for (uint8_t col = 0; col < 6; col++) {
+        const uint8_t bits = pgm_read_byte(&font[(uint8_t)c * 6 + col]);
+        for (uint8_t bit = 0; bit < 8; bit++) {
+            for (uint8_t d = 0; d < 9; d++) {
+                oled_write_pixel(x0 + col * 3 + d % 3, bit * 3 + d / 3, bits & (1 << bit));
+            }
+        }
+    }
+}
+
+static void render_layout(bool ru) {
+    // The big letters own the first 42 px of rows 0-2
+    for (uint8_t y = 0; y < 24; y++) {
+        for (uint8_t x = 0; x < 3; x++) {
+            oled_write_pixel(x, y, false);
+            oled_write_pixel(39 + x, y, false);
+        }
+    }
+    render_big_char(ru ? 'R' : 'E', 3);
+    render_big_char(ru ? 'U' : 'N', 21);
+    oled_set_cursor(7, 0);
+    oled_write_P(PSTR("              "), false);
+    oled_set_cursor(7, 1);
+    oled_write_P(ru ? PSTR("  Russian     ") : PSTR("  Enthium v14 "), false);
+}
+
+static void render_held_layer(void) {
+    oled_set_cursor(7, 2);
+    switch (get_highest_layer(layer_state)) {
+        case _SYMBOL:
+            oled_write_P(PSTR("  Symbols     "), false);
+            break;
+        case _NUMBER:
+            oled_write_P(PSTR("  Numbers     "), false);
+            break;
+        case _COMMAND:
+            oled_write_P(PSTR("  Command     "), false);
+            break;
+        case _MOUSE:
+            oled_write_P(PSTR("  Mouse       "), false);
+            break;
+        default:
+            oled_write_P(PSTR("              "), false);
+    }
+}
+
+static void render_mod(const char *name, bool held) {
+    oled_write_P(PSTR("  "), false);
+    oled_write_P(name, held);
+}
+
+static void render_mods(void) {
+    const uint8_t mods = get_mods();
+    oled_set_cursor(0, 3);
+    if (host_is_mac) {
+        render_mod(PSTR("CTL"), mods & MOD_MASK_CTRL);
+        render_mod(PSTR("ALT"), mods & MOD_MASK_ALT);
+        render_mod(PSTR("GUI"), mods & MOD_MASK_GUI);
+    } else {
+        render_mod(PSTR("GUI"), mods & MOD_MASK_GUI);
+        render_mod(PSTR("ALT"), mods & MOD_MASK_ALT);
+        render_mod(PSTR("CTL"), mods & MOD_MASK_CTRL);
+    }
+    render_mod(PSTR("SFT"), mods & MOD_MASK_SHIFT);
+    oled_write_P(PSTR(" "), false);
+}
+
+static void render_offhand(void) {
+    render_layout(IS_LAYER_ON(_RU));
+    render_held_layer();
+    render_mods();
+}
 
 bool oled_task_user(void) {
     if (is_keyboard_master()) {
@@ -472,10 +643,7 @@ bool oled_task_user(void) {
         oled_set_cursor(18, 1);
         oled_write(get_u8_str(get_current_wpm(), '0'), false);
     } else {
-        // Layer state arrives over the split link (SPLIT_LAYER_STATE_ENABLE)
-        oled_render_logo();
-        oled_set_cursor(0, 3);
-        render_layer();
+        render_offhand();
     }
     return false;
 }
