@@ -20,23 +20,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-// HMR
+// Home row mods
 #define TAPPING_TERM 200
 #define QUICK_TAP_TERM 0
 #define CHORDAL_HOLD
 #define PERMISSIVE_HOLD
 #define FLOW_TAP_TERM 150
 
-// Combo
+// Combos: only after a pause in typing, and the home row mod ones only as taps
 #define COMBO_STRICT_TIMER
 #define COMBO_TERM 40
+#define COMBO_SHOULD_TRIGGER
+#define COMBO_MUST_TAP_PER_COMBO
+#define COMBO_IDLE_TERM FLOW_TAP_TERM
 
 // Display
 #define OLED_BRIGHTNESS 16
 
-// Split: share layer and modifier state with the offhand OLED
+// Split: share layer, modifier and activity state with the offhand OLED
 #define SPLIT_LAYER_STATE_ENABLE
 #define SPLIT_MODS_ENABLE
+#define SPLIT_ACTIVITY_ENABLE
 #define SPLIT_TRANSACTION_IDS_USER USER_SYNC_HOST
 
 // Caps
@@ -44,10 +48,3 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Caps Lock is only sent as the OS layout hotkey, no need to hold it
 #define TAP_HOLD_CAPS_DELAY 0
-
-// Input lag
-// https://keebsforall.com/blogs/mechanical-keyboards-101/reduce-keyboard-input-lag-with-qmk
-//#define DEBOUNCE 3
-//#define DEBOUNCE_TYPE symm
-//#define QMK_KEYS_PER_SCAN 12
-//#define DIODE_DIRECTION COL2ROW  // or ROW2COL based on your PCB design

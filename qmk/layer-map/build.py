@@ -39,7 +39,7 @@ CMD, OPT, CTL, SFT = "⌘", "⌥", "⌃", "⇧"
 
 BASE = [
     K("`", shift="~"), K("q"), K("y"), K("o"), K("u"), K("=", shift="+"),
-    K("x"), K("l"), K("d"), K("p"), K("z"), K("[", cap="twice ]"),
+    K("x"), K("l"), K("d"), K("p"), K("z"), K("[", shift="{"),
 
     K("b"), K("c", hold=CTL), K("i", hold=OPT), K("a", hold=CMD), K("e", hold=SFT), K("-", shift="_"),
     K("k"), K("h", hold=SFT), K("t", hold=CMD), K("n", hold=OPT), K("s", hold=CTL), K("w"),
@@ -53,7 +53,7 @@ BASE = [
 
 RUSSIAN = [
     T("ё"), K("й", "ru"), K("ц", "ru"), K("у", "ru"), K("к", "ru"), K("е", "ru"),
-    K("н", "ru"), K("г", "ru"), K("ш", "ru"), K("щ", "ru"), K("з", "ru"), T("х", cap="twice ъ"),
+    K("н", "ru"), K("г", "ru"), K("ш", "ru"), K("щ", "ru"), K("з", "ru"), T("х"),
 
     T("и"), K("ф", "ru", hold=CTL), K("ы", "ru", hold=OPT), K("в", "ru", hold=CMD), K("а", "ru", hold=SFT), K("п", "ru"),
     K("р", "ru"), K("о", "ru", hold=SFT), K("л", "ru", hold=CMD), K("д", "ru", hold=OPT), K("ж", "ru", hold=CTL), K("э", "ru"),
@@ -62,7 +62,7 @@ RUSSIAN = [
     K("т", "ru"), K("ь", "ru"), K("б", "ru"), K("ю", "ru"), K(".", "ru", shift=","), X,
 
     T("Enter"), T("", hold="Numbers", strip="num"), T("Space"),
-    T("к", hold="Command", strip="cmd"), T("", hold="Symbols", strip="sym"), T("⌫", cap="⇧ Delete"),
+    K("ъ", "ru", hold="Command", strip="cmd"), T("", hold="Symbols", strip="sym"), T("⌫", cap="⇧ Delete"),
 ]
 
 SYMBOLS = [
@@ -132,7 +132,7 @@ LAYERS = {
         title="Русский",
         keys=RUSSIAN,
         text="On whenever the system layout is Russian. Shortcuts with Control, Option or Command use the "
-        "Enthium keys, so they stay under the same fingers. The display shows RUS.",
+        "Enthium keys, so they stay under the same fingers. ъ is on the R thumb. The display shows RUS.",
     ),
     "sym": dict(
         title="Symbols",
@@ -227,7 +227,6 @@ NOTES = f"""
         <dl>
           <dt>{chip("⇧", "⇧")}</dt><dd>Caps Word: capitals until the word ends, in either layout</dd>
           <dt>{chip("⇧", "⌫")}</dt><dd>Delete</dd>
-          <dt>{chip("[")}</dt><dd>Tap twice for ] (х and ъ in Russian)</dd>
         </dl>
       </div>
       <div>

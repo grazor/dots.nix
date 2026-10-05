@@ -22,47 +22,42 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "raw_hid.h"
 #include "transactions.h"
 
-enum keycodes {
-    LT_SYMMD = SAFE_RANGE,
-    MACRO_ESC_L1,
+enum layers {
+    L_BASE,
+    L_RU,
+    L_SYM,
+    L_NUM,
+    L_CMD,
+    L_MOUSE,
+};
+
+enum custom_keycodes {
+    SYMBOLS = SAFE_RANGE, // Symbols layer while held; in Russian also the en layout
+    ESC_EN,               // Escape, then the English layout
     LANG_EN,
     LANG_RU,
-    NUM_DOT,
+    NUM_DOT,              // . and , that come out right in either layout
     NUM_COMM,
 };
 
-enum layers {
-    _BASE_ENTHIUM,
-    _RU,
-    _SYMBOL,
-    _NUMBER,
-    _COMMAND,
-    _MOUSE,
-};
-
 enum combos {
-    _COMBO_HT_ESC,
-    _COMBO_HTN_ESC_L1,
-    _COMBO_LAYOUT1,
-    _COMBO_LAYOUT2,
+    C_ESC,
+    C_ESC_EN,
+    C_LANG_EN,
+    C_LANG_RU,
 };
 
-enum tapdance {
-    _TD_LRBRAC,
-};
+// Thumb layer keys
+#define NUMBERS MO(L_NUM)
+#define CMD_R   LT(L_CMD, KC_R)
+#define CMD_RU  LT(L_CMD, KC_RBRC) // ъ on tap in Russian, where Enthium has r
 
-
-// Aliases
-#define LT_RCMD LT(_COMMAND, KC_R)
-#define LT_NUM  MO(_NUMBER)
-
-// Left-hand home row mods
+// Home row mods, written GACS; on macOS Ctrl and GUI trade places (CAGS)
 #define HRM_GC LGUI_T(KC_C)
 #define HRM_AI LALT_T(KC_I)
 #define HRM_CA LCTL_T(KC_A)
 #define HRM_SE LSFT_T(KC_E)
 
-// Right-hand home row mods
 #define HRM_SH RSFT_T(KC_H)
 #define HRM_CT RCTL_T(KC_T)
 #define HRM_AN LALT_T(KC_N)
@@ -78,65 +73,56 @@ enum tapdance {
 #define RU_AL LALT_T(KC_L)
 #define RU_GS RGUI_T(KC_SCLN)
 
-#define KC_STAB LSFT(KC_TAB)
+#define SFT_TAB  S(KC_TAB)
 
 // OS layout keys: Caps selects en, Shift+Caps selects ru
 #define OS_EN KC_CAPS
 #define OS_RU S(KC_CAPS)
 
 // Combos
-const uint16_t PROGMEM ht_esc[] = {HRM_SH, HRM_CT, COMBO_END};
-const uint16_t PROGMEM htn_esc_l1[] = {HRM_SH, HRM_CT, HRM_AN, COMBO_END};
-const uint16_t PROGMEM um_layout1[] = {KC_U, KC_MINS, COMBO_END};
-const uint16_t PROGMEM lk_layout2[] = {KC_L, KC_K, COMBO_END};
+const uint16_t PROGMEM combo_esc[]     = {HRM_SH, HRM_CT, COMBO_END};
+const uint16_t PROGMEM combo_esc_en[]  = {HRM_SH, HRM_CT, HRM_AN, COMBO_END};
+const uint16_t PROGMEM combo_lang_en[] = {KC_U, KC_MINS, COMBO_END};
+const uint16_t PROGMEM combo_lang_ru[] = {KC_L, KC_K, COMBO_END};
 
 combo_t key_combos[] = {
-    [_COMBO_HT_ESC] = COMBO(ht_esc, KC_ESC),
-    [_COMBO_HTN_ESC_L1] = COMBO(htn_esc_l1, MACRO_ESC_L1),
-    [_COMBO_LAYOUT1] = COMBO(um_layout1, LANG_EN),
-    [_COMBO_LAYOUT2] = COMBO(lk_layout2, LANG_RU),
+    [C_ESC]     = COMBO(combo_esc, KC_ESC),
+    [C_ESC_EN]  = COMBO(combo_esc_en, ESC_EN),
+    [C_LANG_EN] = COMBO(combo_lang_en, LANG_EN),
+    [C_LANG_RU] = COMBO(combo_lang_ru, LANG_RU),
 };
 
 // Combos are defined with Enthium keycodes; keep them positional on the RU layer
 uint8_t combo_ref_from_layer(uint8_t layer) {
-    return layer == _RU ? _BASE_ENTHIUM : layer;
+    return layer == L_RU ? L_BASE : layer;
 }
 
-// Tap dance: [ on one tap, ] on two (х and ъ in Russian). A tap dance bypasses
-// Caps Word, so it applies the shift itself while Caps Word is on in Russian.
-static uint16_t brackets_registered;
+// Combos only start after a pause in typing, so fast rolls such as "th" or
+// "lk" stay letters
+static uint32_t prev_press_time;
+static uint32_t last_press_time;
 
-static void brackets_register(uint8_t count) {
-    brackets_registered = count == 1 ? KC_LBRC : KC_RBRC;
-    if (is_caps_word_on() && IS_LAYER_ON(_RU)) {
-        brackets_registered = S(brackets_registered);
+bool pre_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (IS_KEYEVENT(record->event) && record->event.pressed) {
+        prev_press_time = last_press_time;
+        last_press_time = timer_read32();
     }
-    register_code16(brackets_registered);
+    return true;
 }
 
-static void brackets_each_tap(tap_dance_state_t *state, void *user_data) {
-    if (state->count == 2) {
-        brackets_register(2);
-        state->finished = true;
+bool combo_should_trigger(uint16_t combo_index, combo_t *combo, uint16_t keycode, keyrecord_t *record) {
+    // Releases, and further keys of a combo already under way, always count
+    if (!record->event.pressed || combo->state) {
+        return true;
     }
+    return timer_elapsed32(prev_press_time) >= COMBO_IDLE_TERM;
 }
 
-static void brackets_finished(tap_dance_state_t *state, void *user_data) {
-    brackets_register(1);
+// The h+t combos sit on home row mods, so held together they stay Shift and
+// Ctrl/Cmd for shortcuts; only a quick tap of them is a combo
+bool get_combo_must_tap(uint16_t combo_index, combo_t *combo) {
+    return combo_index == C_ESC || combo_index == C_ESC_EN;
 }
-
-static void brackets_reset(tap_dance_state_t *state, void *user_data) {
-    if (state->count == 1) {
-        wait_ms(TAP_CODE_DELAY);
-    }
-    unregister_code16(brackets_registered);
-}
-
-tap_dance_action_t tap_dance_actions[] = {
-    [_TD_LRBRAC] = ACTION_TAP_DANCE_FN_ADVANCED(brackets_each_tap, brackets_finished, brackets_reset),
-};
-
-# define TD_BRCS TD(_TD_LRBRAC)
 
 // Caps Word: defaults, plus the Russian letters that sit on punctuation keys
 bool caps_word_press_user(uint16_t keycode) {
@@ -152,21 +138,19 @@ bool caps_word_press_user(uint16_t keycode) {
         case KC_UNDS:
             return true;
 
-        // ж э б ю ё
+        // ж э б ю ё х ъ
         case KC_SCLN:
         case KC_QUOT:
         case KC_COMM:
         case KC_DOT:
         case KC_GRV:
-            if (get_highest_layer(layer_state) != _RU) {
+        case KC_LBRC:
+        case KC_RBRC:
+            if (get_highest_layer(layer_state) != L_RU) {
                 return false;
             }
             add_weak_mods(MOD_BIT(KC_LSFT));
             return true;
-
-        // х ъ, shifted by the tap dance
-        case TD_BRCS:
-            return IS_LAYER_ON(_RU);
 
         default:
             return false;
@@ -180,7 +164,6 @@ const key_override_t *key_overrides[] = {
     &delete_key_override,
 };
 
-
 /*
   Enthium v14
 
@@ -191,21 +174,22 @@ b c i a e - k h t n s w
 */
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-    [_BASE_ENTHIUM] = LAYOUT_split_3x6_3(
+    [L_BASE] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_GRV,    KC_Q,    KC_Y,    KC_O,    KC_U,  KC_EQL,                         KC_X,    KC_L,    KC_D,    KC_P,   KC_Z,  TD_BRCS,
+       KC_GRV,    KC_Q,    KC_Y,    KC_O,    KC_U,  KC_EQL,                         KC_X,    KC_L,    KC_D,    KC_P,    KC_Z, KC_LBRC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
          KC_B,  HRM_GC,  HRM_AI,  HRM_CA,  HRM_SE, KC_MINS,                         KC_K,  HRM_SH,  HRM_CT,  HRM_AN,  HRM_GS,    KC_W,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
        KC_TAB, KC_QUOT, KC_COMM,  KC_DOT, KC_SCLN, KC_SLSH,                         KC_J,    KC_M,    KC_G,    KC_F,    KC_V, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                           KC_ENT,  LT_NUM,  KC_SPC,    LT_RCMD,LT_SYMMD, KC_BSPC
+                                           KC_ENT, NUMBERS,  KC_SPC,      CMD_R, SYMBOLS, KC_BSPC
                                       //`--------------------------'  `--------------------------'
   ),
 
     // QWERTY positions, which the OS Russian layout turns into ЙЦУКЕН.
-    // Transparent keys keep their Enthium keycode (ё, х/ъ, Tab, thumbs).
-    [_RU] = LAYOUT_split_3x6_3(
+    // Transparent keys keep their Enthium keycode (ё, х, Tab, thumbs); ъ is a
+    // tap of the R thumb.
+    [L_RU] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       _______,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, _______,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -213,7 +197,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       _______,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH, _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    _______, _______, _______
+                                          _______, _______, _______,     CMD_RU, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -221,7 +205,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // the left hand, = _ and the Vim motions ^ $ # * sit on the home row, ? * /
     // stack on the inner column. What his extra rows and thumbs hold moves to
     // the right hand: braces on the home fingers, quotes on the ring finger.
-    [_SYMBOL] = LAYOUT_split_3x6_3(
+    [L_SYM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       KC_EXLM, KC_LBRC, KC_LPRN, KC_RPRN, KC_RBRC, KC_QUES,                      KC_PERC, KC_PLUS, KC_AMPR, KC_QUOT, KC_SCLN,  KC_GRV,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -233,21 +217,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
-    [_NUMBER] = LAYOUT_split_3x6_3(
+    [L_NUM] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT,  KC_SPC,                      KC_ASTR,    KC_4,    KC_5,    KC_6, KC_PLUS,  KC_EQL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-       KC_TAB, XXXXXXX,NUM_COMM, NUM_DOT, XXXXXXX, XXXXXXX,                     KC_SLASH,    KC_1,    KC_2,    KC_3, KC_MINS, QK_LLCK,
+       KC_TAB, XXXXXXX,NUM_COMM, NUM_DOT, XXXXXXX, XXXXXXX,                      KC_SLSH,    KC_1,    KC_2,    KC_3, KC_MINS, QK_LLCK,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,       KC_0, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
-    [_COMMAND] = LAYOUT_split_3x6_3(
+    [L_CMD] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_F18, XXXXXXX, XXXXXXX, LANG_EN, LANG_RU, KC_STAB,                      XXXXXXX, XXXXXXX,   KC_UP, XXXXXXX, KC_PGUP,  KC_DEL,
+       KC_F18, XXXXXXX, XXXXXXX, LANG_EN, LANG_RU, SFT_TAB,                      XXXXXXX, XXXXXXX,   KC_UP, XXXXXXX, KC_PGUP,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT,  KC_TAB,                      XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -259,7 +243,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     // Symbols + Numbers held together. Pointer under the right hand, buttons
     // on the left home row so a drag is one hand holding and the other moving.
-    [_MOUSE] = LAYOUT_split_3x6_3(
+    [L_MOUSE] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, MS_BTN1,   MS_UP, MS_BTN2, MS_WHLU, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -270,27 +254,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                           _______, _______, _______,    XXXXXXX, _______, _______
                                       //`--------------------------'  `--------------------------'
   ),
-
-/*
-    [XXXXXXX] = LAYOUT_split_3x6_3(
-  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, _______, XXXXXXX
-                                      //`--------------------------'  `--------------------------'
-  ),
-*/
 };
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-    if (is_layer_locked(_MOUSE)) {
+    if (is_layer_locked(L_MOUSE)) {
         return state;
     }
-    return update_tri_layer_state(state, _SYMBOL, _NUMBER, _MOUSE);
+    return update_tri_layer_state(state, L_SYM, L_NUM, L_MOUSE);
 }
 
 // Send the OS layout hotkey without any held mods leaking into it
@@ -365,7 +335,7 @@ static uint8_t  en_borrowed;
 static uint32_t sync_ignore_until;
 
 static void borrow_en(uint8_t reason) {
-    if (!IS_LAYER_ON(_RU) || (en_borrowed & reason)) {
+    if (!IS_LAYER_ON(L_RU) || (en_borrowed & reason)) {
         return;
     }
     if (!en_borrowed) {
@@ -391,9 +361,9 @@ static void follow_os_layout(bool ru) {
         return;
     }
     if (ru) {
-        layer_on(_RU);
+        layer_on(L_RU);
     } else {
-        layer_off(_RU);
+        layer_off(L_RU);
     }
 }
 
@@ -416,7 +386,7 @@ bool led_update_user(led_t led_state) {
 
 // A locked Symbols layer outlives its key; switch back to ru once it unlocks
 bool layer_lock_set_user(layer_state_t locked_layers) {
-    if (!(locked_layers & ((layer_state_t)1 << _SYMBOL)) && !IS_LAYER_ON(_SYMBOL)) {
+    if (!(locked_layers & ((layer_state_t)1 << L_SYM)) && !IS_LAYER_ON(L_SYM)) {
         return_en(BORROW_SYMBOLS);
     }
     return true;
@@ -426,14 +396,14 @@ static void set_russian(bool ru) {
     en_borrowed = 0;
     os_layout(ru ? OS_RU : OS_EN);
     if (ru) {
-        layer_on(_RU);
+        layer_on(L_RU);
     } else {
-        layer_off(_RU);
+        layer_off(L_RU);
     }
 }
 
-// Hotkeys stay on Enthium: a key pressed on the RU layer while Ctrl, Alt or
-// GUI is held sends the Enthium keycode of that position instead.
+// Hotkeys stay on Enthium: a key tapped on the RU layer while Ctrl, Alt or GUI
+// is held sends the Enthium keycode of that position instead.
 static uint8_t ru_hotkey[MATRIX_ROWS][MATRIX_COLS];
 
 static bool process_ru_hotkey(uint16_t keycode, keyrecord_t *record) {
@@ -452,16 +422,18 @@ static bool process_ru_hotkey(uint16_t keycode, keyrecord_t *record) {
         return false;
     }
 
-    if (!(get_mods() & MOD_MASK_CAG) || layer_switch_get_layer(pos) != _RU) {
+    if (!(get_mods() & MOD_MASK_CAG) || layer_switch_get_layer(pos) != L_RU) {
         return true;
     }
-    if (IS_QK_MOD_TAP(keycode) && !record->tap.count) {
-        return true; // held as a modifier, same mod on both layers
+    if ((IS_QK_MOD_TAP(keycode) || IS_QK_LAYER_TAP(keycode)) && !record->tap.count) {
+        return true; // held as a modifier or layer key, same on both layers
     }
 
-    uint16_t enthium = keymap_key_to_keycode(_BASE_ENTHIUM, pos);
+    uint16_t enthium = keymap_key_to_keycode(L_BASE, pos);
     if (IS_QK_MOD_TAP(enthium)) {
         enthium = QK_MOD_TAP_GET_TAP_KEYCODE(enthium);
+    } else if (IS_QK_LAYER_TAP(enthium)) {
+        enthium = QK_LAYER_TAP_GET_TAP_KEYCODE(enthium);
     }
     if (!IS_BASIC_KEYCODE(enthium)) {
         return true;
@@ -472,54 +444,54 @@ static bool process_ru_hotkey(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (!process_ru_hotkey(keycode, record)) {
-    return false;
-  }
+    if (!process_ru_hotkey(keycode, record)) {
+        return false;
+    }
 
-  switch (keycode) {
-    case LT_SYMMD:
-      // Symbols are typed in the en layout, then ru is restored
-      if (record->event.pressed) {
-        layer_on(_SYMBOL);
-        borrow_en(BORROW_SYMBOLS);
-      } else if (!is_layer_locked(_SYMBOL)) {
-        layer_off(_SYMBOL);
-        return_en(BORROW_SYMBOLS);
-      }
-      return false;
+    switch (keycode) {
+        case SYMBOLS:
+            // Symbols are typed in the en layout, then ru is restored
+            if (record->event.pressed) {
+                layer_on(L_SYM);
+                borrow_en(BORROW_SYMBOLS);
+            } else if (!is_layer_locked(L_SYM)) {
+                layer_off(L_SYM);
+                return_en(BORROW_SYMBOLS);
+            }
+            return false;
 
-    case NUM_DOT:
-    case NUM_COMM:
-      // In Russian . and , live on the slash key (Shift for the comma)
-      if (record->event.pressed) {
-        if (IS_LAYER_ON(_RU) && !en_borrowed) {
-          tap_code16(keycode == NUM_DOT ? KC_SLSH : S(KC_SLSH));
-        } else {
-          tap_code(keycode == NUM_DOT ? KC_DOT : KC_COMM);
-        }
-      }
-      return false;
+        case NUM_DOT:
+        case NUM_COMM:
+            // In Russian . and , live on the slash key (Shift for the comma)
+            if (record->event.pressed) {
+                if (IS_LAYER_ON(L_RU) && !en_borrowed) {
+                    tap_code16(keycode == NUM_DOT ? KC_SLSH : S(KC_SLSH));
+                } else {
+                    tap_code(keycode == NUM_DOT ? KC_DOT : KC_COMM);
+                }
+            }
+            return false;
 
-    case MACRO_ESC_L1:
-      if (record->event.pressed) {
-        tap_code(KC_ESC);
-        set_russian(false);
-      }
-      return false;
+        case ESC_EN:
+            if (record->event.pressed) {
+                tap_code(KC_ESC);
+                set_russian(false);
+            }
+            return false;
 
-    case LANG_EN:
-    case LANG_RU:
-      if (record->event.pressed) {
-        set_russian(keycode == LANG_RU);
-      }
-      return false;
-  }
-  return true;
+        case LANG_EN:
+        case LANG_RU:
+            if (record->event.pressed) {
+                set_russian(keycode == LANG_RU);
+            }
+            return false;
+    }
+    return true;
 }
 
 #ifdef CHORDAL_HOLD
 const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
-    LAYOUT(
+    LAYOUT_split_3x6_3(
         'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
         'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
         'L', 'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R', 'R',
@@ -527,27 +499,26 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
     );
 #endif
 
-
 #ifdef OLED_ENABLE
 
 static void render_layer(void) {
     switch (get_highest_layer(layer_state)) {
-        case _BASE_ENTHIUM:
+        case L_BASE:
             oled_write_P(PSTR("ENTH"), false);
             break;
-        case _RU:
+        case L_RU:
             oled_write_P(PSTR(" RUS"), false);
             break;
-        case _SYMBOL:
+        case L_SYM:
             oled_write_P(PSTR(" SYM"), false);
             break;
-        case _NUMBER:
+        case L_NUM:
             oled_write_P(PSTR(" NUM"), false);
             break;
-        case _COMMAND:
+        case L_CMD:
             oled_write_P(PSTR(" CMD"), false);
             break;
-        case _MOUSE:
+        case L_MOUSE:
             oled_write_P(PSTR("MOUS"), false);
             break;
         default:
@@ -591,16 +562,16 @@ static void render_layout(bool ru) {
 static void render_held_layer(void) {
     oled_set_cursor(7, 2);
     switch (get_highest_layer(layer_state)) {
-        case _SYMBOL:
+        case L_SYM:
             oled_write_P(PSTR("  Symbols     "), false);
             break;
-        case _NUMBER:
+        case L_NUM:
             oled_write_P(PSTR("  Numbers     "), false);
             break;
-        case _COMMAND:
+        case L_CMD:
             oled_write_P(PSTR("  Command     "), false);
             break;
-        case _MOUSE:
+        case L_MOUSE:
             oled_write_P(PSTR("  Mouse       "), false);
             break;
         default:
@@ -630,12 +601,18 @@ static void render_mods(void) {
 }
 
 static void render_offhand(void) {
-    render_layout(IS_LAYER_ON(_RU));
+    render_layout(IS_LAYER_ON(L_RU));
     render_held_layer();
     render_mods();
 }
 
 bool oled_task_user(void) {
+    // The driver wakes a display only when its content changes; wake both on
+    // typing too (activity reaches the offhand via SPLIT_ACTIVITY_ENABLE)
+    if (last_input_activity_elapsed() < OLED_TIMEOUT) {
+        oled_on();
+    }
+
     if (is_keyboard_master()) {
         render_bongocat();
         oled_set_cursor(17, 0);
