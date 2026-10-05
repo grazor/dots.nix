@@ -75,7 +75,7 @@ SYMBOLS = [
     K("~", "pri"), K("<", "pri"), K("|", "pri"), K("-", "pri"), K(">", "pri"), K("/", "pri"),
     X, X, K(",", "pri"), K(".", "pri"), X, K("Lock", "sec", cap="layer"),
 
-    T("Enter"), T("", hold="Numbers", strip="num", cap="adds Mouse"), T("Space"),
+    T("Enter"), T("", hold="Numbers", strip="num", cap="Typography"), T("Space"),
     X, K("held", "held"), T("⌫", cap="⇧ Delete"),
 ]
 
@@ -90,7 +90,21 @@ NUMBERS = [
     K("/", "sec"), K("1", "pri"), K("2", "pri"), K("3", "pri"), K("-", "sec"), K("Lock", "sec", cap="layer"),
 
     T("Enter"), K("held", "held"), T("Space"),
-    K("0", "pri"), T("", hold="Symbols", strip="sym", cap="adds Mouse"), T("⌫", cap="⇧ Delete"),
+    K("0", "pri"), T("", hold="Symbols", strip="sym", cap="Typography"), T("⌫", cap="⇧ Delete"),
+]
+
+TYPOGRAPHY = [
+    X, X, X, X, X, X,
+    X, K("±", "pri"), K("∆", "pri"), K("π", "pri"), X, X,
+
+    K("§", "pri"), K("°", "pri"), K("≠", "pri"), K("·", "pri"), K("€", "pri"), K("•", "pri"),
+    X, X, K("™", "pri"), X, X, K("©", "pri"),
+
+    K("≈", "pri"), K("≤", "pri"), K("∞", "pri"), K("—", "pri"), K("≥", "pri"), K("÷", "pri"),
+    X, K("µ", "pri"), X, K("…", "pri"), K("√", "pri"), K("Lock", "sec", cap="layer"),
+
+    T("Enter"), K("held", "held"), K("Space", "pri", cap="no-break"),
+    X, K("held", "held"), T("⌫", cap="⇧ Delete"),
 ]
 
 MOUSE = [
@@ -104,7 +118,7 @@ MOUSE = [
     X, X, X, X, X, K("Lock", "sec", cap="layer"),
 
     T("Enter"), K("held", "held"), T("Space"),
-    X, K("held", "held"), T("⌫", cap="⇧ Delete"),
+    K("held", "held"), X, T("⌫", cap="⇧ Delete"),
 ]
 
 COMMAND = [
@@ -117,7 +131,7 @@ COMMAND = [
     X, X, X, X, X, X,
     X, K("Vol −", "sec"), K("Mute", "sec"), K("Vol +", "sec"), X, K("Lock", "sec", cap="layer"),
 
-    T("Enter"), X, T("Space"),
+    T("Enter"), T("", hold="Numbers", strip="num", cap="Mouse"), T("Space"),
     K("held", "held"), X, T("⌫", cap="⇧ Delete"),
 ]
 
@@ -153,10 +167,16 @@ LAYERS = {
         text="Hold the R key on the right thumb. Arrows and paging under the right hand, layout "
         "switching and modifiers under the left. The display shows CMD.",
     ),
+    "typo": dict(
+        title="Typography",
+        keys=TYPOGRAPHY,
+        text="Hold both middle thumb keys. Signs sit on their plain cousin (— on -, ≤ ≥ on < >) or "
+        "their Enthium letter (π on p, µ on m). Mac only. The display shows TYPO.",
+    ),
     "mou": dict(
         title="Mouse",
         keys=MOUSE,
-        text="Hold both middle thumb keys, Numbers and Symbols together. The right hand moves the "
+        text="Hold R for Command, then the middle key of the left thumb. The right hand moves the "
         "pointer; the left home row clicks, so you can hold a button and drag. The display shows MOUS.",
     ),
 }
@@ -248,7 +268,7 @@ NOTES = f"""
       <div>
         <h3>Staying on a layer</h3>
         <p>While holding a layer key, tap Lock (bottom right) and let go: the layer stays on.
-        Tap Lock again to leave. Works for Symbols, Numbers, Command and Mouse.</p>
+        Tap Lock again to leave. Works for every layer you hold.</p>
       </div>
       <div>
         <h3>Right display</h3>
@@ -280,8 +300,9 @@ NOTES = f"""
 
 PAGES = [
     render_layer("base") + render_layer("ru"),
-    render_layer("sym") + render_layer("num"),
-    render_layer("cmd") + render_layer("mou"),
+    render_layer("sym") + render_layer("typo"),
+    render_layer("num") + render_layer("cmd"),
+    render_layer("mou"),
     NOTES,
 ]
 
@@ -309,6 +330,7 @@ body {{
 .layer.sym {{ --hue: var(--sym); }}
 .layer.num {{ --hue: var(--num); }}
 .layer.cmd {{ --hue: var(--cmd); }}
+.layer.typo {{ --hue: var(--typ); }}
 .layer.mou {{ --hue: var(--mou); }}
 
 .layer header {{
@@ -389,7 +411,7 @@ THEMES = {
     "color": """
 :root {
   --ink: #15171c; --quiet: #6d7480; --edge: #9aa1ab; --bump: #15171c;
-  --ru: #cf2f4a; --sym: #6a48d7; --num: #0a8a76; --cmd: #d47a00; --mou: #1d6fd6;
+  --ru: #cf2f4a; --sym: #6a48d7; --num: #0a8a76; --cmd: #d47a00; --mou: #1d6fd6; --typ: #4d8a12;
 }
 .hold.mod { background: #e3e6eb; }
 .hold.num { background: var(--num); color: #fff; }

@@ -28,6 +28,7 @@ enum layers {
     L_SYM,
     L_NUM,
     L_CMD,
+    L_TYPO,
     L_MOUSE,
 };
 
@@ -74,6 +75,30 @@ enum combos {
 #define RU_GS RGUI_T(KC_SCLN)
 
 #define SFT_TAB  S(KC_TAB)
+
+// Typography: Option shortcuts of the macOS English (ABC) layout. The layer sits
+// on top of Symbols, which keeps the system in English, so they serve Russian too.
+#define TY_MDASH LSA(KC_MINS) // —
+#define TY_HELLP A(KC_SCLN)   // …
+#define TY_NEQ   A(KC_EQL)    // ≠
+#define TY_PLMN  LSA(KC_EQL)  // ±
+#define TY_APPRX A(KC_X)      // ≈
+#define TY_DEG   LSA(KC_8)    // °
+#define TY_BULLT A(KC_8)      // •
+#define TY_EURO  LSA(KC_2)    // €
+#define TY_SECT  A(KC_6)      // §
+#define TY_LEQ   A(KC_COMM)   // ≤
+#define TY_GEQ   A(KC_DOT)    // ≥
+#define TY_DIV   A(KC_SLSH)   // ÷
+#define TY_MIDOT LSA(KC_9)    // ·
+#define TY_INF   A(KC_5)      // ∞
+#define TY_PI    A(KC_P)      // π
+#define TY_MICRO A(KC_M)      // µ
+#define TY_SQRT  A(KC_V)      // √
+#define TY_DELTA A(KC_J)      // ∆
+#define TY_COPY  A(KC_G)      // ©
+#define TY_TM    A(KC_2)      // ™
+#define TY_NBSP  A(KC_SPC)    // no-break space
 
 // OS layout keys: Caps selects en, Shift+Caps selects ru
 #define OS_EN KC_CAPS
@@ -229,6 +254,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //`--------------------------'  `--------------------------'
   ),
 
+    // Symbols + Numbers held together. Each character sits on the key of its
+    // plain cousin on the Symbols layer (— on -, ≤ ≥ on < >, ÷ on /), and the
+    // letter-like ones on their Enthium letter (π on p, µ on m, ∆ on d, √ on v,
+    // ™ on t).
+    [L_TYPO] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, TY_PLMN,TY_DELTA,   TY_PI, XXXXXXX, XXXXXXX,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      TY_SECT,  TY_DEG,  TY_NEQ,TY_MIDOT, TY_EURO,TY_BULLT,                      XXXXXXX, XXXXXXX,   TY_TM, XXXXXXX, XXXXXXX, TY_COPY,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     TY_APPRX,  TY_LEQ,  TY_INF,TY_MDASH,  TY_GEQ,  TY_DIV,                      XXXXXXX,TY_MICRO, XXXXXXX,TY_HELLP, TY_SQRT, QK_LLCK,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          _______, _______, TY_NBSP,    XXXXXXX, _______, _______
+                                      //`--------------------------'  `--------------------------'
+  ),
+
     [L_CMD] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_F18, XXXXXXX, XXXXXXX, LANG_EN, LANG_RU, SFT_TAB,                      XXXXXXX, XXXXXXX,   KC_UP, XXXXXXX, KC_PGUP,  KC_DEL,
@@ -237,11 +278,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, QK_LLCK,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, XXXXXXX, _______,    _______, XXXXXXX, _______
+                                          _______, _______, _______,    _______, XXXXXXX, _______
                                       //`--------------------------'  `--------------------------'
   ),
 
-    // Symbols + Numbers held together. Pointer under the right hand, buttons
+    // Command (R thumb), then Numbers held. Pointer under the right hand, buttons
     // on the left home row so a drag is one hand holding and the other moving.
     [L_MOUSE] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -251,16 +292,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_LLCK,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, _______, _______,    XXXXXXX, _______, _______
+                                          _______, _______, _______,    _______, XXXXXXX, _______
                                       //`--------------------------'  `--------------------------'
   ),
 };
 
+// Two-thumb layers: Symbols + Numbers is Typography, Command + Numbers is
+// Mouse. A locked one stays on after its thumbs let go.
 layer_state_t layer_state_set_user(layer_state_t state) {
-    if (is_layer_locked(L_MOUSE)) {
-        return state;
+    if (!is_layer_locked(L_TYPO)) {
+        state = update_tri_layer_state(state, L_SYM, L_NUM, L_TYPO);
     }
-    return update_tri_layer_state(state, L_SYM, L_NUM, L_MOUSE);
+    if (!is_layer_locked(L_MOUSE)) {
+        state = update_tri_layer_state(state, L_CMD, L_NUM, L_MOUSE);
+    }
+    return state;
 }
 
 // Send the OS layout hotkey without any held mods leaking into it
@@ -518,6 +564,9 @@ static void render_layer(void) {
         case L_CMD:
             oled_write_P(PSTR(" CMD"), false);
             break;
+        case L_TYPO:
+            oled_write_P(PSTR("TYPO"), false);
+            break;
         case L_MOUSE:
             oled_write_P(PSTR("MOUS"), false);
             break;
@@ -570,6 +619,9 @@ static void render_held_layer(void) {
             break;
         case L_CMD:
             oled_write_P(PSTR("  Command     "), false);
+            break;
+        case L_TYPO:
+            oled_write_P(PSTR("  Typography  "), false);
             break;
         case L_MOUSE:
             oled_write_P(PSTR("  Mouse       "), false);
