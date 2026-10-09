@@ -7,6 +7,9 @@
 // or the keyboard is plugged in, so the layer follows the OS no matter how
 // the layout was switched.
 //
+// It also passes on the Mattermost Dock badge (mentions, or a dot for unread),
+// which the keyboard shows on its left display.
+//
 //   kb-layout-sync          run until killed, following the OS layout
 //   kb-layout-sync en|ru    send one state and exit (for testing)
 
@@ -20,6 +23,10 @@ let productID = 0x0001
 let rawUsagePage = 0xFF60
 let rawUsage = 0x61
 let syncCommand: UInt8 = 0x4C
+let badgeCommand: UInt8 = 0x4D // HID_MM_BADGE
+let badgeRunning: UInt8 = 1 << 0
+let badgeUnread: UInt8 = 1 << 1
+let badgeInterval: TimeInterval = 3
 let reportSize = 32
 
 func log(_ message: String) {
@@ -35,16 +42,64 @@ func osLayoutIsRussian() -> Bool {
     return languages?.first == "ru"
 }
 
-func send(russian: Bool, to device: IOHIDDevice) {
+struct Badge: Equatable {
+    var running = false
+    var unread = false // a dot: unread, but no mentions
+    var count = 0
+
+    var description: String {
+        running ? (count > 0 ? "\(count)" : unread ? "dot" : "none") : "not running"
+    }
+}
+
+// The Dock badge of the Mattermost app, as Launch Services has it:
+//   "StatusLabel"={ "label"="5" }
+func mattermostBadge() -> Badge {
+    let process = Process()
+    process.executableURL = URL(fileURLWithPath: "/usr/bin/lsappinfo")
+    process.arguments = ["info", "-only", "StatusLabel", "Mattermost"]
+    let pipe = Pipe()
+    process.standardOutput = pipe
+    process.standardError = FileHandle.nullDevice
+    guard (try? process.run()) != nil else {
+        return Badge()
+    }
+    let output = String(decoding: pipe.fileHandleForReading.readDataToEndOfFile(), as: UTF8.self)
+    process.waitUntilExit()
+
+    // Prints nothing when the app is not running
+    var badge = Badge(running: output.contains("StatusLabel"))
+    if let match = output.range(of: #""label"="[^"]*""#, options: .regularExpression) {
+        let label = output[match].dropFirst(9).dropLast()
+        let digits = label.filter(\.isNumber)
+        if let count = Int(digits) {
+            badge.count = count
+        } else {
+            badge.unread = !label.isEmpty
+        }
+    }
+    return badge
+}
+
+func sendReport(_ bytes: [UInt8], describing what: String, to device: IOHIDDevice) {
     var report = [UInt8](repeating: 0, count: reportSize)
-    report[0] = syncCommand
-    report[1] = russian ? 1 : 0
+    report.replaceSubrange(0..<bytes.count, with: bytes)
     let result = IOHIDDeviceSetReport(device, kIOHIDReportTypeOutput, 0, report, report.count)
     if result == kIOReturnSuccess {
-        log("sent \(russian ? "ru" : "en")")
+        log("sent \(what)")
     } else {
         log("send failed: 0x\(String(UInt32(bitPattern: result), radix: 16))")
     }
+}
+
+func send(russian: Bool, to device: IOHIDDevice) {
+    sendReport([syncCommand, russian ? 1 : 0], describing: russian ? "ru" : "en", to: device)
+}
+
+func send(badge: Badge, to device: IOHIDDevice) {
+    let flags = (badge.running ? badgeRunning : 0) | (badge.unread ? badgeUnread : 0)
+    let count = UInt8(min(badge.count, 255))
+    sendReport([badgeCommand, flags, count], describing: "badge \(badge.description)", to: device)
 }
 
 let manager = IOHIDManagerCreate(kCFAllocatorDefault, IOOptionBits(kIOHIDOptionsTypeNone))
@@ -84,10 +139,13 @@ if CommandLine.arguments.count > 1 {
     exit(0)
 }
 
+var badge = mattermostBadge()
+
 // A keyboard that was just plugged in boots in Enthium; bring it up to date
 IOHIDManagerRegisterDeviceMatchingCallback(manager, { _, _, _, device in
     log("keyboard connected")
     send(russian: osLayoutIsRussian(), to: device)
+    send(badge: badge, to: device)
 }, nil)
 IOHIDManagerScheduleWithRunLoop(manager, CFRunLoopGetMain(), CFRunLoopMode.defaultMode.rawValue)
 
@@ -100,5 +158,15 @@ DistributedNotificationCenter.default().addObserver(
     keyboards().forEach { send(russian: russian, to: $0) }
 }
 
-log("watching layout changes")
+// Launch Services has no notification for badge changes; poll it
+Timer.scheduledTimer(withTimeInterval: badgeInterval, repeats: true) { _ in
+    let current = mattermostBadge()
+    guard current != badge else {
+        return
+    }
+    badge = current
+    keyboards().forEach { send(badge: badge, to: $0) }
+}
+
+log("watching layout changes and the Mattermost badge")
 RunLoop.main.run()

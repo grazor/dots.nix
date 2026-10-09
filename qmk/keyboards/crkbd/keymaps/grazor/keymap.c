@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include QMK_KEYBOARD_H
 
-#include "bongocat.h"
 #include "raw_hid.h"
 #include "transactions.h"
 
@@ -39,6 +38,8 @@ enum custom_keycodes {
     LANG_RU,
     NUM_DOT,              // . and , that come out right in either layout
     NUM_COMM,
+    POMO,                 // Pomodoro: start, pause, resume
+    POMO_RST,             // Pomodoro: back to idle
 };
 
 enum combos {
@@ -276,7 +277,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT,  KC_TAB,                      XXXXXXX, KC_LEFT, KC_DOWN, KC_RGHT, KC_PGDN, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, QK_LLCK,
+      XXXXXXX, XXXXXXX, XXXXXXX,POMO_RST,    POMO, XXXXXXX,                      XXXXXXX, KC_VOLD, KC_MUTE, KC_VOLU, XXXXXXX, QK_LLCK,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, XXXXXXX, _______
                                       //`--------------------------'  `--------------------------'
@@ -350,6 +351,111 @@ void keyboard_post_init_user(void) {
     transaction_register_rpc(USER_SYNC_HOST, host_sync_handler);
 }
 
+// Pomodoro, kept by the master half: 25 min of work, then 5 min of rest, a
+// 15 min one after every fourth work session. A finished phase waits for POMO
+// before the next one starts.
+#define POMO_WORK_MS       (25 * 60 * 1000UL)
+#define POMO_REST_MS       (5 * 60 * 1000UL)
+#define POMO_LONG_MS       (15 * 60 * 1000UL)
+#define POMO_SESSIONS      4
+#define POMO_ALERT_MS      5000
+
+enum pomo_phase {
+    PHASE_IDLE,
+    PHASE_WORK,
+    PHASE_REST,
+    PHASE_LONG,
+};
+
+static struct {
+    uint8_t  phase;
+    bool     running;
+    bool     waiting;  // phase over, the next one not started yet
+    uint8_t  sessions; // work sessions done in this cycle
+    uint32_t end;      // when running
+    uint32_t left;     // when paused or waiting
+    uint32_t alert_until;
+} pomo;
+
+static uint32_t pomo_length(uint8_t phase) {
+    switch (phase) {
+        case PHASE_REST:
+            return POMO_REST_MS;
+        case PHASE_LONG:
+            return POMO_LONG_MS;
+        default:
+            return POMO_WORK_MS;
+    }
+}
+
+static uint32_t pomo_left(void) {
+    if (!pomo.running) {
+        return pomo.left;
+    }
+    const uint32_t now = timer_read32();
+    return timer_expired32(now, pomo.end) ? 0 : pomo.end - now;
+}
+
+static void pomo_toggle(void) {
+    if (pomo.phase == PHASE_IDLE) {
+        pomo.phase = PHASE_WORK;
+        pomo.left  = POMO_WORK_MS;
+    }
+    if (pomo.running) {
+        pomo.left    = pomo_left();
+        pomo.running = false;
+    } else {
+        pomo.end     = timer_read32() + pomo.left;
+        pomo.running = true;
+        pomo.waiting = false;
+    }
+}
+
+static void pomo_reset(void) {
+    memset(&pomo, 0, sizeof(pomo));
+}
+
+static void pomo_task(void) {
+    if (!pomo.running || pomo_left()) {
+        return;
+    }
+    if (pomo.phase == PHASE_WORK) {
+        pomo.sessions++;
+        pomo.phase = pomo.sessions >= POMO_SESSIONS ? PHASE_LONG : PHASE_REST;
+    } else {
+        if (pomo.phase == PHASE_LONG) {
+            pomo.sessions = 0;
+        }
+        pomo.phase = PHASE_WORK;
+    }
+    pomo.left        = pomo_length(pomo.phase);
+    pomo.running     = false;
+    pomo.waiting     = true;
+    pomo.alert_until = timer_read32() + POMO_ALERT_MS;
+}
+
+// Mattermost badge, as kb-layout-sync reads it off the Dock icon:
+//   data[0] = HID_MM_BADGE, data[1] = flags below, data[2] = mention count
+#define HID_MM_BADGE     0x4D
+#define MM_RUNNING       (1 << 0)
+#define MM_UNREAD        (1 << 1) // unread but no mentions: a dot on the badge
+#define MM_ALERT_MS      3000
+
+static struct {
+    uint8_t  flags;
+    uint8_t  count;
+    uint32_t alert_until;
+} mm;
+
+static void mm_update(uint8_t flags, uint8_t count) {
+    const bool more = count > mm.count || (!mm.count && !(mm.flags & MM_UNREAD) && (flags & MM_UNREAD));
+    if ((flags & MM_RUNNING) && (mm.flags & MM_RUNNING) && more) {
+        mm.alert_until = timer_read32() + MM_ALERT_MS;
+    }
+    mm.flags = flags;
+    mm.count = count;
+}
+
 void housekeeping_task_user(void) {
     static uint32_t last_sync;
     static bool     synced_mac;
@@ -363,6 +469,7 @@ void housekeeping_task_user(void) {
             last_sync  = timer_read32();
         }
     }
+    pomo_task();
 }
 
 // The firmware follows the OS layout however it was switched:
@@ -417,6 +524,9 @@ void raw_hid_receive(uint8_t *data, uint8_t length) {
     if (data[0] == HID_LAYOUT_SYNC) {
         set_host_mac(true);
         follow_os_layout(data[1]);
+    } else if (data[0] == HID_MM_BADGE) {
+        set_host_mac(true);
+        mm_update(data[1], data[2]);
     }
 }
 
@@ -525,6 +635,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
+        case POMO:
+            if (record->event.pressed) {
+                pomo_toggle();
+            }
+            return false;
+
+        case POMO_RST:
+            if (record->event.pressed) {
+                pomo_reset();
+            }
+            return false;
+
         case LANG_EN:
         case LANG_RU:
             if (record->event.pressed) {
@@ -547,44 +669,24 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
 
 #ifdef OLED_ENABLE
 
-static void render_layer(void) {
-    switch (get_highest_layer(layer_state)) {
-        case L_BASE:
-            oled_write_P(PSTR("ENTH"), false);
-            break;
-        case L_RU:
-            oled_write_P(PSTR(" RUS"), false);
-            break;
-        case L_SYM:
-            oled_write_P(PSTR(" SYM"), false);
-            break;
-        case L_NUM:
-            oled_write_P(PSTR(" NUM"), false);
-            break;
-        case L_CMD:
-            oled_write_P(PSTR(" CMD"), false);
-            break;
-        case L_TYPO:
-            oled_write_P(PSTR("TYPO"), false);
-            break;
-        case L_MOUSE:
-            oled_write_P(PSTR("MOUS"), false);
-            break;
-        default:
-            oled_write_P(PSTR(" ???"), false);
-    }
-}
+// Both displays stand upright (32x128). The master shows the Mattermost badge
+// and the Pomodoro; the offhand shows the layout, the held layer and the mods.
 
-// Offhand display, upright (32x128): the active layout and the layer being
-// held in large type, the held modifiers below in right-hand finger order, index to pinky.
-
-#define OFFHAND_WIDTH 32
+#define DISPLAY_WIDTH 32
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    return is_keyboard_master() ? rotation : OLED_ROTATION_270;
+    return OLED_ROTATION_270;
 }
 
 extern const unsigned char font[];
+
+static void fill_rect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, bool on) {
+    for (uint8_t dx = 0; dx < w; dx++) {
+        for (uint8_t dy = 0; dy < h; dy++) {
+            oled_write_pixel(x + dx, y + dy, on);
+        }
+    }
+}
 
 // Draws a box of the full display width, h px tall from y, with the text centred
 // in it at the given scale. Every pixel of the box is written, so nothing from
@@ -594,12 +696,12 @@ static void render_text_box(const char *text, uint8_t y, uint8_t h, uint8_t scal
     const uint8_t len    = strlen(text);
     const uint8_t pitch  = 5 * scale + 1;
     const uint8_t text_w = len ? len * pitch - 1 : 0;
-    const uint8_t x0     = (OFFHAND_WIDTH - text_w) / 2;
+    const uint8_t x0     = (DISPLAY_WIDTH - text_w) / 2;
     const uint8_t y0     = (h - 7 * scale) / 2;
 
-    for (uint8_t x = 0; x < OFFHAND_WIDTH; x++) {
-        const uint8_t i   = (x - x0) / pitch;
-        const uint8_t col = (x - x0) % pitch / scale;
+    for (uint8_t x = 0; x < DISPLAY_WIDTH; x++) {
+        const uint8_t i    = (x - x0) / pitch;
+        const uint8_t col  = (x - x0) % pitch / scale;
         uint8_t       bits = 0;
         if (x >= x0 && i < len && col < 5) {
             bits = pgm_read_byte(&font[(uint8_t)text[i] * 6 + col]);
@@ -610,6 +712,117 @@ static void render_text_box(const char *text, uint8_t y, uint8_t h, uint8_t scal
         }
     }
 }
+
+// Alternates every period ms
+static bool blink(uint16_t period) {
+    return timer_read32() / period % 2;
+}
+
+// Master: Mattermost badge
+
+#define ENVELOPE_W 21
+#define ENVELOPE_H 13
+
+// An envelope outline with the flap folded to the middle
+static bool envelope_pixel(uint8_t x, uint8_t y) {
+    if (x == 0 || x == ENVELOPE_W - 1 || y == 0 || y == ENVELOPE_H - 1) {
+        return true;
+    }
+    const uint8_t dx = x < ENVELOPE_W / 2 ? x : ENVELOPE_W - 1 - x;
+    return y == dx * (ENVELOPE_H / 2) / (ENVELOPE_W / 2);
+}
+
+static void render_badge(void) {
+    // New mentions make the envelope hop and the count flash
+    static const uint8_t hop[] = {0, 2, 3, 3, 2, 0, 0, 0};
+    const bool           alert = !timer_expired32(timer_read32(), mm.alert_until);
+    const uint8_t        lift  = alert ? hop[timer_read32() / 75 % sizeof(hop)] : 0;
+    const uint8_t        top   = 4 - lift;
+    const uint8_t        left  = (DISPLAY_WIDTH - ENVELOPE_W) / 2;
+
+    for (uint8_t x = 0; x < DISPLAY_WIDTH; x++) {
+        for (uint8_t y = 0; y < 18; y++) {
+            const bool inside = x >= left && x < left + ENVELOPE_W && y >= top && y < top + ENVELOPE_H;
+            oled_write_pixel(x, y, inside && envelope_pixel(x - left, y - top));
+        }
+    }
+
+    char count[4] = "-";
+    if (!(mm.flags & MM_RUNNING)) {
+        // Mattermost is not running, or no word from kb-layout-sync
+    } else if (mm.count > 99) {
+        strcpy(count, "99+");
+    } else if (mm.count) {
+        const char *digits = get_u8_str(mm.count, ' ');
+        strcpy(count, digits + strspn(digits, " "));
+    } else {
+        strcpy(count, mm.flags & MM_UNREAD ? "\x07" : "0");
+    }
+    render_text_box(count, 19, 18, 2, alert && !blink(250));
+}
+
+// Master: Pomodoro
+
+static void render_pomodoro(void) {
+    const bool     alert = !timer_expired32(timer_read32(), pomo.alert_until);
+    const bool     flash = alert && !blink(250);
+    const uint32_t left  = pomo_left();
+    const uint16_t secs  = (left + 999) / 1000;
+
+    // Dotted rule under the badge
+    for (uint8_t x = 0; x < DISPLAY_WIDTH; x++) {
+        oled_write_pixel(x, 42, x % 2 && x > 2 && x < DISPLAY_WIDTH - 3);
+    }
+
+    const char *label;
+    switch (pomo.phase) {
+        case PHASE_WORK:
+            label = "WORK";
+            break;
+        case PHASE_REST:
+            label = "REST";
+            break;
+        case PHASE_LONG:
+            label = "LONG";
+            break;
+        default:
+            label = "POMO";
+    }
+    // Waiting for POMO: the label of the next phase blinks
+    render_text_box(label, 48, 11, 1, flash || (pomo.waiting && !alert && blink(500)));
+
+    char minutes[3] = "25";
+    char seconds[4] = ":00";
+    if (pomo.phase != PHASE_IDLE) {
+        minutes[0] = '0' + secs / 600;
+        minutes[1] = '0' + secs / 60 % 10;
+        seconds[1] = '0' + secs % 60 / 10;
+        seconds[2] = '0' + secs % 10;
+    }
+    // Paused: the time blinks
+    const bool hide = pomo.phase != PHASE_IDLE && !pomo.running && !pomo.waiting && blink(500);
+    render_text_box(hide ? "" : minutes, 60, 25, 3, flash);
+    render_text_box(hide ? "" : seconds, 85, 11, 1, flash);
+
+    // Progress through the phase
+    const uint32_t length = pomo_length(pomo.phase);
+    const uint8_t  done   = pomo.phase == PHASE_IDLE ? 0 : (uint64_t)(length - left) * DISPLAY_WIDTH / length;
+    fill_rect(0, 101, done, 3, true);
+    fill_rect(done, 101, DISPLAY_WIDTH - done, 3, false);
+
+    // Work sessions in this cycle: filled when done, outlined otherwise
+    fill_rect(0, 112, DISPLAY_WIDTH, 16, false);
+    for (uint8_t i = 0; i < POMO_SESSIONS; i++) {
+        const uint8_t x = 2 + i * 8;
+        fill_rect(x, 114, 5, 5, true);
+        if (i >= pomo.sessions) {
+            fill_rect(x + 1, 115, 3, 3, false);
+        }
+    }
+}
+
+// Offhand: the active layout and the layer being held in large type, the held
+// modifiers below in right-hand finger order, index to pinky.
 
 static const char *held_layer_name(void) {
     switch (get_highest_layer(layer_state)) {
@@ -645,16 +858,20 @@ static void render_offhand(void) {
 bool oled_task_user(void) {
     // The driver wakes a display only when its content changes; wake both on
     // typing too (activity reaches the offhand via SPLIT_ACTIVITY_ENABLE)
-    if (last_input_activity_elapsed() < OLED_TIMEOUT) {
+    const bool active = last_input_activity_elapsed() < OLED_TIMEOUT;
+    if (active) {
         oled_on();
     }
 
     if (is_keyboard_master()) {
-        render_bongocat();
-        oled_set_cursor(17, 0);
-        render_layer();
-        oled_set_cursor(18, 1);
-        oled_write(get_u8_str(get_current_wpm(), '0'), false);
+        // Any change of content keeps the display on, so the ticking timer
+        // and the blinking are only drawn while typing or during an alert
+        const uint32_t now   = timer_read32();
+        const bool     alert = !timer_expired32(now, mm.alert_until) || !timer_expired32(now, pomo.alert_until);
+        if (active || alert) {
+            render_badge();
+            render_pomodoro();
+        }
     } else {
         render_offhand();
     }

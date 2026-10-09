@@ -8,11 +8,8 @@ OS_DETECTION_ENABLE = yes
 
 CAPS_WORD_ENABLE = yes
 
-WPM_ENABLE = yes
 RAW_ENABLE = yes
 
 # No LEDs on this board
 RGB_MATRIX_ENABLE = no
 RGBLIGHT_ENABLE = no
-
-SRC += bongocat.c
