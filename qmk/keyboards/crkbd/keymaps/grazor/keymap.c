@@ -581,7 +581,7 @@ static void render_layer(void) {
 #define OFFHAND_WIDTH 32
 
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    return is_keyboard_master() ? rotation : OLED_ROTATION_90;
+    return is_keyboard_master() ? rotation : OLED_ROTATION_270;
 }
 
 extern const unsigned char font[];
