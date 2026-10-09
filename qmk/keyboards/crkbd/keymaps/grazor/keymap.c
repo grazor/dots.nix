@@ -575,87 +575,71 @@ static void render_layer(void) {
     }
 }
 
-// Offhand display: the active layout in large type, the layer being held, and
-// the held modifiers along the bottom in finger order, pinky to index.
+// Offhand display, upright (32x128): the active layout and the layer being
+// held in large type, the held modifiers below in right-hand finger order, index to pinky.
+
+#define OFFHAND_WIDTH 32
+
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    return is_keyboard_master() ? rotation : OLED_ROTATION_90;
+}
 
 extern const unsigned char font[];
 
-// A font glyph scaled 3x: 18x24 px from the top of the screen
-static void render_big_char(char c, uint8_t x0) {
-    for (uint8_t col = 0; col < 6; col++) {
-        const uint8_t bits = pgm_read_byte(&font[(uint8_t)c * 6 + col]);
-        for (uint8_t bit = 0; bit < 8; bit++) {
-            for (uint8_t d = 0; d < 9; d++) {
-                oled_write_pixel(x0 + col * 3 + d % 3, bit * 3 + d / 3, bits & (1 << bit));
-            }
+// Draws a box of the full display width, h px tall from y, with the text centred
+// in it at the given scale. Every pixel of the box is written, so nothing from
+// the previous frame survives. Glyphs are the 5x7 part of the font cells, 1 px
+// apart, so three letters fit at 2x and two at 3x.
+static void render_text_box(const char *text, uint8_t y, uint8_t h, uint8_t scale, bool invert) {
+    const uint8_t len    = strlen(text);
+    const uint8_t pitch  = 5 * scale + 1;
+    const uint8_t text_w = len ? len * pitch - 1 : 0;
+    const uint8_t x0     = (OFFHAND_WIDTH - text_w) / 2;
+    const uint8_t y0     = (h - 7 * scale) / 2;
+
+    for (uint8_t x = 0; x < OFFHAND_WIDTH; x++) {
+        const uint8_t i   = (x - x0) / pitch;
+        const uint8_t col = (x - x0) % pitch / scale;
+        uint8_t       bits = 0;
+        if (x >= x0 && i < len && col < 5) {
+            bits = pgm_read_byte(&font[(uint8_t)text[i] * 6 + col]);
+        }
+        for (uint8_t dy = 0; dy < h; dy++) {
+            const bool on = dy >= y0 && dy < y0 + 7 * scale && (bits & (1 << ((dy - y0) / scale)));
+            oled_write_pixel(x, y + dy, on != invert);
         }
     }
 }
 
-static void render_layout(bool ru) {
-    // The big letters own the first 42 px of rows 0-2
-    for (uint8_t y = 0; y < 24; y++) {
-        for (uint8_t x = 0; x < 3; x++) {
-            oled_write_pixel(x, y, false);
-            oled_write_pixel(39 + x, y, false);
-        }
-    }
-    render_big_char(ru ? 'R' : 'E', 3);
-    render_big_char(ru ? 'U' : 'N', 21);
-    oled_set_cursor(7, 0);
-    oled_write_P(PSTR("              "), false);
-    oled_set_cursor(7, 1);
-    oled_write_P(ru ? PSTR("  Russian     ") : PSTR("  Enthium v14 "), false);
-}
-
-static void render_held_layer(void) {
-    oled_set_cursor(7, 2);
+static const char *held_layer_name(void) {
     switch (get_highest_layer(layer_state)) {
         case L_SYM:
-            oled_write_P(PSTR("  Symbols     "), false);
-            break;
+            return "SYM";
         case L_NUM:
-            oled_write_P(PSTR("  Numbers     "), false);
-            break;
+            return "NUM";
         case L_CMD:
-            oled_write_P(PSTR("  Command     "), false);
-            break;
+            return "CMD";
         case L_TYPO:
-            oled_write_P(PSTR("  Typography  "), false);
-            break;
+            return "TYP";
         case L_MOUSE:
-            oled_write_P(PSTR("  Mouse       "), false);
-            break;
+            return "MOU";
         default:
-            oled_write_P(PSTR("              "), false);
+            return "";
     }
-}
-
-static void render_mod(const char *name, bool held) {
-    oled_write_P(PSTR("  "), false);
-    oled_write_P(name, held);
-}
-
-static void render_mods(void) {
-    const uint8_t mods = get_mods();
-    oled_set_cursor(0, 3);
-    if (host_is_mac) {
-        render_mod(PSTR("CTL"), mods & MOD_MASK_CTRL);
-        render_mod(PSTR("ALT"), mods & MOD_MASK_ALT);
-        render_mod(PSTR("GUI"), mods & MOD_MASK_GUI);
-    } else {
-        render_mod(PSTR("GUI"), mods & MOD_MASK_GUI);
-        render_mod(PSTR("ALT"), mods & MOD_MASK_ALT);
-        render_mod(PSTR("CTL"), mods & MOD_MASK_CTRL);
-    }
-    render_mod(PSTR("SFT"), mods & MOD_MASK_SHIFT);
-    oled_write_P(PSTR(" "), false);
 }
 
 static void render_offhand(void) {
-    render_layout(IS_LAYER_ON(L_RU));
-    render_held_layer();
-    render_mods();
+    const uint8_t mods = get_mods();
+    const bool    ctrl = mods & MOD_MASK_CTRL;
+    const bool    gui  = mods & MOD_MASK_GUI;
+
+    render_text_box(IS_LAYER_ON(L_RU) ? "RU" : "EN", 0, 28, 3, false);
+    render_text_box(held_layer_name(), 28, 28, 2, false);
+
+    render_text_box("SFT", 80, 11, 1, mods & MOD_MASK_SHIFT);
+    render_text_box(host_is_mac ? "GUI" : "CTL", 92, 11, 1, host_is_mac ? gui : ctrl);
+    render_text_box("ALT", 104, 11, 1, mods & MOD_MASK_ALT);
+    render_text_box(host_is_mac ? "CTL" : "GUI", 116, 11, 1, host_is_mac ? ctrl : gui);
 }
 
 bool oled_task_user(void) {
