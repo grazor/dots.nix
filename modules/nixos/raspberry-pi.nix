@@ -9,10 +9,9 @@
         efi.canTouchEfiVariables = lib.mkForce false;
         generic-extlinux-compatible.enable = true;
       };
-      kernelParams = [
-        "console=tty1"
-        "console=ttyAMA0,115200n8"
-      ];
+      # Screen only: the PL011 UART (ttyAMA0) is wired to the onboard
+      # Bluetooth chip, which hci_uart can only claim with no console on it.
+      kernelParams = ["console=tty1"];
     };
   };
 }

@@ -1,4 +1,5 @@
-# Raspberry Pi 4B — native Zigbee2MQTT bridge to the k3s MQTT broker.
+# Raspberry Pi 4B — native Zigbee2MQTT bridge to the k3s MQTT broker, and
+# labelr for the Niimbot label printer over the onboard Bluetooth.
 {mkNixos, ...}: {
   flake.nixosConfigurations.rpi4b = mkNixos {
     system = "aarch64-linux";
@@ -10,6 +11,7 @@
         ssh-server
         sops
         zigbee2mqtt-native
+        labelr
         user-pi
       ];
 
