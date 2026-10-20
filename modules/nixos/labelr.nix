@@ -2,7 +2,7 @@
 # (git.porivaev.ru/porivaev/labelr). Runs the prebuilt aarch64 binary that
 # labelr's CI publishes to the Forgejo package registry for each version tag,
 # so nothing compiles here. Attach to the host the printer is near; the
-# cluster's Traefik proxies labelr.porivaev.ru to it.
+# cluster's Traefik proxies label.porivaev.ru to it (homelab apps/labelr).
 #
 # New release: put its version and the matching `labelr-aarch64-linux.sri`
 # into `version` and `hash` below:
@@ -34,7 +34,7 @@
 
     settings = {
       listen = "0.0.0.0:${toString port}";
-      public_url = "https://labelr.porivaev.ru";
+      public_url = "https://label.porivaev.ru";
       state_dir = "/var/lib/labelr";
       timezone = "Europe/Moscow";
       printer = {
@@ -45,10 +45,11 @@
         sizes = ["50x30" "40x30"];
         default = "50x30";
       };
+      # The provider is homelab's authentik blueprint labelr.yaml; its client
+      # secret is sealed there and kept here in secrets/labelr.yaml.
       oidc = {
         issuer = "https://auth.porivaev.ru/application/o/labelr/";
         client_id = "labelr";
-        extra_audiences = ["labelr-mcp"];
       };
       homebox.url = "https://homebox.porivaev.ru";
     };
