@@ -18,10 +18,10 @@
 
     package = pkgs.stdenv.mkDerivation rec {
       pname = "labelr";
-      version = "0.3.0";
+      version = "0.3.1";
       src = pkgs.fetchurl {
         url = "https://git.porivaev.ru/api/packages/porivaev/generic/labelr/${version}/labelr-aarch64-linux";
-        hash = "sha256-ZpANtjO/5jAYXGq7LYiKvJSqpMSMYROVWyko3N0l6rc=";
+        hash = "sha256-/tzSx0fx8Jt1CEUQDnk91Fx/09H23uDP1JLdSEmzfu4=";
       };
       dontUnpack = true;
       # Built on Debian bookworm (glibc 2.36): relink against this system's
