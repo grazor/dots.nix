@@ -199,10 +199,11 @@
           nvim-cursorline.enable = true;
           rainbow-delimiters.enable = true;
 
-          cinnamon-nvim = {
-            enable = true;
-            setupOpts.keymaps.basic = true;
-          };
+          # Not cinnamon-nvim: on wrapped lines (wide markdown tables) its
+          # animation never converges -- it jitters up/down until its timeout
+          # and leaves the cursor mid-scroll, and it also hijacks n/N.
+          # neoscroll only animates the scroll keys and leaves search native.
+          neoscroll-nvim.enable = true;
 
           nvim-web-devicons = {
             enable = true;
