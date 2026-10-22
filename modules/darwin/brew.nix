@@ -5,8 +5,9 @@
       enable = true;
       onActivation = {
         cleanup = "none"; # keep brew packages not declared here
-        autoUpdate = true;
-        upgrade = true;
+        # Install what is missing, leave already-installed versions alone.
+        autoUpdate = false;
+        upgrade = false;
       };
     };
   };

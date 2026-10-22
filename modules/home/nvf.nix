@@ -102,21 +102,14 @@
         };
 
         autocomplete = {
-          nvim-cmp = {
+          nvim-cmp.enable = false;
+
+          # Default sources are lsp, path, snippets and buffer; nvf's mappings
+          # match the old nvim-cmp ones (<Tab>/<S-Tab>, <CR>, <C-Space>, <C-e>).
+          blink-cmp = {
             enable = true;
-
-            # nvf installs cmp-buffer and cmp-path unconditionally
-            # (`sourcePlugins`), but only registers what is in `sources` --
-            # whose default is dropped as soon as anything defines that option,
-            # and both the lsp and treesitter modules do. Without these two the
-            # plugins load and are never used.
-            sources = {
-              buffer = "[Buffer]";
-              path = "[Path]";
-            };
+            friendly-snippets.enable = true;
           };
-
-          blink-cmp.enable = false;
         };
 
         mini = {
@@ -125,7 +118,20 @@
           splitjoin.enable = true;
         };
 
-        telescope.enable = true;
+        telescope = {
+          enable = true;
+          # fzf-native sorter: space-separated words are separate fuzzy terms
+          # that all have to match ("skill ff-start README md"), instead of
+          # the space being matched literally. Also gives fzf's 'exact, ^prefix,
+          # suffix$ and !negation syntax.
+          extensions = [
+            {
+              name = "fzf";
+              packages = [pkgs.vimPlugins.telescope-fzf-native-nvim];
+              setup.fzf.fuzzy = true;
+            }
+          ];
+        };
 
         autopairs.nvim-autopairs.enable = true;
         binds.whichKey.enable = true;
@@ -145,11 +151,6 @@
           textobjects.enable = true;
         };
 
-        filetree.nvimTree = {
-          enable = true;
-          openOnSetup = false;
-        };
-
         ui = {
           fastaction.enable = true;
           illuminate.enable = true;
@@ -158,15 +159,28 @@
         };
 
         utility = {
-          motion.leap.enable = true;
+          # s / S jumps, labels on / search results (toggle with <C-s>).
+          motion.flash-nvim.enable = true;
           surround.enable = true;
 
           # Reads .envrc, so per-project devshell tooling reaches the LSPs.
           direnv.enable = true;
 
-          # Edit a directory as a normal buffer; complements nvimTree rather
-          # than replacing it.
+          # Edit a directory as a normal buffer. It keeps handling `nvim <dir>`,
+          # so yazi below leaves open_for_directories off.
           oil-nvim.enable = true;
+
+          # Floating yazi in place of the old nvimTree, on its <leader>t key.
+          # The yazi binary comes from the `yazi` home module. The default
+          # resume key, <C-Up>, is swallowed by macOS workspace switching.
+          yazi-nvim = {
+            enable = true;
+            mappings = {
+              openYazi = "<leader>t";
+              openYaziDir = "<leader>T";
+              yaziToggle = "<leader>-";
+            };
+          };
 
           # Owns <C-hjkl> (see the keymaps list below, where the plain
           # <C-w> equivalents used to live) and hands the motion off to the
@@ -203,7 +217,13 @@
           # animation never converges -- it jitters up/down until its timeout
           # and leaves the cursor mid-scroll, and it also hijacks n/N.
           # neoscroll only animates the scroll keys and leaves search native.
-          neoscroll-nvim.enable = true;
+          neoscroll-nvim = {
+            enable = true;
+            # <C-u>/<C-d> are left out and mapped in `keymaps` below: the
+            # built-in ones keep the cursor on its screen row, those keep it on
+            # its text line.
+            setupOpts.mappings = ["<C-b>" "<C-f>" "<C-y>" "<C-e>" "zt" "zz" "zb"];
+          };
 
           nvim-web-devicons = {
             enable = true;
@@ -245,6 +265,9 @@
           };
           markdown = {
             enable = true;
+            # Renders headings, tables and checkboxes in place; the cursor
+            # line is shown raw. `:RenderMarkdown toggle` switches it off.
+            extensions.render-markdown-nvim.enable = true;
             # Left off deliberately: lsp.formatOnSave is on, and a markdown
             # formatter would rewrite every existing doc on the first save.
             format.enable = false;
@@ -266,6 +289,20 @@
         };
 
         keymaps = [
+          {
+            key = "<C-u>";
+            mode = ["n" "x"];
+            lua = true;
+            action = ''function() require("neoscroll").scroll(-vim.wo.scroll, {move_cursor = false, duration = 250}) end'';
+            desc = "Scroll half a window up";
+          }
+          {
+            key = "<C-d>";
+            mode = ["n" "x"];
+            lua = true;
+            action = ''function() require("neoscroll").scroll(vim.wo.scroll, {move_cursor = false, duration = 250}) end'';
+            desc = "Scroll half a window down";
+          }
           {
             key = "jk";
             mode = ["i"];
