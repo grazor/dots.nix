@@ -7,7 +7,6 @@
         wireless
         docker
         pipewire
-        graphics-intel
         graphics-nvidia
         udev
         gnome
