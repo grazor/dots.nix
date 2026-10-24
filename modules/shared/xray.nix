@@ -25,7 +25,9 @@ in {
     # and fixed-output fetches (which inherit these variables) are several
     # times faster than the direct route. The rest of the host stays direct,
     # and flake input fetches run in the client, so they are not covered.
-    nix.envVars = let
+    # Set on the unit, not through nix.envVars: nixpkgs also exports those as
+    # session variables, which put every login shell and browser on the proxy.
+    systemd.services.nix-daemon.environment = let
       proxy = "http://127.0.0.1:${toString port}";
     in {
       all_proxy = proxy;
