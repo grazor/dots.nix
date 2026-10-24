@@ -32,6 +32,9 @@
       nix.settings.max-jobs = lib.mkDefault 8;
 
       systemd.tpm2.enable = false;
+      # No TPM shows up on this machine (off in firmware); the initrd otherwise
+      # waits 90s for /dev/tpm0 on every boot.
+      boot.initrd.systemd.tpm2.enable = false;
       # k3s/CoreDNS handle DNS; systemd-resolved is forced off here.
       services.resolved.enable = lib.mkForce false;
 

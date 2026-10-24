@@ -33,6 +33,10 @@
       firewall.enable = true;
     };
     systemd.services.NetworkManager-wait-online.enable = false;
+    # NetworkManager runs its own DHCP client. dhcpcd, still on by default,
+    # finds no interface to manage and holds network-online.target for up
+    # to 30s on every boot.
+    networking.dhcpcd.enable = false;
 
     environment.systemPackages = with pkgs; [
       direnv
