@@ -4,10 +4,14 @@
     aspects = m:
       with m; [
         common
+        xray
         wireless
         docker
         pipewire
         graphics-nvidia
+        sops
+        attic
+        sunshine
         udev
         gnome
         gui-apps

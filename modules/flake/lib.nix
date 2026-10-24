@@ -39,6 +39,7 @@
         (aspects config.flake.modules.darwin)
         ++ [
           inputs.home-manager.darwinModules.home-manager
+          inputs.sops-nix.darwinModules.sops
           machine
         ];
     };

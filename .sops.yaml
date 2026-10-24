@@ -14,6 +14,7 @@ keys:
   - &dell age1ary8a4pucrqaetzkm2g33w53t0hvdy7z0m5vr06rz3egvncsafzsutzlsa
   - &asus age1h6ezxn960hn5kgga6prx4a0dn278t3m47ksvspnsyek0pngemsdqugmedn
   - &nas age1dhwzcrym3deajs3vd39s6ey7czxdkpql4v8ldqefr2wkxc8q54js9t3zvf
+  - &desktop age1xmezk5k5r2rk4r9ayyjvrnyj0363vmgsa7nswzpr2x4gpvephgyqgljd9t
 
 creation_rules:
   - path_regex: secrets/k3s\.yaml$
@@ -45,3 +46,24 @@ creation_rules:
       - age:
           - *admin
           - *rpi4b
+  # Attic cache tokens (modules/nixos/attic.nix): every host carrying that aspect.
+  - path_regex: secrets/attic\.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *rpi4b
+          - *dell
+          - *asus
+          - *nas
+          - *desktop
+  # The xray VLESS client config (modules/shared/xray.nix), stored whole as a
+  # binary blob. The mac decrypts it with the admin key.
+  - path_regex: secrets/xray\.bin$
+    key_groups:
+      - age:
+          - *admin
+          - *rpi4b
+          - *dell
+          - *asus
+          - *nas
+          - *desktop

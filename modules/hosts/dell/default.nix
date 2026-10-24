@@ -4,6 +4,7 @@
     aspects = m:
       with m; [
         common
+        xray
         wireless
         proxy
         wireguard-server
@@ -17,6 +18,7 @@
         k3s-server
         ssh-server
         sops
+        attic
         tools
         mediatools
         devtools

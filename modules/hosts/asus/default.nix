@@ -5,6 +5,7 @@
     aspects = m:
       with m; [
         common
+        xray
         proxy
         docker
         pipewire
@@ -15,6 +16,7 @@
         k3s-agent
         ssh-server
         sops
+        attic
         print-server
         tools
         mediatools

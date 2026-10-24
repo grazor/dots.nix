@@ -5,6 +5,7 @@
       with m; [
         common
         sudo
+        xray
         brew
         tools
         mediatools
@@ -37,7 +38,6 @@
         "qemu"
         "sevenzip"
         "wireguard-tools"
-        "xray"
         "zenity"
       ];
 
@@ -46,6 +46,7 @@
         "codex"
         "ghostty"
         "gimp"
+        "moonlight"
         "obsidian"
         "openscad"
         "orcaslicer"

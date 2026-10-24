@@ -6,10 +6,12 @@
     aspects = m:
       with m; [
         common
+        xray
         raspberry-pi-4
         headless
         ssh-server
         sops
+        attic
         zigbee2mqtt-native
         labelr
         user-pi

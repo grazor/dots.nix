@@ -1,15 +1,9 @@
-# Privoxy forwarding to the home-network SOCKS5 proxy.
+# Shares the host's xray proxy (modules/shared/xray.nix) with the LAN: the
+# homelab cluster's `http-proxy` Service points at the nodes' :9998
+# (infrastructure/http-proxy/endpointslice.yaml). Use it together with `xray`.
 {
   flake.modules.nixos.proxy = {
-    # Deliberately LAN-facing (privoxy listens on 0.0.0.0).
+    # Deliberately LAN-facing; xray listens on all interfaces.
     networking.firewall.allowedTCPPorts = [9998];
-
-    services.privoxy = {
-      enable = true;
-      settings = {
-        listen-address = "0.0.0.0:9998";
-        forward-socks5 = "/ 192.168.2.1:9999 .";
-      };
-    };
   };
 }

@@ -72,6 +72,7 @@
     aspects = m:
       with m; [
         common
+        xray
         proxy
         docker
         incus
@@ -83,6 +84,7 @@
         k3s-nas
         ssh-server
         sops
+        attic
         tools
         mediatools
         devtools
