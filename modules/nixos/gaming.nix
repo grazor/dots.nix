@@ -12,7 +12,6 @@
       heroic
       gogdl
       mumble
-      teamspeak6-client
     ];
   };
 }
