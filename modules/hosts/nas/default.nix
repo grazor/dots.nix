@@ -46,6 +46,9 @@
 #     zfs create -o mountpoint=legacy -o recordsize=1M tank/photos/$u
 #   done
 #   zfs create -o canmount=off tank/replica     # syncoid target for rpool
+#   zfs create -o mountpoint=legacy tank/attic  # Attic NARs: a cache, no snapshots
+#   zfs create -o mountpoint=legacy tank/attic   # Attic NAR store; a cache,
+#                                                # so no snapshots, no recordsize
 #
 # Later:
 #   zpool attach tank $HDD /dev/disk/by-id/<hdd2>                  # tank -> mirror
@@ -118,6 +121,7 @@
           "/srv/nas/immich" = "tank/immich";
           "/srv/nas/media" = "tank/media";
           "/srv/nas/backup" = "tank/backup";
+          "/srv/nas/attic" = "tank/attic";
           "/srv/nas/shared" = "tank/shared";
           "/srv/nas/photos/shared" = "tank/photos/shared";
         }
