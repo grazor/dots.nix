@@ -1,7 +1,7 @@
 # Fish shell. The login-shell PATH/tmux hooks are contributed by the `scripts`
 # and `tmux-autostart` aspects respectively.
 {
-  flake.modules.homeManager.fish = {
+  flake.modules.homeManager.fish = {pkgs, ...}: {
     programs = {
       fish = {
         enable = true;
@@ -31,6 +31,21 @@
 
       atuin = {
         enable = true;
+        # 18.24.4's Pi session E2E cases fail on Darwin: they expect resume
+        # choices the Pi adapter does not offer. Keep all other package tests
+        # enabled, and drop this workaround automatically on the next version.
+        package =
+          if pkgs.stdenv.hostPlatform.isDarwin && pkgs.atuin.version == "18.24.4"
+          then
+            pkgs.atuin.overrideAttrs (old: {
+              checkFlags =
+                old.checkFlags
+                ++ [
+                  "--skip=a_diverged_copy_resumes_only_as_chosen::agent_4_Agent__Pi"
+                  "--skip=a_session_gone_on_with_elsewhere_catches_up_where_it_came_from::agent_3_Agent__Pi"
+                ];
+            })
+          else pkgs.atuin;
         enableFishIntegration = true;
         flags = ["--disable-up-arrow"];
       };
