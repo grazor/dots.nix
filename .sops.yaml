@@ -17,6 +17,12 @@ keys:
   - &desktop age1xmezk5k5r2rk4r9ayyjvrnyj0363vmgsa7nswzpr2x4gpvephgyqgljd9t
 
 creation_rules:
+  # Private SSH host mappings for the two workstations, not service nodes.
+  - path_regex: secrets/ssh-config\.bin$
+    key_groups:
+      - age:
+          - *admin
+          - *desktop
   - path_regex: secrets/k3s\.yaml$
     key_groups:
       - age:

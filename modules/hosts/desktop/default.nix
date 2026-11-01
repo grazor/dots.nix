@@ -5,6 +5,7 @@
       with m; [
         common
         xray
+        ssh-client
         wireless
         docker
         pipewire

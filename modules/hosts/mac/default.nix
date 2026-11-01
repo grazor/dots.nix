@@ -6,6 +6,7 @@
         common
         sudo
         xray
+        ssh-client
         brew
         tools
         mediatools

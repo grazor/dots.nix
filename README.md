@@ -251,6 +251,33 @@ To edit a value (e.g. swap the generated `k3s-token` for an existing one):
 SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt nix run nixpkgs#sops -- secrets/k3s.yaml
 ```
 
+### Private SSH aliases on Mac and desktop
+
+The `ssh-client` aspect is enabled on `mac` and `desktop`. Its encrypted
+`secrets/ssh-config.bin` contains the complete host mappings so their addresses
+stay out of Git and the Nix store. Only the admin age key and the desktop host
+key are recipients; the homelab nodes cannot decrypt this file.
+
+| Alias | User | Connection |
+|-------|------|------------|
+| `vru` | `root` | RU gateway |
+| `vde` | `root` | German exit, with `ProxyJump vru` |
+| `dell`, `asus`, `nas` | `cloud` | Direct LAN connection |
+
+Rebuilding either workstation decrypts the file for its user and adds an
+`Include` for the runtime secret to `~/.ssh/config`. Existing entries are kept;
+the first edit saves `~/.ssh/config.before-dots-ssh`, and the config is kept at
+mode `0600`. An existing symlink is left untouched and must get the Include
+in its source configuration. These mappings contain no passwords or private
+keys; SSH uses the workstation's existing keys and agent.
+
+To edit the private mappings with the admin key:
+
+```sh
+SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt nix run nixpkgs#sops -- \
+  --input-type binary --output-type binary secrets/ssh-config.bin
+```
+
 ### Adding new in-cluster secrets
 
 The homelab cluster uses **Sealed Secrets**, not Flux SOPS. To add a Kubernetes
