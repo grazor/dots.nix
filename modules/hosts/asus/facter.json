@@ -1,1 +1,6321 @@
-{}
+{
+  "version": 1,
+  "system": "x86_64-linux",
+  "virtualisation": "none",
+  "uefi": {
+    "supported": true,
+    "platform_size": 64
+  },
+  "hardware": {
+    "bios": {
+      "apm_info": {
+        "supported": false,
+        "enabled": false,
+        "version": 0,
+        "sub_version": 0,
+        "bios_flags": 0
+      },
+      "vbe_info": {
+        "version": 0,
+        "video_memory": 0
+      },
+      "pnp": false,
+      "pnp_id": 0,
+      "lba_support": false,
+      "low_memory_size": 0,
+      "smbios_version": 520
+    },
+    "bluetooth": [
+      {
+        "index": 88,
+        "attached_to": 89,
+        "class_list": [
+          "usb",
+          "bluetooth"
+        ],
+        "bus_type": {
+          "hex": "0086",
+          "name": "USB",
+          "value": 134
+        },
+        "slot": {
+          "bus": 0,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0115",
+          "name": "Bluetooth Device",
+          "value": 277
+        },
+        "vendor": {
+          "hex": "8087",
+          "value": 32903
+        },
+        "device": {
+          "hex": "0aaa",
+          "value": 2730
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0.02",
+          "value": 0
+        },
+        "model": "Bluetooth Device",
+        "sysfs_id": "/devices/pci0000:00/0000:00:14.0/usb1/1-14/1-14:1.0",
+        "sysfs_bus_id": "1-14:1.0",
+        "resources": [
+          {
+            "type": "baud",
+            "speed": 12000000,
+            "bits": 0,
+            "stop_bits": 0,
+            "parity": 0,
+            "handshake": 0
+          }
+        ],
+        "detail": {
+          "device_class": {
+            "hex": "00e0",
+            "name": "wireless",
+            "value": 224
+          },
+          "device_subclass": {
+            "hex": "0001",
+            "name": "audio",
+            "value": 1
+          },
+          "device_protocol": 1,
+          "interface_class": {
+            "hex": "00e0",
+            "name": "wireless",
+            "value": 224
+          },
+          "interface_subclass": {
+            "hex": "0001",
+            "name": "audio",
+            "value": 1
+          },
+          "interface_protocol": 1,
+          "interface_number": 0,
+          "interface_alternate_setting": 0
+        },
+        "hotplug": "usb",
+        "driver": "btusb",
+        "driver_module": "btusb",
+        "drivers": [
+          "btusb"
+        ],
+        "driver_modules": [
+          "btusb"
+        ],
+        "module_alias": "usb:v8087p0AAAd0002dcE0dsc01dp01icE0isc01ip01in00"
+      },
+      {
+        "index": 90,
+        "attached_to": 89,
+        "class_list": [
+          "usb",
+          "bluetooth"
+        ],
+        "bus_type": {
+          "hex": "0086",
+          "name": "USB",
+          "value": 134
+        },
+        "slot": {
+          "bus": 0,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0115",
+          "name": "Bluetooth Device",
+          "value": 277
+        },
+        "vendor": {
+          "hex": "8087",
+          "value": 32903
+        },
+        "device": {
+          "hex": "0aaa",
+          "value": 2730
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0.02",
+          "value": 0
+        },
+        "model": "Bluetooth Device",
+        "sysfs_id": "/devices/pci0000:00/0000:00:14.0/usb1/1-14/1-14:1.1",
+        "sysfs_bus_id": "1-14:1.1",
+        "resources": [
+          {
+            "type": "baud",
+            "speed": 12000000,
+            "bits": 0,
+            "stop_bits": 0,
+            "parity": 0,
+            "handshake": 0
+          }
+        ],
+        "detail": {
+          "device_class": {
+            "hex": "00e0",
+            "name": "wireless",
+            "value": 224
+          },
+          "device_subclass": {
+            "hex": "0001",
+            "name": "audio",
+            "value": 1
+          },
+          "device_protocol": 1,
+          "interface_class": {
+            "hex": "00e0",
+            "name": "wireless",
+            "value": 224
+          },
+          "interface_subclass": {
+            "hex": "0001",
+            "name": "audio",
+            "value": 1
+          },
+          "interface_protocol": 1,
+          "interface_number": 1,
+          "interface_alternate_setting": 0
+        },
+        "hotplug": "usb",
+        "driver": "btusb",
+        "driver_module": "btusb",
+        "drivers": [
+          "btusb"
+        ],
+        "driver_modules": [
+          "btusb"
+        ],
+        "module_alias": "usb:v8087p0AAAd0002dcE0dsc01dp01icE0isc01ip01in01"
+      }
+    ],
+    "bridge": [
+      {
+        "index": 13,
+        "attached_to": 0,
+        "class_list": [
+          "pci",
+          "bridge"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 28
+        },
+        "base_class": {
+          "hex": "0006",
+          "name": "Bridge",
+          "value": 6
+        },
+        "sub_class": {
+          "hex": "0004",
+          "name": "PCI bridge",
+          "value": 4
+        },
+        "pci_interface": {
+          "hex": "0000",
+          "name": "Normal decode",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "7ab8",
+          "value": 31416
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel PCI bridge",
+        "sysfs_id": "/devices/pci0000:00/0000:00:1c.0",
+        "sysfs_bus_id": "0000:00:1c.0",
+        "detail": {
+          "function": 0,
+          "command": 1031,
+          "header_type": 1,
+          "secondary_bus": 1,
+          "prog_if": 0
+        },
+        "driver": "pcieport",
+        "driver_module": "pcieportdrv",
+        "drivers": [
+          "pcieport"
+        ],
+        "driver_modules": [
+          "pcieportdrv"
+        ],
+        "module_alias": "pci:v00008086d00007AB8sv00001462sd0000B0A4bc06sc04i00"
+      },
+      {
+        "index": 15,
+        "attached_to": 0,
+        "class_list": [
+          "pci",
+          "bridge"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 31
+        },
+        "base_class": {
+          "hex": "0006",
+          "name": "Bridge",
+          "value": 6
+        },
+        "sub_class": {
+          "hex": "0001",
+          "name": "ISA bridge",
+          "value": 1
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "7a87",
+          "value": 31367
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel ISA bridge",
+        "sysfs_id": "/devices/pci0000:00/0000:00:1f.0",
+        "sysfs_bus_id": "0000:00:1f.0",
+        "detail": {
+          "function": 0,
+          "command": 1031,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "module_alias": "pci:v00008086d00007A87sv00001462sd0000B0A4bc06sc01i00",
+        "label": "Onboard - Other"
+      },
+      {
+        "index": 22,
+        "attached_to": 0,
+        "class_list": [
+          "pci",
+          "bridge"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0006",
+          "name": "Bridge",
+          "value": 6
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Host bridge",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "4630",
+          "value": 17968
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0005",
+          "value": 5
+        },
+        "model": "Intel Host bridge",
+        "sysfs_id": "/devices/pci0000:00/0000:00:00.0",
+        "sysfs_bus_id": "0000:00:00.0",
+        "detail": {
+          "function": 0,
+          "command": 6,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "module_alias": "pci:v00008086d00004630sv00001462sd0000B0A4bc06sc00i00",
+        "label": "Onboard - Other"
+      },
+      {
+        "index": 23,
+        "attached_to": 0,
+        "class_list": [
+          "pci",
+          "bridge"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 28
+        },
+        "base_class": {
+          "hex": "0006",
+          "name": "Bridge",
+          "value": 6
+        },
+        "sub_class": {
+          "hex": "0004",
+          "name": "PCI bridge",
+          "value": 4
+        },
+        "pci_interface": {
+          "hex": "0000",
+          "name": "Normal decode",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "7abe",
+          "value": 31422
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel PCI bridge",
+        "sysfs_id": "/devices/pci0000:00/0000:00:1c.6",
+        "sysfs_bus_id": "0000:00:1c.6",
+        "detail": {
+          "function": 6,
+          "command": 1031,
+          "header_type": 1,
+          "secondary_bus": 2,
+          "prog_if": 0
+        },
+        "driver": "pcieport",
+        "driver_module": "pcieportdrv",
+        "drivers": [
+          "pcieport"
+        ],
+        "driver_modules": [
+          "pcieportdrv"
+        ],
+        "module_alias": "pci:v00008086d00007ABEsv00001462sd0000B0A4bc06sc04i00"
+      }
+    ],
+    "cpu": [
+      {
+        "architecture": "x86_64",
+        "vendor_name": "GenuineIntel",
+        "model_name": "13th Gen Intel(R) Core(TM) i3-13100",
+        "family": 6,
+        "model": 191,
+        "stepping": 5,
+        "features": [
+          "fpu",
+          "vme",
+          "de",
+          "pse",
+          "tsc",
+          "msr",
+          "pae",
+          "mce",
+          "cx8",
+          "apic",
+          "sep",
+          "mtrr",
+          "pge",
+          "mca",
+          "cmov",
+          "pat",
+          "pse36",
+          "clflush",
+          "dts",
+          "acpi",
+          "mmx",
+          "fxsr",
+          "sse",
+          "sse2",
+          "ss",
+          "ht",
+          "tm",
+          "pbe",
+          "syscall",
+          "nx",
+          "pdpe1gb",
+          "rdtscp",
+          "lm",
+          "constant_tsc",
+          "art",
+          "arch_perfmon",
+          "pebs",
+          "bts",
+          "rep_good",
+          "nopl",
+          "xtopology",
+          "nonstop_tsc",
+          "cpuid",
+          "aperfmperf",
+          "tsc_known_freq",
+          "pni",
+          "pclmulqdq",
+          "dtes64",
+          "monitor",
+          "ds_cpl",
+          "vmx",
+          "est",
+          "tm2",
+          "ssse3",
+          "sdbg",
+          "fma",
+          "cx16",
+          "xtpr",
+          "pdcm",
+          "sse4_1",
+          "sse4_2",
+          "x2apic",
+          "movbe",
+          "popcnt",
+          "tsc_deadline_timer",
+          "aes",
+          "xsave",
+          "avx",
+          "f16c",
+          "rdrand",
+          "lahf_lm",
+          "abm",
+          "3dnowprefetch",
+          "cpuid_fault",
+          "epb",
+          "ssbd",
+          "ibrs",
+          "ibpb",
+          "stibp",
+          "ibrs_enhanced",
+          "tpr_shadow",
+          "flexpriority",
+          "ept",
+          "vpid",
+          "ept_ad",
+          "fsgsbase",
+          "tsc_adjust",
+          "bmi1",
+          "avx2",
+          "smep",
+          "bmi2",
+          "erms",
+          "invpcid",
+          "rdseed",
+          "adx",
+          "smap",
+          "clflushopt",
+          "clwb",
+          "intel_pt",
+          "sha_ni",
+          "xsaveopt",
+          "xsavec",
+          "xgetbv1",
+          "xsaves",
+          "split_lock_detect",
+          "user_shstk",
+          "avx_vnni",
+          "dtherm",
+          "ida",
+          "arat",
+          "pln",
+          "pts",
+          "hwp",
+          "hwp_notify",
+          "hwp_act_window",
+          "hwp_epp",
+          "hwp_pkg_req",
+          "hfi",
+          "vnmi",
+          "umip",
+          "pku",
+          "ospke",
+          "waitpkg",
+          "gfni",
+          "vaes",
+          "vpclmulqdq",
+          "rdpid",
+          "movdiri",
+          "movdir64b",
+          "fsrm",
+          "md_clear",
+          "serialize",
+          "arch_lbr",
+          "ibt",
+          "flush_l1d",
+          "arch_capabilities"
+        ],
+        "bugs": [
+          "spectre_v1",
+          "spectre_v2",
+          "spec_store_bypass",
+          "swapgs",
+          "eibrs_pbrsb",
+          "rfds",
+          "bhi",
+          "spectre_v2_user",
+          "old_microcode",
+          "vmscape"
+        ],
+        "power_management": [
+          ""
+        ],
+        "bogo": 6835,
+        "cache": 12288,
+        "units": 16,
+        "page_size": 4096,
+        "physical_id": 0,
+        "siblings": 8,
+        "cores": 4,
+        "fpu": false,
+        "fpu_exception": false,
+        "cpuid_level": 32,
+        "write_protect": false,
+        "tlb_size": 7077,
+        "clflush_size": 64,
+        "cache_alignment": 64,
+        "address_sizes": {
+          "physical": "0x27",
+          "virtual": "0x30"
+        }
+      }
+    ],
+    "disk": [
+      {
+        "index": 49,
+        "attached_to": 29,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 13,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf61",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdf",
+        "sysfs_bus_id": "13:0:0:1",
+        "sysfs_device_link": "/devices/platform/host13/session17/target13:0:0/13:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000060001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000060001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-d8e7096e-49b8-4b92-8cae-bdd57b222145-lun-1",
+          "/dev/disk/by-uuid/dfbdfe1f-f4d9-400f-a802-4aaf790646b5",
+          "/dev/sdf"
+        ],
+        "unix_device_name2": "/dev/sg15",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1009,
+            "heads": 67,
+            "sectors": 62,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 4194304,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 50,
+        "attached_to": 19,
+        "class_list": [
+          "disk",
+          "block_device",
+          "nvme"
+        ],
+        "bus_type": {
+          "hex": "0096",
+          "name": "NVME",
+          "value": 150
+        },
+        "slot": {
+          "bus": 0,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "144d",
+          "value": 5197
+        },
+        "sub_vendor": {
+          "hex": "144d",
+          "value": 5197
+        },
+        "device": {
+          "hex": "a80b",
+          "name": "SAMSUNG MZVL41T0HBLB-00BTW",
+          "value": 43019
+        },
+        "sub_device": {
+          "hex": "a80b",
+          "value": 43019
+        },
+        "serial": "S73BNU0W310746",
+        "model": "SAMSUNG MZVL41T0HBLB-00BTW",
+        "sysfs_id": "/class/block/nvme0n1",
+        "sysfs_bus_id": "nvme0",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:1c.0/0000:01:00.0/nvme/nvme0",
+        "unix_device_names": [
+          "/dev/disk/by-id/nvme-SAMSUNG_MZVL41T0HBLB-00BTW_S73BNU0W310746",
+          "/dev/disk/by-id/nvme-SAMSUNG_MZVL41T0HBLB-00BTW_S73BNU0W310746_1",
+          "/dev/disk/by-id/nvme-nvme.144d-533733424e553057333130373436-53414d53554e47204d5a564c3431543048424c422d3030425457-00000001",
+          "/dev/disk/by-path/pci-0000:01:00.0-nvme-1",
+          "/dev/nvme0n1"
+        ],
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 976762,
+            "heads": 64,
+            "sectors": 32,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 2000409264,
+            "value_2": 512
+          }
+        ],
+        "driver": "nvme",
+        "driver_module": "nvme",
+        "drivers": [
+          "nvme"
+        ],
+        "driver_modules": [
+          "nvme"
+        ]
+      },
+      {
+        "index": 51,
+        "attached_to": 40,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 22,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf151",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdo",
+        "sysfs_bus_id": "22:0:0:1",
+        "sysfs_device_link": "/devices/platform/host22/session24/target22:0:0/22:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e000000000f0001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e000000000f0001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-44b81134-5147-4fb4-b51a-51f61b8f0846-lun-1",
+          "/dev/disk/by-uuid/e90da58b-11f4-48bb-b1d8-aa51c8b63fbd",
+          "/dev/sdo"
+        ],
+        "unix_device_name2": "/dev/sg29",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1009,
+            "heads": 67,
+            "sectors": 62,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 4194304,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 52,
+        "attached_to": 31,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 11,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf41",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdd",
+        "sysfs_bus_id": "11:0:0:1",
+        "sysfs_device_link": "/devices/platform/host11/session15/target11:0:0/11:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000040001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000040001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-15e3f50d-f783-467e-91cb-f911e72a83bd-lun-1",
+          "/dev/sdd"
+        ],
+        "unix_device_name2": "/dev/sg11",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1011,
+            "heads": 34,
+            "sectors": 61,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 2097152,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 53,
+        "attached_to": 42,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 20,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf131",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdm",
+        "sysfs_bus_id": "20:0:0:1",
+        "sysfs_device_link": "/devices/platform/host20/session22/target20:0:0/20:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e000000000d0001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e000000000d0001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-bcffcdbb-6373-4ed9-9408-8d588c0d6a78-lun-1",
+          "/dev/disk/by-uuid/41b11623-104d-4b66-8bb7-e5335798c492",
+          "/dev/sdm"
+        ],
+        "unix_device_name2": "/dev/sg25",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1011,
+            "heads": 34,
+            "sectors": 61,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 2097152,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 54,
+        "attached_to": 33,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 9,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf21",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdb",
+        "sysfs_bus_id": "9:0:0:1",
+        "sysfs_device_link": "/devices/platform/host9/session13/target9:0:0/9:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000020001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000020001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-2562c8ce-a063-4588-91d4-20ac6d4f8a12-lun-1",
+          "/dev/disk/by-uuid/1510d425-8c49-47a0-9375-a0a43f434a41",
+          "/dev/sdb"
+        ],
+        "unix_device_name2": "/dev/sg7",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 40960,
+            "heads": 64,
+            "sectors": 32,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 83886080,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 55,
+        "attached_to": 43,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 18,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf111",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdk",
+        "sysfs_bus_id": "18:0:0:1",
+        "sysfs_device_link": "/devices/platform/host18/session20/target18:0:0/18:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e000000000b0001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e000000000b0001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-bfc86a24-843f-432b-bfff-3751d011816d-lun-1",
+          "/dev/disk/by-uuid/c7b61600-44ac-4a9e-9c54-8903d773fe0e",
+          "/dev/sdk"
+        ],
+        "unix_device_name2": "/dev/sg21",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1009,
+            "heads": 67,
+            "sectors": 62,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 4194304,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 56,
+        "attached_to": 35,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 26,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf191",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sds",
+        "sysfs_bus_id": "26:0:0:1",
+        "sysfs_device_link": "/devices/platform/host26/session28/target26:0:0/26:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000130001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000130001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-5086879c-c7e4-4ba4-81c7-1e532ed1827b-lun-1",
+          "/dev/disk/by-uuid/02b3cefb-74ae-4aef-bd3e-4f2688743bee",
+          "/dev/sds"
+        ],
+        "unix_device_name2": "/dev/sg37",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1018,
+            "heads": 166,
+            "sectors": 62,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 10485760,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 57,
+        "attached_to": 46,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 16,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf91",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdi",
+        "sysfs_bus_id": "16:0:0:1",
+        "sysfs_device_link": "/devices/platform/host16/session19/target16:0:0/16:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000090001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000090001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-6fce03b9-0b75-4d8c-9e11-b101d40ce7ac-lun-1",
+          "/dev/disk/by-uuid/17b0940a-90dc-41ea-9e2b-9da862ad0cdd",
+          "/dev/sdi"
+        ],
+        "unix_device_name2": "/dev/sg19",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1011,
+            "heads": 34,
+            "sectors": 61,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 2097152,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 58,
+        "attached_to": 37,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 24,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf171",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdq",
+        "sysfs_bus_id": "24:0:0:1",
+        "sysfs_device_link": "/devices/platform/host24/session26/target24:0:0/24:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000110001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000110001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-2e3540e8-96fe-41e2-b8ef-12b36fea7174-lun-1",
+          "/dev/disk/by-uuid/53d7e2d2-0dd9-4105-aa3e-900733c5958f",
+          "/dev/sdq"
+        ],
+        "unix_device_name2": "/dev/sg33",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 20480,
+            "heads": 64,
+            "sectors": 32,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 41943040,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 59,
+        "attached_to": 39,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 14,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf71",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdg",
+        "sysfs_bus_id": "14:0:0:1",
+        "sysfs_device_link": "/devices/platform/host14/session7/target14:0:0/14:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000070001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000070001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-a06599d4-d5c7-41de-a1c7-87434ab8efd2-lun-1",
+          "/dev/disk/by-uuid/f41f6dff-7b6f-41c7-b04e-ab769781ee13",
+          "/dev/sdg"
+        ],
+        "unix_device_name2": "/dev/sg3",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 20480,
+            "heads": 64,
+            "sectors": 32,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 41943040,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 60,
+        "attached_to": 38,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 12,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf51",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sde",
+        "sysfs_bus_id": "12:0:0:1",
+        "sysfs_device_link": "/devices/platform/host12/session16/target12:0:0/12:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000050001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000050001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-710d9ec9-a587-4924-a0d0-3a2e70eefd7a-lun-1",
+          "/dev/disk/by-uuid/d066dcbb-a630-45f6-b06c-4350a8e4683c",
+          "/dev/sde"
+        ],
+        "unix_device_name2": "/dev/sg13",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1011,
+            "heads": 34,
+            "sectors": 61,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 2097152,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 61,
+        "attached_to": 32,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 21,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf141",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdn",
+        "sysfs_bus_id": "21:0:0:1",
+        "sysfs_device_link": "/devices/platform/host21/session23/target21:0:0/21:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e000000000e0001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e000000000e0001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-d3bc4d96-4ca2-4137-b8c1-bf2eee4a8ba4-lun-1",
+          "/dev/disk/by-uuid/c8e1f914-ac70-4b75-9ee3-1f57a6bab917",
+          "/dev/sdn"
+        ],
+        "unix_device_name2": "/dev/sg27",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1009,
+            "heads": 67,
+            "sectors": 62,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 4194304,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 62,
+        "attached_to": 41,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 10,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf31",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdc",
+        "sysfs_bus_id": "10:0:0:1",
+        "sysfs_device_link": "/devices/platform/host10/session14/target10:0:0/10:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000030001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000030001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-9141888d-c8b6-45be-b826-c8fe0e74de3b-lun-1",
+          "/dev/disk/by-uuid/099f2ac2-2bb8-45e4-96c2-775ade2a8c20",
+          "/dev/sdc"
+        ],
+        "unix_device_name2": "/dev/sg9",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 20480,
+            "heads": 64,
+            "sectors": 32,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 41943040,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 63,
+        "attached_to": 34,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 19,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf121",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdl",
+        "sysfs_bus_id": "19:0:0:1",
+        "sysfs_device_link": "/devices/platform/host19/session21/target19:0:0/19:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e000000000c0001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e000000000c0001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-7baed773-e538-4180-9635-bbad235cd87f-lun-1",
+          "/dev/disk/by-uuid/9fa4f3ab-7dc1-4da0-a722-f3503a8002ac",
+          "/dev/sdl"
+        ],
+        "unix_device_name2": "/dev/sg23",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 30720,
+            "heads": 64,
+            "sectors": 32,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 62914560,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 64,
+        "attached_to": 45,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 8,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf11",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sda",
+        "sysfs_bus_id": "8:0:0:1",
+        "sysfs_device_link": "/devices/platform/host8/session1/target8:0:0/8:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000010001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000010001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-9927229d-9757-4bf4-8fa0-bbf9ba0d6b32-lun-1",
+          "/dev/disk/by-uuid/28e442d6-67bb-44d6-9c0a-e9a691f3fd9d",
+          "/dev/sda"
+        ],
+        "unix_device_name2": "/dev/sg1",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 32768,
+            "heads": 64,
+            "sectors": 32,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 67108864,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 65,
+        "attached_to": 44,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 17,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf101",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdj",
+        "sysfs_bus_id": "17:0:0:1",
+        "sysfs_device_link": "/devices/platform/host17/session10/target17:0:0/17:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e000000000a0001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e000000000a0001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-4f44ce60-f029-459b-badf-41a8eafd1243-lun-1",
+          "/dev/disk/by-uuid/0e9c21de-d865-4c80-98d3-2af26e9dc837",
+          "/dev/sdj"
+        ],
+        "unix_device_name2": "/dev/sg5",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1017,
+            "heads": 133,
+            "sectors": 62,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 8388608,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 66,
+        "attached_to": 47,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 25,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf181",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdr",
+        "sysfs_bus_id": "25:0:0:1",
+        "sysfs_device_link": "/devices/platform/host25/session27/target25:0:0/25:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000120001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000120001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-34cb5c71-7560-46f0-9682-9375e6315154-lun-1",
+          "/dev/disk/by-uuid/38708b9b-1766-430d-8956-cb874b55ded5",
+          "/dev/sdr"
+        ],
+        "unix_device_name2": "/dev/sg35",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1017,
+            "heads": 133,
+            "sectors": 62,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 8388608,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 67,
+        "attached_to": 36,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 15,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf81",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdh",
+        "sysfs_bus_id": "15:0:0:1",
+        "sysfs_device_link": "/devices/platform/host15/session18/target15:0:0/15:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000080001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000080001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-6d96b2b3-a61c-4a92-81e3-f420d51e58f9-lun-1",
+          "/dev/disk/by-uuid/5ebfa058-187a-4199-8640-5c5ffe09de32",
+          "/dev/sdh"
+        ],
+        "unix_device_name2": "/dev/sg17",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1009,
+            "heads": 67,
+            "sectors": 62,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 4194304,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      },
+      {
+        "index": 68,
+        "attached_to": 30,
+        "class_list": [
+          "disk",
+          "scsi",
+          "block_device"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 23,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Disk",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "VIRTUAL-DISK",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "serial": "beaf161",
+        "model": "IET VIRTUAL-DISK",
+        "sysfs_id": "/class/block/sdp",
+        "sysfs_bus_id": "23:0:0:1",
+        "sysfs_device_link": "/devices/platform/host23/session25/target23:0:0/23:0:0:1",
+        "unix_device_names": [
+          "/dev/disk/by-id/scsi-360000000000000000e00000000100001",
+          "/dev/disk/by-id/wwn-0x60000000000000000e00000000100001",
+          "/dev/disk/by-path/ip-10.42.2.64:3260-iscsi-iqn.2019-10.io.longhorn:pvc-8133d890-5378-4ef6-85a5-3ca23806ba11-lun-1",
+          "/dev/disk/by-uuid/547491ce-c0e5-4476-8955-e3f4ff38840f",
+          "/dev/sdp"
+        ],
+        "unix_device_name2": "/dev/sg31",
+        "resources": [
+          {
+            "type": "disk_geo",
+            "cylinders": 1009,
+            "heads": 67,
+            "sectors": 62,
+            "size": "0x0",
+            "geo_type": "logical"
+          },
+          {
+            "type": "size",
+            "unit": "sectors",
+            "value_1": 4194304,
+            "value_2": 512
+          }
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp",
+          "sd"
+        ],
+        "driver_modules": [
+          "iscsi-tcp",
+          "sd_mod"
+        ]
+      }
+    ],
+    "graphics_card": [
+      {
+        "index": 25,
+        "attached_to": 0,
+        "class_list": [
+          "graphics_card",
+          "pci"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 2
+        },
+        "base_class": {
+          "hex": "0003",
+          "name": "Display controller",
+          "value": 3
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "VGA compatible controller",
+          "value": 0
+        },
+        "pci_interface": {
+          "hex": "0000",
+          "name": "VGA",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "4692",
+          "value": 18066
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "000c",
+          "value": 12
+        },
+        "model": "Intel VGA compatible controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:02.0",
+        "sysfs_bus_id": "0000:00:02.0",
+        "resources": [
+          {
+            "type": "io",
+            "base": 16384,
+            "range": 64,
+            "enabled": true,
+            "access": "read_write"
+          }
+        ],
+        "detail": {
+          "function": 0,
+          "command": 1031,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "driver": "i915",
+        "driver_module": "i915",
+        "drivers": [
+          "i915"
+        ],
+        "driver_modules": [
+          "i915"
+        ],
+        "module_alias": "pci:v00008086d00004692sv00001462sd0000B0A4bc03sc00i00",
+        "label": "Onboard - Video"
+      }
+    ],
+    "hub": [
+      {
+        "index": 89,
+        "attached_to": 26,
+        "class_list": [
+          "usb",
+          "hub"
+        ],
+        "bus_type": {
+          "hex": "0086",
+          "name": "USB",
+          "value": 134
+        },
+        "slot": {
+          "bus": 0,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "010a",
+          "name": "Hub",
+          "value": 266
+        },
+        "vendor": {
+          "hex": "1d6b",
+          "name": "Linux 6.18.57 xhci-hcd",
+          "value": 7531
+        },
+        "device": {
+          "hex": "0002",
+          "name": "xHCI Host Controller",
+          "value": 2
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "6.18",
+          "value": 0
+        },
+        "serial": "0000:00:14.0",
+        "model": "Linux 6.18.57 xhci-hcd xHCI Host Controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:14.0/usb1/1-0:1.0",
+        "sysfs_bus_id": "1-0:1.0",
+        "resources": [
+          {
+            "type": "baud",
+            "speed": 480000000,
+            "bits": 0,
+            "stop_bits": 0,
+            "parity": 0,
+            "handshake": 0
+          }
+        ],
+        "detail": {
+          "device_class": {
+            "hex": "0009",
+            "name": "hub",
+            "value": 9
+          },
+          "device_subclass": {
+            "hex": "0000",
+            "name": "per_interface",
+            "value": 0
+          },
+          "device_protocol": 1,
+          "interface_class": {
+            "hex": "0009",
+            "name": "hub",
+            "value": 9
+          },
+          "interface_subclass": {
+            "hex": "0000",
+            "name": "per_interface",
+            "value": 0
+          },
+          "interface_protocol": 0,
+          "interface_number": 0,
+          "interface_alternate_setting": 0
+        },
+        "hotplug": "usb",
+        "driver": "hub",
+        "driver_module": "usbcore",
+        "drivers": [
+          "hub"
+        ],
+        "driver_modules": [
+          "usbcore"
+        ],
+        "module_alias": "usb:v1D6Bp0002d0618dc09dsc00dp01ic09isc00ip00in00"
+      },
+      {
+        "index": 91,
+        "attached_to": 26,
+        "class_list": [
+          "usb",
+          "hub"
+        ],
+        "bus_type": {
+          "hex": "0086",
+          "name": "USB",
+          "value": 134
+        },
+        "slot": {
+          "bus": 0,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "010a",
+          "name": "Hub",
+          "value": 266
+        },
+        "vendor": {
+          "hex": "1d6b",
+          "name": "Linux 6.18.57 xhci-hcd",
+          "value": 7531
+        },
+        "device": {
+          "hex": "0003",
+          "name": "xHCI Host Controller",
+          "value": 3
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "6.18",
+          "value": 0
+        },
+        "serial": "0000:00:14.0",
+        "model": "Linux 6.18.57 xhci-hcd xHCI Host Controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:14.0/usb2/2-0:1.0",
+        "sysfs_bus_id": "2-0:1.0",
+        "detail": {
+          "device_class": {
+            "hex": "0009",
+            "name": "hub",
+            "value": 9
+          },
+          "device_subclass": {
+            "hex": "0000",
+            "name": "per_interface",
+            "value": 0
+          },
+          "device_protocol": 3,
+          "interface_class": {
+            "hex": "0009",
+            "name": "hub",
+            "value": 9
+          },
+          "interface_subclass": {
+            "hex": "0000",
+            "name": "per_interface",
+            "value": 0
+          },
+          "interface_protocol": 0,
+          "interface_number": 0,
+          "interface_alternate_setting": 0
+        },
+        "hotplug": "usb",
+        "driver": "hub",
+        "driver_module": "usbcore",
+        "drivers": [
+          "hub"
+        ],
+        "driver_modules": [
+          "usbcore"
+        ],
+        "module_alias": "usb:v1D6Bp0003d0618dc09dsc00dp03ic09isc00ip00in00"
+      }
+    ],
+    "memory": [
+      {
+        "index": 11,
+        "attached_to": 0,
+        "class_list": [
+          "memory"
+        ],
+        "base_class": {
+          "hex": "0101",
+          "name": "Internally Used Class",
+          "value": 257
+        },
+        "sub_class": {
+          "hex": "0002",
+          "name": "Main Memory",
+          "value": 2
+        },
+        "model": "Main Memory",
+        "resources": [
+          {
+            "type": "phys_mem",
+            "range": 16106127360
+          }
+        ]
+      }
+    ],
+    "network_controller": [
+      {
+        "index": 16,
+        "attached_to": 23,
+        "class_list": [
+          "network_controller",
+          "pci"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 2,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0002",
+          "name": "Network controller",
+          "value": 2
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Ethernet controller",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "10ec",
+          "value": 4332
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "8168",
+          "value": 33128
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0015",
+          "value": 21
+        },
+        "model": "Ethernet controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:1c.6/0000:02:00.0",
+        "sysfs_bus_id": "0000:02:00.0",
+        "unix_device_names": [
+          "enp2s0"
+        ],
+        "resources": [
+          {
+            "type": "hwaddr",
+            "address": 48
+          },
+          {
+            "type": "io",
+            "base": 12288,
+            "range": 256,
+            "enabled": true,
+            "access": "read_write"
+          },
+          {
+            "type": "phwaddr",
+            "address": 48
+          }
+        ],
+        "detail": {
+          "function": 0,
+          "command": 1031,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "driver": "r8169",
+        "driver_module": "r8169",
+        "drivers": [
+          "r8169"
+        ],
+        "driver_modules": [
+          "r8169"
+        ],
+        "module_alias": "pci:v000010ECd00008168sv00001462sd0000B0A4bc02sc00i00"
+      },
+      {
+        "index": 17,
+        "attached_to": 0,
+        "class_list": [
+          "network_controller",
+          "pci"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 20
+        },
+        "base_class": {
+          "hex": "0002",
+          "name": "Network controller",
+          "value": 2
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Network controller",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "device": {
+          "hex": "7af0",
+          "value": 31472
+        },
+        "sub_device": {
+          "hex": "02a4",
+          "value": 676
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel Network controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:14.3",
+        "sysfs_bus_id": "0000:00:14.3",
+        "detail": {
+          "function": 3,
+          "command": 0,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "module_alias": "pci:v00008086d00007AF0sv00008086sd000002A4bc02sc80i00",
+        "label": "Onboard - Ethernet"
+      }
+    ],
+    "network_interface": [
+      {
+        "index": 111,
+        "attached_to": 0,
+        "class_list": [
+          "network_interface"
+        ],
+        "base_class": {
+          "hex": "0107",
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Loopback",
+          "value": 0
+        },
+        "model": "Loopback network interface",
+        "sysfs_id": "/class/net/lo",
+        "unix_device_names": [
+          "lo"
+        ]
+      },
+      {
+        "index": 112,
+        "attached_to": 16,
+        "class_list": [
+          "network_interface"
+        ],
+        "base_class": {
+          "hex": "0107",
+          "name": "Network Interface",
+          "value": 263
+        },
+        "sub_class": {
+          "hex": "0001",
+          "name": "Ethernet",
+          "value": 1
+        },
+        "model": "Ethernet network interface",
+        "sysfs_id": "/class/net/enp2s0",
+        "sysfs_device_link": "/devices/pci0000:00/0000:00:1c.6/0000:02:00.0",
+        "unix_device_names": [
+          "enp2s0"
+        ],
+        "resources": [
+          {
+            "type": "hwaddr",
+            "address": 48
+          },
+          {
+            "type": "phwaddr",
+            "address": 48
+          }
+        ],
+        "driver": "r8169",
+        "driver_module": "r8169",
+        "drivers": [
+          "r8169"
+        ],
+        "driver_modules": [
+          "r8169"
+        ]
+      }
+    ],
+    "pci": [
+      {
+        "index": 14,
+        "attached_to": 0,
+        "class_list": [
+          "pci",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 8
+        },
+        "base_class": {
+          "hex": "0008",
+          "name": "Generic system peripheral",
+          "value": 8
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "System peripheral",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "464f",
+          "value": 17999
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0005",
+          "value": 5
+        },
+        "model": "Intel System peripheral",
+        "sysfs_id": "/devices/pci0000:00/0000:00:08.0",
+        "sysfs_bus_id": "0000:00:08.0",
+        "detail": {
+          "function": 0,
+          "command": 0,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "module_alias": "pci:v00008086d0000464Fsv00001462sd0000B0A4bc08sc80i00",
+        "label": "Onboard - Other"
+      },
+      {
+        "index": 18,
+        "attached_to": 0,
+        "class_list": [
+          "pci",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 22
+        },
+        "base_class": {
+          "hex": "0007",
+          "name": "Communication controller",
+          "value": 7
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Communication controller",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "7ae8",
+          "value": 31464
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel Communication controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:16.0",
+        "sysfs_bus_id": "0000:00:16.0",
+        "detail": {
+          "function": 0,
+          "command": 1030,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "driver": "mei_me",
+        "driver_module": "mei_me",
+        "drivers": [
+          "mei_me"
+        ],
+        "driver_modules": [
+          "mei_me"
+        ],
+        "module_alias": "pci:v00008086d00007AE8sv00001462sd0000B0A4bc07sc80i00",
+        "label": "Onboard - Other"
+      },
+      {
+        "index": 20,
+        "attached_to": 0,
+        "class_list": [
+          "pci",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 31
+        },
+        "base_class": {
+          "hex": "000c",
+          "name": "Serial bus controller",
+          "value": 12
+        },
+        "sub_class": {
+          "hex": "0080",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "7aa4",
+          "value": 31396
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel Serial bus controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:1f.5",
+        "sysfs_bus_id": "0000:00:1f.5",
+        "detail": {
+          "function": 5,
+          "command": 1026,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "driver": "intel-spi",
+        "driver_module": "spi_intel_pci",
+        "drivers": [
+          "intel-spi"
+        ],
+        "driver_modules": [
+          "spi_intel_pci"
+        ],
+        "module_alias": "pci:v00008086d00007AA4sv00001462sd0000B0A4bc0Csc80i00",
+        "label": "Onboard - Other"
+      },
+      {
+        "index": 24,
+        "attached_to": 0,
+        "class_list": [
+          "pci",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 20
+        },
+        "base_class": {
+          "hex": "0005",
+          "name": "Memory controller",
+          "value": 5
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "RAM memory",
+          "value": 0
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "device": {
+          "hex": "7aa7",
+          "value": 31399
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel RAM memory",
+        "sysfs_id": "/devices/pci0000:00/0000:00:14.2",
+        "sysfs_bus_id": "0000:00:14.2",
+        "detail": {
+          "function": 2,
+          "command": 0,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "module_alias": "pci:v00008086d00007AA7sv00000000sd00000000bc05sc00i00",
+        "label": "Onboard - Other"
+      },
+      {
+        "index": 27,
+        "attached_to": 0,
+        "class_list": [
+          "pci",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 31
+        },
+        "base_class": {
+          "hex": "000c",
+          "name": "Serial bus controller",
+          "value": 12
+        },
+        "sub_class": {
+          "hex": "0005",
+          "name": "SMBus",
+          "value": 5
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "7aa3",
+          "value": 31395
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel SMBus",
+        "sysfs_id": "/devices/pci0000:00/0000:00:1f.4",
+        "sysfs_bus_id": "0000:00:1f.4",
+        "resources": [
+          {
+            "type": "io",
+            "base": 61344,
+            "range": 32,
+            "enabled": true,
+            "access": "read_write"
+          }
+        ],
+        "detail": {
+          "function": 4,
+          "command": 3,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "driver": "i801_smbus",
+        "driver_module": "i2c_i801",
+        "drivers": [
+          "i801_smbus"
+        ],
+        "driver_modules": [
+          "i2c_i801"
+        ],
+        "module_alias": "pci:v00008086d00007AA3sv00001462sd0000B0A4bc0Csc05i00",
+        "label": "Onboard - Other"
+      },
+      {
+        "index": 28,
+        "attached_to": 0,
+        "class_list": [
+          "pci",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 10
+        },
+        "base_class": {
+          "hex": "0011",
+          "name": "Signal processing controller",
+          "value": 17
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Signal processing controller",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "device": {
+          "hex": "467d",
+          "value": 18045
+        },
+        "revision": {
+          "hex": "0001",
+          "value": 1
+        },
+        "model": "Intel Signal processing controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:0a.0",
+        "sysfs_bus_id": "0000:00:0a.0",
+        "detail": {
+          "function": 0,
+          "command": 2,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "driver": "intel_vsec",
+        "driver_module": "intel_vsec",
+        "drivers": [
+          "intel_vsec"
+        ],
+        "driver_modules": [
+          "intel_vsec"
+        ],
+        "module_alias": "pci:v00008086d0000467Dsv00000000sd00000000bc11sc80i00",
+        "label": "Onboard - Other"
+      }
+    ],
+    "scsi": [
+      {
+        "index": 69,
+        "attached_to": 32,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 21,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg26",
+        "sysfs_bus_id": "21:0:0:0",
+        "unix_device_names": [
+          "/dev/sg26"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 70,
+        "attached_to": 33,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 9,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg6",
+        "sysfs_bus_id": "9:0:0:0",
+        "unix_device_names": [
+          "/dev/sg6"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 71,
+        "attached_to": 36,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 15,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg16",
+        "sysfs_bus_id": "15:0:0:0",
+        "unix_device_names": [
+          "/dev/sg16"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 72,
+        "attached_to": 47,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 25,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg34",
+        "sysfs_bus_id": "25:0:0:0",
+        "unix_device_names": [
+          "/dev/sg34"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 73,
+        "attached_to": 42,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 20,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg24",
+        "sysfs_bus_id": "20:0:0:0",
+        "unix_device_names": [
+          "/dev/sg24"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 74,
+        "attached_to": 44,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 17,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg4",
+        "sysfs_bus_id": "17:0:0:0",
+        "unix_device_names": [
+          "/dev/sg4"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 75,
+        "attached_to": 29,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 13,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg14",
+        "sysfs_bus_id": "13:0:0:0",
+        "unix_device_names": [
+          "/dev/sg14"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 76,
+        "attached_to": 37,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 24,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg32",
+        "sysfs_bus_id": "24:0:0:0",
+        "unix_device_names": [
+          "/dev/sg32"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 77,
+        "attached_to": 34,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 19,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg22",
+        "sysfs_bus_id": "19:0:0:0",
+        "unix_device_names": [
+          "/dev/sg22"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 78,
+        "attached_to": 39,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 14,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg2",
+        "sysfs_bus_id": "14:0:0:0",
+        "unix_device_names": [
+          "/dev/sg2"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 79,
+        "attached_to": 38,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 12,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg12",
+        "sysfs_bus_id": "12:0:0:0",
+        "unix_device_names": [
+          "/dev/sg12"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 80,
+        "attached_to": 30,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 23,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg30",
+        "sysfs_bus_id": "23:0:0:0",
+        "unix_device_names": [
+          "/dev/sg30"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 81,
+        "attached_to": 43,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 18,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg20",
+        "sysfs_bus_id": "18:0:0:0",
+        "unix_device_names": [
+          "/dev/sg20"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 82,
+        "attached_to": 45,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 8,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg0",
+        "sysfs_bus_id": "8:0:0:0",
+        "unix_device_names": [
+          "/dev/sg0"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 83,
+        "attached_to": 31,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 11,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg10",
+        "sysfs_bus_id": "11:0:0:0",
+        "unix_device_names": [
+          "/dev/sg10"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 84,
+        "attached_to": 40,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 22,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg28",
+        "sysfs_bus_id": "22:0:0:0",
+        "unix_device_names": [
+          "/dev/sg28"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 85,
+        "attached_to": 41,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 10,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg8",
+        "sysfs_bus_id": "10:0:0:0",
+        "unix_device_names": [
+          "/dev/sg8"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 86,
+        "attached_to": 46,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 16,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg18",
+        "sysfs_bus_id": "16:0:0:0",
+        "unix_device_names": [
+          "/dev/sg18"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      },
+      {
+        "index": 87,
+        "attached_to": 35,
+        "class_list": [
+          "scsi",
+          "block_device",
+          "unknown"
+        ],
+        "bus_type": {
+          "hex": "0084",
+          "name": "SCSI",
+          "value": 132
+        },
+        "slot": {
+          "bus": 26,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0106",
+          "name": "Mass Storage Device",
+          "value": 262
+        },
+        "sub_class": {
+          "hex": "0080",
+          "name": "Storage Device",
+          "value": 128
+        },
+        "vendor": {
+          "hex": "0000",
+          "name": "IET",
+          "value": 0
+        },
+        "device": {
+          "hex": "0000",
+          "name": "Controller",
+          "value": 0
+        },
+        "revision": {
+          "hex": "0000",
+          "name": "0001",
+          "value": 0
+        },
+        "model": "IET Controller",
+        "sysfs_id": "/class/scsi_generic/sg36",
+        "sysfs_bus_id": "26:0:0:0",
+        "unix_device_names": [
+          "/dev/sg36"
+        ],
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ]
+      }
+    ],
+    "sound": [
+      {
+        "index": 21,
+        "attached_to": 0,
+        "class_list": [
+          "sound",
+          "pci"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 31
+        },
+        "base_class": {
+          "hex": "0004",
+          "name": "Multimedia controller",
+          "value": 4
+        },
+        "sub_class": {
+          "hex": "0003",
+          "value": 3
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "7ad0",
+          "value": 31440
+        },
+        "sub_device": {
+          "hex": "7c7a",
+          "value": 31866
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel Multimedia controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:1f.3",
+        "sysfs_bus_id": "0000:00:1f.3",
+        "detail": {
+          "function": 3,
+          "command": 1030,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 0
+        },
+        "driver": "snd_hda_intel",
+        "driver_module": "snd_hda_intel",
+        "drivers": [
+          "snd_hda_intel"
+        ],
+        "driver_modules": [
+          "snd_hda_intel"
+        ],
+        "module_alias": "pci:v00008086d00007AD0sv00001462sd00007C7Abc04sc03i00",
+        "label": "Onboard - Sound"
+      }
+    ],
+    "storage_controller": [
+      {
+        "index": 12,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller",
+          "pci"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 23
+        },
+        "base_class": {
+          "hex": "0001",
+          "name": "Mass storage controller",
+          "value": 1
+        },
+        "sub_class": {
+          "hex": "0006",
+          "value": 6
+        },
+        "pci_interface": {
+          "hex": "0001",
+          "value": 1
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "7ae2",
+          "value": 31458
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel Mass storage controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:17.0",
+        "sysfs_bus_id": "0000:00:17.0",
+        "resources": [
+          {
+            "type": "io",
+            "base": 16480,
+            "range": 32,
+            "enabled": true,
+            "access": "read_write"
+          },
+          {
+            "type": "io",
+            "base": 16512,
+            "range": 4,
+            "enabled": true,
+            "access": "read_write"
+          },
+          {
+            "type": "io",
+            "base": 16528,
+            "range": 8,
+            "enabled": true,
+            "access": "read_write"
+          }
+        ],
+        "detail": {
+          "function": 0,
+          "command": 1031,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 1
+        },
+        "driver": "ahci",
+        "driver_module": "ahci",
+        "drivers": [
+          "ahci"
+        ],
+        "driver_modules": [
+          "ahci"
+        ],
+        "module_alias": "pci:v00008086d00007AE2sv00001462sd0000B0A4bc01sc06i01",
+        "label": "Onboard - SATA"
+      },
+      {
+        "index": 19,
+        "attached_to": 13,
+        "class_list": [
+          "storage_controller",
+          "pci"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 1,
+          "number": 0
+        },
+        "base_class": {
+          "hex": "0001",
+          "name": "Mass storage controller",
+          "value": 1
+        },
+        "sub_class": {
+          "hex": "0008",
+          "value": 8
+        },
+        "pci_interface": {
+          "hex": "0002",
+          "value": 2
+        },
+        "vendor": {
+          "hex": "144d",
+          "value": 5197
+        },
+        "sub_vendor": {
+          "hex": "144d",
+          "value": 5197
+        },
+        "device": {
+          "hex": "a80b",
+          "value": 43019
+        },
+        "sub_device": {
+          "hex": "a80b",
+          "value": 43019
+        },
+        "revision": {
+          "hex": "0002",
+          "value": 2
+        },
+        "model": "Mass storage controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:1c.0/0000:01:00.0",
+        "sysfs_bus_id": "0000:01:00.0",
+        "detail": {
+          "function": 0,
+          "command": 1030,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 2
+        },
+        "driver": "nvme",
+        "driver_module": "nvme",
+        "drivers": [
+          "nvme"
+        ],
+        "driver_modules": [
+          "nvme"
+        ],
+        "module_alias": "pci:v0000144Dd0000A80Bsv0000144Dsd0000A80Bbc01sc08i02"
+      },
+      {
+        "index": 29,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host13/session17",
+        "sysfs_bus_id": "session17",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 30,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host23/session25",
+        "sysfs_bus_id": "session25",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 31,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host11/session15",
+        "sysfs_bus_id": "session15",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 32,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host21/session23",
+        "sysfs_bus_id": "session23",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 33,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host9/session13",
+        "sysfs_bus_id": "session13",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 34,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host19/session21",
+        "sysfs_bus_id": "session21",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 35,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host26/session28",
+        "sysfs_bus_id": "session28",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 36,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host15/session18",
+        "sysfs_bus_id": "session18",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 37,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host24/session26",
+        "sysfs_bus_id": "session26",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 38,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host12/session16",
+        "sysfs_bus_id": "session16",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 39,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host14/session7",
+        "sysfs_bus_id": "session7",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 40,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host22/session24",
+        "sysfs_bus_id": "session24",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 41,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host10/session14",
+        "sysfs_bus_id": "session14",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 42,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host20/session22",
+        "sysfs_bus_id": "session22",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 43,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host18/session20",
+        "sysfs_bus_id": "session20",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 44,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host17/session10",
+        "sysfs_bus_id": "session10",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 45,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host8/session1",
+        "sysfs_bus_id": "session1",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 46,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host16/session19",
+        "sysfs_bus_id": "session19",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      },
+      {
+        "index": 47,
+        "attached_to": 0,
+        "class_list": [
+          "storage_controller"
+        ],
+        "base_class": {
+          "hex": "011a",
+          "name": "iSCSI controller",
+          "value": 282
+        },
+        "vendor": "",
+        "device": "iSCSI controller",
+        "model": "iSCSI controller",
+        "sysfs_id": "/devices/platform/host25/session27",
+        "sysfs_bus_id": "session27",
+        "driver": "iscsi_tcp",
+        "driver_module": "iscsi-tcp",
+        "drivers": [
+          "iscsi_tcp"
+        ],
+        "driver_modules": [
+          "iscsi-tcp"
+        ],
+        "driver_info": {
+          "type": "module",
+          "db_entry_0": [
+            "iscsi-tcp"
+          ],
+          "active": true,
+          "modprobe": true,
+          "names": [
+            "iscsi-tcp"
+          ],
+          "module_args": [
+            ""
+          ],
+          "conf": ""
+        }
+      }
+    ],
+    "system": {
+      "form_factor": "laptop"
+    },
+    "unknown": [
+      {
+        "index": 48,
+        "attached_to": 0,
+        "class_list": [
+          "unknown"
+        ],
+        "base_class": {
+          "hex": "0007",
+          "name": "Communication controller",
+          "value": 7
+        },
+        "sub_class": {
+          "hex": "0000",
+          "name": "Serial controller",
+          "value": 0
+        },
+        "pci_interface": {
+          "hex": "0002",
+          "name": "16550",
+          "value": 2
+        },
+        "device": {
+          "hex": "0000",
+          "name": "16550A",
+          "value": 0
+        },
+        "model": "16550A",
+        "unix_device_names": [
+          "/dev/ttyS0"
+        ],
+        "resources": [
+          {
+            "type": "io",
+            "base": 1016,
+            "range": 0,
+            "enabled": true,
+            "access": "read_write"
+          }
+        ]
+      }
+    ],
+    "usb_controller": [
+      {
+        "index": 26,
+        "attached_to": 0,
+        "class_list": [
+          "usb_controller",
+          "pci"
+        ],
+        "bus_type": {
+          "hex": "0004",
+          "name": "PCI",
+          "value": 4
+        },
+        "slot": {
+          "bus": 0,
+          "number": 20
+        },
+        "base_class": {
+          "hex": "000c",
+          "name": "Serial bus controller",
+          "value": 12
+        },
+        "sub_class": {
+          "hex": "0003",
+          "name": "USB Controller",
+          "value": 3
+        },
+        "pci_interface": {
+          "hex": "0030",
+          "value": 48
+        },
+        "vendor": {
+          "hex": "8086",
+          "name": "Intel Corporation",
+          "value": 32902
+        },
+        "sub_vendor": {
+          "hex": "1462",
+          "value": 5218
+        },
+        "device": {
+          "hex": "7ae0",
+          "value": 31456
+        },
+        "sub_device": {
+          "hex": "b0a4",
+          "value": 45220
+        },
+        "revision": {
+          "hex": "0011",
+          "value": 17
+        },
+        "model": "Intel USB Controller",
+        "sysfs_id": "/devices/pci0000:00/0000:00:14.0",
+        "sysfs_bus_id": "0000:00:14.0",
+        "detail": {
+          "function": 0,
+          "command": 1026,
+          "header_type": 0,
+          "secondary_bus": 0,
+          "prog_if": 48
+        },
+        "driver": "xhci_hcd",
+        "driver_module": "xhci_pci",
+        "drivers": [
+          "xhci_hcd"
+        ],
+        "driver_modules": [
+          "xhci_pci"
+        ],
+        "module_alias": "pci:v00008086d00007AE0sv00001462sd0000B0A4bc0Csc03i30",
+        "label": "Onboard - Other"
+      }
+    ]
+  },
+  "smbios": {
+    "bios": {
+      "handle": 0,
+      "vendor": "American Megatrends International, LLC.",
+      "version": "A.80",
+      "date": "05/09/2023",
+      "features": [
+        "PCI supported",
+        "BIOS flashable",
+        "BIOS shadowing allowed",
+        "CD boot supported",
+        "Selectable boot supported",
+        "BIOS ROM socketed",
+        "EDD spec supported",
+        "1.2MB NEC 9800 Japanese Floppy supported",
+        "1.2MB Toshiba Japanese Floppy supported",
+        "360kB Floppy supported",
+        "1.2MB Floppy supported",
+        "720kB Floppy supported",
+        "2.88MB Floppy supported",
+        "Print Screen supported",
+        "8042 Keyboard Services supported",
+        "Serial Services supported",
+        "Printer Services supported",
+        "CGA/Mono Video supported",
+        "ACPI supported",
+        "USB Legacy supported",
+        "BIOS Boot Spec supported"
+      ],
+      "start_address": "0xf0000",
+      "rom_size": 16777216
+    },
+    "board": {
+      "handle": 2,
+      "manufacturer": "Micro-Star International Co., Ltd.",
+      "product": "MS-B0A41",
+      "version": "1.0",
+      "board_type": {
+        "hex": "000a",
+        "name": "Motherboard",
+        "value": 10
+      },
+      "features": [
+        "Hosting Board",
+        "Replaceable"
+      ],
+      "location": "Default string",
+      "chassis": 3
+    },
+    "cache": [
+      {
+        "handle": 69,
+        "socket": "L1 Cache",
+        "size_max": 192,
+        "size_current": 192,
+        "speed": 0,
+        "mode": {
+          "hex": "0001",
+          "name": "Write Back",
+          "value": 1
+        },
+        "enabled": true,
+        "location": {
+          "hex": "0000",
+          "name": "Internal",
+          "value": 0
+        },
+        "socketed": false,
+        "level": 0,
+        "ecc": {
+          "hex": "0004",
+          "name": "Parity",
+          "value": 4
+        },
+        "cache_type": {
+          "hex": "0004",
+          "name": "Data",
+          "value": 4
+        },
+        "associativity": {
+          "hex": "0009",
+          "name": "Other",
+          "value": 9
+        },
+        "sram_type_current": [
+          "Synchronous"
+        ],
+        "sram_type_supported": [
+          "Synchronous"
+        ]
+      },
+      {
+        "handle": 70,
+        "socket": "L1 Cache",
+        "size_max": 128,
+        "size_current": 128,
+        "speed": 0,
+        "mode": {
+          "hex": "0001",
+          "name": "Write Back",
+          "value": 1
+        },
+        "enabled": true,
+        "location": {
+          "hex": "0000",
+          "name": "Internal",
+          "value": 0
+        },
+        "socketed": false,
+        "level": 0,
+        "ecc": {
+          "hex": "0004",
+          "name": "Parity",
+          "value": 4
+        },
+        "cache_type": {
+          "hex": "0003",
+          "name": "Instruction",
+          "value": 3
+        },
+        "associativity": {
+          "hex": "0007",
+          "name": "8-way Set-Associative",
+          "value": 7
+        },
+        "sram_type_current": [
+          "Synchronous"
+        ],
+        "sram_type_supported": [
+          "Synchronous"
+        ]
+      },
+      {
+        "handle": 71,
+        "socket": "L2 Cache",
+        "size_max": 5120,
+        "size_current": 5120,
+        "speed": 0,
+        "mode": {
+          "hex": "0001",
+          "name": "Write Back",
+          "value": 1
+        },
+        "enabled": true,
+        "location": {
+          "hex": "0000",
+          "name": "Internal",
+          "value": 0
+        },
+        "socketed": false,
+        "level": 1,
+        "ecc": {
+          "hex": "0005",
+          "name": "Single-bit",
+          "value": 5
+        },
+        "cache_type": {
+          "hex": "0005",
+          "name": "Unified",
+          "value": 5
+        },
+        "associativity": {
+          "hex": "0001",
+          "name": "Other",
+          "value": 1
+        },
+        "sram_type_current": [
+          "Synchronous"
+        ],
+        "sram_type_supported": [
+          "Synchronous"
+        ]
+      },
+      {
+        "handle": 72,
+        "socket": "L3 Cache",
+        "size_max": 12288,
+        "size_current": 12288,
+        "speed": 0,
+        "mode": {
+          "hex": "0001",
+          "name": "Write Back",
+          "value": 1
+        },
+        "enabled": true,
+        "location": {
+          "hex": "0000",
+          "name": "Internal",
+          "value": 0
+        },
+        "socketed": false,
+        "level": 2,
+        "ecc": {
+          "hex": "0006",
+          "name": "Multi-bit",
+          "value": 6
+        },
+        "cache_type": {
+          "hex": "0005",
+          "name": "Unified",
+          "value": 5
+        },
+        "associativity": {
+          "hex": "0009",
+          "name": "Other",
+          "value": 9
+        },
+        "sram_type_current": [
+          "Synchronous"
+        ],
+        "sram_type_supported": [
+          "Synchronous"
+        ]
+      }
+    ],
+    "chassis": [
+      {
+        "handle": 3,
+        "manufacturer": "Micro-Star International Co., Ltd.",
+        "version": "1.0",
+        "chassis_type": {
+          "hex": "0003",
+          "name": "Desktop",
+          "value": 3
+        },
+        "lock_present": false,
+        "bootup_state": {
+          "hex": "0003",
+          "name": "Safe",
+          "value": 3
+        },
+        "power_state": {
+          "hex": "0003",
+          "name": "Safe",
+          "value": 3
+        },
+        "thermal_state": {
+          "hex": "0003",
+          "name": "Safe",
+          "value": 3
+        },
+        "security_state": {
+          "hex": "0003",
+          "name": "None",
+          "value": 3
+        },
+        "oem": "0x0"
+      }
+    ],
+    "config": {
+      "handle": 34,
+      "options": [
+        "Default string"
+      ]
+    },
+    "group_associations": [
+      {
+        "handle": 92,
+        "name": "$MEI",
+        "handles": [
+          0
+        ]
+      },
+      {
+        "handle": 95,
+        "name": "Firmware Version Info",
+        "handles": [
+          279172874304,
+          283467841601,
+          287762808898,
+          292057776195,
+          377957122116,
+          1189705941080
+        ]
+      }
+    ],
+    "memory_array": [
+      {
+        "handle": 58,
+        "location": {
+          "hex": "0003",
+          "name": "Motherboard",
+          "value": 3
+        },
+        "usage": {
+          "hex": "0003",
+          "name": "System memory",
+          "value": 3
+        },
+        "ecc": {
+          "hex": "0003",
+          "name": "None",
+          "value": 3
+        },
+        "max_size": "0x4000000",
+        "error_handle": 65534,
+        "slots": 2
+      }
+    ],
+    "memory_array_mapped_address": [
+      {
+        "handle": 61,
+        "array_handle": 58,
+        "start_address": "0x0",
+        "end_address": "0x400000000",
+        "part_width": 2
+      }
+    ],
+    "memory_device": [
+      {
+        "handle": 59,
+        "location": "Controller0-ChannelA-DIMM0",
+        "bank_location": "BANK 0",
+        "manufacturer": "Samsung",
+        "part_number": "M471A1K43EB1-CWE",
+        "array_handle": 58,
+        "error_handle": 65534,
+        "width": 64,
+        "ecc_bits": 0,
+        "size": 8388608,
+        "form_factor": {
+          "hex": "000d",
+          "name": "SODIMM",
+          "value": 13
+        },
+        "set": 0,
+        "memory_type": {
+          "hex": "001a",
+          "name": "Other",
+          "value": 26
+        },
+        "memory_type_details": [
+          "Synchronous"
+        ],
+        "speed": 3200
+      },
+      {
+        "handle": 60,
+        "location": "Controller1-ChannelA-DIMM0",
+        "bank_location": "BANK 0",
+        "manufacturer": "Samsung",
+        "part_number": "M471A1K43EB1-CWE",
+        "array_handle": 58,
+        "error_handle": 65534,
+        "width": 64,
+        "ecc_bits": 0,
+        "size": 8388608,
+        "form_factor": {
+          "hex": "000d",
+          "name": "SODIMM",
+          "value": 13
+        },
+        "set": 0,
+        "memory_type": {
+          "hex": "001a",
+          "name": "Other",
+          "value": 26
+        },
+        "memory_type_details": [
+          "Synchronous"
+        ],
+        "speed": 3200
+      }
+    ],
+    "memory_device_mapped_address": [
+      {
+        "handle": 62,
+        "memory_device_handle": 59,
+        "array_map_handle": 61,
+        "start_address": "0x0",
+        "end_address": "0x200000000",
+        "row_position": 255,
+        "interleave_position": 1,
+        "interleave_depth": 1
+      },
+      {
+        "handle": 63,
+        "memory_device_handle": 60,
+        "array_map_handle": 61,
+        "start_address": "0x200000000",
+        "end_address": "0x400000000",
+        "row_position": 255,
+        "interleave_position": 2,
+        "interleave_depth": 1
+      }
+    ],
+    "port_connector": [
+      {
+        "handle": 4,
+        "port_type": {
+          "hex": "000e",
+          "name": "Mouse Port",
+          "value": 14
+        },
+        "internal_reference_designator": "J1A1",
+        "external_connector_type": {
+          "hex": "000f",
+          "name": "PS/2",
+          "value": 15
+        },
+        "external_reference_designator": "PS2Mouse"
+      },
+      {
+        "handle": 5,
+        "port_type": {
+          "hex": "000d",
+          "name": "Keyboard Port",
+          "value": 13
+        },
+        "internal_reference_designator": "J1A1",
+        "external_connector_type": {
+          "hex": "000f",
+          "name": "PS/2",
+          "value": 15
+        },
+        "external_reference_designator": "Keyboard"
+      },
+      {
+        "handle": 6,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J2A1",
+        "external_connector_type": {
+          "hex": "001d",
+          "name": "Mini-Centronics Type-14",
+          "value": 29
+        },
+        "external_reference_designator": "TV Out"
+      },
+      {
+        "handle": 7,
+        "port_type": {
+          "hex": "0009",
+          "name": "Serial Port 16550A Compatible",
+          "value": 9
+        },
+        "internal_reference_designator": "J2A2A",
+        "external_connector_type": {
+          "hex": "0008",
+          "name": "DB-9 pin male",
+          "value": 8
+        },
+        "external_reference_designator": "COM A"
+      },
+      {
+        "handle": 8,
+        "port_type": {
+          "hex": "001c",
+          "name": "Video Port",
+          "value": 28
+        },
+        "internal_reference_designator": "J2A2B",
+        "external_connector_type": {
+          "hex": "0007",
+          "name": "DB-15 pin female",
+          "value": 7
+        },
+        "external_reference_designator": "Video"
+      },
+      {
+        "handle": 9,
+        "port_type": {
+          "hex": "0010",
+          "name": "USB",
+          "value": 16
+        },
+        "internal_reference_designator": "J3A1",
+        "external_connector_type": {
+          "hex": "0012",
+          "name": "Access Bus [USB]",
+          "value": 18
+        },
+        "external_reference_designator": "USB1"
+      },
+      {
+        "handle": 10,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J9A1 - TPM HDR"
+      },
+      {
+        "handle": 11,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J9C1 - PCIE DOCKING CONN"
+      },
+      {
+        "handle": 12,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J2B3 - CPU FAN"
+      },
+      {
+        "handle": 13,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J6C2 - EXT HDMI"
+      },
+      {
+        "handle": 14,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J3C1 - GMCH FAN"
+      },
+      {
+        "handle": 15,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J1D1 - ITP"
+      },
+      {
+        "handle": 16,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J9E2 - MDC INTPSR"
+      },
+      {
+        "handle": 17,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J9E4 - MDC INTPSR"
+      },
+      {
+        "handle": 18,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J9E3 - LPC HOT DOCKING"
+      },
+      {
+        "handle": 19,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J9E1 - SCAN MATRIX"
+      },
+      {
+        "handle": 20,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J9G1 - LPC SIDE BAND"
+      },
+      {
+        "handle": 21,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J8F1 - UNIFIED"
+      },
+      {
+        "handle": 22,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J6F1 - LVDS"
+      },
+      {
+        "handle": 23,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J2F1 - LAI FAN"
+      },
+      {
+        "handle": 24,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J2G1 - GFX VID"
+      },
+      {
+        "handle": 25,
+        "port_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_connector_type": {
+          "hex": "00ff",
+          "name": "Other",
+          "value": 255
+        },
+        "internal_reference_designator": "J1G6 - AC JACK"
+      }
+    ],
+    "processor": [
+      {
+        "handle": 73,
+        "socket": "U3E1",
+        "socket_type": {
+          "hex": "0001",
+          "name": "Other",
+          "value": 1
+        },
+        "socket_populated": true,
+        "manufacturer": "Intel(R) Corporation",
+        "version": "13th Gen Intel(R) Core(TM) i3-13100",
+        "part": "To Be Filled By O.E.M.",
+        "processor_type": {
+          "hex": "0003",
+          "name": "CPU",
+          "value": 3
+        },
+        "processor_family": {
+          "hex": "00ce",
+          "name": "Other",
+          "value": 206
+        },
+        "processor_status": {
+          "hex": "0001",
+          "name": "Enabled",
+          "value": 1
+        },
+        "clock_ext": 100,
+        "clock_max": 4500,
+        "cache_handle_l1": 70,
+        "cache_handle_l2": 71,
+        "cache_handle_l3": 72
+      }
+    ],
+    "slot": [
+      {
+        "handle": 26,
+        "designation": "J6B2",
+        "slot_type": {
+          "hex": "00a5",
+          "name": "Other",
+          "value": 165
+        },
+        "bus_width": {
+          "hex": "000d",
+          "name": "Other",
+          "value": 13
+        },
+        "usage": {
+          "hex": "0004",
+          "name": "In Use",
+          "value": 4
+        },
+        "length": {
+          "hex": "0004",
+          "name": "Long",
+          "value": 4
+        },
+        "id": 0,
+        "features": [
+          "3.3 V",
+          "Shared",
+          "PME#"
+        ]
+      },
+      {
+        "handle": 27,
+        "designation": "J6B1",
+        "slot_type": {
+          "hex": "00a5",
+          "name": "Other",
+          "value": 165
+        },
+        "bus_width": {
+          "hex": "0008",
+          "name": "Other",
+          "value": 8
+        },
+        "usage": {
+          "hex": "0004",
+          "name": "In Use",
+          "value": 4
+        },
+        "length": {
+          "hex": "0003",
+          "name": "Short",
+          "value": 3
+        },
+        "id": 1,
+        "features": [
+          "3.3 V",
+          "Shared",
+          "PME#"
+        ]
+      },
+      {
+        "handle": 28,
+        "designation": "J6D1",
+        "slot_type": {
+          "hex": "00a5",
+          "name": "Other",
+          "value": 165
+        },
+        "bus_width": {
+          "hex": "0008",
+          "name": "Other",
+          "value": 8
+        },
+        "usage": {
+          "hex": "0004",
+          "name": "In Use",
+          "value": 4
+        },
+        "length": {
+          "hex": "0003",
+          "name": "Short",
+          "value": 3
+        },
+        "id": 2,
+        "features": [
+          "3.3 V",
+          "Shared",
+          "PME#"
+        ]
+      },
+      {
+        "handle": 29,
+        "designation": "J7B1",
+        "slot_type": {
+          "hex": "00a5",
+          "name": "Other",
+          "value": 165
+        },
+        "bus_width": {
+          "hex": "0008",
+          "name": "Other",
+          "value": 8
+        },
+        "usage": {
+          "hex": "0004",
+          "name": "In Use",
+          "value": 4
+        },
+        "length": {
+          "hex": "0003",
+          "name": "Short",
+          "value": 3
+        },
+        "id": 3,
+        "features": [
+          "3.3 V",
+          "Shared",
+          "PME#"
+        ]
+      },
+      {
+        "handle": 30,
+        "designation": "J8B4",
+        "slot_type": {
+          "hex": "00a5",
+          "name": "Other",
+          "value": 165
+        },
+        "bus_width": {
+          "hex": "0008",
+          "name": "Other",
+          "value": 8
+        },
+        "usage": {
+          "hex": "0004",
+          "name": "In Use",
+          "value": 4
+        },
+        "length": {
+          "hex": "0003",
+          "name": "Short",
+          "value": 3
+        },
+        "id": 4,
+        "features": [
+          "3.3 V",
+          "Shared",
+          "PME#"
+        ]
+      },
+      {
+        "handle": 31,
+        "designation": "J8D1",
+        "slot_type": {
+          "hex": "00a5",
+          "name": "Other",
+          "value": 165
+        },
+        "bus_width": {
+          "hex": "0008",
+          "name": "Other",
+          "value": 8
+        },
+        "usage": {
+          "hex": "0004",
+          "name": "In Use",
+          "value": 4
+        },
+        "length": {
+          "hex": "0003",
+          "name": "Short",
+          "value": 3
+        },
+        "id": 5,
+        "features": [
+          "3.3 V",
+          "Shared",
+          "PME#"
+        ]
+      },
+      {
+        "handle": 32,
+        "designation": "J8B3",
+        "slot_type": {
+          "hex": "0006",
+          "name": "PCI",
+          "value": 6
+        },
+        "bus_width": {
+          "hex": "0005",
+          "name": "32 bit",
+          "value": 5
+        },
+        "usage": {
+          "hex": "0004",
+          "name": "In Use",
+          "value": 4
+        },
+        "length": {
+          "hex": "0003",
+          "name": "Short",
+          "value": 3
+        },
+        "id": 6,
+        "features": [
+          "3.3 V",
+          "Shared",
+          "PME#"
+        ]
+      }
+    ],
+    "system": {
+      "handle": 1,
+      "manufacturer": "Micro-Star International Co., Ltd.",
+      "product": "PRO H610 DP21 13M (MS-B0A4)",
+      "version": "1.0",
+      "wake_up": {
+        "hex": "0006",
+        "name": "Power Switch",
+        "value": 6
+      }
+    }
+  }
+}
