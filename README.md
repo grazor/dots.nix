@@ -21,6 +21,62 @@ each host is built by **composing** aspects (no per-feature enable flags).
 | `desktop` | Desktop PC | NixOS | gaming workstation — GNOME + NVIDIA + Steam (user `g`) |
 | `mac` | Work MacBook | nix-darwin | dev machine (user `smporyvaev`) |
 
+## Candle dataset service on dev
+
+The `dev` host runs `surfr-candles.service` at boot as `cloud`. It serves a
+Unix socket at `/var/lib/surfr-candles/store/candles.sock` and advances warmed
+minute series hourly using public delayed MOEX ISS data. The Surfr client
+endpoint is exported as `SURFR_CANDLES_ENDPOINT` in new login shells.
+Configuration is `/etc/surfr/candles.toml`; data stays outside the checkout.
+The checkout on `dev` has ignored symlinks from `data/candles` and
+`config/candles.toml` to these shared paths, so its default CLI paths work too.
+The deployed Surfr ISS client paces HTTP requests to one per second; concurrency
+is one, automatic read-triggered fetching is disabled, and failures restart
+after five minutes.
+
+Build and install the daemon from the Surfr checkout, then apply this host:
+
+```sh
+cd ~/src/surfr
+nix develop -c cargo build --release -p candles
+sudo install -d -o cloud -g users -m 0750 /var/lib/surfr-candles/bin
+sudo systemctl stop surfr-candles.service
+sudo install -o cloud -g users -m 0755 target/release/candles /var/lib/surfr-candles/bin/candles
+sudo nixos-rebuild switch --flake ~/src/configs/dots.nix#dev
+sudo systemctl start surfr-candles.service
+```
+
+New tickers and older history need an explicit warm. Stop the service first
+because it holds the store's exclusive writer lock, then restart it even if
+the warm fails. The poller's roster is loaded from stored `1m` coverage at boot;
+`1dn` series require explicit warming and are not advanced by this poller.
+
+```sh
+sudo systemctl stop surfr-candles
+/var/lib/surfr-candles/bin/candles warm --config /etc/surfr/candles.toml \
+  --tickers SBER GAZP LKOH --interval 1m --from 2026-11-02 --to 2026-11-03
+sudo systemctl start surfr-candles
+journalctl -u surfr-candles -n 50
+```
+
+The initial deployment contains SBER, GAZP and LKOH minute data for
+2026-10-01 through 2026-11-03; hourly polling extends those series from there.
+Older backtest windows still need warming.
+
+The service is managed by the declarative `dev` host configuration. Keep the
+`/var/lib/surfr-candles/nix-runtime-*` GC roots: they retain the deployed
+binary's glibc and libgcc. Refresh those roots from
+`ldd /var/lib/surfr-candles/bin/candles` whenever rebuilding with a new toolchain.
+
+## Repository push destinations
+
+On `dev`, both `~/src/configs/dots.nix` and `~/src/surfr` fetch from GitHub
+through `origin`. Their default push remote is `origin`, with two push URLs:
+GitHub first, then `ssh://git@git.porivaev.ru/porivaev/<repository>.git`.
+A normal `git push` therefore sends commits to both destinations. A separate
+`secondary` remote allows fetching and inspecting the secondary repository.
+These are local Git settings; commits alone do not trigger a network push.
+
 ## Layout
 
 ```
