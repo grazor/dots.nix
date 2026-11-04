@@ -1,0 +1,19 @@
+diff --git a/src/state.rs b/src/state.rs
+--- a/src/state.rs
++++ b/src/state.rs
+@@ -342,4 +342,15 @@ mod tests {
+             "10:00|TaskCreate|#1 A\n10:01|TaskUpdate|completed #1\n10:02|TaskCreate|#2 B\n10:03|TaskUpdate|in_progress #2\n",
+         ).unwrap();
++        // Coarse filesystem timestamps can otherwise leave the cached log unchanged.
++        let modified = fs::metadata(&log_path).unwrap().modified().unwrap()
++            + std::time::Duration::from_secs(1);
++        fs::File::open(&log_path)
++            .unwrap()
++            .set_times(fs::FileTimes::new().set_modified(modified))
++            .unwrap();
++        assert_ne!(
++            crate::activity::log_mtime(&pane_id),
++            state.pane_state(&pane_id).unwrap().task_progress_log_mtime,
++        );
+         state.refresh_task_progress();
+         assert!(state.pane_task_progress(&pane_id).is_some());

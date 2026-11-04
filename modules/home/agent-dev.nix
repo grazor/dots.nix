@@ -137,6 +137,8 @@
 
         cargoHash = "sha256-mOEs2J1o9VeVOXY55r8O52TqoM2GuYU3tVoh5h+yH0s=";
 
+        patches = [./data/tmux-agent-sidebar-task-progress-mtime.patch];
+
         # Both tests shell out to git against CARGO_MANIFEST_DIR expecting a
         # real checkout; fetchFromGitHub unpacks a tarball with no .git, so they
         # cannot pass in the sandbox. The rest of the suite still runs.
