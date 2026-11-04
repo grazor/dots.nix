@@ -102,6 +102,7 @@
           Group = "users";
           StateDirectory = "surfr-candles";
           WorkingDirectory = "/var/lib/surfr-candles/backfill";
+          StateDirectoryMode = "0750";
           ExecStart = "${pkgs.python3}/bin/python3 /var/lib/surfr-candles/backfill/run.py run --plan plan.json --status status.json --proto /var/lib/surfr-candles/backfill/candles.proto";
           Restart = "on-failure";
           RestartSec = 3600;

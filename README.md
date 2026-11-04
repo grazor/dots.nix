@@ -76,7 +76,7 @@ sudo systemctl start surfr-candles-backfill
 journalctl -u surfr-candles -n 50
 ```
 
-The expanded plan covers 1,145 stored series (811 futures/perpetual contracts,
+The expanded plan covers 1,583 stored series (1,249 futures/perpetual contracts,
 228 native daily cash-market series, and 106 minute series). These are targets,
 not a claim that backfilling has finished. Consult `status.json` and query the
 daemon's coverage before a backtest or ML run.
