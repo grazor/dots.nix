@@ -23,6 +23,7 @@ in {
           makeWrapper
           pkg-config
           nodejs
+          pnpm
         ])
         ++ hooks.enabledPackages;
       propagatedBuildInputs = lib.optionals pkgs.stdenv.isLinux [pkgs.stdenv.cc.cc.lib];

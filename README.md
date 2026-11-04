@@ -16,6 +16,8 @@ each host is built by **composing** aspects (no per-feature enable flags).
 | `nas` | Homebuilt NAS | NixOS | homelab k3s **agent**/storage worker with ZFS + Incus dev containers (headless, user `cloud`) |
 | `rpi4b` | Raspberry Pi 4B | NixOS | native Zigbee2MQTT bridge to the k3s MQTT broker (headless, user `pi`) |
 | `lxc` | Incus container | NixOS | dev container guest on `nas`: shell, tmux, nvf, dev tools (user `cloud`) |
+| `surfr` | Incus container | NixOS | live surfr host on `nas` (user `cloud`) |
+| `dev` | Incus container | NixOS | persistent multi-repo Codex/tmux workspace (user `cloud`) |
 | `desktop` | Desktop PC | NixOS | gaming workstation — GNOME + NVIDIA + Steam (user `g`) |
 | `mac` | Work MacBook | nix-darwin | dev machine (user `smporyvaev`) |
 
@@ -91,7 +93,7 @@ flake, then switch the host to its composed configuration.
    ```
 
 Bootstrap order for the homelab cluster is `dell` first, then `asus` / `nas`:
-`dell` is the k3s server and both agents join it via `https://192.168.2.2:6443`.
+`dell` is the k3s server and both agents join its configured API endpoint.
 The `nas` node registers with `storage=nas` and the `storage=nas:NoSchedule`
 taint, so only workloads with the matching selector and toleration are scheduled
 there.
@@ -101,22 +103,17 @@ Instances are ZFS datasets under `rpool/incus`; the `share` profile mounts the
 SMB `shared` folder at `/share` inside the container. The `lxc` configuration
 is the guest: the usual shell, tmux, nvf and dev tools for user `cloud`, no
 toolchains (a project's own flake, or `nix develop github:grazor/dots.nix#rust`,
-provides those):
+provides those).
 
-```sh
-incus launch images:nixos/26.05 dev -p default -p share
-incus exec dev -- bash -lc 'nixos-rebuild switch --flake github:grazor/dots.nix#lxc'
-incus exec dev -- su - cloud
-incus delete -f dev
-```
-
-`modules/hosts/lxc/default.nix` also shows how to bake an image from it.
+For a persistent workspace with Codex, the agent sidebar/review tools and
+Playwright, use `nixosConfigurations.dev` instead. Language toolchains come
+from project dev shells.
 
 `rpi4b` is intentionally not a k3s node. It runs native Zigbee2MQTT against the
-USB coordinator and publishes to the k3s Mosquitto LoadBalancer at
-`192.168.10.160:1883`. Its frontend listens on `0.0.0.0:8080`; reserve
-`192.168.2.4` for `rpi4b` or update the homelab EndpointSlice. The homelab k3s
-repo keeps only the `z2m.porivaev.ru` Traefik route to that frontend. After
+USB coordinator and publishes to the k3s Mosquitto LoadBalancer. Its frontend
+listens on port 8080; reserve its configured address for `rpi4b` or update the
+homelab EndpointSlice. The homelab k3s repo keeps only the `z2m.porivaev.ru`
+Traefik route to that frontend. After
 moving the dongle, keep the in-cluster Zigbee2MQTT workload disabled so only one
 instance owns the coordinator.
 
@@ -145,7 +142,7 @@ sudo nixos-rebuild switch --flake .#dell      # or asus / nas / rpi4b / desktop
 darwin-rebuild switch --flake .#mac
 
 # dev shells
-nix develop .#rust        # or nix / python3 / node / lua / qmk
+nix develop .#rust        # or nix / python3 / node / go / lua / qmk
 ```
 
 For per-directory use, `bin/project` points direnv at one of these shells:

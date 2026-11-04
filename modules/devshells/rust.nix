@@ -18,7 +18,9 @@ in {
         (with pkgs; [
           openssl
           cacert
-          rustup
+          rustc
+          cargo
+          clippy
           rust-analyzer
           rustfmt
           tokio-console
@@ -28,7 +30,6 @@ in {
         ++ hooks.enabledPackages;
       shellHook =
         ''
-          export PATH=$PATH:$HOME/.cargo/bin
           export PROTOBUF_LOCATION=${pkgs.protobuf}
           export PROTOC=$PROTOBUF_LOCATION/bin/protoc
           export PROTOC_INCLUDE=$PROTOBUF_LOCATION/include

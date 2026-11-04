@@ -1,7 +1,7 @@
 # Agentic dev workspace: the tools used to drive coding agents and to read back
 # what they changed.
 #
-# Opt-in feature spanning two aspects, both enabled only on the macOS host:
+# Opt-in feature spanning two aspects (macOS and the dev container):
 #   - darwin.agent-dev      → OpenSpec CLI (Homebrew), composed in the host's
 #                             `aspects` list.
 #   - homeManager.agent-dev → review tools + the tmux agent sidebar, imported
