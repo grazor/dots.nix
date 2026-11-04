@@ -33,7 +33,7 @@
 
         [ingest]
         poll_interval_sec = 3600
-        window_days = 1
+        window_days = 365
         max_concurrent = 1
 
         [fill]
@@ -49,6 +49,7 @@
       # the executable outside the checkout lets development builds continue.
       systemd.services.surfr-candles = {
         description = "Surfr candle dataset service (hourly MOEX ingest)";
+        restartTriggers = [candlesConfig];
         wantedBy = ["multi-user.target"];
         wants = ["network-online.target"];
         after = ["network-online.target"];
@@ -77,6 +78,52 @@
           PrivateTmp = true;
           ProtectSystem = "strict";
           ProtectHome = true;
+        };
+      };
+
+      # A resumable backfill uses the daemon's RPC API, so stored
+      # coverage stays available during long, provider-paced downloads.
+      systemd.services.surfr-candles-backfill = {
+        description = "Backfill committed Surfr research universes";
+        wantedBy = ["multi-user.target"];
+        wants = ["surfr-candles.service"];
+        after = ["surfr-candles.service"];
+        path = [pkgs.grpcurl];
+        unitConfig = {
+          ConditionPathExists = [
+            "/var/lib/surfr-candles/backfill/run.py"
+            "/var/lib/surfr-candles/backfill/plan.json"
+          ];
+          OnSuccess = ["surfr-candles-scan.service"];
+        };
+        serviceConfig = {
+          Type = "exec";
+          User = "cloud";
+          Group = "users";
+          StateDirectory = "surfr-candles";
+          WorkingDirectory = "/var/lib/surfr-candles/backfill";
+          ExecStart = "${pkgs.python3}/bin/python3 /var/lib/surfr-candles/backfill/run.py run --plan plan.json --status status.json --proto /var/lib/surfr-candles/backfill/candles.proto";
+          Restart = "on-failure";
+          RestartSec = 3600;
+          Nice = 10;
+          NoNewPrivileges = true;
+          PrivateTmp = true;
+          ProtectSystem = "strict";
+          ProtectHome = true;
+          UMask = "0027";
+        };
+      };
+
+      # Runs only after a successful backfill. It owns the brief stop/scan/
+      # restart sequence, since the CLI scanner requires the writer lock.
+      systemd.services.surfr-candles-scan = {
+        description = "Scan completed Surfr backfill for corporate actions";
+        path = [pkgs.util-linux];
+        serviceConfig = {
+          Type = "oneshot";
+          ExecCondition = "${pkgs.python3}/bin/python3 /var/lib/surfr-candles/backfill/run.py ready --status /var/lib/surfr-candles/backfill/status.json";
+          ExecStart = "${pkgs.python3}/bin/python3 /var/lib/surfr-candles/backfill/run.py finalize --plan /var/lib/surfr-candles/backfill/plan.json --status /var/lib/surfr-candles/backfill/status.json";
+          TimeoutStartSec = "infinity";
         };
       };
 

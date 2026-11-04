@@ -25,7 +25,7 @@ each host is built by **composing** aspects (no per-feature enable flags).
 
 The `dev` host runs `surfr-candles.service` at boot as `cloud`. It serves a
 Unix socket at `/var/lib/surfr-candles/store/candles.sock` and advances warmed
-minute series hourly using public delayed MOEX ISS data. The Surfr client
+minute and native daily series hourly using public delayed MOEX ISS data. The Surfr client
 endpoint is exported as `SURFR_CANDLES_ENDPOINT` in new login shells.
 Configuration is `/etc/surfr/candles.toml`; data stays outside the checkout.
 The checkout on `dev` has ignored symlinks from `data/candles` and
@@ -46,22 +46,40 @@ sudo nixos-rebuild switch --flake ~/src/configs/dots.nix#dev
 sudo systemctl start surfr-candles.service
 ```
 
-New tickers and older history need an explicit warm. Stop the service first
-because it holds the store's exclusive writer lock, then restart it even if
-the warm fails. The poller's roster is loaded from stored `1m` coverage at boot;
-`1dn` series require explicit warming and are not advanced by this poller.
+`surfr-candles-backfill.service` downloads full committed research windows
+through the daemon's RPC API while it continues serving. The reproducible plan
+and runner come from Surfr's `config/candles-backfill.json` and
+`scripts/candles_backfill.py`, installed under `/var/lib/surfr-candles/backfill/`
+alongside `crates/candles-proto/proto/candles.proto` (named `candles.proto`).
+Refresh these files when changing the research universe, then restart the
+backfill service. It resumes from stored coverage and retries failures after
+an hour. Downloads may take days at the request cap.
+
+Check `backfill/status.json` for actual completion, empty series, and failures;
+a planned ticker is not necessarily covered yet. After successful downloads,
+`surfr-candles-scan.service` briefly stops the daemon, scans/repairs cash-market
+corporate actions and restarts it. Final status is `complete` or `needs_review`
+with details in `backfill/scan.log`. Futures use the native `1dn` settlement
+lane, and polling stops once a contract's expiry has been covered. Newly
+warmed series join the hourly polling roster without a restart.
+
+For a manual CLI warm, stop the backfill worker and daemon first because the
+daemon holds the exclusive writer lock, and restart them even if warming fails.
 
 ```sh
+sudo systemctl stop surfr-candles-backfill
 sudo systemctl stop surfr-candles
 /var/lib/surfr-candles/bin/candles warm --config /etc/surfr/candles.toml \
   --tickers SBER GAZP LKOH --interval 1m --from 2026-11-02 --to 2026-11-03
 sudo systemctl start surfr-candles
+sudo systemctl start surfr-candles-backfill
 journalctl -u surfr-candles -n 50
 ```
 
-The initial deployment contains SBER, GAZP and LKOH minute data for
-2026-10-01 through 2026-11-03; hourly polling extends those series from there.
-Older backtest windows still need warming.
+The expanded plan covers 1,145 stored series (811 futures/perpetual contracts,
+228 native daily cash-market series, and 106 minute series). These are targets,
+not a claim that backfilling has finished. Consult `status.json` and query the
+daemon's coverage before a backtest or ML run.
 
 The service is managed by the declarative `dev` host configuration. Keep the
 `/var/lib/surfr-candles/nix-runtime-*` GC roots: they retain the deployed
