@@ -53,7 +53,7 @@
         wants = ["network-online.target"];
         after = ["network-online.target"];
         unitConfig = {
-          ConditionPathIsExecutable = "/var/lib/surfr-candles/bin/candles";
+          ConditionFileIsExecutable = "/var/lib/surfr-candles/bin/candles";
           StartLimitIntervalSec = 3600;
           StartLimitBurst = 5;
         };
