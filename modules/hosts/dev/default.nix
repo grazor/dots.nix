@@ -42,6 +42,10 @@
     in {
       system.stateVersion = "26.05";
 
+      users.users.cloud.openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBeQf7B1ov8YOxL18iI9In3zNi8Q/S/8R5DB2NOndExd s22u"
+      ];
+
       environment.etc."surfr/candles.toml".source = candlesConfig;
       environment.variables.SURFR_CANDLES_ENDPOINT = "unix:/var/lib/surfr-candles/store/candles.sock";
 

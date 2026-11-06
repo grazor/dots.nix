@@ -23,6 +23,7 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJJLUzThrMDq7aDnSB3gQzpd8RVI5jwghcxh/11dgsYW deskn"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFDW3nxkH6KTgkDKyI9tgc9yhSPlruzSiIxXBnS4A6JY work"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINEcA3dCkiqDQtsoP0MicTylt6rQCntGf6XeWif0TecA cloud"
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIErHCBdO0hJ3pPcWhNecbiIpqzD8EEIvlBg/tOdvM8AO cloud@dev"
   ];
 in {
   flake.modules.nixos = {
