@@ -142,6 +142,7 @@
 
       users.users.cloud.linger = true;
       home-manager.users.cloud.imports = with config.flake.modules.homeManager; [
+        tmux-autostart
         agent-dev
         codex-dev
       ];

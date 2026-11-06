@@ -27,6 +27,19 @@
         # list via the direnv hook in modules/home/fish.nix.
         set-option -g pane-border-status off
 
+        # Let a nested tmux (usually reached over SSH) own the keyboard and
+        # mouse until C-] is pressed again. The prefix stays C-b on both hosts.
+        bind -T root C-] \
+          set-option prefix None \; \
+          set-option key-table nested \; \
+          set-option mouse off \; \
+          set-option status off
+        bind -T nested C-] \
+          set-option -u prefix \; \
+          set-option -u key-table \; \
+          set-option -u mouse \; \
+          set-option -u status
+
         bind _ split-window -h -c "#{pane_current_path}"
         bind - split-window -v -c "#{pane_current_path}"
         bind C-c new-session
