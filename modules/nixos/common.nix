@@ -1,9 +1,36 @@
-# Base configuration shared by every physical NixOS host: `base` plus the
-# bootloader, firmware, NetworkManager and hardware tooling a container has
-# no use for.
+# Shared CLI packages are available to physical hosts and the dev container.
+# `common` adds the bootloader, firmware, and NetworkManager for physical hosts.
 {config, ...}: {
+  flake.modules.nixos.common-packages = {pkgs, ...}: {
+    environment.systemPackages = with pkgs; [
+      direnv
+      nh
+      patchelf
+      nix-inspect
+
+      glibc.out
+      acpi
+      binutils
+      brightnessctl
+      findutils
+      htop
+      libnotify
+      ntfs3g
+      usbutils
+      xdg-utils
+      xdg-user-dirs
+      nettools
+
+      bind
+      bridge-utils
+      inetutils
+      iw
+      openvpn
+    ];
+  };
+
   flake.modules.nixos.common = {pkgs, ...}: {
-    imports = [config.flake.modules.nixos.base];
+    imports = with config.flake.modules.nixos; [base common-packages];
 
     boot = {
       loader = {
@@ -37,31 +64,5 @@
     # finds no interface to manage and holds network-online.target for up
     # to 30s on every boot.
     networking.dhcpcd.enable = false;
-
-    environment.systemPackages = with pkgs; [
-      direnv
-      nh
-      patchelf
-      nix-inspect
-
-      glibc.out
-      acpi
-      binutils
-      brightnessctl
-      findutils
-      htop
-      libnotify
-      ntfs3g
-      usbutils
-      xdg-utils
-      xdg-user-dirs
-      nettools
-
-      bind
-      bridge-utils
-      inetutils
-      iw
-      openvpn
-    ];
   };
 }

@@ -8,6 +8,7 @@
     aspects = m:
       with m; [
         base
+        common-packages
         lxc-guest
         ssh-server
         ssh-client
