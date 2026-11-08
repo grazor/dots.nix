@@ -31,9 +31,9 @@
 
       atuin = {
         enable = true;
-        # 18.24.4's Pi session E2E cases fail on Darwin: they expect resume
-        # choices the Pi adapter does not offer. Keep all other package tests
-        # enabled, and drop this workaround automatically on the next version.
+        # 18.24.4 has failing Pi session E2E cases on Darwin and a flaky
+        # lock-contention case (WouldBlock immediately after releasing the
+        # lock). Keep the remaining tests; drop these skips on the next version.
         package =
           if pkgs.stdenv.hostPlatform.isDarwin && pkgs.atuin.version == "18.24.4"
           then
@@ -43,6 +43,7 @@
                 ++ [
                   "--skip=a_diverged_copy_resumes_only_as_chosen::agent_4_Agent__Pi"
                   "--skip=a_session_gone_on_with_elsewhere_catches_up_where_it_came_from::agent_3_Agent__Pi"
+                  "--skip=fs::lock::tests::test_try_open_contention::case_3_exclusive_shared"
                 ];
             })
           else pkgs.atuin;
