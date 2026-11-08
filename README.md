@@ -336,25 +336,28 @@ To edit a value (e.g. swap the generated `k3s-token` for an existing one):
 SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt nix run nixpkgs#sops -- secrets/k3s.yaml
 ```
 
-### Private SSH aliases on Mac and desktop
+### Private SSH aliases
 
-The `ssh-client` aspect is enabled on `mac` and `desktop`. Its encrypted
+The `ssh-client` aspect is enabled on `mac`, `desktop`, `dell`, `nas`, `asus`,
+and `dev`. Its encrypted
 `secrets/ssh-config.bin` contains the complete host mappings so their addresses
-stay out of Git and the Nix store. Only the admin age key and the desktop host
-key are recipients; the homelab nodes cannot decrypt this file.
+stay out of Git and the Nix store. The admin age key and those five NixOS
+hosts' SSH host keys are recipients.
 
 | Alias | User | Connection |
 |-------|------|------------|
 | `vru` | `root` | RU gateway |
 | `vde` | `root` | German exit, with `ProxyJump vru` |
 | `dell`, `asus`, `nas` | `cloud` | Direct LAN connection |
+| `desktop` | `g` | Direct LAN connection |
+| `dev`, `surfr` | `cloud` | Direct LAN connection |
 
-Rebuilding either workstation decrypts the file for its user and adds an
+Rebuilding any enabled host decrypts the file for its primary user and adds an
 `Include` for the runtime secret to `~/.ssh/config`. Existing entries are kept;
 the first edit saves `~/.ssh/config.before-dots-ssh`, and the config is kept at
 mode `0600`. An existing symlink is left untouched and must get the Include
 in its source configuration. These mappings contain no passwords or private
-keys; SSH uses the workstation's existing keys and agent.
+keys; SSH uses each host's existing keys and agent.
 
 To edit the private mappings with the admin key:
 

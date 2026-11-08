@@ -1,4 +1,4 @@
-# Keep the workstation SSH host mappings encrypted, including their addresses.
+# Keep shared SSH host mappings encrypted, including their addresses.
 {config, ...}: let
   sshHome = config.flake.modules.homeManager.ssh-client;
   sopsFile = ../../secrets/ssh-config.bin;
@@ -19,11 +19,12 @@ in {
     '';
   };
 
-  flake.modules.nixos.ssh-client = {
+  flake.modules.nixos.ssh-client = {config, ...}: {
     sops.secrets.ssh-config = {
       inherit sopsFile;
       format = "binary";
-      owner = "g";
+      # Each host configures one primary Home Manager user (g or cloud).
+      owner = builtins.head (builtins.attrNames config.home-manager.users);
       mode = "0600";
     };
     home-manager.sharedModules = [sshHome];

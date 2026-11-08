@@ -10,6 +10,8 @@
         base
         lxc-guest
         ssh-server
+        ssh-client
+        sops
         tools
         devtools
         agent-dev

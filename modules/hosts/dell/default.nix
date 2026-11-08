@@ -17,6 +17,7 @@
         k3s-base
         k3s-server
         ssh-server
+        ssh-client
         sops
         attic
         tools
