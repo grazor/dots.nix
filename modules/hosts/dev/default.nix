@@ -150,6 +150,45 @@
         agent-dev
         codex-dev
       ];
+
+      # Keep the Codex workspace on dev while a Mac TUI reads the Mac clipboard.
+      # The SSH tunnel exposes the Unix socket without opening a network listener.
+      home-manager.users.cloud.systemd.user.services.codex-remote = {
+        Unit.Description = "Codex app server for SSH clients";
+        Service = {
+          ExecStart = "${pkgs.codex}/bin/codex app-server --listen unix://%t/codex-remote.sock";
+          EnvironmentFile = "-%h/.codex/proxy.env";
+          WorkingDirectory = "%h";
+          Restart = "on-failure";
+          RestartSec = 2;
+        };
+        Install.WantedBy = ["default.target"];
+      };
+
+      # The dev container has no local GUI clipboard. Send copied text through
+      # the SSH terminal with OSC 52; the Mac's tmux relays it to Ghostty.
+      home-manager.users.cloud.programs.tmux.extraConfig = ''
+        set-option -g set-clipboard on
+        bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+        bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-selection-and-cancel
+      '';
+
+      # Neovim visual yanks use the same tmux clipboard path. Read back from
+      # tmux's own paste buffer so `p` does not wait for an OSC 52 read reply.
+      home-manager.users.cloud.programs.nvf.settings.vim.luaConfigRC.devClipboard = ''
+        vim.g.clipboard = {
+          name = "tmux OSC 52",
+          copy = {
+            ["+"] = {"tmux", "load-buffer", "-w", "-"},
+            ["*"] = {"tmux", "load-buffer", "-w", "-"},
+          },
+          paste = {
+            ["+"] = {"tmux", "save-buffer", "-"},
+            ["*"] = {"tmux", "save-buffer", "-"},
+          },
+          cache_enabled = 1,
+        }
+      '';
     };
   };
 }

@@ -183,6 +183,20 @@ For a persistent workspace with Codex, the agent sidebar/review tools and
 Playwright, use `nixosConfigurations.dev` instead. Language toolchains come
 from project dev shells.
 
+When using Mac tmux → SSH → dev tmux, `C-]` passes tmux keys to dev. On dev,
+copy-mode `y`, mouse selection, and Neovim visual yanks send text to the Mac
+clipboard through OSC 52. Both tmux servers need the updated configuration;
+reload each after switching its host.
+
+For Codex with Mac clipboard images, run `codex-remote dev` on the Mac, where
+`dev` is an SSH host or alias. This starts an SSH tunnel to the dev Codex app
+server and opens the Codex interface locally. Ctrl+V then reads the Mac
+clipboard, while Codex runs commands on dev. Use
+`codex-remote dev -C /remote/project` to open a specific remote project. The
+command takes the SSH target as its first argument and passes remaining options
+to Codex; plain `codex` on the Mac keeps its native behavior. Apply the Mac Home
+Manager configuration before using this command.
+
 `rpi4b` is intentionally not a k3s node. It runs native Zigbee2MQTT against the
 USB coordinator and publishes to the k3s Mosquitto LoadBalancer. Its frontend
 listens on port 8080; reserve its configured address for `rpi4b` or update the
