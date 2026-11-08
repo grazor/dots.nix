@@ -161,7 +161,7 @@
       };
       targets.agents = {
         enable = true;
-        dest = ".agents/skills";
+        dest = "$HOME/.agents/skills";
         # Codex 0.166.0 skips skills with a symlinked SKILL.md. The bundle
         # contains these for transformed skills, so dereference on install.
         structure = "copy-tree";
