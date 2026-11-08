@@ -3,6 +3,7 @@ let
   packages = pkgs:
     with pkgs; [
       python3
+      perl
       shfmt
       shellcheck
 
@@ -14,6 +15,7 @@ let
       # For the `psql` client; nixpkgs ships no client-only split of this.
       postgresql
 
+      skopeo
       k9s
       fluxcd
     ];
