@@ -162,7 +162,9 @@
       targets.agents = {
         enable = true;
         dest = ".agents/skills";
-        structure = "link";
+        # Codex 0.166.0 skips skills with a symlinked SKILL.md. The bundle
+        # contains these for transformed skills, so dereference on install.
+        structure = "copy-tree";
       };
     };
 
@@ -178,6 +180,14 @@
       enable = true;
       enableMcpIntegration = true;
       mutableSettings = true;
+      settings.sandbox_mode = "danger-full-access";
+      settings.approval_policy = "never";
+      settings.tui.status_line = [
+        "context-remaining"
+        "used-tokens"
+        "five-hour-limit"
+        "weekly-limit"
+      ];
       context = ''
         This is a persistent NixOS development container, accessed over SSH.
         Projects live under ~/src, with separate tmux windows/sessions.
