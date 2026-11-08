@@ -100,7 +100,7 @@ in {
         backupFileExtension = "hm-bak";
         users.g = {
           home.stateVersion = "25.05";
-          imports = with hm; [fish tmux tmux-autostart git scripts nvf yazi nix-index];
+          imports = with hm; [fish tmux tmux-autostart git scripts nvf yazi nix-index imgsend];
         };
       };
     };

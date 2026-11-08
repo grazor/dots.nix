@@ -15,11 +15,7 @@ in {
       useUserPackages = true;
       users.smporyvaev = {
         home.stateVersion = "25.05";
-        imports = with hm; [fish tmux tmux-autostart git scripts nvf yazi nix-index agent-dev kb-layout-sync];
-
-        home.packages = [
-          (pkgs.writeShellScriptBin "codex-remote" (builtins.readFile ./data/codex-remote.sh))
-        ];
+        imports = with hm; [fish tmux tmux-autostart git scripts nvf yazi nix-index agent-dev kb-layout-sync imgsend];
 
         # Merge TUI usage indicators into the existing Mac Codex config while
         # keeping the Mac's separately installed Codex binary.

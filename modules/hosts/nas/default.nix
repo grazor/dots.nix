@@ -86,6 +86,7 @@
         k3s-agent
         k3s-nas
         ssh-server
+        ssh-client
         sops
         attic
         tools

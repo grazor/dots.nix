@@ -15,6 +15,7 @@
         k3s-base
         k3s-agent
         ssh-server
+        ssh-client
         sops
         attic
         print-server

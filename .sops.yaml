@@ -15,14 +15,19 @@ keys:
   - &asus age1h6ezxn960hn5kgga6prx4a0dn278t3m47ksvspnsyek0pngemsdqugmedn
   - &nas age1dhwzcrym3deajs3vd39s6ey7czxdkpql4v8ldqefr2wkxc8q54js9t3zvf
   - &desktop age1xmezk5k5r2rk4r9ayyjvrnyj0363vmgsa7nswzpr2x4gpvephgyqgljd9t
+  - &dev age1u23ye4kfmlpkz0t47na7gs3gt05tm70wcs6v54ptw3lsz009s9vqxnzvvw
 
 creation_rules:
-  # Private SSH host mappings for the two workstations, not service nodes.
+  # Private SSH host mappings for the workstations and cloud-user hosts.
   - path_regex: secrets/ssh-config\.bin$
     key_groups:
       - age:
           - *admin
           - *desktop
+          - *dell
+          - *asus
+          - *nas
+          - *dev
   - path_regex: secrets/k3s\.yaml$
     key_groups:
       - age:

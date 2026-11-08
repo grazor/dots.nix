@@ -19,11 +19,14 @@ in {
     '';
   };
 
-  flake.modules.nixos.ssh-client = {
+  flake.modules.nixos.ssh-client = {config, ...}: {
     sops.secrets.ssh-config = {
       inherit sopsFile;
       format = "binary";
-      owner = "g";
+      owner =
+        if config.networking.hostName == "desktop"
+        then "g"
+        else "cloud";
       mode = "0600";
     };
     home-manager.sharedModules = [sshHome];

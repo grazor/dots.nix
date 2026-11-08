@@ -10,6 +10,8 @@
         base
         lxc-guest
         ssh-server
+        ssh-client
+        sops
         tools
         devtools
         agent-dev
@@ -150,20 +152,6 @@
         agent-dev
         codex-dev
       ];
-
-      # Keep the Codex workspace on dev while a Mac TUI reads the Mac clipboard.
-      # The SSH tunnel exposes the Unix socket without opening a network listener.
-      home-manager.users.cloud.systemd.user.services.codex-remote = {
-        Unit.Description = "Codex app server for SSH clients";
-        Service = {
-          ExecStart = "${pkgs.codex}/bin/codex app-server --listen unix://%t/codex-remote.sock";
-          EnvironmentFile = "-%h/.codex/proxy.env";
-          WorkingDirectory = "%h";
-          Restart = "on-failure";
-          RestartSec = 2;
-        };
-        Install.WantedBy = ["default.target"];
-      };
 
       # The dev container has no local GUI clipboard. Send copied text through
       # the SSH terminal with OSC 52; the Mac's tmux relays it to Ghostty.
