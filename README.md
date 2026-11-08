@@ -188,14 +188,14 @@ copy-mode `y`, mouse selection, and Neovim visual yanks send text to the Mac
 clipboard through OSC 52. Both tmux servers need the updated configuration;
 reload each after switching its host.
 
-For Codex with Mac clipboard images, run `codex-remote dev` on the Mac, where
-`dev` is an SSH host or alias. This starts an SSH tunnel to the dev Codex app
-server and opens the Codex interface locally. Ctrl+V then reads the Mac
-clipboard, while Codex runs commands on dev. Use
-`codex-remote dev -C /remote/project` to open a specific remote project. The
-command takes the SSH target as its first argument and passes remaining options
-to Codex; plain `codex` on the Mac keeps its native behavior. Apply the Mac Home
-Manager configuration before using this command.
+To use a clipboard image in a remote Codex session, run `imgsend dev` on the Mac
+or the GNOME Wayland desktop. The argument is an SSH alias. The command uploads
+the image to a private `/tmp/imgsend.*` directory on that host, then replaces
+the local clipboard with the remote image path. Paste the path into Codex. It
+leaves the clipboard unchanged if capture or upload fails. Apply the Mac or
+desktop configuration before using it; a Karabiner shell command can run
+`imgsend dev` from a keyboard shortcut. Use the absolute path reported by
+`command -v imgsend` in Karabiner's shell command.
 
 `rpi4b` is intentionally not a k3s node. It runs native Zigbee2MQTT against the
 USB coordinator and publishes to the k3s Mosquitto LoadBalancer. Its frontend
@@ -365,6 +365,26 @@ To edit the private mappings with the admin key:
 SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt nix run nixpkgs#sops -- \
   --input-type binary --output-type binary secrets/ssh-config.bin
 ```
+
+On the Mac, add or verify all listed aliases in that file, then rekey it for
+the newly configured NixOS hosts:
+
+```sshconfig
+Host dev
+  HostName 192.168.2.64
+  User cloud
+
+Host surfr
+  HostName 192.168.2.32
+  User cloud
+```
+
+```sh
+SOPS_AGE_KEY_FILE=~/.config/sops/age/keys.txt nix run nixpkgs#sops -- \
+  updatekeys secrets/ssh-config.bin
+```
+
+Commit the rekeyed file before rebuilding `dell`, `asus`, `nas`, or `dev`.
 
 ### Adding new in-cluster secrets
 
