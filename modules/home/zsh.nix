@@ -24,7 +24,10 @@
           # Use a fixed gray instead of the terminal's bright-black palette slot.
           highlight = "fg=#6c6c6c";
         };
-        syntaxHighlighting.enable = true;
+        syntaxHighlighting = {
+          enable = true;
+          highlighters = ["regexp"];
+        };
         historySubstringSearch = {
           enable = true;
           # Normal and application cursor modes (Ghostty, tmux, SSH).
@@ -101,10 +104,43 @@
             setopt INTERACTIVE_COMMENTS
             zmodload zsh/complist
 
+            # Ctrl-W deletes components in paths, URLs, and other compound words.
+            autoload -Uz backward-kill-word-match
+            zle -N backward-kill-component backward-kill-word-match
+            zstyle ':zle:backward-kill-component' word-style unspecified
+            zstyle ':zle:backward-kill-component' word-chars $' \t\n/=:,@#{}\'"|&;()<>'
+            bindkey '^W' backward-kill-component
+
             # Accept the inline suggestion at end of line; otherwise move right.
             bindkey '^[[C' forward-char
             bindkey '^[OC' forward-char
           ''
+          (lib.mkOrder 1500 ''
+            # Rename only on successful zoxide jumps, after zoxide initializes.
+            function _dots_zoxide_tmux_jump() {
+              local old_pwd=$PWD window_name
+              "$@" || return $?
+              if [[ -n $TMUX && -n $TMUX_PANE && $PWD != $old_pwd ]]; then
+                window_name=''${PWD:t}
+                # tmux expands formats in names; escape hashes to keep them literal.
+                command tmux rename-window -t "$TMUX_PANE" -- "''${window_name//\#/##}" >/dev/null 2>&1 || true
+              fi
+              return 0
+            }
+
+            function z() { _dots_zoxide_tmux_jump __zoxide_z "$@"; }
+            function zi() { _dots_zoxide_tmux_jump __zoxide_zi "$@"; }
+          '')
+          (lib.mkOrder 1500 ''
+            # zsh-abbr shortcuts are not aliases: teach the highlighter their names
+            # after both plugins have loaded. Match complete input, not prefixes.
+            if (( ''${#ABBR_REGULAR_USER_ABBREVIATIONS} )); then
+              ZSH_HIGHLIGHT_REGEXP+=(
+                "^[[:space:]]*("''${(j:|:)''${(Qk)ABBR_REGULAR_USER_ABBREVIATIONS}}")$"
+                "$ZSH_HIGHLIGHT_STYLES[arg0]"
+              )
+            fi
+          '')
           (lib.mkOrder 1500 ''
             # Capture Starship's prompt after its initialization, then collapse
             # submitted prompts to its themed character (fish-style transience).

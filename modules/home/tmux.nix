@@ -32,7 +32,7 @@
         set-option -as terminal-features ",xterm*:hyperlinks"
 
         # Keep pane borders compact; project names are shown in the tmux window
-        # list via the direnv hook in modules/home/zsh.nix.
+        # list via zoxide jumps and the direnv hook in modules/home/zsh.nix.
         set-option -g pane-border-status off
 
         # Let a nested tmux (usually reached over SSH) own the keyboard and

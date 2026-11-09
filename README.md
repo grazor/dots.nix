@@ -273,6 +273,7 @@ without Oh My Zsh or a plugin manager, in `modules/home/zsh.nix`:
 |---------|-----------------------|
 | Inline suggestions | `zsh-autosuggestions`: dim gray text, history first, completion fallback; Right accepts at the end of the line |
 | History search | `zsh-history-substring-search`: type any part of a command, then Up/Down to cycle matches |
+| Component deletion | Ctrl-W deletes a component in paths, URLs, and `user@host`; keeps dots, hyphens, and underscores within names |
 | Command colouring | `zsh-syntax-highlighting` |
 | Abbreviations | `zsh-abbr`: Space/Enter expands shortcuts into editable command text |
 | Prompt | Starship with Stylix theme: full context while editing; submitted prompts collapse to `❯` via `zsh-transient-prompt` |
@@ -282,12 +283,20 @@ without Oh My Zsh or a plugin manager, in `modules/home/zsh.nix`:
 | Fuzzy search | fzf: Ctrl-R for history, Ctrl-T for files, Alt-C for directories |
 | Directory navigation | zoxide (`z` / `zi`), bare directory names, and the yazi `y` wrapper |
 
+Successful `z` and `zi` jumps also rename the invoking tmux window to the
+destination directory's name (for example, `z dots` → `dots.nix`). Plain `cd`,
+failed jumps, and jumps to the current directory leave the name alone. Renaming
+is silent outside tmux; tmux errors do not affect the jump. Existing direnv
+project naming still applies when an environment loads.
+
 The old fish abbreviations (`gst`, `gaa`, `gcm`, `gco`, `gpu`, `grm`, `gpf`,
 `gmt`, `t`, `k`) expand through `zsh-abbr`. For example, type `gcm` then Space
 to insert `git commit -m ''` with the cursor between the quotes, ready for the
 message. Its configured `%` placeholder sets the cursor and is removed.
 Ctrl-Space inserts a space without expanding. Add abbreviations declaratively
 in `programs.zsh.zsh-abbr.abbreviations` in `modules/home/zsh.nix`.
+Complete abbreviation names are highlighted green before expansion; incomplete
+names stay red. The highlighter reads abbreviation names when the shell starts.
 
 Autopair leaves Space to abbreviations. Tab opens the fzf completion picker;
 inside the picker, Ctrl-Space selects multiple results. Forgit's commit checkout
