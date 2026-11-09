@@ -4,6 +4,8 @@
       enable = true;
       # Existing servers may have inherited fish through $SHELL.
       shell = "${pkgs.zsh}/bin/zsh";
+      # The default "screen" advertises only eight colors to shells and apps.
+      terminal = "tmux-256color";
       keyMode = "vi";
       baseIndex = 1;
       clock24 = true;

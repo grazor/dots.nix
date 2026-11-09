@@ -265,16 +265,34 @@ without Oh My Zsh or a plugin manager, in `modules/home/zsh.nix`:
 
 | Feature | Implementation / keys |
 |---------|-----------------------|
-| Inline suggestions | `zsh-autosuggestions`: history first, completion fallback; Right accepts at the end of the line |
+| Inline suggestions | `zsh-autosuggestions`: dim gray text, history first, completion fallback; Right accepts at the end of the line |
 | History search | `zsh-history-substring-search`: type any part of a command, then Up/Down to cycle matches |
 | Command colouring | `zsh-syntax-highlighting` |
-| Prompt | Existing Starship prompt and Stylix theme: path, Git branch/status, language/environment context |
-| Tab completion | Native zsh completion with a selection menu and case-insensitive matching |
+| Abbreviations | `zsh-abbr`: Space/Enter expands shortcuts into editable command text |
+| Prompt | Starship with Stylix theme: full context while editing; submitted prompts collapse to `❯` via `zsh-transient-prompt` |
+| Tab completion | `fzf-tab`: searchable native completions, case-insensitive matching, and directory previews; `zsh-completions` adds command definitions |
+| Quotes and brackets | `zsh-autopair`: auto-close, skip closing delimiters, and delete empty pairs together |
+| Interactive Git | `forgit`: `ga` stages selected files, `gd` browses diffs, `glo` searches commits, `gcb` picks a branch |
 | Fuzzy search | fzf: Ctrl-R for history, Ctrl-T for files, Alt-C for directories |
 | Directory navigation | zoxide (`z` / `zi`), bare directory names, and the yazi `y` wrapper |
 
 The old fish abbreviations (`gst`, `gaa`, `gcm`, `gco`, `gpu`, `grm`, `gpf`,
-`gmt`, `t`, `k`) are zsh aliases. Atuin is no longer installed or initialized;
+`gmt`, `t`, `k`) expand through `zsh-abbr`. For example, type `gcm` then Space
+to insert `git commit -m ''` with the cursor between the quotes, ready for the
+message. Its configured `%` placeholder sets the cursor and is removed.
+Ctrl-Space inserts a space without expanding. Add abbreviations declaratively
+in `programs.zsh.zsh-abbr.abbreviations` in `modules/home/zsh.nix`.
+
+Autopair leaves Space to abbreviations. Tab opens the fzf completion picker;
+inside the picker, Ctrl-Space selects multiple results. Forgit's commit checkout
+picker is `gcoi`, keeping `gco` as the `git checkout` abbreviation. The full
+forgit interface is also available as `git forgit`.
+
+Tmux uses `tmux-256color` so shells and applications see the full palette.
+After applying this change, reload each tmux server's configuration and open a
+new pane; existing panes retain their original `TERM`.
+
+Atuin is no longer installed or initialized;
 history uses a local file at `~/.local/share/zsh/history` (100,000 entries,
 shared between sessions). A leading space keeps a command out of history.
 The old fish/Atuin history files are left on disk.
@@ -294,8 +312,9 @@ Managed zsh files live in `~/.config/zsh`, with `~/.zshenv` pointing there.
 An existing `~/.zprofile` is still sourced on login. Machine-local interactive
 settings go in `~/.zsh.user.rc`, using zsh syntax; port any custom settings from
 `~/.fish.user.rc` there before switching. direnv, project tmux window naming,
-and tmux autostart remain enabled. Starship's fish-only transient prompt is
-not enabled in zsh.
+and tmux autostart remain enabled. The transient prompt removes the path, Git,
+and environment lines from submitted commands, keeping the full Starship
+prompt on the active command line.
 
 After rebuilding, reload an existing tmux server so new panes use zsh, then
 open a new pane (existing fish panes keep running):

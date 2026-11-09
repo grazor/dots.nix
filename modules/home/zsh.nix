@@ -5,8 +5,11 @@
   flake.modules.homeManager.zsh = {
     config,
     lib,
+    pkgs,
     ...
   }: {
+    home.packages = [pkgs.zsh-forgit];
+
     programs = {
       zsh = {
         enable = true;
@@ -18,6 +21,8 @@
         autosuggestion = {
           enable = true;
           strategy = ["history" "completion"];
+          # Use a fixed gray instead of the terminal's bright-black palette slot.
+          highlight = "fg=#6c6c6c";
         };
         syntaxHighlighting.enable = true;
         historySubstringSearch = {
@@ -37,19 +42,24 @@
           expireDuplicatesFirst = true;
         };
 
-        # Fish abbreviations become ordinary zsh aliases.
-        shellAliases = {
-          cat = "bat";
-          gst = "git status";
-          gaa = "git add .";
-          gcm = "git commit -m";
-          gco = "git checkout";
-          gpu = "git push -u origin HEAD";
-          grm = "git rebase -i master";
-          gpf = "git push --force-with-lease";
-          gmt = "go mod tidy";
-          t = "tmux new -A -s main";
-          k = "kubectl";
+        shellAliases.cat = "bat";
+
+        # Expand fish-style shortcuts into editable command text on Space/Enter.
+        zsh-abbr = {
+          enable = true;
+          abbreviations = {
+            gst = "git status";
+            gaa = "git add .";
+            # % places the cursor without inserting the triggering Space.
+            gcm = "git commit -m '%'";
+            gco = "git checkout";
+            gpu = "git push -u origin HEAD";
+            grm = "git rebase -i master";
+            gpf = "git push --force-with-lease";
+            gmt = "go mod tidy";
+            t = "tmux new -A -s main";
+            k = "kubectl";
+          };
         };
 
         # Keep an existing, unmanaged login profile usable with XDG dotfiles.
@@ -59,19 +69,56 @@
 
         initContent = lib.mkMerge [
           (lib.mkOrder 550 ''
+            ABBR_SET_EXPANSION_CURSOR=1
+
+            # Register extra completions before compinit builds its cache.
+            fpath+=(${pkgs.zsh-completions}/share/zsh/site-functions ${pkgs.zsh-forgit}/share/zsh/site-functions)
+            zstyle ':completion:*' menu no
+            zstyle ':completion:*:descriptions' format '[%d]'
+            zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+            zstyle ':completion:*:git-checkout:*' sort false
+            zstyle ':fzf-tab:complete:cd:*' fzf-preview '${lib.getExe pkgs.eza} -1 --color=always -- $realpath'
+
             # Machine-local settings use zsh syntax and stay out of the store.
             [[ ! -f "$HOME/.zsh.user.rc" ]] || source "$HOME/.zsh.user.rc"
+          '')
+          # fzf-tab must follow compinit (570) and precede autosuggestions (700).
+          (lib.mkOrder 600 ''
+            source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+          '')
+          (lib.mkOrder 950 ''
+            # Preserve zsh-abbr's Space binding; pair only quotes and brackets.
+            AUTOPAIR_INHIBIT_INIT=1
+            source ${pkgs.zsh-autopair}/share/zsh/zsh-autopair/autopair.zsh
+            unset 'AUTOPAIR_PAIRS[ ]'
+            autopair-init
+
+            # Keep gco as the git checkout abbreviation.
+            forgit_checkout_commit=gcoi
+            source ${pkgs.zsh-forgit}/share/zsh/zsh-forgit/forgit.plugin.zsh
           '')
           ''
             setopt INTERACTIVE_COMMENTS
             zmodload zsh/complist
-            zstyle ':completion:*' menu select
-            zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
             # Accept the inline suggestion at end of line; otherwise move right.
             bindkey '^[[C' forward-char
             bindkey '^[OC' forward-char
           ''
+          (lib.mkOrder 1500 ''
+            # Capture Starship's prompt after its initialization, then collapse
+            # submitted prompts to its themed character (fish-style transience).
+            if [[ $TERM != dumb ]]; then
+              TRANSIENT_PROMPT_TRANSIENT_PROMPT=$'\n$(${lib.getExe config.programs.starship.package} module character --status="''${STARSHIP_CMD_STATUS:-0}" --keymap="''${KEYMAP:-}")'
+              TRANSIENT_PROMPT_TRANSIENT_RPROMPT=""
+              source ${pkgs.fetchFromGitHub {
+              owner = "olets";
+              repo = "zsh-transient-prompt";
+              rev = "ba98fe847ffb31c5529441e14c5a228a74903a75"; # v1.0.1
+              hash = "sha256-v4RuB/LL5/6d0FPDPrheFN5o1ZXKjIbfThz/sKSEuII=";
+            }}/transient-prompt.zsh-theme
+            fi
+          '')
         ];
       };
 
