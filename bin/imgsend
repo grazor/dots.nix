@@ -72,6 +72,8 @@ else
   rm -rf "$directory"
   exit 1
 fi'
+# SSH invokes the remote user's login shell, which may be fish.
+remote_command="/bin/sh -c '$remote_command'"
 
 if ! remote_path=$(ssh -T -o BatchMode=yes -- "$target" "$remote_command" <"$image"); then
   printf 'imgsend: upload to %s failed\n' "$target" >&2

@@ -147,6 +147,10 @@
         cores = lib.mkDefault 4;
       };
 
+      # Codex looks for tmux in trusted system paths when forwarding clipboard
+      # copies; Home Manager's per-user profile is not searched.
+      environment.systemPackages = [pkgs.tmux];
+
       users.users.cloud.linger = true;
       home-manager.users.cloud.imports = with config.flake.modules.homeManager; [
         tmux-autostart
