@@ -1,5 +1,9 @@
 {
   flake.modules.homeManager.tmux = {pkgs, ...}: {
+    programs.zsh.initContent = ''
+      source ${./data/tmux-ssh.zsh}
+    '';
+
     programs.tmux = {
       enable = true;
       # Existing servers may have inherited fish through $SHELL.

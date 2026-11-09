@@ -201,7 +201,13 @@ managed bundle into `dots`, moving only entries listed in that bundle. The
 `codex-dev` aspect adds only the container's context, Playwright MCP, and Chromium
 wrapper with its inner sandbox disabled.
 
-When using Mac tmux → SSH → dev tmux, `C-]` passes tmux keys to dev. On dev,
+When using Mac tmux → SSH → dev tmux, interactive `ssh` commands automatically
+forward tmux keys and mouse input, hiding the outer status bar. Disconnecting
+or a failed connection restores the previous local tmux settings, including
+session overrides. `C-]` still switches between local and remote control during
+SSH; disconnect restores the saved settings regardless of manual toggles.
+`command ssh` bypasses this helper, and calls without terminal input/output
+leave tmux untouched. On dev,
 copy-mode `y`, mouse selection, and Neovim visual yanks send text to the Mac
 clipboard through OSC 52. Both tmux servers need the updated configuration;
 reload each after switching its host.
