@@ -5,7 +5,7 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Ghostty: Ctrl+Shift+V uploads clipboard image to dev",
+                        "description": "Ghostty: Ctrl+Shift+V uploads clipboard image to dev and pastes its path",
                         "manipulators": [
                             {
                                 "conditions": [
@@ -23,7 +23,7 @@
                                 },
                                 "to": [
                                     {
-                                        "shell_command": "export PATH='/etc/profiles/per-user/smporyvaev/bin:/run/current-system/sw/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin'; /Users/smporyvaev/.bin/imgsend dev",
+                                        "shell_command": "export PATH='/etc/profiles/per-user/smporyvaev/bin:/run/current-system/sw/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin'; /Users/smporyvaev/.bin/imgsend --paste dev",
                                         "repeat": false
                                     }
                                 ],

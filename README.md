@@ -200,10 +200,13 @@ the image to a private `/tmp/imgsend.*` directory on that host, then replaces
 the local clipboard with the remote image path. Paste the path into Codex. It
 leaves the clipboard unchanged if capture or upload fails. Apply the Mac or
 desktop configuration before using it. On the Mac, the Karabiner `Working`
-profile binds `Ctrl+Shift+V` in Ghostty to `imgsend dev`. After the upload
-finishes, press `Cmd+V` to paste the remote image path into Codex. The shortcut
-sets the Nix/Homebrew PATH explicitly because Karabiner runs outside the
-interactive shell.
+profile binds `Ctrl+Shift+V` in Ghostty to `imgsend --paste dev`. After the upload
+finishes, it inserts the remote image path into the originating Ghostty terminal
+without pressing Enter, and keeps the path on the clipboard. Plain `imgsend dev`
+still only copies and prints the path. The `--paste` option requires Ghostty on
+macOS with AppleScript support; allow macOS Automation access to Ghostty if
+prompted. The shortcut sets the Nix/Homebrew PATH explicitly because Karabiner
+runs outside the interactive shell.
 
 `rpi4b` is intentionally not a k3s node. It runs native Zigbee2MQTT against the
 USB coordinator and publishes to the k3s Mosquitto LoadBalancer. Its frontend

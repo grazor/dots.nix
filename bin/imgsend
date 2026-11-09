@@ -1,18 +1,42 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+paste=false
+if [[ ${1:-} == --paste ]]; then
+  paste=true
+  shift
+fi
 if [[ $# -ne 1 || $1 == -h || $1 == --help || $1 == -* ]]; then
-  printf 'Usage: imgsend SSH_ALIAS\n' >&2
+  printf 'Usage: imgsend [--paste] SSH_ALIAS\n' >&2
+  printf '  --paste  Also insert the path into the current Ghostty terminal (macOS).\n' >&2
   exit 2
 fi
 
 target=$1
+platform=$(uname -s)
+terminal_id=
+if $paste; then
+  if [[ $platform != Darwin ]]; then
+    printf 'imgsend: --paste requires Ghostty on macOS\n' >&2
+    exit 2
+  fi
+  # Remember the originating surface before SSH: changing windows or tabs
+  # during the upload must not redirect the path to another terminal.
+  terminal_id=$(
+    osascript <<'APPLESCRIPT'
+if not application "Ghostty" is running then error "Ghostty is not running"
+tell application "Ghostty"
+  return id of focused terminal of selected tab of front window
+end tell
+APPLESCRIPT
+  )
+fi
 temporary=$(mktemp -d "${TMPDIR:-/tmp}/imgsend.XXXXXXXX")
 trap 'rm -rf "$temporary"' EXIT
 
 extension=
 image=
-case $(uname -s) in
+case $platform in
 Darwin)
   extension=png
   image="$temporary/image.png"
@@ -84,8 +108,24 @@ if [[ $remote_path != /tmp/imgsend.*/image."$extension" || $remote_path == *$'\n
   exit 1
 fi
 
-case $(uname -s) in
+case $platform in
 Darwin) printf '%s' "$remote_path" | pbcopy ;;
 Linux) printf '%s' "$remote_path" | wl-copy --type text/plain ;;
 esac
 printf '%s\n' "$remote_path"
+
+if $paste; then
+  # Native paste-style input avoids synthetic keystrokes and held modifiers.
+  # Pass values as arguments rather than interpolating AppleScript source.
+  osascript - "$terminal_id" "$remote_path" <<'APPLESCRIPT' || {
+on run argv
+  set terminalID to item 1 of argv
+  tell application "Ghostty"
+    input text (item 2 of argv) to (first terminal whose id is terminalID)
+  end tell
+end run
+APPLESCRIPT
+    printf 'imgsend: paste failed; the remote path is still on the clipboard\n' >&2
+    exit 1
+  }
+fi
