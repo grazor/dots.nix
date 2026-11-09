@@ -65,7 +65,7 @@
       # Pin the window list to the true centre of the bar (needs tmux >= 3.2).
       export TMUX_POWERLINE_STATUS_JUSTIFICATION="absolute-centre"
 
-      # Status segments, each "<segment> <fg> <bg>" with 256-colour indices.
+      # Status segments, each "<segment> <bg> <fg>" with 256-colour indices.
       # Overrides the default theme's richer segment set.
       TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
         "tmux_session_info 148 234"

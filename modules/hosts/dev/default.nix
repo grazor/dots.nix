@@ -166,6 +166,20 @@
         bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-selection-and-cancel
       '';
 
+      # Keep the remote workspace obvious even with an identically named
+      # local session. Powerline owns the bar and window colours.
+      home-manager.users.cloud.xdg.configFile."tmux-powerline/config.sh".text = lib.mkAfter ''
+        export TMUX_POWERLINE_DEFAULT_BACKGROUND_COLOR=24
+        export TMUX_POWERLINE_DEFAULT_FOREGROUND_COLOR=255
+        export TMUX_POWERLINE_SEG_TMUX_SESSION_INFO_FORMAT="SSH:dev #S:#I.#P"
+        TMUX_POWERLINE_LEFT_STATUS_SEGMENTS=(
+          "tmux_session_info 214 234"
+        )
+        TMUX_POWERLINE_RIGHT_STATUS_SEGMENTS=(
+          "pwd 24 255"
+        )
+      '';
+
       # Neovim visual yanks use the same tmux clipboard path. Read back from
       # tmux's own paste buffer so `p` does not wait for an OSC 52 read reply.
       home-manager.users.cloud.programs.nvf.settings.vim.luaConfigRC.devClipboard = ''

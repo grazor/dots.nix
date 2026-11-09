@@ -15,14 +15,16 @@ in {
       useUserPackages = true;
       users.smporyvaev = {
         home.stateVersion = "25.05";
-        imports = with hm; [fish tmux tmux-autostart git scripts nvf yazi nix-index agent-dev kb-layout-sync imgsend];
+        imports = with hm; [fish tmux tmux-autostart git scripts nvf yazi nix-index agent-dev kb-layout-sync imgsend karabiner];
 
-        # Merge TUI usage indicators into the existing Mac Codex config while
-        # keeping the Mac's separately installed Codex binary.
+        # Match dev's full-access defaults and TUI usage indicators while
+        # keeping the Mac's separately installed Codex binary and other settings.
         programs.codex = {
           enable = true;
           package = null;
           mutableSettings = true;
+          settings.sandbox_mode = "danger-full-access";
+          settings.approval_policy = "never";
           settings.tui.status_line = [
             "context-remaining"
             "used-tokens"

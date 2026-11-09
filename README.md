@@ -183,19 +183,27 @@ For a persistent workspace with Codex, the agent sidebar/review tools and
 Playwright, use `nixosConfigurations.dev` instead. Language toolchains come
 from project dev shells.
 
+Mac and dev Codex sessions default to full access (`danger-full-access`,
+`approval_policy = "never"`). Start a new session after rebuilding to pick up
+the defaults; an explicit CLI flag or session permission selection can override them.
+
 When using Mac tmux → SSH → dev tmux, `C-]` passes tmux keys to dev. On dev,
 copy-mode `y`, mouse selection, and Neovim visual yanks send text to the Mac
 clipboard through OSC 52. Both tmux servers need the updated configuration;
 reload each after switching its host.
+The dev status bar uses a blue background and an orange `SSH:dev` session label
+to distinguish it from the Mac's status bar, including after reattaching.
 
 To use a clipboard image in a remote Codex session, run `imgsend dev` on the Mac
 or the GNOME Wayland desktop. The argument is an SSH alias. The command uploads
 the image to a private `/tmp/imgsend.*` directory on that host, then replaces
 the local clipboard with the remote image path. Paste the path into Codex. It
 leaves the clipboard unchanged if capture or upload fails. Apply the Mac or
-desktop configuration before using it; a Karabiner shell command can run
-`imgsend dev` from a keyboard shortcut. Use the absolute path reported by
-`command -v imgsend` in Karabiner's shell command.
+desktop configuration before using it. On the Mac, the Karabiner `Working`
+profile binds `Ctrl+Shift+V` in Ghostty to `imgsend dev`. After the upload
+finishes, press `Cmd+V` to paste the remote image path into Codex. The shortcut
+sets the Nix/Homebrew PATH explicitly because Karabiner runs outside the
+interactive shell.
 
 `rpi4b` is intentionally not a k3s node. It runs native Zigbee2MQTT against the
 USB coordinator and publishes to the k3s Mosquitto LoadBalancer. Its frontend
@@ -219,6 +227,19 @@ nodes only carry the k3s join token.
    ```
 3. After the first activation, use the installed `darwin-rebuild` command for
    subsequent switches.
+
+Karabiner-Elements is installed by the Mac configuration. Its complete profiles,
+keyboard mappings and mouse settings live in
+`modules/darwin/data/karabiner.json`, captured from the Mac's current configuration.
+Each rebuild restores that file to `~/.config/karabiner/karabiner.json` as a
+writable, user-owned file. If it replaces a different configuration, the first
+replacement saves `karabiner.json.before-dots` alongside it. GUI edits work
+immediately but are reset on rebuild; to keep them, copy the live file back into
+the repo before rebuilding:
+
+```sh
+cp ~/.config/karabiner/karabiner.json modules/darwin/data/karabiner.json
+```
 
 ## Rebuild
 

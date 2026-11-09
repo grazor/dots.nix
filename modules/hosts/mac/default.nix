@@ -47,6 +47,7 @@
         "codex"
         "ghostty"
         "gimp"
+        "karabiner-elements"
         "moonlight"
         "obsidian"
         "openscad"
