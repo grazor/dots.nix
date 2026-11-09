@@ -2,6 +2,8 @@
   flake.modules.homeManager.tmux = {pkgs, ...}: {
     programs.tmux = {
       enable = true;
+      # Existing servers may have inherited fish through $SHELL.
+      shell = "${pkgs.zsh}/bin/zsh";
       keyMode = "vi";
       baseIndex = 1;
       clock24 = true;
@@ -24,7 +26,7 @@
         set-option -as terminal-features ",xterm*:hyperlinks"
 
         # Keep pane borders compact; project names are shown in the tmux window
-        # list via the direnv hook in modules/home/fish.nix.
+        # list via the direnv hook in modules/home/zsh.nix.
         set-option -g pane-border-status off
 
         # Let a nested tmux (usually reached over SSH) own the keyboard and

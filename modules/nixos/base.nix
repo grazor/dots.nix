@@ -16,8 +16,12 @@
       };
     };
 
-    programs.fish.enable = true;
-    users.defaultUserShell = pkgs.fish;
+    programs.zsh = {
+      enable = true;
+      # Home Manager initializes completion after adding the user's fpath.
+      enableGlobalCompInit = false;
+    };
+    users.defaultUserShell = pkgs.zsh;
 
     environment.enableAllTerminfo = true;
 

@@ -8,7 +8,11 @@
   flake.modules.darwin.common = {pkgs, ...}: {
     nixpkgs.config.allowUnfree = true;
 
-    programs.fish.enable = true;
+    programs.zsh = {
+      enable = true;
+      # Home Manager initializes completion after adding the user's fpath.
+      enableGlobalCompInit = false;
+    };
 
     environment.systemPackages = [pkgs.nh];
 

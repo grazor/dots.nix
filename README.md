@@ -183,9 +183,23 @@ For a persistent workspace with Codex, the agent sidebar/review tools and
 Playwright, use `nixosConfigurations.dev` instead. Language toolchains come
 from project dev shells.
 
-Mac and dev Codex sessions default to full access (`danger-full-access`,
-`approval_policy = "never"`). Start a new session after rebuilding to pick up
-the defaults; an explicit CLI flag or session permission selection can override them.
+All Home Manager profiles (Mac, desktop, and `cloud` hosts including dev) import
+the shared `codex` aspect in `modules/home/codex.nix`. It installs the selected,
+flake-pinned skills and sets full-access defaults (`danger-full-access`,
+`approval_policy = "never"`) and the TUI usage indicators. The Mac keeps its
+separately installed Codex binary; NixOS profiles install Codex through Nix.
+Start a new session after rebuilding to pick up the defaults; an explicit CLI
+flag or session permission selection can override them.
+
+Skills are installed into `~/.agents/skills/dots` as **copies**, using
+`programs.agent-skills.targets.agents.structure = "copy-tree"`. Keep this on
+every platform: symlinked `SKILL.md` files caused discovery failures on dev.
+Skill selections and command-path transformations live in the shared aspect;
+rebuild the host to refresh the managed copies. Manually installed skills are
+kept alongside the `dots` directory. Activation migrates the previous root-level
+managed bundle into `dots`, moving only entries listed in that bundle. The
+`codex-dev` aspect adds only the container's context, Playwright MCP, and Chromium
+wrapper with its inner sandbox disabled.
 
 When using Mac tmux → SSH → dev tmux, `C-]` passes tmux keys to dev. On dev,
 copy-mode `y`, mouse selection, and Neovim visual yanks send text to the Mac
@@ -242,6 +256,52 @@ the repo before rebuilding:
 
 ```sh
 cp ~/.config/karabiner/karabiner.json modules/darwin/data/karabiner.json
+```
+
+## Shell
+
+Zsh is the login shell on every host. Home Manager configures it directly,
+without Oh My Zsh or a plugin manager, in `modules/home/zsh.nix`:
+
+| Feature | Implementation / keys |
+|---------|-----------------------|
+| Inline suggestions | `zsh-autosuggestions`: history first, completion fallback; Right accepts at the end of the line |
+| History search | `zsh-history-substring-search`: type any part of a command, then Up/Down to cycle matches |
+| Command colouring | `zsh-syntax-highlighting` |
+| Prompt | Existing Starship prompt and Stylix theme: path, Git branch/status, language/environment context |
+| Tab completion | Native zsh completion with a selection menu and case-insensitive matching |
+| Fuzzy search | fzf: Ctrl-R for history, Ctrl-T for files, Alt-C for directories |
+| Directory navigation | zoxide (`z` / `zi`), bare directory names, and the yazi `y` wrapper |
+
+The old fish abbreviations (`gst`, `gaa`, `gcm`, `gco`, `gpu`, `grm`, `gpf`,
+`gmt`, `t`, `k`) are zsh aliases. Atuin is no longer installed or initialized;
+history uses a local file at `~/.local/share/zsh/history` (100,000 entries,
+shared between sessions). A leading space keeps a command out of history.
+The old fish/Atuin history files are left on disk.
+
+Before the first rebuild away from fish, optionally copy its saved history:
+
+```sh
+./bin/import-fish-history
+```
+
+This preserves command text and order, including multiline commands, using
+zsh's own history writer; imported entries receive the import time. It refuses
+to overwrite an existing destination (an alternate output path can be passed
+as its first argument). Commands keep their original fish syntax.
+
+Managed zsh files live in `~/.config/zsh`, with `~/.zshenv` pointing there.
+An existing `~/.zprofile` is still sourced on login. Machine-local interactive
+settings go in `~/.zsh.user.rc`, using zsh syntax; port any custom settings from
+`~/.fish.user.rc` there before switching. direnv, project tmux window naming,
+and tmux autostart remain enabled. Starship's fish-only transient prompt is
+not enabled in zsh.
+
+After rebuilding, reload an existing tmux server so new panes use zsh, then
+open a new pane (existing fish panes keep running):
+
+```sh
+tmux source-file ~/.config/tmux/tmux.conf
 ```
 
 ## Rebuild

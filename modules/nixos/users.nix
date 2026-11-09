@@ -33,7 +33,7 @@ in {
         uid = 1000;
         isNormalUser = true;
         home = "/home/cloud";
-        shell = pkgs.fish;
+        shell = pkgs.zsh;
         extraGroups = linuxGroups;
         openssh.authorizedKeys.keys = authorizedKeys;
       };
@@ -42,11 +42,11 @@ in {
         useGlobalPkgs = true;
         useUserPackages = true;
         # A login shell that runs before the first activation leaves files like
-        # ~/.config/fish/config.fish behind; move them aside instead of failing.
+        # ~/.config/zsh/.zshrc behind; move them aside instead of failing.
         backupFileExtension = "hm-bak";
         users.cloud = {
           home.stateVersion = "25.05";
-          imports = with hm; [fish tmux git scripts nvf yazi nix-index];
+          imports = with hm; [zsh tmux git scripts nvf yazi nix-index codex];
         };
       };
     };
@@ -69,7 +69,7 @@ in {
         uid = 1000;
         isNormalUser = true;
         home = "/home/pi";
-        shell = pkgs.fish;
+        shell = pkgs.zsh;
         hashedPasswordFile = config.sops.secrets.pi-password.path;
         extraGroups = [
           "wheel"
@@ -87,7 +87,7 @@ in {
         uid = 1000;
         isNormalUser = true;
         home = "/home/g";
-        shell = pkgs.fish;
+        shell = pkgs.zsh;
         extraGroups = linuxGroups;
         openssh.authorizedKeys.keys = authorizedKeys;
       };
@@ -96,11 +96,11 @@ in {
         useGlobalPkgs = true;
         useUserPackages = true;
         # A login shell that runs before the first activation leaves files like
-        # ~/.config/fish/config.fish behind; move them aside instead of failing.
+        # ~/.config/zsh/.zshrc behind; move them aside instead of failing.
         backupFileExtension = "hm-bak";
         users.g = {
           home.stateVersion = "25.05";
-          imports = with hm; [fish tmux tmux-autostart git scripts nvf yazi nix-index imgsend];
+          imports = with hm; [zsh tmux tmux-autostart git scripts nvf yazi nix-index codex imgsend];
         };
       };
     };

@@ -4,7 +4,7 @@
     programs.yazi = {
       enable = true;
       # `y` opens yazi and cds the shell into the directory it was quit in.
-      enableFishIntegration = true;
+      enableZshIntegration = true;
       shellWrapperName = "y";
     };
   };

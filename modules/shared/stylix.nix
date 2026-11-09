@@ -1,7 +1,7 @@
 # Stylix system-wide theming, shared by the desktop (NixOS) and mac (darwin).
 {inputs, ...}: let
   # base16 theme applied on every platform; stylix's home-manager autoImport
-  # then themes the HM programs (fish, tmux, neovim/nvf, fzf, starship, ...).
+  # then themes the HM programs (tmux, neovim/nvf, fzf, starship, ...).
   settings = {pkgs, ...}: {
     stylix = {
       enable = true;
@@ -99,7 +99,7 @@ in {
   };
 
   # macOS: no wallpaper/console targets — just the shared theme, plus the
-  # home-manager autoImport that themes fish/tmux/neovim/fzf/starship.
+  # home-manager autoImport that themes tmux/neovim/fzf/starship.
   flake.modules.darwin.stylix = {
     imports = [inputs.stylix.darwinModules.stylix settings];
   };

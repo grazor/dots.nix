@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+# Run before rebuilding away fish. Never execute or print history entries.
+set -euo pipefail
+
+if ! command -v fish >/dev/null || ! command -v zsh >/dev/null; then
+  echo 'import-fish-history: fish and zsh must be installed' >&2
+  exit 1
+fi
+
+destination=${1:-${XDG_DATA_HOME:-$HOME/.local/share}/zsh/history}
+if [[ -e "$destination" ]]; then
+  echo 'import-fish-history: destination already exists; choose a new output path' >&2
+  exit 1
+fi
+
+umask 077
+scratch=$(mktemp -d)
+trap 'rm -rf -- "$scratch"' EXIT
+
+# NUL delimiters preserve multiline commands; fish returns newest first by
+# default. Let zsh encode its own history format (including Unicode/escaping).
+# shellcheck disable=SC2016 # $argv belongs to fish.
+fish --no-config -c '
+  set -e fish_private_mode
+  set -g fish_history $argv[1]
+  builtin history search --reverse --null
+' -- "${fish_history:-fish}" > "$scratch/fish"
+: > "$scratch/zsh"
+zsh -dfi -c '
+  setopt EXTENDED_HISTORY
+  fc -p
+  HISTSIZE=100000 SAVEHIST=100000
+  while IFS= read -r -d "" entry; do
+    print -sr -- "$entry"
+  done < "$1"
+  fc -W "$2"
+' -- "$scratch/fish" "$scratch/zsh"
+
+mkdir -p -- "$(dirname -- "$destination")"
+cp -n -- "$scratch/zsh" "$destination"
+echo "Imported fish history to $destination"
