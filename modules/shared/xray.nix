@@ -50,11 +50,11 @@ in {
     sops.secrets.xray = {
       inherit sopsFile;
       format = "binary";
+      name = "xray.json";
       owner = user;
     };
 
     launchd.user.agents.xray.serviceConfig = {
-      # The secret has no extension, so the format must be given.
       ProgramArguments = [
         "${pkgs.xray}/bin/xray"
         "run"
