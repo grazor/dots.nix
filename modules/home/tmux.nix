@@ -56,6 +56,8 @@
         bind k select-pane -U
         bind l select-pane -R
         bind f resize-pane -Z
+        # URL picker: plain hints open with the OS default handler; Ctrl copies.
+        bind F run-shell -b "#{@fingers-cli} start #{pane_id} --patterns url --main-action :open: --ctrl-action :copy:"
         bind -r H resize-pane -L 5
         bind -r J resize-pane -D 5
         bind -r K resize-pane -U 5

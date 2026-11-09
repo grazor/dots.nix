@@ -307,6 +307,11 @@ Tmux uses `tmux-256color` so shells and applications see the full palette.
 After applying this change, reload each tmux server's configuration and open a
 new pane; existing panes retain their original `TERM`.
 
+Press `C-b`, then `Shift-f` to highlight URLs in the current pane. Press a hint
+letter to open that URL with the system's default browser (for example, Zen
+when configured as the default). Hold Ctrl while pressing the hint letter to
+copy the URL instead. Lowercase `C-b, f` still toggles pane zoom.
+
 Atuin is no longer installed or initialized;
 history uses a local file at `~/.local/share/zsh/history` (100,000 entries,
 shared between sessions). A leading space keeps a command out of history.
