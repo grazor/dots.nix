@@ -302,6 +302,12 @@ in `programs.zsh.zsh-abbr.abbreviations` in `modules/home/zsh.nix`.
 Complete abbreviation names are highlighted green before expansion; incomplete
 names stay red. The highlighter reads abbreviation names when the shell starts.
 
+`gcom` switches to the primary branch recorded in the local `origin/HEAD`
+reference. If it is missing, it looks for `main`, then `master`, among local
+branches and `origin` remote-tracking branches. Detection uses local Git metadata
+without contacting the remote. `gco-` expands to `git checkout -` to return to
+the previously checked-out branch.
+
 Autopair leaves Space to abbreviations. Tab opens the fzf completion picker;
 inside the picker, Ctrl-Space selects multiple results. Forgit's commit checkout
 picker is `gcoi`, keeping `gco` as the `git checkout` abbreviation. The full

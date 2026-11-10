@@ -56,6 +56,7 @@
             # % places the cursor without inserting the triggering Space.
             gcm = "git commit -m '%'";
             gco = "git checkout";
+            gco- = "git checkout -";
             gpu = "git push -u origin HEAD";
             grm = "git rebase -i master";
             gpf = "git push --force-with-lease";
@@ -103,6 +104,25 @@
           ''
             setopt INTERACTIVE_COMMENTS
             zmodload zsh/complist
+
+            # Prefer origin's recorded default branch, then conventional names.
+            function gcom() {
+              command git rev-parse --git-dir >/dev/null || return $?
+              local branch
+              if branch=$(command git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null); then
+                command git -c checkout.defaultRemote=origin switch "''${branch#origin/}" "$@"
+                return $?
+              fi
+              for branch in main master; do
+                if command git show-ref --verify --quiet "refs/heads/$branch" ||
+                   command git show-ref --verify --quiet "refs/remotes/origin/$branch"; then
+                  command git -c checkout.defaultRemote=origin switch "$branch" "$@"
+                  return $?
+                fi
+              done
+              print -u2 -- "gcom: cannot determine the primary branch (no origin/HEAD, main, or master)"
+              return 1
+            }
 
             # Ctrl-W deletes components in paths, URLs, and other compound words.
             autoload -Uz backward-kill-word-match
