@@ -5,6 +5,10 @@
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    anthropic-skills = {
+      url = "github:anthropics/skills";
+      flake = false;
+    };
     zero-slop = {
       url = "github:manavmishra/ZeroSlop";
       flake = false;
@@ -75,6 +79,11 @@
       enable = true;
       sources = {
         local.path = ../../.codex/skills;
+        anthropic = {
+          path = inputs.anthropic-skills;
+          subdir = "skills";
+          idPrefix = "anthropic";
+        };
         zero-slop = {
           path = inputs.zero-slop;
           subdir = "skills";
@@ -123,9 +132,13 @@
           "orchestra"
           "ru-text"
         ];
-        # The main UI/UX skill needs a Codex-safe script path; its six
-        # companion skills can be installed unchanged.
         enable = [
+          "anthropic/skill-creator"
+          "anthropic/frontend-design"
+          "anthropic/theme-factory"
+          "anthropic/mcp-builder"
+          # The main UI/UX skill needs a Codex-safe script path; its six
+          # companion skills can be installed unchanged.
           "uiux/banner-design"
           "uiux/brand"
           "uiux/design-system"

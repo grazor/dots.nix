@@ -12,6 +12,10 @@
       url = "github:Orchestra-Research/AI-Research-SKILLs";
       flake = false;
     };
+    anthropic-skills = {
+      url = "github:anthropics/skills";
+      flake = false;
+    };
     bro-skill = {
       url = "github:luchasarie/bro-skill";
       flake = false;

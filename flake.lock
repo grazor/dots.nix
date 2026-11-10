@@ -36,6 +36,22 @@
         "type": "github"
       }
     },
+    "anthropic-skills": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794004348,
+        "narHash": "sha256-dRCZrNarCCJFuvATgfW6qmwwVS5HGFXNVGOhbVZd7LA=",
+        "owner": "anthropics",
+        "repo": "skills",
+        "rev": "2c5958ecac7cee2b583967a2c4981d0f4a75c579",
+        "type": "github"
+      },
+      "original": {
+        "owner": "anthropics",
+        "repo": "skills",
+        "type": "github"
+      }
+    },
     "base16": {
       "inputs": {
         "fromYaml": "fromYaml"
@@ -490,6 +506,7 @@
       "inputs": {
         "agent-skills": "agent-skills",
         "ai-research-skills": "ai-research-skills",
+        "anthropic-skills": "anthropic-skills",
         "bro-skill": "bro-skill",
         "flake-file": "flake-file",
         "flake-parts": "flake-parts",

@@ -201,6 +201,10 @@ managed bundle into `dots`, moving only entries listed in that bundle. The
 `codex-dev` aspect adds only the container's context, Playwright MCP, and Chromium
 wrapper with its inner sandbox disabled.
 
+The selected [Anthropic skills](https://github.com/anthropics/skills) are
+`skill-creator`, `frontend-design`, `theme-factory` (theme creation), and
+`mcp-builder`, installed under `dots/anthropic`.
+
 When using Mac tmux → SSH → dev tmux, interactive `ssh` commands automatically
 forward tmux keys and mouse input, hiding the outer status bar. Disconnecting
 or a failed connection restores the previous local tmux settings, including
