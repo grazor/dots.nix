@@ -109,6 +109,11 @@
           blink-cmp = {
             enable = true;
             friendly-snippets.enable = true;
+
+            # Keep paths relative to cwd when editing Codex's temporary prompt.
+            setupOpts.sources.providers.path.opts.get_cwd = lib.generators.mkLuaInline ''
+              function() return vim.fn.getcwd() end
+            '';
           };
         };
 
