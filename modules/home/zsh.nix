@@ -7,7 +7,16 @@
     lib,
     pkgs,
     ...
-  }: {
+  }: let
+    # These commands emit shell code; generate it once per package version,
+    # rather than starting three extra processes in every interactive shell.
+    shellIntegrations = pkgs.runCommand "zsh-integrations" {} ''
+      mkdir -p "$out"
+      ${lib.getExe config.programs.zoxide.package} init zsh ${lib.escapeShellArgs config.programs.zoxide.options} > "$out/zoxide.zsh"
+      ${lib.getExe config.programs.starship.package} init zsh --print-full-init > "$out/starship.zsh"
+      ${lib.getExe config.programs.direnv.package} hook zsh > "$out/direnv.zsh"
+    '';
+  in {
     home.packages = [pkgs.zsh-forgit];
 
     programs = {
@@ -56,6 +65,7 @@
             # % places the cursor without inserting the triggering Space.
             gcm = "git commit -m '%'";
             gco = "git checkout";
+            gcob = "git checkout -b";
             gco- = "git checkout -";
             gpu = "git push -u origin HEAD";
             grm = "git rebase -i master";
@@ -77,9 +87,13 @@
 
             # Register extra completions before compinit builds its cache.
             fpath+=(${pkgs.zsh-completions}/share/zsh/site-functions ${pkgs.zsh-forgit}/share/zsh/site-functions)
-            zstyle ':completion:*' menu no
+            # Let fzf-tab choose full matches instead of inserting a shared
+            # substring first (e.g. "-toggles" from two directory names).
+            zstyle ':completion:*' menu yes
             zstyle ':completion:*:descriptions' format '[%d]'
-            zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+            # Pass substring matches to fzf-tab, including when a prefix exists:
+            # toggles<Tab> offers service-toggles, my-toggles, and toggles-local.
+            zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} l:|=* r:|=*'
             zstyle ':completion:*:git-checkout:*' sort false
             zstyle ':fzf-tab:complete:cd:*' fzf-preview '${lib.getExe pkgs.eza} -1 --color=always -- $realpath'
 
@@ -89,6 +103,14 @@
           # fzf-tab must follow compinit (570) and precede autosuggestions (700).
           (lib.mkOrder 600 ''
             source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+          '')
+          (lib.mkOrder 851 ''
+            # zoxide bakes these environment settings into its generated code.
+            if [[ -n ''${_ZO_ECHO-}''${_ZO_RESOLVE_SYMLINKS-} ]]; then
+              eval "$(${lib.getExe config.programs.zoxide.package} init zsh ${lib.escapeShellArgs config.programs.zoxide.options})"
+            else
+              source ${shellIntegrations}/zoxide.zsh
+            fi
           '')
           (lib.mkOrder 950 ''
             # Preserve zsh-abbr's Space binding; pair only quotes and brackets.
@@ -134,6 +156,12 @@
             # Accept the inline suggestion at end of line; otherwise move right.
             bindkey '^[[C' forward-char
             bindkey '^[OC' forward-char
+          ''
+          ''
+            if [[ $TERM != dumb ]]; then
+              source ${shellIntegrations}/starship.zsh
+            fi
+            source ${shellIntegrations}/direnv.zsh
           ''
           (lib.mkOrder 1500 ''
             # Rename only on successful zoxide jumps, after zoxide initializes.
@@ -190,7 +218,7 @@
       # nix garbage collection.
       direnv = {
         enable = true;
-        enableZshIntegration = true;
+        enableZshIntegration = false; # Sourced from shellIntegrations above.
         nix-direnv.enable = true;
 
         # Sourced on every .envrc load, with $PWD at the .envrc's directory (the
@@ -204,7 +232,7 @@
 
       starship = {
         enable = true;
-        enableZshIntegration = true;
+        enableZshIntegration = false; # Sourced from shellIntegrations above.
       };
 
       fzf = {
@@ -214,7 +242,7 @@
 
       zoxide = {
         enable = true;
-        enableZshIntegration = true;
+        enableZshIntegration = false; # Sourced from shellIntegrations above.
       };
     };
   };

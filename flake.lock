@@ -52,6 +52,22 @@
         "type": "github"
       }
     },
+    "antialgorithm": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794771864,
+        "narHash": "sha256-+Ogldrg64jO0YcMZ6nlAk4J6FEMnGsHbTZ+kHhKYiFI=",
+        "owner": "mankidev",
+        "repo": "antialgorithm",
+        "rev": "8706a2d49511954d0d092f732eb5853497ad25fc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "mankidev",
+        "repo": "antialgorithm",
+        "type": "github"
+      }
+    },
     "base16": {
       "inputs": {
         "fromYaml": "fromYaml"
@@ -507,6 +523,7 @@
         "agent-skills": "agent-skills",
         "ai-research-skills": "ai-research-skills",
         "anthropic-skills": "anthropic-skills",
+        "antialgorithm": "antialgorithm",
         "bro-skill": "bro-skill",
         "flake-file": "flake-file",
         "flake-parts": "flake-parts",

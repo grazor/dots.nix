@@ -16,6 +16,10 @@
       url = "github:anthropics/skills";
       flake = false;
     };
+    antialgorithm = {
+      url = "github:mankidev/antialgorithm";
+      flake = false;
+    };
     bro-skill = {
       url = "github:luchasarie/bro-skill";
       flake = false;

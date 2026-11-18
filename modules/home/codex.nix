@@ -17,6 +17,10 @@
       url = "github:luchasarie/bro-skill";
       flake = false;
     };
+    antialgorithm = {
+      url = "github:mankidev/antialgorithm";
+      flake = false;
+    };
     superpowers = {
       url = "github:obra/superpowers";
       flake = false;
@@ -48,6 +52,7 @@
     pkgs,
     ...
   }: let
+    antialgorithmPython = pkgs.python3.withPackages (ps: [ps.numpy ps.pillow ps.cairosvg]);
     # brainstorming invokes writing-plans, which invokes this dependency chain.
     # Map plugin-style names to Codex's standalone $skill invocation syntax.
     superpowersSkills = [
@@ -91,6 +96,10 @@
         };
         bro = {
           path = inputs.bro-skill;
+          filter.maxDepth = 0;
+        };
+        antialgorithm = {
+          path = inputs.antialgorithm;
           filter.maxDepth = 0;
         };
         superpowers = {
@@ -149,6 +158,18 @@
         explicit =
           superpowersSelections
           // {
+            antialgorithm = {
+              from = "antialgorithm";
+              path = ".";
+              # The absolute command retains its runtime without enumerating
+              # package binaries during evaluation (including foreign hosts).
+              rewriteCommands = false;
+              transform = {original, ...}:
+                builtins.replaceStrings
+                ["left open to Claude" "python3 scripts/"]
+                ["left open to the agent" "${antialgorithmPython}/bin/python3 ${inputs.antialgorithm}/scripts/"]
+                original;
+            };
             bro = {
               from = "bro";
               path = ".";
