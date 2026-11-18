@@ -94,6 +94,8 @@
             # Pass substring matches to fzf-tab, including when a prefix exists:
             # toggles<Tab> offers service-toggles, my-toggles, and toggles-local.
             zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} l:|=* r:|=*'
+            # Keep private shell functions out of ordinary command completion.
+            zstyle ':completion:*:functions' prefix-needed true
             zstyle ':completion:*:git-checkout:*' sort false
             zstyle ':fzf-tab:complete:cd:*' fzf-preview '${lib.getExe pkgs.eza} -1 --color=always -- $realpath'
 
@@ -103,6 +105,33 @@
           # fzf-tab must follow compinit (570) and precede autosuggestions (700).
           (lib.mkOrder 600 ''
             source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
+
+            # Zsh offers the same checkout ref under several tags. Keep the first
+            # capture so recent branches retain their commit descriptions.
+            if (( ! $+functions[_dots_fzf_tab_generate_complist] )) && autoload +X -Uz -- -ftb-generate-complist; then
+              functions -c -- -ftb-generate-complist _dots_fzf_tab_generate_complist
+              function -ftb-generate-complist() {
+                if [[ $_ftb_curcontext == *:git-checkout:* ]]; then
+                  local capture key separator=$'\2'
+                  local -i group
+                  local -A candidate seen groups
+                  local -a unique_captures
+                  for capture in "''${_ftb_compcap[@]}"; do
+                    candidate=("''${(@0)''${capture#*$separator}}")
+                    key=$candidate[IPREFIX]$'\0'$candidate[PREFIX]$'\0'$candidate[word]$'\0'$candidate[SUFFIX]$'\0'$candidate[ISUFFIX]
+                    [[ -n ''${seen[$key]-} ]] && continue
+                    seen[$key]=1
+                    unique_captures+=("$capture")
+                    [[ -n $candidate[group] ]] && groups[$candidate[group]]=1
+                  done
+                  _ftb_compcap=("''${unique_captures[@]}")
+                  for (( group = 1; group <= $#_ftb_groups; group++ )); do
+                    [[ -n ''${groups[$group]-} ]] || _ftb_groups[group]="__hide__$group"
+                  done
+                fi
+                _dots_fzf_tab_generate_complist "$@"
+              }
+            fi
           '')
           (lib.mkOrder 851 ''
             # zoxide bakes these environment settings into its generated code.
