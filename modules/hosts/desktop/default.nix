@@ -23,6 +23,7 @@
         ssh-server
         tools
         mediatools
+        webcamStream
         devtools
         fonts
         user-g
