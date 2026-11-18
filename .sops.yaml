@@ -18,6 +18,12 @@ keys:
   - &dev age1u23ye4kfmlpkz0t47na7gs3gt05tm70wcs6v54ptw3lsz009s9vqxnzvvw
 
 creation_rules:
+  # C922 publisher credential, shared only with the desktop and operator.
+  - path_regex: secrets/c922\.yaml$
+    key_groups:
+      - age:
+          - *admin
+          - *desktop
   # Private SSH host mappings shared by workstations and development nodes.
   - path_regex: secrets/ssh-config\.bin$
     key_groups:

@@ -24,9 +24,9 @@ each host is built by **composing** aspects (no per-feature enable flags).
 The desktop's Logitech C922 can be streamed to Frigate on demand. After applying
 the desktop configuration, run `sudo systemctl start c922-stream` to make it
 available and `sudo systemctl stop c922-stream` to turn it off. The service is
-never started at boot. go2rtc serves RTSP on port 8554 only to the NAS node;
-its API stays on localhost. Frigate will show the camera as offline when the
-desktop or this service is off.
+never started at boot. FFmpeg publishes to Frigate's authenticated RTSP ingest
+at `192.168.2.200:30554`; the desktop does not accept incoming camera traffic.
+Frigate will show the camera as offline when the desktop or this service is off.
 
 ## Candle dataset service on dev
 
