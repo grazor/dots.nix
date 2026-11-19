@@ -17,6 +17,7 @@
       ignores = [
         ".direnv"
         ".envrc"
+        ".playwright-mcp/"
         ".pre-commit-config.yaml"
         ".venv"
         ".venv.py3"
