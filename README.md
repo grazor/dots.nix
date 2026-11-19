@@ -26,7 +26,9 @@ the desktop configuration, run `sudo systemctl start c922-stream` to make it
 available and `sudo systemctl stop c922-stream` to turn it off. The service is
 never started at boot. FFmpeg publishes to Frigate's authenticated RTSP ingest
 at `192.168.2.200:30554`; the desktop does not accept incoming camera traffic.
-Frigate will show the camera as offline when the desktop or this service is off.
+The stream includes the C922 microphone, and the service switches off its
+recording indicator LEDs before capture. Frigate will show the camera as offline
+when the desktop or this service is off.
 
 ## Candle dataset service on dev
 
