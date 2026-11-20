@@ -94,6 +94,8 @@
             # Pass substring matches to fzf-tab, including when a prefix exists:
             # toggles<Tab> offers service-toggles, my-toggles, and toggles-local.
             zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z} l:|=* r:|=*'
+            # Allow partial filenames before a dot, e.g. tmux.zsh -> tmux-ssh.zsh.
+            zstyle ':completion:*:(all-files|globbed-files|directories)' matcher 'r:|[.]=*'
             # Keep private shell functions out of ordinary command completion.
             zstyle ':completion:*:functions' prefix-needed true
             zstyle ':completion:*:git-checkout:*' sort false

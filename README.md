@@ -301,6 +301,11 @@ without Oh My Zsh or a plugin manager, in `modules/home/zsh.nix`:
 | Fuzzy search | fzf: Ctrl-R for history, Ctrl-T for files, Alt-C for directories |
 | Directory navigation | zoxide (`z` / `zi`), bare directory names, and the yazi `y` wrapper |
 
+Tab can complete several abbreviated path components at once. From the repo
+root, `ls mo/ho/da/tmux.zsh` followed by Tab completes to
+`ls modules/home/data/tmux-ssh.zsh`. Use directory prefixes such as `da` for
+`data`. When several paths match, choose one in `fzf-tab`.
+
 Successful `z` and `zi` jumps also rename the invoking tmux window to the
 destination directory's name (for example, `z dots` → `dots.nix`). Plain `cd`,
 failed jumps, and jumps to the current directory leave the name alone. Renaming
