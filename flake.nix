@@ -4,6 +4,10 @@
   outputs = inputs: inputs.flake-parts.lib.mkFlake {inherit inputs;} (inputs.import-tree ./modules);
 
   inputs = {
+    agent-browser = {
+      url = "github:vercel-labs/agent-browser";
+      flake = false;
+    };
     agent-skills = {
       url = "github:Kyure-A/agent-skills-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -32,6 +36,10 @@
     git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hallmark = {
+      url = "github:nutlope/hallmark";
+      flake = false;
     };
     home-manager = {
       url = "github:nix-community/home-manager/master";

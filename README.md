@@ -195,8 +195,9 @@ from project dev shells.
 All Home Manager profiles (Mac, desktop, and `cloud` hosts including dev) import
 the shared `codex` aspect in `modules/home/codex.nix`. It installs the selected,
 flake-pinned skills and sets full-access defaults (`danger-full-access`,
-`approval_policy = "never"`) and the TUI usage indicators. The Mac keeps its
-separately installed Codex binary; NixOS profiles install Codex through Nix.
+`approval_policy = "never"`), enables `code_mode`, and configures the TUI usage
+indicators. The Mac keeps its separately installed Codex binary; NixOS profiles
+install Codex through Nix.
 Start a new session after rebuilding to pick up the defaults; an explicit CLI
 flag or session permission selection can override them.
 
@@ -218,6 +219,17 @@ The selected [Anthropic skills](https://github.com/anthropics/skills) are
 `dots/antialgorithm` for creative choices in writing, naming and visual design.
 Its script commands use pinned paths and Python with NumPy, Pillow and CairoSVG
 so they also work from project directories in Codex.
+
+[Hallmark](https://github.com/nutlope/hallmark) is available as `$hallmark` for
+designing, redesigning, and auditing web pages. The shared profile includes
+Node.js for its scripts. Its rendered checks also require Chrome and
+`puppeteer-core`.
+
+[Agent Browser](https://github.com/vercel-labs/agent-browser) is available as
+`agent-browser` and the `$agent-browser` skill. The skill loads guidance from
+the installed CLI. Linux profiles use Nix-managed Chromium. On macOS, the CLI
+can use an existing Google Chrome installation or download Chrome for Testing
+with `agent-browser install`.
 
 When using Mac tmux → SSH → dev tmux, interactive `ssh` commands automatically
 forward tmux keys and mouse input, hiding the outer status bar. Disconnecting
@@ -267,7 +279,9 @@ nodes only carry the k3s join token.
    nix run github:nix-darwin/nix-darwin/master#darwin-rebuild -- switch --flake .#mac
    ```
 3. After the first activation, use the installed `darwin-rebuild` command for
-   subsequent switches.
+   subsequent switches. `darwin-rebuild switch` allows Homebrew to refresh its
+   metadata and upgrade packages in the generated Brewfile, following
+   Homebrew's normal formula and cask upgrade rules.
 
 Karabiner-Elements is installed by the Mac configuration. Its complete profiles,
 keyboard mappings and mouse settings live in

@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "agent-browser": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1795470722,
+        "narHash": "sha256-BsnL2q29HhtehBcUoNh1K9Qkvv3BCP2ita3lIa1oFGQ=",
+        "owner": "vercel-labs",
+        "repo": "agent-browser",
+        "rev": "0a923358ea989d7602f0d06507ad3447c62ffe9b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vercel-labs",
+        "repo": "agent-browser",
+        "type": "github"
+      }
+    },
     "agent-skills": {
       "inputs": {
         "nixpkgs": [
@@ -312,6 +328,22 @@
         "type": "gitlab"
       }
     },
+    "hallmark": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1794398164,
+        "narHash": "sha256-xfHv/bcZcYoqEeX2hCZOADCEJ2m3tRDflKJmyiR5LNk=",
+        "owner": "nutlope",
+        "repo": "hallmark",
+        "rev": "04977e15f3dfd6ee4b74c887dac3eb52665d6c92",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nutlope",
+        "repo": "hallmark",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -520,6 +552,7 @@
     },
     "root": {
       "inputs": {
+        "agent-browser": "agent-browser",
         "agent-skills": "agent-skills",
         "ai-research-skills": "ai-research-skills",
         "anthropic-skills": "anthropic-skills",
@@ -528,6 +561,7 @@
         "flake-file": "flake-file",
         "flake-parts": "flake-parts",
         "git-hooks": "git-hooks",
+        "hallmark": "hallmark",
         "home-manager": "home-manager",
         "import-tree": "import-tree",
         "mcp-servers-nix": "mcp-servers-nix",

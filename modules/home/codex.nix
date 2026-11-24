@@ -9,6 +9,14 @@
       url = "github:anthropics/skills";
       flake = false;
     };
+    hallmark = {
+      url = "github:nutlope/hallmark";
+      flake = false;
+    };
+    agent-browser = {
+      url = "github:vercel-labs/agent-browser";
+      flake = false;
+    };
     zero-slop = {
       url = "github:manavmishra/ZeroSlop";
       flake = false;
@@ -89,6 +97,14 @@
           subdir = "skills";
           idPrefix = "anthropic";
         };
+        hallmark = {
+          path = inputs.hallmark;
+          subdir = "skills";
+        };
+        agent-browser = {
+          path = inputs.agent-browser;
+          subdir = "skills";
+        };
         zero-slop = {
           path = inputs.zero-slop;
           subdir = "skills";
@@ -142,6 +158,8 @@
           "ru-text"
         ];
         enable = [
+          "hallmark"
+          "agent-browser"
           "anthropic/skill-creator"
           "anthropic/frontend-design"
           "anthropic/theme-factory"
@@ -197,10 +215,20 @@
       };
     };
 
-    # Move only the old bundle's entries, preserving other installed skills.
-    home.activation.migrateCodexSkills = lib.hm.dag.entryBetween ["agent-skills"] ["writeBoundary"] ''
-      run ${pkgs.python3}/bin/python3 ${./data/migrate-codex-skills.py} "$HOME/.agents/skills"
-    '';
+    home = {
+      packages = [pkgs.agent-browser pkgs.nodejs];
+      sessionVariables = lib.mkIf pkgs.stdenv.hostPlatform.isLinux (let
+        chromium = lib.getExe pkgs.chromium;
+      in {
+        CHROME_PATH = lib.mkDefault chromium;
+        AGENT_BROWSER_EXECUTABLE_PATH = lib.mkDefault chromium;
+      });
+
+      # Move only the old bundle's entries, preserving other installed skills.
+      activation.migrateCodexSkills = lib.hm.dag.entryBetween ["agent-skills"] ["writeBoundary"] ''
+        run ${pkgs.python3}/bin/python3 ${./data/migrate-codex-skills.py} "$HOME/.agents/skills"
+      '';
+    };
 
     programs.codex = {
       enable = true;
@@ -208,6 +236,7 @@
       settings = {
         sandbox_mode = "danger-full-access";
         approval_policy = "never";
+        features.code_mode = true;
         tui.status_line = [
           "context-remaining"
           "used-tokens"

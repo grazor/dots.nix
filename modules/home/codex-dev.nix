@@ -5,10 +5,13 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.homeManager.codex-dev = {pkgs, ...}: let
-    # Taste Skill launches its own Chromium process. This container needs the
-    # inner Chromium sandbox disabled, as with the existing Playwright MCP.
-    taste-chromium = pkgs.writeShellScriptBin "taste-chromium" ''
+  flake.modules.homeManager.codex-dev = {
+    lib,
+    pkgs,
+    ...
+  }: let
+    # Browsers launched inside this container need the inner sandbox disabled.
+    chromium = pkgs.writeShellScriptBin "codex-chromium" ''
       exec ${pkgs.chromium}/bin/chromium --no-sandbox "$@"
     '';
   in {
@@ -38,9 +41,12 @@
     };
 
     home = {
-      packages = with pkgs; [playwright-test playwright-mcp python3 nodejs];
+      packages = with pkgs; [playwright-test playwright-mcp python3];
       sessionPath = ["$HOME/.local/bin"];
-      sessionVariables.CHROME_PATH = "${taste-chromium}/bin/taste-chromium";
+      sessionVariables = {
+        CHROME_PATH = lib.getExe chromium;
+        AGENT_BROWSER_EXECUTABLE_PATH = lib.getExe chromium;
+      };
       file."src/.keep".text = "";
     };
   };
