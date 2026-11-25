@@ -17,7 +17,7 @@ each host is built by **composing** aspects (no per-feature enable flags).
 | `rpi4b` | Raspberry Pi 4B | NixOS | native Zigbee2MQTT bridge to the k3s MQTT broker (headless, user `pi`) |
 | `lxc` | Incus container | NixOS | dev container guest on `nas`: shell, tmux, nvf, dev tools (user `cloud`) |
 | `surfr` | Incus container | NixOS | live surfr host on `nas` (user `cloud`) |
-| `dev` | Incus container | NixOS | persistent multi-repo Codex/tmux workspace (user `cloud`) |
+| `dev` | Incus container | NixOS | persistent multi-repo AI/tmux workspace (user `cloud`) |
 | `desktop` | Desktop PC | NixOS | gaming workstation — GNOME + NVIDIA + Steam (user `g`) |
 | `mac` | Work MacBook | nix-darwin | dev machine (user `smporyvaev`) |
 
@@ -188,7 +188,7 @@ is the guest: the usual shell, tmux, nvf and dev tools for user `cloud`, no
 toolchains (a project's own flake, or `nix develop github:grazor/dots.nix#rust`,
 provides those).
 
-For a persistent workspace with Codex, the agent sidebar/review tools and
+For a persistent workspace with Codex, Antigravity CLI, the agent sidebar/review tools and
 Playwright, use `nixosConfigurations.dev` instead. Language toolchains come
 from project dev shells.
 
@@ -201,6 +201,18 @@ install Codex through Nix.
 Start a new session after rebuilding to pick up the defaults; an explicit CLI
 flag or session permission selection can override them.
 
+The same profiles install Google Antigravity CLI (`agy`) from pinned nixpkgs.
+After switching the host, run `agy` and complete Google's sign-in. Use
+`/skills` to see the shared skills and `/config` to inspect the execution
+defaults. Antigravity auto-accepts edits, runs tools without asking unless an
+explicit permission rule says otherwise, and uses an unsandboxed terminal.
+Its status line shows context remaining, tokens used, and available Antigravity
+quota percentages. Home Manager reapplies these defaults on each switch while
+preserving other Antigravity settings.
+On hosts with the `xray` aspect, `agy` and its child processes use Xray's local
+HTTP proxy on port 9998. Loopback and home LAN destinations bypass the proxy.
+The `dev` container uses its existing network configuration.
+
 Skills are installed into `~/.agents/skills/dots` as **copies**, using
 `programs.agent-skills.targets.agents.structure = "copy-tree"`. Keep this on
 every platform: symlinked `SKILL.md` files caused discovery failures on dev.
@@ -208,8 +220,13 @@ Skill selections and command-path transformations live in the shared aspect;
 rebuild the host to refresh the managed copies. Manually installed skills are
 kept alongside the `dots` directory. Activation migrates the previous root-level
 managed bundle into `dots`, moving only entries listed in that bundle. The
-`codex-dev` aspect adds only the container's context, Playwright MCP, and Chromium
-wrapper with its inner sandbox disabled.
+`codex-dev` aspect supplies the container's context, Playwright MCP, and Chromium
+wrapper with its inner sandbox disabled. Antigravity reads the same managed skill
+copies through a discovery manifest, scans the personal skill folders, and
+includes `~/.codex/AGENTS.md` when present. On `dev`, this also shares the
+container context, and `/mcp` lists the same isolated Playwright server.
+Antigravity's first-run import can bring over compatible MCP servers from
+machine-local Codex settings.
 
 The selected [Anthropic skills](https://github.com/anthropics/skills) are
 `skill-creator`, `frontend-design`, `theme-factory` (theme creation), and

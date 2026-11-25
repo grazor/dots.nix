@@ -8,6 +8,14 @@
 let
   sopsFile = ../../secrets/xray.bin;
   port = 9998;
+  proxy = "http://127.0.0.1:${toString port}";
+  proxyEnvironment = {
+    all_proxy = proxy;
+    http_proxy = proxy;
+    https_proxy = proxy;
+    # Keep loopback, the Attic cache, and the home LAN direct.
+    no_proxy = "localhost,127.0.0.1,::1,.porivaev.ru,192.168.0.0/16";
+  };
 in {
   flake.modules.nixos.xray = {config, ...}: {
     sops.secrets.xray = {
@@ -21,21 +29,13 @@ in {
       settingsFile = config.sops.secrets.xray.path;
     };
 
-    # Only the nix daemon goes through it: substitutes from cache.nixos.org
-    # and fixed-output fetches (which inherit these variables) are several
-    # times faster than the direct route. The rest of the host stays direct,
-    # and flake input fetches run in the client, so they are not covered.
+    # Substitutes and fixed-output fetches inherit these variables and are
+    # several times faster than the direct route. Flake inputs are fetched
+    # by the client and do not inherit the unit's environment.
     # Set on the unit, not through nix.envVars: nixpkgs also exports those as
     # session variables, which put every login shell and browser on the proxy.
-    systemd.services.nix-daemon.environment = let
-      proxy = "http://127.0.0.1:${toString port}";
-    in {
-      all_proxy = proxy;
-      http_proxy = proxy;
-      https_proxy = proxy;
-      # The Attic cache and anything else at home stays direct.
-      no_proxy = "localhost,127.0.0.1,::1,.porivaev.ru,192.168.0.0/16";
-    };
+    systemd.services.nix-daemon.environment = proxyEnvironment;
+    home-manager.extraSpecialArgs.xrayProxyEnvironment = proxyEnvironment;
   };
 
   flake.modules.darwin.xray = {
@@ -45,6 +45,8 @@ in {
   }: let
     user = config.system.primaryUser;
   in {
+    home-manager.extraSpecialArgs.xrayProxyEnvironment = proxyEnvironment;
+
     # No host SSH key to derive from: the mac decrypts with the admin key.
     sops.age.keyFile = "/Users/${user}/.config/sops/age/keys.txt";
     sops.secrets.xray = {

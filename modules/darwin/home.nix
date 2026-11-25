@@ -15,7 +15,7 @@ in {
       useUserPackages = true;
       users.smporyvaev = {
         home.stateVersion = "25.05";
-        imports = with hm; [zsh tmux tmux-autostart git scripts nvf yazi nix-index codex agent-dev kb-layout-sync imgsend karabiner];
+        imports = with hm; [zsh tmux tmux-autostart git scripts nvf yazi nix-index codex antigravity agent-dev kb-layout-sync imgsend karabiner];
 
         # The Mac uses the separately installed Codex binary.
         programs.codex.package = null;
