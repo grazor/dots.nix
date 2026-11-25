@@ -228,6 +228,14 @@ container context, and `/mcp` lists the same isolated Playwright server.
 Antigravity's first-run import can bring over compatible MCP servers from
 machine-local Codex settings.
 
+Both clients include the `rea-static-inspection` skill and `rea-inspect`
+command for local iOS IPA, JavaScript, Electron, and .NET artifacts.
+Run `rea-inspect ipa /absolute/path/to/App.ipa` to inventory an iOS package.
+Use `rea-inspect ipa-graph /absolute/path/to/App.ipa` for the structured bundle,
+extension, and framework report. Nix fetches the hash-pinned REA release and
+its bundled dependencies when building the profile. On macOS, JavaScript
+analysis also uses Swift from Xcode or Apple's Command Line Tools.
+
 The selected [Anthropic skills](https://github.com/anthropics/skills) are
 `skill-creator`, `frontend-design`, `theme-factory` (theme creation), and
 `mcp-builder`, installed under `dots/anthropic`.

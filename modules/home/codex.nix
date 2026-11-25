@@ -61,6 +61,68 @@
     ...
   }: let
     antialgorithmPython = pkgs.python3.withPackages (ps: [ps.numpy ps.pillow ps.cairosvg]);
+    reaVersion = "6.10.1";
+    reaRelease = pkgs.fetchurl {
+      url = "https://registry.npmjs.org/rea-agents/-/rea-agents-${reaVersion}.tgz";
+      hash = "sha512-3AWrfFEXppvC98FWhZR2Tzulnqs5xJQrSKmAub6+QME/I58Pr3h8pHqqwM30z2DvlnIx/8Hsu8woMngfi4SNyg==";
+    };
+    reaRuntime =
+      pkgs.runCommand "rea-runtime-${reaVersion}" {
+        nativeBuildInputs = [pkgs.gnutar pkgs.gzip];
+      } ''
+        mkdir -p "$out"
+        tar -xzf ${reaRelease} -C "$out" --strip-components=1
+        test -f "$out/scripts/rea.mjs"
+      '';
+    rea = "${pkgs.nodejs_26}/bin/node ${reaRuntime}/scripts/rea.mjs";
+    reaInspect = pkgs.writeShellApplication {
+      name = "rea-inspect";
+      text = ''
+        if [[ $# != 2 || $2 != /* ]]; then
+          echo 'Usage: rea-inspect {ipa|ipa-graph|javascript|dotnet|dotnet-members} /absolute/path' >&2
+          exit 2
+        fi
+
+        case "$1" in
+          ipa|ipa-graph)
+            if [[ "$2" != *.ipa || ! -f "$2" ]]; then
+              echo 'IPA inspection requires a local .ipa file.' >&2
+              exit 2
+            fi
+            command=inspect-artifact
+            ;;
+          javascript) command=analyze-javascript-application ;;
+          dotnet) command=inspect-managed-artifact ;;
+          dotnet-members) command=inspect-managed-members ;;
+          *)
+            echo "Unknown inspection type: $1" >&2
+            exit 2
+            ;;
+        esac
+
+        ${lib.optionalString pkgs.stdenv.hostPlatform.isDarwin ''
+          # The Nix SDK can be active without a Swift compiler. REA supervises
+          # its JavaScript parser using a helper built with the Apple toolchain.
+          if [[ "$1" == javascript ]] && ! /usr/bin/xcrun --find swiftc >/dev/null 2>&1 &&
+             [[ -x /Library/Developer/CommandLineTools/usr/bin/swiftc ]]; then
+            export DEVELOPER_DIR=/Library/Developer/CommandLineTools
+            unset SDKROOT
+          fi
+        ''}
+
+        if [[ "$1" == ipa-graph ]]; then
+          ${rea} "$command" "$2" --json |
+            ${lib.getExe pkgs.jq} -ce '{
+              inventory_evidence: [.normalized_result.substeps[] |
+                select(.operation == "inventory_artifact" and .status == "completed") |
+                .evidence]
+            }' |
+            ${rea} project-apple-application-graph - --json
+        else
+          exec ${rea} "$command" "$2" --json
+        fi
+      '';
+    };
     # brainstorming invokes writing-plans, which invokes this dependency chain.
     # Map plugin-style names to Codex's standalone $skill invocation syntax.
     superpowersSkills = [
@@ -158,6 +220,7 @@
           "ru-text"
         ];
         enable = [
+          "rea-static-inspection"
           "hallmark"
           "agent-browser"
           "anthropic/skill-creator"
@@ -216,7 +279,7 @@
     };
 
     home = {
-      packages = [pkgs.agent-browser pkgs.nodejs];
+      packages = [pkgs.agent-browser pkgs.nodejs reaInspect];
       sessionVariables = lib.mkIf pkgs.stdenv.hostPlatform.isLinux (let
         chromium = lib.getExe pkgs.chromium;
       in {
