@@ -1,4 +1,4 @@
-# On-demand C922 publisher for Frigate. Start/stop the service manually.
+# Logitech C922 publisher for Frigate.
 {
   flake.modules.nixos.webcamStream = {
     pkgs,
@@ -24,9 +24,11 @@
     };
 
     systemd.services.c922-stream = {
-      description = "Manual Logitech C922 publisher for Frigate";
+      description = "Logitech C922 publisher for Frigate";
+      wantedBy = ["multi-user.target"];
       after = ["network-online.target"];
       wants = ["network-online.target"];
+      startLimitIntervalSec = 0;
       serviceConfig = {
         Type = "simple";
         User = "g";
@@ -35,7 +37,7 @@
         LoadCredential = "rtsp-password:${config.sops.secrets.c922-rtsp-password.path}";
         ExecStartPre = "${pkgs.cameractrls}/bin/cameractrls -d /dev/video0 -c logitech_led1_mode=off";
         ExecStart = publish;
-        Restart = "on-failure";
+        Restart = "always";
         RestartSec = 3;
       };
     };

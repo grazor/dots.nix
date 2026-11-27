@@ -21,14 +21,13 @@ each host is built by **composing** aspects (no per-feature enable flags).
 | `desktop` | Desktop PC | NixOS | gaming workstation — GNOME + NVIDIA + Steam (user `g`) |
 | `mac` | Work MacBook | nix-darwin | dev machine (user `smporyvaev`) |
 
-The desktop's Logitech C922 can be streamed to Frigate on demand. After applying
-the desktop configuration, run `sudo systemctl start c922-stream` to make it
-available and `sudo systemctl stop c922-stream` to turn it off. The service is
-never started at boot. FFmpeg publishes to Frigate's authenticated RTSP ingest
-at `192.168.2.200:30554`; the desktop does not accept incoming camera traffic.
+After applying the desktop configuration, `c922-stream` starts at boot and
+retries if the publisher exits. View the stream at `https://fg.porivaev.ru`.
+FFmpeg publishes to Frigate's authenticated RTSP ingest at `192.168.2.200:30554`.
 The stream includes the C922 microphone, and the service switches off its
-recording indicator LEDs before capture. Frigate will show the camera as offline
-when the desktop or this service is off.
+recording indicator LEDs before capture. To pause the stream until the next boot,
+run `sudo systemctl stop c922-stream`. To resume it, run
+`sudo systemctl start c922-stream`.
 
 ## Candle dataset service on dev
 
