@@ -176,6 +176,8 @@ flake, then switch the host to its composed configuration.
 
 Bootstrap order for the homelab cluster is `dell` first, then `asus` / `nas`:
 `dell` is the k3s server and both agents join its configured API endpoint.
+The coturn relay runs on Dell's host network, which accepts UDP ports 49160–49175
+for the router's TURN media forward.
 The `nas` node registers with `storage=nas` and the `storage=nas:NoSchedule`
 taint, so only workloads with the matching selector and toleration are scheduled
 there.

@@ -29,6 +29,13 @@
 
     machine = {lib, ...}: {
       networking.hostName = "dell";
+      # coturn runs on the host network and receives media through the MetalLB VIP.
+      networking.firewall.allowedUDPPortRanges = [
+        {
+          from = 49160;
+          to = 49175;
+        }
+      ];
       system.stateVersion = "25.05";
       nix.settings.max-jobs = lib.mkDefault 8;
 
